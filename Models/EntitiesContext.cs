@@ -19,7 +19,6 @@ namespace Models
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceAttachment> ServiceAttachments { get; set; }
-        //public DbSet<User> Users { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<WeddingInvitation> WeddingInvitations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

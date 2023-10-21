@@ -46,6 +46,8 @@ namespace Marasim_Backend
             //builder.Services.AddScoped(typeof(UnitOfWork));
             builder.Services.AddScoped(typeof(CategoryManager));
             builder.Services.AddScoped(typeof(BookingManager));
+            builder.Services.AddScoped(typeof(BookingDetailsManager));
+
             //builder.Services.AddScoped(typeof(AccountManger));
             //builder.Services.AddScoped(typeof(RoleManager));
             //builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
@@ -64,7 +66,7 @@ namespace Marasim_Backend
             webApp.UseStaticFiles();
             webApp.UseAuthentication();
             webApp.UseAuthorization();
-            webApp.MapControllerRoute("Default", "{Controller=Home}/{Action=Index}/{id?}");
+            webApp.MapControllerRoute("Default", "{Controller}/{Action=Index}/{id?}");
 
             #endregion
 
