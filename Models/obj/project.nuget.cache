@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HBU3HJj+wCmKfGpKIVs+L4ounCsH+5k/IsmLtLZgDUfuCHJ9LhGta9Dgq2zi4cIEb1F4Aq7GoTrKW4bV4kmtdw==",
+  "dgSpecHash": "HWBoWf/mxgvcPqr2AMKfN6cYVWFddz6ZPUfPMkFamrS01pzcuxJ1BtKVl9S9X15wfeG7fLj6Mff5Z0q0ptRrug==",
   "success": true,
-  "projectFilePath": "D:\\Projects\\Backend\\Models\\Models.csproj",
+  "projectFilePath": "D:\\Projects\\Marasim-Backend\\Models\\Models.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nazem\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Nazem\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

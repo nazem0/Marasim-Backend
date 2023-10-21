@@ -3427,11 +3427,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\Backend\\API\\Marasim-Backend.csproj",
+      "projectUniqueName": "D:\\Projects\\Marasim-Backend\\API\\Marasim-Backend.csproj",
       "projectName": "Marasim-Backend",
-      "projectPath": "D:\\Projects\\Backend\\API\\Marasim-Backend.csproj",
+      "projectPath": "D:\\Projects\\Marasim-Backend\\API\\Marasim-Backend.csproj",
       "packagesPath": "C:\\Users\\Nazem\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\Backend\\API\\obj\\",
+      "outputPath": "D:\\Projects\\Marasim-Backend\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3453,11 +3453,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Projects\\Backend\\Models\\Models.csproj": {
-              "projectPath": "D:\\Projects\\Backend\\Models\\Models.csproj"
+            "D:\\Projects\\Marasim-Backend\\Models\\Models.csproj": {
+              "projectPath": "D:\\Projects\\Marasim-Backend\\Models\\Models.csproj"
             },
-            "D:\\Projects\\Backend\\Repository\\Repository.csproj": {
-              "projectPath": "D:\\Projects\\Backend\\Repository\\Repository.csproj"
+            "D:\\Projects\\Marasim-Backend\\Repository\\Repository.csproj": {
+              "projectPath": "D:\\Projects\\Marasim-Backend\\Repository\\Repository.csproj"
             }
           }
         }

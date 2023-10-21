@@ -2,10 +2,10 @@
 using Repository;
 namespace Marasim_Backend.Controllers
 {
-    public class Category : Controller
+    public class CategoryController : Controller
     {
         private CategoryManager CategoryManager { get; set; }
-        public Category(CategoryManager _CategoryManager) {
+        public CategoryController(CategoryManager _CategoryManager) {
             CategoryManager = _CategoryManager;
         }
         public IActionResult Index()
