@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-
-
-	public class ServiceAttachmentManager : MainManager<ServiceAttachmentManager>
+	public class FollowManager : MainManager<Follow>
 	{
-		public ServiceAttachmentManager(EntitiesContext _dBContext) : base(_dBContext) { }
+		public FollowManager(EntitiesContext _dBContext) : base(_dBContext) { }
+
 	}
 }

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-
-
-	public class ServiceAttachmentManager : MainManager<ServiceAttachmentManager>
+	public class VendorManager : MainManager<Vendor>
 	{
-		public ServiceAttachmentManager(EntitiesContext _dBContext) : base(_dBContext) { }
+		public VendorManager(EntitiesContext _dBContext) : base(_dBContext) { }
+
 	}
 }
