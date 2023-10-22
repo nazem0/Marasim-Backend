@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-
-
-	public class ServiceAttachmentManager : MainManager<ServiceAttachmentManager>
+	public class PromoCodeManager : MainManager<PromoCode>
 	{
-		public ServiceAttachmentManager(EntitiesContext _dBContext) : base(_dBContext) { }
+		public PromoCodeManager(EntitiesContext _dBContext) : base(_dBContext) { }
+
 	}
 }
