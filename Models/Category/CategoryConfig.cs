@@ -38,10 +38,10 @@ namespace Models
                 .IsRequired()
                 .HasMaxLength(2083);
 
-            builder
-                .HasMany(c => c.Services)
-                .WithOne(s => s.Category)
-                .HasForeignKey(s => s.CategoryID);
+            //builder
+            //    .HasMany(c => c.Services)
+            //    .WithOne(s => s.Category)
+            //    .HasForeignKey(s => s.CategoryID);
         }
     }
 

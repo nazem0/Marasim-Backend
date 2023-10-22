@@ -36,19 +36,19 @@ public class ServiceConfig : IEntityTypeConfiguration<Service>
             .Property(s=> s.Price)
             .IsRequired();
 
-        builder
-            .Property(s=> s.Street)
-            .HasMaxLength(100);
+        //builder
+        //    .Property(s=> s.Street)
+        //    .HasMaxLength(100);
 
-        builder
-            .Property(s=> s.District)
-            .HasMaxLength(100)
-            .IsRequired();
+        //builder
+        //    .Property(s=> s.District)
+        //    .HasMaxLength(100)
+        //    .IsRequired();
 
-        builder
-            .Property(s=> s.Governance)
-            .HasMaxLength(100)
-            .IsRequired();
+        //builder
+        //    .Property(s=> s.Governance)
+        //    .HasMaxLength(100)
+        //    .IsRequired();
 
 
         //relationship
@@ -70,11 +70,11 @@ public class ServiceConfig : IEntityTypeConfiguration<Service>
            .HasForeignKey(pc => pc.ServiceID)
            .IsRequired();
 
-        builder
-            .HasOne(s=> s.Category)
-            .WithMany(c=> c.Services)
-            .HasForeignKey(s=> s.CategoryID)
-            .IsRequired();
+        //builder
+        //    .HasOne(s=> s.Category)
+        //    .WithMany(c=> c.Services)
+        //    .HasForeignKey(s=> s.CategoryID)
+        //    .IsRequired();
 
         builder
             .HasMany(s => s.BookingDetails)

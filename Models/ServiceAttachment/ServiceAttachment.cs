@@ -5,7 +5,7 @@ namespace Models
     {
         public int ID { get; set; }
         public int ServiceID { get; set; }
-        public string AttachmentUrl { get; set; }
+        public string Resource { get; set; }
         public virtual Service Service { get; set; }
 
     }
