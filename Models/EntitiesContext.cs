@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Models
 {
     public class EntitiesContext : IdentityDbContext<User>
-    {
+
+    {   
         public EntitiesContext(DbContextOptions options) : base(options) { }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BookingDetails> BookingsDetails { get; set; }

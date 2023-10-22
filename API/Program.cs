@@ -47,6 +47,11 @@ namespace Marasim_Backend
             builder.Services.AddScoped(typeof(CategoryManager));
             builder.Services.AddScoped(typeof(BookingManager));
             builder.Services.AddScoped(typeof(BookingDetailsManager));
+            builder.Services.AddScoped(typeof(ServiceAttachmentManager));
+            builder.Services.AddScoped(typeof(ServiceManager));
+            builder.Services.AddScoped(typeof(ReveiwManager));
+
+
 
             //builder.Services.AddScoped(typeof(AccountManger));
             //builder.Services.AddScoped(typeof(RoleManager));

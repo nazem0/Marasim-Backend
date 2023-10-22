@@ -19,7 +19,7 @@ namespace Models
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(i => i.AttachmentUrl)
+                .Property(i => i.Resource)
                 .IsRequired()
                 .HasMaxLength(1000);
 
