@@ -50,6 +50,8 @@ namespace Marasim_Backend
             builder.Services.AddScoped(typeof(ServiceAttachmentManager));
             builder.Services.AddScoped(typeof(ServiceManager));
             builder.Services.AddScoped(typeof(ReveiwManager));
+            builder.Services.AddScoped(typeof(CheckListManager));
+
 
 
 

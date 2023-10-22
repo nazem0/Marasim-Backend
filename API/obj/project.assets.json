@@ -3651,24 +3651,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\admin\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\mahmoud\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\shallaly\\Final Project\\Marasim-Backend\\API\\Marasim-Backend.csproj",
+      "projectUniqueName": "D:\\.NET ITI Track\\final project .net\\Marasim-Backend\\API\\Marasim-Backend.csproj",
       "projectName": "Marasim-Backend",
-      "projectPath": "C:\\shallaly\\Final Project\\Marasim-Backend\\API\\Marasim-Backend.csproj",
-      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "C:\\shallaly\\Final Project\\Marasim-Backend\\API\\obj\\",
+      "projectPath": "D:\\.NET ITI Track\\final project .net\\Marasim-Backend\\API\\Marasim-Backend.csproj",
+      "packagesPath": "C:\\Users\\mahmoud\\.nuget\\packages\\",
+      "outputPath": "D:\\.NET ITI Track\\final project .net\\Marasim-Backend\\API\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\mahmoud\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3676,18 +3671,17 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\shallaly\\Final Project\\Marasim-Backend\\Models\\Models.csproj": {
-              "projectPath": "C:\\shallaly\\Final Project\\Marasim-Backend\\Models\\Models.csproj"
+            "D:\\.NET ITI Track\\final project .net\\Marasim-Backend\\Models\\Models.csproj": {
+              "projectPath": "D:\\.NET ITI Track\\final project .net\\Marasim-Backend\\Models\\Models.csproj"
             },
-            "C:\\shallaly\\Final Project\\Marasim-Backend\\Repository\\Repository.csproj": {
-              "projectPath": "C:\\shallaly\\Final Project\\Marasim-Backend\\Repository\\Repository.csproj"
+            "D:\\.NET ITI Track\\final project .net\\Marasim-Backend\\Repository\\Repository.csproj": {
+              "projectPath": "D:\\.NET ITI Track\\final project .net\\Marasim-Backend\\Repository\\Repository.csproj"
             }
           }
         }
@@ -3748,7 +3742,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
