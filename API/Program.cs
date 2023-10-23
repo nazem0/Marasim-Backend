@@ -53,7 +53,6 @@ namespace Marasim_Backend
             Builder.Services.AddScoped<CheckListManager>();
             Builder.Services.AddScoped<FollowManager>();
             Builder.Services.AddScoped<PromoCodeManager>();
-            Builder.Services.AddScoped<UserManager>();
             Builder.Services.AddScoped<VendorManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();
 

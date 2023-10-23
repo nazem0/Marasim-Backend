@@ -2,7 +2,7 @@
 
 namespace Models
 {
-    public class BookingDetails
+    public class BookingDetails : BaseModel
     {
         public int BookingID { get; set; }
         public int ServiceID { get; set; }

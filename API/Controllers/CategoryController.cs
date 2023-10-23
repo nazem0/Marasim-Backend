@@ -16,8 +16,9 @@ namespace Marasim_Backend.Controllers
             var x = CategoryManager.Get().ToList();
             return new JsonResult(x);
         }
-        public IActionResult Details()
+        public IActionResult Details(int ID)
         {
+            var x = CategoryManager.Get(ID);
             return new JsonResult(x);
         }
     }

@@ -47,7 +47,7 @@ namespace Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Data Source=.; Initial Catalog=Marasim; 
-                    Integrated Security=True; TrustServerCertificate=True;");
+                    Integrated Security=True; TrustServerCertificate=True;MultipleActiveResultSets=true");
             base.OnConfiguring(optionsBuilder);
         }
     }
