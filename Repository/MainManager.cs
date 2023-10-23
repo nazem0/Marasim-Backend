@@ -4,7 +4,7 @@ using Models;
 
 namespace Repository
 {
-    public class MainManager<T> where T : class
+    public class MainManager<T> where T : BaseModel
     {
         private readonly EntitiesContext DbContext;
         private readonly DbSet<T> DbSet;
@@ -15,9 +15,12 @@ namespace Repository
         }
         public IQueryable<T> Get()
         {
-            return DbSet.AsQueryable();
+            return DbSet;
         }
-
+        public IQueryable<T> Get(int ID)
+        {
+            return DbSet.Where(i=>i.ID==ID);
+        }
         public EntityEntry<T> Add(T entity)
         {
             return DbSet.Add(entity);

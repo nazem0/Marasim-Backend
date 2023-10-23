@@ -3,7 +3,7 @@ using Repository;
 
 namespace Marasim_Backend.Controllers
 {
-    public class ReveiwController : Controller
+    public class ReveiwController : ControllerBase
     {
         private ReveiwManager ReveiwManager { get; set; }
         public ReveiwController(ReveiwManager _ReveiwManager)
@@ -13,7 +13,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult Index()
         {
             var x = ReveiwManager.Get().ToList();
-            return Json(x);
+            return new JsonResult(x);
         }
     }
 }

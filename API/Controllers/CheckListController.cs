@@ -4,7 +4,7 @@ using Repository;
 
 namespace Marasim_Backend.Controllers
 {
-    public class CheckListController : Controller
+    public class CheckListController : ControllerBase
     {
         private CheckListManager CheckListManager { get; set; }
         public CheckListController(CheckListManager _CheckListManager)
@@ -15,7 +15,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult Index()
         {
             var x = CheckListManager.Get().ToList();
-            return Json(x);
+            return new JsonResult(x);
         }
     }
 }

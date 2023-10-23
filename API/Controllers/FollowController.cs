@@ -4,7 +4,7 @@ using Repository;
 namespace Marasim_Backend.Controllers
 {
 
-    public class FollowController : Controller
+    public class FollowController : ControllerBase
     {
         private FollowManager FollowManager { get; set; }
         public FollowController(FollowManager _FollowManger)
@@ -15,7 +15,7 @@ namespace Marasim_Backend.Controllers
         {
 
             var x = FollowManager.Get().ToList();
-            return Json(x);
+            return new JsonResult(x);
         }
     }
 

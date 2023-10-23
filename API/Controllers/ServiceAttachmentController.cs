@@ -3,7 +3,7 @@ using Repository;
 
 namespace Marasim_Backend.Controllers
 {
-    public class ServiceAttachmentController : Controller
+    public class ServiceAttachmentController : ControllerBase
     {
         private ServiceAttachmentManager ServiceAttachmentManager { get; set; }
         public ServiceAttachmentController(ServiceAttachmentManager _ServiceAttachmentManager)
@@ -13,7 +13,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult Index()
         {
             var x = ServiceAttachmentManager.Get().ToList();
-            return Json(x);
+            return new JsonResult(x);
         }
     }
 }

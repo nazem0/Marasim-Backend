@@ -3,17 +3,17 @@ using Repository;
 
 namespace Marasim_Backend.Controllers
 {
-    public class VendorController : Controller
+    public class VendorController : ControllerBase
     {
         private VendorManager VendorManager { get; set; }
         public VendorController(VendorManager _VendorManager)
         {
-            VendorManager = VendorManager;
+            VendorManager = _VendorManager;
         }
         public IActionResult Index()
         {
             var x = VendorManager.Get().ToList();
-            return Json(x);
+            return new JsonResult(x);
         }
     }
 }

@@ -3,7 +3,7 @@ using Repository;
 
 namespace Marasim_Backend.Controllers
 {
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private UserManager UserManager { get; set; }
         public UserController(UserManager _UserManager)
@@ -13,7 +13,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult Index()
         {
             var x = UserManager.Get().ToList();
-            return Json(x);
+            return new JsonResult(x);
         }
     }
 }

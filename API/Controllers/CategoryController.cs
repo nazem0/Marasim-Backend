@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Repository;
+using System.Text.Json.Nodes;
+
 namespace Marasim_Backend.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : ControllerBase
     {
         private CategoryManager CategoryManager { get; set; }
         public CategoryController(CategoryManager _CategoryManager)
@@ -12,7 +14,11 @@ namespace Marasim_Backend.Controllers
         public IActionResult Index()
         {
             var x = CategoryManager.Get().ToList();
-            return Json(x);
+            return new JsonResult(x);
+        }
+        public IActionResult Details()
+        {
+            return new JsonResult(x);
         }
     }
 }

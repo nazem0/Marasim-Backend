@@ -4,7 +4,7 @@ using Repository;
 
 namespace Marasim_Backend.Controllers
 {
-    public class ServiceController : Controller
+    public class ServiceController : ControllerBase
     {
 
         private ServiceManager ServiceManager { get; set; }
@@ -15,7 +15,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult Index()
         {
             var x = ServiceManager.Get().ToList();
-            return Json(x);
+            return new JsonResult(x);
         }
     }
 }

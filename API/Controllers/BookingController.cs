@@ -3,7 +3,7 @@ using Repository;
 
 namespace Marasim_Backend.Controllers
 {
-    public class BookingController : Controller
+    public class BookingController : ControllerBase
     {
         private BookingManager BookingManager { get; set; }
         public BookingController(BookingManager _BookingManager)
@@ -14,7 +14,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult Index()
         {
             var x = BookingManager.Get().ToList();
-            return Json(x);
+            return new JsonResult(x);
         }
     }
 }
