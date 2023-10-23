@@ -1,9 +1,8 @@
 ﻿using System;
 namespace Models
 {
-    public class PromoCode
+    public class PromoCode : BaseModel
     {
-        public int ID { get; set; }
         public int ServiceID { get; set; }
         public string Code { get; set; }
         public float Discount { get; set; }

@@ -2,9 +2,8 @@
 
 namespace Models
 {
-    public class React
+    public class React : BaseModel
     {
-        public int ID { get; set; }
         public string UserID { get; set; }
         public int PostID { get; set; }
         public DateTime DateTime { get; set; }

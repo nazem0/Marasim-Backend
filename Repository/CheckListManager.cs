@@ -4,7 +4,7 @@ namespace Repository
 {
     public class CheckListManager : MainManager<CheckList>
     {
-        public CheckListManager (EntitiesContext _dBContext) : base (_dBContext) { }
-            
+        public CheckListManager(EntitiesContext _dBContext) : base(_dBContext) { }
+
     }
 }

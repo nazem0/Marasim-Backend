@@ -12,7 +12,7 @@ namespace Marasim_Backend.Controllers
         }
         public IActionResult Index()
         {
-            
+
             return Json(BookingManager.Get().ToList());
         }
     }

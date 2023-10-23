@@ -3,8 +3,8 @@
 
 namespace Repository
 {
-    public class ReveiwManager : MainManager <Review>
+    public class ReveiwManager : MainManager<Review>
     {
-        public ReveiwManager (EntitiesContext _dbContext) : base (_dbContext) { }
+        public ReveiwManager(EntitiesContext _dbContext) : base(_dbContext) { }
     }
 }

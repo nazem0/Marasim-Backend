@@ -2,9 +2,8 @@
 
 namespace Models
 {
-    public class Vendor
+    public class Vendor : BaseModel
     {
-        public int ID { get; set; }
         public string UserID { get; set; }
         public string Summary { get; set; }
         public bool IsDeleted { get; set; }

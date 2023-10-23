@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Models;
 using Repository;
 
 namespace Marasim_Backend.Controllers

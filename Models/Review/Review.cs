@@ -1,12 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace Models
 {
-    public class Review
+    public class Review : BaseModel
     {
-        public int ID { get; set; }
         public string UserID { get; set; }
         public int ServiceID { get; set; }
         public int Rate { get; set; }

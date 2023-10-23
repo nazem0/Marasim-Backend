@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Models
 {
-    public class Post
+    public class Post : BaseModel
     {
-        public int ID { get; set; }
         public int VendorID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

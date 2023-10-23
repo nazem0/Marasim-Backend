@@ -6,7 +6,7 @@ namespace Marasim_Backend.Controllers
     public class ReveiwController : Controller
     {
         private ReveiwManager ReveiwManager { get; set; }
-        public ReveiwController (ReveiwManager _ReveiwManager)
+        public ReveiwController(ReveiwManager _ReveiwManager)
         {
             ReveiwManager = _ReveiwManager;
         }

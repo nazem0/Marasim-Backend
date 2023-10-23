@@ -2,9 +2,8 @@
 
 namespace Models
 {
-    public class WeddingInvitation
+    public class WeddingInvitation : BaseModel
     {
-        public int ID { get; set; }
         public string UserID { get; set; }
         public string Decsription { get; set; }
         public string GroomName { get; set; }

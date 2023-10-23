@@ -1,8 +1,7 @@
 ﻿namespace Models
 {
-    public class PostAttachment
+    public class PostAttachment : BaseModel
     {
-        public int ID { get; set; }
         public int PostID { get; set; }
         public string AttachmentUrl { get; set; }
         public virtual Post Post { get; set; }

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Models
 {
-    public class Category
+    public class Category : BaseModel
     {
-        public int ID { get; set; }
         public string Name { get; set; }
         public string PicUrl { get; set; }
         public bool IsDeleted { get; set; }

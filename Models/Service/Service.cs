@@ -2,9 +2,8 @@
 
 namespace Models
 {
-    public class Service
+    public class Service : BaseModel
     {
-        public  int ID { get; set; }
         public int VendorID { get; set; }
         //public int CategoryID { get; set; }
         public string Title { get; set; }
@@ -13,7 +12,7 @@ namespace Models
         //public string Street { get; set; } //Allow Null
         //public string District { get; set; }
         //public string Governance { get; set; }
-       
+
         public bool IsDeleted { get; set; }
         public virtual ICollection<BookingDetails> BookingDetails { set; get; }
 

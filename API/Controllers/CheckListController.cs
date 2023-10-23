@@ -5,8 +5,9 @@ using Repository;
 namespace Marasim_Backend.Controllers
 {
     public class CheckListController : Controller
-    { private CheckListManager CheckListManager { get; set; }
-        public CheckListController (CheckListManager _CheckListManager)
+    {
+        private CheckListManager CheckListManager { get; set; }
+        public CheckListController(CheckListManager _CheckListManager)
         {
             CheckListManager = _CheckListManager;
         }

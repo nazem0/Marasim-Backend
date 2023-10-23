@@ -3,9 +3,8 @@
 
 namespace Models
 {
-    public class Follow
+    public class Follow : BaseModel
     {
-        public int ID { get; set; }
         public string UserID { get; set; }
         public int VendorID { get; set; }
         public virtual DateTime DateTime { get; set; }
