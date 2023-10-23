@@ -9,6 +9,7 @@ namespace Models
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime DateTime { get; set; }
+        public int? ServiceID { get; set; } = null;
         public virtual Vendor Vendor { get; set; }
         public virtual ICollection<PostAttachment> PostAttachments { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
