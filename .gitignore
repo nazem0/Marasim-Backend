@@ -10,5 +10,5 @@
 # Ignore build folders
 **/bin/
 **/debug/
-**/obj/Debug
+**/obj
 **/Migrations/

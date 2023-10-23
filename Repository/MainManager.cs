@@ -6,31 +6,35 @@ namespace Repository
 {
     public class MainManager<T> where T : class
     {
-        private readonly EntitiesContext dBContext;
-        private readonly DbSet<T> dbSet;
+        private readonly EntitiesContext DbContext;
+        private readonly DbSet<T> DbSet;
         public MainManager(EntitiesContext _dBContext)
         {
-            dBContext = _dBContext;
-            dbSet = dBContext.Set<T>();
+            DbContext = _dBContext;
+            DbSet = DbContext.Set<T>();
         }
         public IQueryable<T> Get()
         {
-            return dbSet.AsQueryable();
+            return DbSet.AsQueryable();
         }
 
         public EntityEntry<T> Add(T entity)
         {
-            return dbSet.Add(entity);
+            return DbSet.Add(entity);
         }
 
         public EntityEntry<T> Update(T entity)
         {
-            return dbSet.Update(entity);
+            return DbSet.Update(entity);
         }
 
         public EntityEntry<T> Delete(T entity)
         {
-            return dbSet.Remove(entity);
+            return DbSet.Remove(entity);
+        }
+        public void Save()
+        {
+            DbContext.SaveChanges();
         }
     }
 }
