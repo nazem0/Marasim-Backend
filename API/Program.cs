@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Models;
 using Repository;
 
@@ -10,79 +9,65 @@ namespace Marasim_Backend
     {
         public static int Main()
         {
-            WebApplicationBuilder builder =
+            WebApplicationBuilder Builder =
               WebApplication.CreateBuilder();
 
             #region DI Container
-            builder.Services.AddDbContext<EntitiesContext>(i =>
+            Builder.Services.AddDbContext<EntitiesContext>(context =>
             {
-                i.UseLazyLoadingProxies().UseSqlServer(
-                    builder.Configuration.GetConnectionString("MyDB"));
+                context.UseLazyLoadingProxies()
+                    .UseSqlServer
+                    (Builder.Configuration.GetConnectionString("MyDB"));
             });
 
-            builder.Services.AddIdentity<User, IdentityRole>(i =>
+            Builder.Services.AddIdentity<User, IdentityRole>(Options =>
             {
-                i.Lockout.MaxFailedAccessAttempts = 2;
-                i.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
-                i.User.RequireUniqueEmail = true;
-                i.SignIn.RequireConfirmedPhoneNumber = false;
-                i.SignIn.RequireConfirmedEmail = false;
-                i.SignIn.RequireConfirmedAccount = false;
-                i.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
+                Options.Lockout.MaxFailedAccessAttempts = 2;
+                Options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+                Options.User.RequireUniqueEmail = true;
+                Options.SignIn.RequireConfirmedPhoneNumber = false;
+                Options.SignIn.RequireConfirmedEmail = false;
+                Options.SignIn.RequireConfirmedAccount = false;
+                Options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
             })
                 .AddEntityFrameworkStores<EntitiesContext>()
                 .AddDefaultTokenProviders();
-            builder.Services.Configure<IdentityOptions>(i =>
+            Builder.Services.Configure<IdentityOptions>(Options =>
             {
-                i.Password.RequireNonAlphanumeric = false;
-                i.Password.RequireUppercase = false;
+                Options.Password.RequireNonAlphanumeric = false;
+                Options.Password.RequireUppercase = false;
 
             });
-            builder.Services.ConfigureApplicationCookie(i =>
+            Builder.Services.ConfigureApplicationCookie(Options =>
             {
-                i.LoginPath = "/Account/SignIn";
+                Options.LoginPath = "/Account/SignIn";
 
             });
-            //builder.Services.AddScoped(typeof(UnitOfWork));
-            builder.Services.AddScoped(typeof(CategoryManager));
-            builder.Services.AddScoped(typeof(BookingManager));
-            builder.Services.AddScoped(typeof(BookingDetailsManager));
-            builder.Services.AddScoped(typeof(ServiceAttachmentManager));
-            builder.Services.AddScoped(typeof(ServiceManager));
-            builder.Services.AddScoped(typeof(ReveiwManager));
-            builder.Services.AddScoped(typeof(CheckListManager));
 
-            builder.Services.AddScoped(typeof(FollowManager));
-		builder.Services.AddScoped(typeof(PromoCodeManager));
-		builder.Services.AddScoped(typeof(UserManager));
-		builder.Services.AddScoped(typeof(VendorManager));
-		builder.Services.AddScoped(typeof(ServiceAttachmentManager));
+            Builder.Services.AddScoped<CategoryManager>();
+            Builder.Services.AddScoped<BookingManager>();
+            Builder.Services.AddScoped<BookingDetailsManager>();
+            Builder.Services.AddScoped<ServiceAttachmentManager>();
+            Builder.Services.AddScoped<ServiceManager>();
+            Builder.Services.AddScoped<ReveiwManager>();
+            Builder.Services.AddScoped<CheckListManager>();
+            Builder.Services.AddScoped<FollowManager>();
+            Builder.Services.AddScoped<PromoCodeManager>();
+            Builder.Services.AddScoped<UserManager>();
+            Builder.Services.AddScoped<VendorManager>();
+            Builder.Services.AddScoped<ServiceAttachmentManager>();
 
-
-
-            //builder.Services.AddScoped(typeof(AccountManger));
-            //builder.Services.AddScoped(typeof(RoleManager));
-            //builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
-            builder.Services.AddControllers();
+            //Builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
+            Builder.Services.AddControllers();
             #endregion
+            var App = Builder.Build();
+            App.UseStaticFiles();
+            App.UseAuthentication();
+            App.UseAuthorization();
+            App.MapControllerRoute("Default", "{Controller}/{Action=Index}/{id?}");
 
-            var webApp = builder.Build();
 
-            #region Middel Were
-            //webApp.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory() + "/Content"),
-            //    RequestPath = ""
-
-            //});
-            webApp.UseStaticFiles();
-            webApp.UseAuthentication();
-            webApp.UseAuthorization();
-            webApp.MapControllerRoute("Default", "{Controller}/{Action=Index}/{id?}");
-
-            #endregion
-
-            webApp.Run();
+            App.Run();
 
 
             return 0;
