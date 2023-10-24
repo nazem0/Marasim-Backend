@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/ViewModels/ViewModels.csproj": {}
+    "D:\\Projects\\Marasim - Final Project\\Back-End\\ViewModels\\ViewModels.csproj": {}
   },
   "projects": {
-    "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/Models/Models.csproj": {
+    "D:\\Projects\\Marasim - Final Project\\Back-End\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/Models/Models.csproj",
+        "projectUniqueName": "D:\\Projects\\Marasim - Final Project\\Back-End\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/Models/Models.csproj",
-        "packagesPath": "/Users/sam/.nuget/packages/",
-        "outputPath": "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/Models/obj/",
+        "projectPath": "D:\\Projects\\Marasim - Final Project\\Back-End\\Models\\Models.csproj",
+        "packagesPath": "C:\\Users\\Nazem\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\Marasim - Final Project\\Back-End\\Models\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/sam/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Nazem\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -91,34 +98,41 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/ViewModels/ViewModels.csproj": {
+    "D:\\Projects\\Marasim - Final Project\\Back-End\\ViewModels\\ViewModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/ViewModels/ViewModels.csproj",
+        "projectUniqueName": "D:\\Projects\\Marasim - Final Project\\Back-End\\ViewModels\\ViewModels.csproj",
         "projectName": "ViewModels",
-        "projectPath": "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/ViewModels/ViewModels.csproj",
-        "packagesPath": "/Users/sam/.nuget/packages/",
-        "outputPath": "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/ViewModels/obj/",
+        "projectPath": "D:\\Projects\\Marasim - Final Project\\Back-End\\ViewModels\\ViewModels.csproj",
+        "packagesPath": "C:\\Users\\Nazem\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\Marasim - Final Project\\Back-End\\ViewModels\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/sam/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Nazem\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/Models/Models.csproj": {
-                "projectPath": "/Volumes/Blue/Courses/Dot Net Track/Final Project/Marasim-Backend/Models/Models.csproj"
+              "D:\\Projects\\Marasim - Final Project\\Back-End\\Models\\Models.csproj": {
+                "projectPath": "D:\\Projects\\Marasim - Final Project\\Back-End\\Models\\Models.csproj"
               }
             }
           }
@@ -132,12 +146,6 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "dependencies": {
-            "Microsoft.AspNetCore.Identity": {
-              "target": "Package",
-              "version": "[2.2.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -154,7 +162,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

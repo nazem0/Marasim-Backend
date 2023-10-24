@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 
-namespace ViewModels.User
+namespace ViewModels.UserViewModels
 {
 	public class RegisterationViewModel
 	{
@@ -12,8 +11,8 @@ namespace ViewModels.User
         [Required, StringLength(14, MinimumLength = 14)]
         public required string NationalID { get; set; }
 
-        [Required, StringLength(50, MinimumLength = 3)]
-        public required IFormFileCollection Photo { get; set; }
+        //[Required]
+        //public required IFormFileCollection Photo { get; set; }
 
         [Required, StringLength(50)]
         [EmailAddress]

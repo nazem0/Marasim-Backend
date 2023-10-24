@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Models;
 using Repository;
+using System.Text;
 
 namespace Marasim_Backend
 {
@@ -32,6 +35,20 @@ namespace Marasim_Backend
             })
                 .AddEntityFrameworkStores<EntitiesContext>()
                 .AddDefaultTokenProviders();
+
+            Builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(Options =>
+                {
+                    Options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = false,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Builder.Configuration["Jwt:Key"]!))
+                    };
+                });
+
             Builder.Services.Configure<IdentityOptions>(Options =>
             {
                 Options.Password.RequireNonAlphanumeric = false;
@@ -56,6 +73,7 @@ namespace Marasim_Backend
             Builder.Services.AddScoped<PromoCodeManager>();
             Builder.Services.AddScoped<VendorManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();
+            Builder.Services.AddScoped<AccountManager>();
 
             //Builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
             Builder.Services.AddControllers();

@@ -10,12 +10,9 @@
     <None Remove="User\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="User\" />
+    <Folder Include="UserViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
   </ItemGroup>
 </Project>

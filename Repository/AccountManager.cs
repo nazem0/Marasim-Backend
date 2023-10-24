@@ -1,24 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Models;
-using ViewModels.User;
+using ViewModels.UserViewModels;
 
 namespace Repository
 {
     public class AccountManager
     {
-        UserManager<User> UserManager;
-        SignInManager<User> SignInManager;
+        readonly UserManager<User> UserManager;
+        readonly SignInManager<User> SignInManager;
+        readonly IConfiguration Configuration;
 
-        public AccountManager(UserManager<User> _userManager,SignInManager<User> _signInManager)
+
+        public AccountManager(
+            UserManager<User> _userManager,
+            SignInManager<User> _signInManager,
+            IConfiguration _configuration
+            )
         {
             UserManager = _userManager;
             SignInManager = _signInManager;
+            Configuration = _configuration;
         }
 
 
@@ -52,7 +62,17 @@ namespace Repository
             await SignInManager.SignOutAsync();
         }
 
+        public string GenerateJSONWebToken()
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+            var token = new JwtSecurityToken(
+              expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
 
         //public async Task<IdentityResult> ChangePassword(UserChangePasswordViewModel viewModel)
         //{

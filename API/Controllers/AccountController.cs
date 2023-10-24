@@ -3,46 +3,52 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 using System.Text;
-using ViewModels.User;
+using ViewModels.UserViewModels;
 
 namespace API.Controllers
 {
-	public class AccountController : ControllerBase
+    public class AccountController : ControllerBase
     {
-        AccountManager accManger;
+        readonly AccountManager AccountManager;
         public AccountController(AccountManager _accManger)
         {
-            this.accManger = _accManger;
+            AccountManager = _accManger;
         }
 
         public async Task<IActionResult> SignIn([FromBody] LoginViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                var result = await accManger.Login(viewModel);
-                if (result.Succeeded)
+                var user = await AccountManager.Login(viewModel);
+
+                if (user.Succeeded)
                 {
-                    return Ok();
+                    string tokenString = AccountManager.GenerateJSONWebToken();
+                    return Ok(new { token = tokenString });
                 }
-                else if (result.IsLockedOut)
+                else if (user.IsLockedOut)
                 {
                     return new ObjectResult("Your Account is Under Review");
                 }
                 else
                 {
-                    return new ObjectResult("User name or Password");
+                    return new ObjectResult("User name or Password is Wrong");
                 }
-            }
-            var str = new StringBuilder();
-            foreach (var item in ModelState.Values)
-            {
-                foreach (var item1 in item.Errors)
-                {
-                    str.Append(item1.ErrorMessage);
-                }
-            }
 
-            return new ObjectResult(str);
+            }
+            else
+            {
+                var str = new StringBuilder();
+                foreach (var item in ModelState.Values)
+                {
+                    foreach (var item1 in item.Errors)
+                    {
+                        str.Append(item1.ErrorMessage);
+                    }
+                }
+
+                return new ObjectResult(str);
+            }
         }
 
 
@@ -50,7 +56,7 @@ namespace API.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await accManger.Register(viewModel);
+                IdentityResult result = await AccountManager.Register(viewModel);
                 if (result.Succeeded)
                 {
                     return Ok();
