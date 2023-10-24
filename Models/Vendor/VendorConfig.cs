@@ -38,7 +38,17 @@ namespace Models
                 .Property(v => v.Summary)
                 .IsRequired().HasMaxLength(1000);
 
+            builder
+                .Property(v => v.Latitude)
+                .IsRequired()
+                .HasPrecision(6)
+                .HasColumnType("float");
 
+            builder
+                .Property(v => v.Longitude)
+                .IsRequired()
+                .HasPrecision(6)
+                .HasColumnType("float");
 
 
             builder

@@ -56,6 +56,7 @@ namespace Models
                .HasMany(s => s.Reviews)
                .WithOne(r => r.Service)
                .HasForeignKey(r => r.ServiceID)
+               .OnDelete(DeleteBehavior.ClientCascade)
                .IsRequired();
 
             builder
@@ -80,7 +81,7 @@ namespace Models
                 .HasMany(s => s.BookingDetails)
                 .WithOne(bd => bd.Service)
                 .HasForeignKey(bd => bd.ServiceID)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 
