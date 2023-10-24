@@ -27,10 +27,9 @@ namespace Repository
 
         public async Task<IdentityResult> Register(RegisterationViewModel Data)
         {
-            string x = Directory.GetCurrentDirectory();
             FileStream fileStream = new(
                 Path.Combine(
-                    x, "wwwroot", "Images", Data.Picture.FileName),
+                    Directory.GetCurrentDirectory(), "wwwroot", "Images", Data.Picture.FileName),
                 FileMode.Create);
             fileStream.Position = 0;
             Data.PicURL = Data.Picture.FileName;
