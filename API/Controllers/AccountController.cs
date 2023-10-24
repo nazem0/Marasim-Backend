@@ -80,7 +80,10 @@ namespace API.Controllers
                 return new ObjectResult(str);
             }
         }
-
+        public async Task Logout()
+        {
+            await AccountManager.Logout();
+        }
 
     }
 }

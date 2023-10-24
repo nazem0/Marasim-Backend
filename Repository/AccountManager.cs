@@ -57,7 +57,7 @@ namespace Repository
             }
         }
 
-        public async void SignOut()
+        public async Task Logout()
         {
             await SignInManager.SignOutAsync();
         }
