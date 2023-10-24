@@ -9,6 +9,10 @@
   <ItemGroup>
     <None Remove="User\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>

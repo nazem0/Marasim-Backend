@@ -25,12 +25,20 @@ namespace Repository
             Configuration = _configuration;
         }
 
-        public async Task<IdentityResult> Register(RegisterationViewModel viewModel)
+        public async Task<IdentityResult> Register(RegisterationViewModel Data)
         {
-            var model = viewModel.ToUser();
-            var result = await UserManager.CreateAsync(model, viewModel.Password);
+            string x = Directory.GetCurrentDirectory();
+            FileStream fileStream = new(
+                Path.Combine(
+                    x, "wwwroot", "Images", Data.Picture.FileName),
+                FileMode.Create);
+            fileStream.Position = 0;
+            Data.PicURL = Data.Picture.FileName;
+            var model = Data.ToUser();
+            var result = await UserManager.CreateAsync(model, Data.Password);
             if (result.Succeeded)
             {
+                Data.Picture.CopyTo(fileStream);
                 result = await UserManager.AddToRoleAsync(model, "User");
             }
             return result;

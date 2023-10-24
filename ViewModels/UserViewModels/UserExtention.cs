@@ -9,7 +9,7 @@ namespace ViewModels.UserViewModels
             {
                 Name = viewModel.Name,
                 NationalID = viewModel.NationalID,
-                PicUrl = "https://booking.webestica.com/assets/images/avatar/04.jpg",
+                PicUrl = viewModel.PicURL,
                 UserName = viewModel.Email,
                 Email = viewModel.Email,
                 PhoneNumber = viewModel.PhoneNumber,

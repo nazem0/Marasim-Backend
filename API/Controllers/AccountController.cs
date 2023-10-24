@@ -13,8 +13,39 @@ namespace API.Controllers
         {
             AccountManager = _accManger;
         }
+        public async Task<IActionResult> Register([FromForm] RegisterationViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityResult result = await AccountManager.Register(viewModel);
+                if (result.Succeeded)
+                {
+                    
+                    return Ok();
+                }
+                else
+                {
+                    var str2 = new StringBuilder();
+                    foreach (var item in result.Errors)
+                    {
+                        str2.Append(item.Description);
+                    }
+                    return new ObjectResult(str2);
+                }
+            }
+            var str = new StringBuilder();
+            foreach (var item in ModelState.Values)
+            {
+                foreach (var item1 in item.Errors)
+                {
+                    str.Append(item1.ErrorMessage);
+                }
+            }
 
-        public async Task<IActionResult> SignIn([FromBody] LoginViewModel viewModel)
+            return new ObjectResult(str);
+        }
+
+        public async Task<IActionResult> Login([FromBody] LoginViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -51,36 +82,6 @@ namespace API.Controllers
         }
 
 
-        public async Task<IActionResult> SignUp([FromBody] RegisterationViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityResult result = await AccountManager.Register(viewModel);
-                if (result.Succeeded)
-                {
-                    return Ok();
-                }
-                else
-                {
-                    var str2 = new StringBuilder();
-                    foreach (var item in result.Errors)
-                    {
-                        str2.Append(item.Description);
-                    }
-                    return new ObjectResult(str2);
-                }
-            }
-            var str = new StringBuilder();
-            foreach (var item in ModelState.Values)
-            {
-                foreach (var item1 in item.Errors)
-                {
-                    str.Append(item1.ErrorMessage);
-                }
-            }
-
-            return new ObjectResult(str);
-        }
     }
 }
 
