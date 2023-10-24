@@ -49,6 +49,14 @@ namespace Marasim_Backend
                     };
                 });
 
+            Builder.Services.AddCors(option =>
+            {
+                option.AddDefaultPolicy(i =>
+                i.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+            });
+
             Builder.Services.Configure<IdentityOptions>(Options =>
             {
                 Options.Password.RequireNonAlphanumeric = false;
@@ -79,6 +87,7 @@ namespace Marasim_Backend
             Builder.Services.AddControllers();
             #endregion
             var App = Builder.Build();
+            App.UseCors();
             App.UseStaticFiles();
             App.UseAuthentication();
             App.UseAuthorization();
