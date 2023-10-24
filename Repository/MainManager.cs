@@ -19,7 +19,7 @@ namespace Repository
         }
         public IQueryable<T> Get(int ID)
         {
-            return DbSet.Where(i=>i.ID==ID);
+            return DbSet.Where(i => i.ID == ID);
         }
         public EntityEntry<T> Add(T entity)
         {

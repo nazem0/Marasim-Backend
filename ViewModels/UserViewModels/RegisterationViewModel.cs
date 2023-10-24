@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ViewModels.UserViewModels
 {
-	public class RegisterationViewModel
-	{
+    public class RegisterationViewModel
+    {
         [Required, StringLength(50, MinimumLength = 3)]
         public required string Name { get; set; }
 

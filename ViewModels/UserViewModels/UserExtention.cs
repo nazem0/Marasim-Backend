@@ -1,5 +1,4 @@
-﻿using System;
-using Models;
+﻿using Models;
 namespace ViewModels.UserViewModels
 {
     public static class UserExtention

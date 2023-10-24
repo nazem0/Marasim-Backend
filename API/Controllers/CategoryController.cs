@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Repository;
-using System.Text.Json.Nodes;
 
 namespace Marasim_Backend.Controllers
 {

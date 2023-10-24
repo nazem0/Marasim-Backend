@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using ViewModels.UserViewModels;
 
 namespace Repository
@@ -18,7 +13,6 @@ namespace Repository
         readonly UserManager<User> UserManager;
         readonly SignInManager<User> SignInManager;
         readonly IConfiguration Configuration;
-
 
         public AccountManager(
             UserManager<User> _userManager,
@@ -30,7 +24,6 @@ namespace Repository
             SignInManager = _signInManager;
             Configuration = _configuration;
         }
-
 
         public async Task<IdentityResult> Register(RegisterationViewModel viewModel)
         {
@@ -74,18 +67,29 @@ namespace Repository
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        //public async Task<IdentityResult> ChangePassword(UserChangePasswordViewModel viewModel)
-        //{
-        //    var user = await userManager.FindByIdAsync(viewModel.Id);
-        //    if (user != null)
-        //    {
-        //        return await userManager.ChangePasswordAsync(user, viewModel.CurrentPassword, viewModel.NewPassword);
-        //    }
-        //    return IdentityResult.Failed(new IdentityError()
-        //    {
-        //        Description = "User Not Found"
-        //    });
-        //}
+        public async Task<IdentityResult> ChangePassword(UserChangePasswordViewModel Data)
+        {
+            var user = await UserManager.FindByIdAsync(Data.ID);
+            if (user != null)
+            {
+                return await UserManager.ChangePasswordAsync(user, Data.OldPassword, Data.NewPassword);
+            }
+            return IdentityResult.Failed(new IdentityError()
+            {
+                Description = "User Not Found"
+            });
+        }
+
+        public async Task<IdentityResult> AssignRolesToUser(string UserId, List<string> roles)
+        {
+            var user = await UserManager.FindByIdAsync(UserId);
+            if (user != null)
+            {
+                return await UserManager.AddToRolesAsync(user, roles);
+            }
+            return new IdentityResult();
+        }
+
         //public async Task<string> GetForgotPasswordCode(string Email)
         //{
         //    var user = await userManager.FindByEmailAsync(Email);
@@ -108,15 +112,5 @@ namespace Repository
         //        Description = "User Not Found"
         //    });
         //}
-        //public async Task<IdentityResult> AssignRolesToUser(string UserId, List<string> roles)
-        //{
-        //    var user = await userManager.FindByIdAsync(UserId);
-        //    if (user != null)
-        //    {
-        //        return await userManager.AddToRolesAsync(user, roles);
-        //    }
-        //    return new IdentityResult();
-        //}
-
     }
 }

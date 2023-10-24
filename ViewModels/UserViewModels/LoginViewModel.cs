@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ViewModels.UserViewModels
 {
-	public class LoginViewModel
-	{
+    public class LoginViewModel
+    {
         [Required, StringLength(50)]
         [EmailAddress]
         public required string Email { get; set; }
