@@ -27,22 +27,22 @@ namespace Marasim_Backend.Controllers
         {
             ClaimsPrincipal? UserClaims = HttpContext.User;
             var User = UserManager.GetUserAsync(UserClaims).Result;
-            
+
             if (User != null)
             {
-                if(Data.Picture != null)
+                if (Data.Picture != null)
                 {
                     await Helper.DeleteMediaAsync(User, "ProfilePicture", User.PicUrl);
                     FileInfo fi = new(Data.Picture.FileName);
                     string FileName = DateTime.Now.Ticks + fi.Extension;
                     User.Name = Data.Name ?? User.Name;
-                     await Helper.UploadMediaAsync(User, "ProfilePicture", FileName, Data.Picture);
+                    await Helper.UploadMediaAsync(User, "ProfilePicture", FileName, Data.Picture);
                     Data.PicURL = FileName;
                 }
                 User.Name = Data.Name ?? User.Name;
                 User.NationalID = Data.NationalID ?? User.NationalID;
                 User.PicUrl = Data.PicURL ?? User.PicUrl;
-                User.PhoneNumber= Data.PhoneNumber ?? User.PhoneNumber;
+                User.PhoneNumber = Data.PhoneNumber ?? User.PhoneNumber;
                 await UserManager.UpdateAsync(User);
             }
             return new JsonResult(User);

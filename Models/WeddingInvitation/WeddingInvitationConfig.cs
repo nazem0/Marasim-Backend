@@ -50,6 +50,10 @@ namespace Models
                .IsRequired().HasMaxLength(2083);
 
             builder
+               .Property(w => w.PosterUrl)
+               .IsRequired().HasMaxLength(2083);
+
+            builder
                .Property(w => w.Date)
                .IsRequired();
 

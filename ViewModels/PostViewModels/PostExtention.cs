@@ -24,7 +24,7 @@ namespace ViewModels.PostViewModels
                     AttachmentUrl = item.AttachmentUrl,
                 });
             }
-            foreach (var item in AddPost.Comment)
+            foreach (var item in AddPost.Comments)
             {
                 _Comments.Add(new Comment()
                 {
@@ -34,7 +34,7 @@ namespace ViewModels.PostViewModels
                     Text = item.Text
                 });
             }
-            foreach (var item in AddPost.React)
+            foreach (var item in AddPost.Reacts)
             {
                 _Reacts.Add(new React()
                 {

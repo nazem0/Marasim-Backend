@@ -21,7 +21,7 @@ namespace API.Controllers
                 if (result.Succeeded)
                 {
                     
-                    return Ok();
+                    return Ok("Your Account Has Been Registered Successfully");
                 }
                 else
                 {
