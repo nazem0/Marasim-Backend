@@ -12,3 +12,6 @@
 **/debug/
 **/obj
 **/Migrations/
+**/wwwroot/**
+ViewModels/bin
+ViewModels/obj

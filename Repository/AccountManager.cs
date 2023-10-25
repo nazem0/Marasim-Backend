@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using ViewModels.UserViewModels;
-
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Repository
 {
     public class AccountManager
@@ -13,32 +14,33 @@ namespace Repository
         readonly UserManager<User> UserManager;
         readonly SignInManager<User> SignInManager;
         readonly IConfiguration Configuration;
+        readonly Helper Helper;
 
         public AccountManager(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
-            IConfiguration _configuration
+            IConfiguration _configuration,
+            Helper _helper
             )
         {
             UserManager = _userManager;
             SignInManager = _signInManager;
             Configuration = _configuration;
+            Helper = _helper;
         }
 
         public async Task<IdentityResult> Register(RegisterationViewModel Data)
         {
-            FileStream fileStream = new(
-                Path.Combine(
-                    Directory.GetCurrentDirectory(), "wwwroot", "Images", Data.Picture.FileName),
-                FileMode.Create);
-            fileStream.Position = 0;
-            Data.PicURL = Data.Picture.FileName;
-            var model = Data.ToUser();
-            var result = await UserManager.CreateAsync(model, Data.Password);
+
+            FileInfo fi = new (Data.Picture.FileName);
+            string FileName = DateTime.Now.Ticks + fi.Extension;
+            Data.PicURL = FileName;
+            var User = Data.ToUser();
+            var result = await UserManager.CreateAsync(User, Data.Password);
             if (result.Succeeded)
             {
-                Data.Picture.CopyTo(fileStream);
-                result = await UserManager.AddToRoleAsync(model, "User");
+                result = await UserManager.AddToRoleAsync(User, "User");
+                await Helper.UploadMediaAsync(User, "ProfilePicture", FileName, Data.Picture);
             }
             return result;
         }
@@ -74,7 +76,7 @@ namespace Repository
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<IdentityResult> ChangePassword(UserChangePasswordViewModel Data)
+        public async Task<IdentityResult> ChangePassword(ChangePasswordViewModel Data)
         {
             var user = await UserManager.FindByIdAsync(Data.ID);
             if (user != null)
@@ -96,28 +98,6 @@ namespace Repository
             }
             return new IdentityResult();
         }
-
-        //public async Task<string> GetForgotPasswordCode(string Email)
-        //{
-        //    var user = await userManager.FindByEmailAsync(Email);
-        //    if (user != null)
-        //    {
-        //        var code = await userManager.GeneratePasswordResetTokenAsync(user);
-        //        return code;
-        //    }
-        //    return string.Empty;
-        //}
-        //public async Task<IdentityResult> ForgotPassword(UserForgotPasswordViewModel viewModel)
-        //{
-        //    var user = await userManager.FindByEmailAsync(viewModel.Email);
-        //    if (user != null)
-        //    {
-        //        return await userManager.ResetPasswordAsync(user, viewModel.Code, viewModel.NewPassword);
-        //    }
-        //    return IdentityResult.Failed(new IdentityError()
-        //    {
-        //        Description = "User Not Found"
-        //    });
-        //}
+        
     }
 }

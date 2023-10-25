@@ -1,7 +1,7 @@
 ﻿using Models;
 namespace ViewModels.UserViewModels
 {
-    public static class UserExtention
+    public static class RegisterationToUser
     {
         public static User ToUser(this RegisterationViewModel viewModel)
         {

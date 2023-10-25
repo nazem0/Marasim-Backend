@@ -2,7 +2,7 @@
 
 namespace ViewModels.UserViewModels
 {
-    public class UserChangePasswordViewModel
+    public class ChangePasswordViewModel
     {
         public required string ID { get; set; }
         public required string OldPassword { get; set; }
