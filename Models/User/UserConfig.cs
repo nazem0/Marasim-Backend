@@ -20,11 +20,11 @@ namespace Models
 
             builder
                 .Property(u => u.Name)
-                .IsRequired().HasMaxLength(20);
+                .IsRequired().HasMaxLength(150);
 
             builder
              .Property(u => u.Email)
-             .IsRequired().HasMaxLength(50);
+             .IsRequired().HasMaxLength(320);
 
             builder
             .Property(u => u.PhoneNumber)
