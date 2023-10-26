@@ -65,7 +65,7 @@ namespace Marasim_Backend
             });
             Builder.Services.ConfigureApplicationCookie(Options =>
             {
-                Options.LoginPath = "/Account/SignIn";
+                Options.LoginPath = "/Account/Login";
 
             });
 
