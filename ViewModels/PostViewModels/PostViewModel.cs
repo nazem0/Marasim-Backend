@@ -5,7 +5,6 @@ namespace ViewModels.PostViewModels
 {
 	public class PostViewModel
 	{
-        public int ID { get; set; }
         public required int VendorID { get; set; }
         public required string Title { get; set; }
         public required string Description { get; set; }

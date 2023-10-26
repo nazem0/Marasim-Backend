@@ -20,39 +20,17 @@ namespace ViewModels.PostViewModels
             {
                 _PostAttachments.Add(new PostAttachment()
                 {
-                    PostID = item.PostID,
                     AttachmentUrl = item.AttachmentUrl,
                 });
             }
-            foreach (var item in AddPost.Comments)
-            {
-                _Comments.Add(new Comment()
-                {
-                    PostID = item.PostID,
-                    UserID = item.UserID,
-                    DateTime = item.DateTime,
-                    Text = item.Text
-                });
-            }
-            foreach (var item in AddPost.Reacts)
-            {
-                _Reacts.Add(new React()
-                {
-                    PostID = item.PostID,
-                    UserID = item.UserID,
-                    DateTime = item.DateTime,
-                });
-            }
+            
             return new Post
             {
-                ID = AddPost.ID,
                 VendorID = AddPost.VendorID,
                 Title = AddPost.Title,
                 ServiceID = AddPost.ServiceID,
                 Description = AddPost.Description,
                 PostAttachments = _PostAttachments,
-                Comments = _Comments,
-                Reacts = _Reacts
             };
         }
 
