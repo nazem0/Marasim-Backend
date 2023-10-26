@@ -56,6 +56,7 @@ namespace Repository
                     ((await UserManager.FindByEmailAsync(Data.Email))!,
                     "vendor");
                 VendorManager.Add(Data.ToVendor((await UserManager.FindByEmailAsync(Data.Email))!));
+                VendorManager.Save();
             }
             return Result;
         }
