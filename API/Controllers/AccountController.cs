@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Repository;
 using System.Text;
 using ViewModels.UserViewModels;
+using ViewModels.VendorViewModels;
 
 namespace API.Controllers
 {
@@ -13,14 +15,14 @@ namespace API.Controllers
         {
             AccountManager = _accManger;
         }
-        public async Task<IActionResult> Register([FromForm] RegisterationViewModel viewModel)
+        public async Task<IActionResult> Register([FromForm] IUserRegisteration viewModel)
         {
             if (ModelState.IsValid)
             {
                 IdentityResult result = await AccountManager.Register(viewModel);
                 if (result.Succeeded)
                 {
-                    
+
                     return Ok("Your Account Has Been Registered Successfully");
                 }
                 else
@@ -44,6 +46,38 @@ namespace API.Controllers
 
             return new ObjectResult(str);
         }
+        public async Task<IActionResult> RegisterAsVendor([FromForm] VendorRegisterationViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityResult result = await AccountManager.RegisterAsVendor(viewModel);
+                if (result.Succeeded)
+                {
+
+                    return Ok("Your Account Has Been Registered Successfully");
+                }
+                else
+                {
+                    var str2 = new StringBuilder();
+                    foreach (var item in result.Errors)
+                    {
+                        str2.Append(item.Description);
+                    }
+                    return new ObjectResult(str2);
+                }
+            }
+            var str = new StringBuilder();
+            foreach (var item in ModelState.Values)
+            {
+                foreach (var item1 in item.Errors)
+                {
+                    str.Append(item1.ErrorMessage);
+                }
+            }
+
+            return new ObjectResult(str);
+        }
+
 
         public async Task<IActionResult> Login([FromBody] LoginViewModel viewModel)
         {
