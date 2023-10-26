@@ -14,19 +14,17 @@ namespace Repository
         readonly UserManager<User> UserManager;
         readonly SignInManager<User> SignInManager;
         readonly IConfiguration Configuration;
-        readonly Helper Helper;
+        
 
         public AccountManager(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
-            IConfiguration _configuration,
-            Helper _helper
+            IConfiguration _configuration
             )
         {
             UserManager = _userManager;
             SignInManager = _signInManager;
             Configuration = _configuration;
-            Helper = _helper;
         }
 
         public async Task<IdentityResult> Register(RegisterationViewModel Data)
@@ -40,7 +38,7 @@ namespace Repository
             if (result.Succeeded)
             {
                 result = await UserManager.AddToRoleAsync(User, "User");
-                await Helper.UploadMediaAsync(User, "ProfilePicture", FileName, Data.Picture);
+                Helper.UploadMediaAsync(User.Id, "ProfilePicture", FileName, Data.Picture);
             }
             return result;
         }

@@ -82,7 +82,6 @@ namespace Marasim_Backend
             Builder.Services.AddScoped<VendorManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();
             Builder.Services.AddScoped<AccountManager>();
-            Builder.Services.AddScoped<Helper>();
 
             //Builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
             Builder.Services.AddControllers();

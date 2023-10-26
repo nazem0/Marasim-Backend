@@ -13,17 +13,19 @@ namespace ViewModels.PostViewModels
         public static Post ToModel(this AddPostViewModel AddPost)
         {
             var _PostAttachments = new List<PostAttachment>();
-            var _Comments = new List<Comment>();
-            var _Reacts = new List<React>();
 
-            foreach (var item in AddPost.PostAttachments)
+
+            if (AddPost.PostAttachments != null)
             {
-                _PostAttachments.Add(new PostAttachment()
+                foreach (PostAttachment item in AddPost.PostAttachments)
                 {
-                    AttachmentUrl = item.AttachmentUrl,
-                });
+                    _PostAttachments.Add(new PostAttachment()
+                    {
+                        AttachmentUrl = item.AttachmentUrl,
+                    });
+                }
             }
-            
+
             return new Post
             {
                 VendorID = AddPost.VendorID,
@@ -49,7 +51,7 @@ namespace ViewModels.PostViewModels
                 Reacts = Post.Reacts.ToList()
             };
         }
-        
+
     }
 }
 

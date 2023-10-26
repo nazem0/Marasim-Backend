@@ -13,28 +13,13 @@ namespace Repository
             DbContext = _dBContext;
             DbSet = DbContext.Set<T>();
         }
-        public IQueryable<T> Get()
-        {
-            return DbSet;
-        }
-        public IQueryable<T> Get(int ID)
-        {
-            return DbSet.Where(i => i.ID == ID);
-        }
-        public EntityEntry<T> Add(T entity)
-        {
-            return DbSet.Add(entity);
-        }
+        public IQueryable<T> Get() => DbSet;
+        public T? Get(int ID) => DbSet.Where(i => i.ID == ID).FirstOrDefault();
+        public EntityEntry<T> Add(T entity) => DbSet.Add(entity);
 
-        public EntityEntry<T> Update(T entity)
-        {
-            return DbSet.Update(entity);
-        }
+        public EntityEntry<T> Update(T entity) => DbSet.Update(entity);
 
-        public EntityEntry<T> Delete(T entity)
-        {
-            return DbSet.Remove(entity);
-        }
+        public EntityEntry<T> Delete(T entity) => DbSet.Remove(entity);
         public void Save()
         {
             DbContext.SaveChanges();

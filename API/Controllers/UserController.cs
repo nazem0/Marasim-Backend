@@ -11,11 +11,9 @@ namespace Marasim_Backend.Controllers
     public class UserController : ControllerBase
     {
         private UserManager<User> UserManager { get; set; }
-        private Helper Helper { get; set; }
-        public UserController(UserManager<User> _UserManager, Helper helper)
+        public UserController(UserManager<User> _UserManager)
         {
             UserManager = _UserManager;
-            Helper = helper;
         }
         public IActionResult Index()
         {
@@ -32,11 +30,11 @@ namespace Marasim_Backend.Controllers
             {
                 if (Data.Picture != null)
                 {
-                    await Helper.DeleteMediaAsync(User, "ProfilePicture", User.PicUrl);
+                    Helper.DeleteMediaAsync(User.Id, "ProfilePicture", User.PicUrl);
                     FileInfo fi = new(Data.Picture.FileName);
                     string FileName = DateTime.Now.Ticks + fi.Extension;
                     User.Name = Data.Name ?? User.Name;
-                    await Helper.UploadMediaAsync(User, "ProfilePicture", FileName, Data.Picture);
+                    Helper.UploadMediaAsync(User.Id, "ProfilePicture", FileName, Data.Picture);
                     Data.PicURL = FileName;
                 }
                 User.Name = Data.Name ?? User.Name;

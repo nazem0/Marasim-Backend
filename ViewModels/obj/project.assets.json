@@ -3013,6 +3013,7 @@
   "projectFileDependencyGroups": {
     "net7.0": [
       "Microsoft.AspNetCore.Http.Features >= 5.0.17",
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 7.0.13",
       "Models >= 1.0.0"
     ]
   },
@@ -3068,6 +3069,10 @@
           "Microsoft.AspNetCore.Http.Features": {
             "target": "Package",
             "version": "[5.0.17, )"
+          },
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[7.0.13, )"
           }
         },
         "imports": [
