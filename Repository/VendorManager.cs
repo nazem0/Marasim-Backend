@@ -9,9 +9,13 @@ namespace Repository
         {
         }
 
-        public Vendor GetVendorByUserID(string ID)
+        public Vendor GetVendorByUserId(string ID)
         {
             return Get().Where(v => v.UserID == ID).FirstOrDefault()!;
+        }
+        public int GetVendorIdByUserId(string ID)
+        {
+            return Get().Where(v => v.UserID == ID).FirstOrDefault()!.ID;
         }
     }
 }

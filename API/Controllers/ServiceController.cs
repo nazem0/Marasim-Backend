@@ -25,11 +25,11 @@ namespace Marasim_Backend.Controllers
             var x = ServiceManager.Get().ToList();
             return new JsonResult(x);
         }
-        [Authorize(Roles = "Vendor")]
-        public IActionResult CreateAsync(CreateServiceViewModel Data)
+        [Authorize(Roles = "vendor")]
+        public IActionResult Create(CreateServiceViewModel Data)
         {
-            int VendorID = VendorManager.GetVendorByUserID
-                (User.FindFirstValue(ClaimTypes.NameIdentifier)!).ID;
+            int VendorID = VendorManager.GetVendorIdByUserId
+                (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             Service? CreatedService =
                 ServiceManager.Add(Data.ToModel(VendorID)).Entity;
             foreach (var item in Data.Pictures)
@@ -40,7 +40,8 @@ namespace Marasim_Backend.Controllers
                     (User.FindFirstValue(ClaimTypes.NameIdentifier)!
                     , "ProfilePicture", FileName, item);
             }
-            return Ok(CreatedService);
+            ServiceManager.Save();
+            return Ok();
         }
     }
 }
