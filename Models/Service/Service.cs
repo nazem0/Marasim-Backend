@@ -16,7 +16,7 @@ namespace Models
 
         public virtual ICollection<PromoCode> PromoCodes { set; get; }
 
-        public virtual Vendor Vendor { get; set; }
+        //public virtual Vendor Vendor { get; set; }
         //public virtual Category Category { get; set; }
 
 

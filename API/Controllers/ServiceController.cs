@@ -28,6 +28,11 @@ namespace Marasim_Backend.Controllers
             var x = ServiceManager.Get();
             return Ok(x);
         }
+        
+        public IActionResult GetById(int Id)
+        {
+            return new JsonResult(ServiceManager.Get(Id));
+        }
         [Authorize(Roles = "vendor")]
         public IActionResult Create(CreateServiceViewModel Data)
         {

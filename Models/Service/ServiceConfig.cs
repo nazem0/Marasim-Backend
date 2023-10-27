@@ -59,17 +59,17 @@ namespace Models
                .OnDelete(DeleteBehavior.ClientCascade)
                .IsRequired();
 
-            builder
-                .HasOne(s => s.Vendor)
-                .WithMany(v => v.Services)
-                .HasForeignKey(s => s.VendorID)
-                .IsRequired();
+            //builder
+            //    .HasOne(s => s.Vendor)
+            //    .WithMany(v => v.Services)
+            //    .HasForeignKey(s => s.VendorID)
+            //    .IsRequired();
 
-            builder
-               .HasMany(s => s.PromoCodes)
-               .WithOne(pc => pc.Service)
-               .HasForeignKey(pc => pc.ServiceID)
-               .IsRequired();
+            //builder
+            //   .HasMany(s => s.PromoCodes)
+            //   .WithOne(pc => pc.Service)
+            //   .HasForeignKey(pc => pc.ServiceID)
+            //   .IsRequired();
 
             //builder
             //    .HasOne(s=> s.Category)
