@@ -11,15 +11,29 @@ namespace Repository
 {
     public static class Helper
     {
-        public static string CreateUserMediaDirectoryAsync(string UserID, string MediaDirectoryName)
+        public static string CreateUserMediaDirectoryAsync(string UserID, string MediaDirectoryName, string? SubDirectroy = null)
         {
-            string folderPath =
-                Path.Combine(
+            string MediaPath = "";
+            if (SubDirectroy != null)
+            {
+                MediaPath = Path.Combine(
                     Directory.GetCurrentDirectory(),
                     "wwwroot",
                     UserID,
-                    MediaDirectoryName
+                    MediaDirectoryName,
+                    SubDirectroy
                     );
+            }
+            else
+            {
+                    MediaPath = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        UserID,
+                        MediaDirectoryName
+                        );
+            }
+            string folderPath = MediaPath;
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
@@ -27,11 +41,11 @@ namespace Repository
             return folderPath;
         }
         public static void UploadMediaAsync
-            (string UserID, string MediaDirectoryName, string FileName, IFormFile Media)
+            (string UserID, string MediaDirectoryName, string FileName, IFormFile Media, string? SubDirectroy = null)
         {
             FileStream fileStream = new(
                     Path.Combine(
-                       CreateUserMediaDirectoryAsync(UserID, MediaDirectoryName),
+                       CreateUserMediaDirectoryAsync(UserID, MediaDirectoryName, SubDirectroy),
                         FileName),
                     FileMode.Create)
             {

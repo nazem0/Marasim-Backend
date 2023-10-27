@@ -12,13 +12,16 @@ namespace Marasim_Backend.Controllers
     {
 
         private ServiceManager ServiceManager { get; set; }
+        private ServiceAttachmentManager ServiceAttachmentManager { get; set; }
         private VendorManager VendorManager { get; set; }
         public ServiceController
-            (ServiceManager _ServiceManager,
-            VendorManager vendorManager)
+            (ServiceManager _serviceManager,
+            ServiceAttachmentManager _ServiceAttachmentManager,
+            VendorManager _vendorManager)
         {
-            ServiceManager = _ServiceManager;
-            VendorManager = vendorManager;
+            ServiceManager = _serviceManager;
+            VendorManager = _vendorManager;
+            ServiceAttachmentManager = _ServiceAttachmentManager;
         }
         public IActionResult Index()
         {
@@ -32,15 +35,23 @@ namespace Marasim_Backend.Controllers
                 (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             Service? CreatedService =
                 ServiceManager.Add(Data.ToModel(VendorID)).Entity;
-            foreach (var item in Data.Pictures)
+                ServiceManager.Save();
+            foreach (FormFile item in Data.Pictures)
             {
                 FileInfo fi = new(item.FileName);
                 string FileName = DateTime.Now.Ticks + fi.Extension;
                 Helper.UploadMediaAsync
                     (User.FindFirstValue(ClaimTypes.NameIdentifier)!
-                    , "ProfilePicture", FileName, item);
+                    , "ServiceAttachment", FileName, item, $"{CreatedService.ID}-{CreatedService.Title}");
+                ServiceAttachmentManager.Add(
+                    new ServiceAttachment
+                    {
+                        Resource = FileName,
+                        Service = CreatedService
+                    }
+                    );
             }
-            ServiceManager.Save();
+            ServiceAttachmentManager.Save();
             return Ok();
         }
     }
