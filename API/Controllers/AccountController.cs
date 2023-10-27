@@ -15,7 +15,7 @@ namespace API.Controllers
         {
             AccountManager = _accManger;
         }
-        public async Task<IActionResult> Register([FromForm] IUserRegisteration viewModel)
+        public async Task<IActionResult> Register([FromForm] UserRegisterationViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
