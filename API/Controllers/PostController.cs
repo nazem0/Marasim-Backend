@@ -72,6 +72,7 @@ namespace API.Controllers
             var Data = PostManager.GetPostByID(PostID);
             Data.IsDeleted = true;
             PostManager.Update(Data);
+            PostManager.Save();
             return Ok("Deleted");
         }
 
@@ -85,6 +86,7 @@ namespace API.Controllers
             Data.ServiceID = OldPost.ServiceID;
 
             PostManager.Update(Data);
+            PostManager.Save();
             return Ok("Updated");
         }
     }
