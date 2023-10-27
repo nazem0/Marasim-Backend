@@ -49,15 +49,13 @@ namespace Models
                 .HasMany(p => p.Comments)
                 .WithOne(c => c.Post)
                 .HasForeignKey(c => c.PostID)
-                .OnDelete(DeleteBehavior.ClientCascade)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             builder
                 .HasMany(p => p.Reacts)
                 .WithOne(r => r.Post)
                 .HasForeignKey(r => r.PostID)
-                .OnDelete(DeleteBehavior.ClientCascade)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

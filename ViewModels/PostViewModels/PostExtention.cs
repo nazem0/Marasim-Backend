@@ -10,48 +10,17 @@ namespace ViewModels.PostViewModels
 {
     public static class PostExtention
     {
-        public static Post ToModel(this AddPostViewModel AddPost)
+        public static Post ToModel(this AddPostViewModel AddPost, int VendorID)
         {
-            var _PostAttachments = new List<PostAttachment>();
-
-
-            if (AddPost.PostAttachments != null)
-            {
-                foreach (PostAttachment item in AddPost.PostAttachments)
-                {
-                    _PostAttachments.Add(new PostAttachment()
-                    {
-                        AttachmentUrl = item.AttachmentUrl,
-                    });
-                }
-            }
-
             return new Post
             {
-                VendorID = AddPost.VendorID,
+                VendorID = VendorID,
                 Title = AddPost.Title,
                 ServiceID = AddPost.ServiceID,
                 Description = AddPost.Description,
-                PostAttachments = _PostAttachments,
+                DateTime = AddPost.DateTime
             };
         }
-
-        public static AddPostViewModel ToAddPostViewModel(this Post Post)
-        {
-            return new AddPostViewModel()
-            {
-                ID = Post.ID,
-                VendorID = Post.VendorID,
-                Title = Post.Title,
-                DateTime = DateTime.Now,
-                ServiceID = Post.ServiceID,
-                Description = Post.Description,
-                PostAttachments = Post.PostAttachments.ToList(),
-                Comments = Post.Comments.ToList(),
-                Reacts = Post.Reacts.ToList()
-            };
-        }
-
     }
 }
 
