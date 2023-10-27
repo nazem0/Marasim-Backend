@@ -25,8 +25,8 @@ namespace Marasim_Backend.Controllers
         }
         public IActionResult Index()
         {
-            var x = ServiceManager.Get().ToList();
-            return new JsonResult(x);
+            var x = ServiceManager.Get();
+            return Ok(x);
         }
         [Authorize(Roles = "vendor")]
         public IActionResult Create(CreateServiceViewModel Data)
@@ -36,7 +36,7 @@ namespace Marasim_Backend.Controllers
             Service? CreatedService =
                 ServiceManager.Add(Data.ToModel(VendorID)).Entity;
                 ServiceManager.Save();
-            foreach (FormFile item in Data.Pictures)
+            foreach (IFormFile item in Data.Pictures)
             {
                 FileInfo fi = new(item.FileName);
                 string FileName = DateTime.Now.Ticks + fi.Extension;

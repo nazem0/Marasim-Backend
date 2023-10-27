@@ -84,7 +84,11 @@ namespace Marasim_Backend
             Builder.Services.AddScoped<AccountManager>();
 
             //Builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
-            Builder.Services.AddControllers();
+            Builder
+                .Services
+                .AddControllers()
+                .AddNewtonsoftJson
+                (options =>  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             #endregion
             var App = Builder.Build();
             App.UseCors();
