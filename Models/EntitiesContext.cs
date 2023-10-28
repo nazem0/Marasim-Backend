@@ -46,7 +46,9 @@ namespace Models
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=.; Initial Catalog=Marasim; 
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer(@"Data Source=.; Initial Catalog=Marasim; 
                     Integrated Security=True; TrustServerCertificate=True;MultipleActiveResultSets=true");
 
             //optionsBuilder.UseSqlServer(@"Data Source=localhost; Initial Catalog=Marasim; TrustServerCertificate=True; User Id=SA; Password=$aMer2030");
