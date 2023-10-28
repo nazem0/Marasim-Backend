@@ -29,6 +29,7 @@ namespace API.Controllers
                 }
                 return new ObjectResult(str);
             }
+
             IdentityResult result = await AccountManager.Register(viewModel);
             if (result.Succeeded) return Ok("Your Account Has Been Registered Successfully");
             else
@@ -93,12 +94,12 @@ namespace API.Controllers
                 return Ok(new { token = tokenString });
             }
             else if (user.IsLockedOut) return new ObjectResult("Your Account is Under Review");
-            return new ObjectResult("User name or Password is Wrong");
+            else return new ObjectResult("User name or Password is Wrong");
 
 
         }
-        public async Task Logout()=>await AccountManager.Logout();
-     
+        public async Task Logout() => await AccountManager.Logout();
+
 
     }
 }
