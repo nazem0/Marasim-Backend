@@ -21,28 +21,27 @@ namespace Marasim_Backend.Controllers
             return new JsonResult(x);
         }
 
-        public async Task<IActionResult> UpdateAsync(UpdateProfileViewModel Data)
+        public async Task<IActionResult> Update(UpdateProfileViewModel Data)
         {
             ClaimsPrincipal? UserClaims = HttpContext.User;
             var User = UserManager.GetUserAsync(UserClaims).Result;
 
-            if (User != null)
-            {
-                if (Data.Picture != null)
-                {
-                    Helper.DeleteMediaAsync(User.Id, "ProfilePicture", User.PicUrl);
-                    FileInfo fi = new(Data.Picture.FileName);
-                    string FileName = DateTime.Now.Ticks + fi.Extension;
-                    User.Name = Data.Name ?? User.Name;
-                    Helper.UploadMediaAsync(User.Id, "ProfilePicture", FileName, Data.Picture);
-                    Data.PicURL = FileName;
-                }
-                User.Name = Data.Name ?? User.Name;
-                User.NationalID = Data.NationalID ?? User.NationalID;
-                User.PicUrl = Data.PicURL ?? User.PicUrl;
-                User.PhoneNumber = Data.PhoneNumber ?? User.PhoneNumber;
-                await UserManager.UpdateAsync(User);
-            }
+            if (User == null) return new JsonResult("User Not On Our Database");
+            if (Data.Picture == null) return new JsonResult("No Profile Picture Uploaded");
+
+            Helper.DeleteMediaAsync(User.Id, "ProfilePicture", User.PicUrl);
+            FileInfo fi = new(Data.Picture.FileName);
+            string FileName = DateTime.Now.Ticks + fi.Extension;
+            User.Name = Data.Name ?? User.Name;
+            Helper.UploadMediaAsync(User.Id, "ProfilePicture", FileName, Data.Picture);
+            Data.PicURL = FileName;
+
+            User!.Name = Data.Name ?? User.Name;
+            User.NationalID = Data.NationalID ?? User.NationalID;
+            User.PicUrl = Data.PicURL ?? User.PicUrl;
+            User.PhoneNumber = Data.PhoneNumber ?? User.PhoneNumber;
+            await UserManager.UpdateAsync(User);
+
             return new JsonResult(User);
         }
     }

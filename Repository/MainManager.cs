@@ -14,6 +14,7 @@ namespace Repository
             DbSet = DbContext.Set<T>();
         }
         public IQueryable<T> Get() => DbSet;
+        public int Count() => DbSet.Count();
         public T? Get(int ID) => DbSet.Where(i => i.ID == ID).FirstOrDefault();
         public EntityEntry<T> Add(T entity) => DbSet.Add(entity);
 
