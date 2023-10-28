@@ -15,7 +15,7 @@ namespace ViewModels.CommentViewModels
                 Text = Data.Text,
                 UserID = LoggedInUserId,
                 PostID = Data.PostId
-            }
+            };
         }
     }
 }

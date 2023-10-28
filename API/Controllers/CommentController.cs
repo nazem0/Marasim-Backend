@@ -10,7 +10,7 @@ namespace API.Controllers
 {
     public class CommentController : ControllerBase
     {
-        private CommentManager CommentManager;
+        private readonly CommentManager CommentManager;
         public CommentController(CommentManager commentManager)
         {
             CommentManager = commentManager;
