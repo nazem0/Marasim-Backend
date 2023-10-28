@@ -4,7 +4,7 @@ namespace Models
 {
     public class EntitiesContext : IdentityDbContext<User>
     {
-        public EntitiesContext() { }
+        public EntitiesContext() {}
         public EntitiesContext(DbContextOptions options) : base(options) { }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BookingDetails> BookingsDetails { get; set; }
@@ -44,13 +44,15 @@ namespace Models
 
             base.OnModelCreating(modelBuilder);
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Data Source=.; Initial Catalog=Marasim; 
-                    Integrated Security=True; TrustServerCertificate=True;MultipleActiveResultSets=true");
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder
+        //        .UseLazyLoadingProxies()
+        //        .UseSqlServer(@"Data Source=.; Initial Catalog=Marasim; 
+        //            Integrated Security=True; TrustServerCertificate=True");
 
-            //optionsBuilder.UseSqlServer(@"Data Source=localhost; Initial Catalog=Marasim; TrustServerCertificate=True; User Id=SA; Password=$aMer2030");
-            base.OnConfiguring(optionsBuilder);
-        }
+        //    //optionsBuilder.UseSqlServer(@"Data Source=localhost; Initial Catalog=Marasim; TrustServerCertificate=True; User Id=SA; Password=$aMer2030");
+        //    base.OnConfiguring(optionsBuilder);
+        //}
     }
 }

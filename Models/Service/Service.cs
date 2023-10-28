@@ -14,8 +14,7 @@ namespace Models
         public virtual ICollection<ServiceAttachment> ServiceAttachments { set; get; }
         public virtual PromoCode PromoCode { set; get; }
 
-        //public virtual Vendor Vendor { get; set; }
-        //public virtual Category Category { get; set; }
+        public virtual Vendor Vendor { get; set; }
 
 
 
