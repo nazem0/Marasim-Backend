@@ -79,7 +79,7 @@ namespace API.Controllers
         }
 
 
-        public async Task<IActionResult> Login([FromBody] LoginViewModel viewModel)
+        public async Task<IActionResult> Login([FromForm] LoginViewModel viewModel)
         {
             if (ModelState.IsValid)
             {

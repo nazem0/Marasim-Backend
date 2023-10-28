@@ -48,8 +48,8 @@ namespace Models
 
             builder
                 .HasOne(pc => pc.Service)
-                .WithMany(s => s.PromoCodes)
-                .HasForeignKey(pc => pc.ServiceID)
+                .WithOne(s => s.PromoCode)
+                .HasForeignKey<PromoCode>(pc => pc.ServiceID)
                 .IsRequired();
 
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
@@ -10,7 +9,6 @@ namespace Marasim_Backend.Controllers
 {
     public class ServiceController : ControllerBase
     {
-
         private ServiceManager ServiceManager { get; set; }
         private ServiceAttachmentManager ServiceAttachmentManager { get; set; }
         private VendorManager VendorManager { get; set; }
@@ -23,24 +21,27 @@ namespace Marasim_Backend.Controllers
             VendorManager = _vendorManager;
             ServiceAttachmentManager = _ServiceAttachmentManager;
         }
-        public IActionResult Index()
+        public IActionResult GetAll()
         {
             var x = ServiceManager.Get();
             return Ok(x);
         }
-        
+        public IActionResult GetAllActive()
+        {
+            return Ok(ServiceManager.GetActive());
+        }
         public IActionResult GetById(int Id)
         {
             return new JsonResult(ServiceManager.Get(Id));
         }
         [Authorize(Roles = "vendor")]
-        public IActionResult Create(CreateServiceViewModel Data)
+        public IActionResult Add(CreateServiceViewModel Data)
         {
-            int VendorID = VendorManager.GetVendorIdByUserId
+            int LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             Service? CreatedService =
-                ServiceManager.Add(Data.ToModel(VendorID)).Entity;
-                ServiceManager.Save();
+                ServiceManager.Add(Data.ToModel(LoggedInVendorId)).Entity;
+            ServiceManager.Save();
             foreach (IFormFile item in Data.Pictures)
             {
                 FileInfo fi = new(item.FileName);
@@ -58,6 +59,23 @@ namespace Marasim_Backend.Controllers
             }
             ServiceAttachmentManager.Save();
             return Ok();
+        }
+        [Authorize(Roles = "vendor")]
+        public IActionResult Delete(int Id)
+        {
+            int? ServiceVendorID = ServiceManager.Get(Id)!.VendorID;
+            int LoggedInVendorId = VendorManager.GetVendorIdByUserId
+                (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (ServiceVendorID != null && ServiceVendorID == LoggedInVendorId)
+            {
+                ServiceManager.Delete(Id);
+                ServiceManager.Save();
+                return Ok("Service Deleted Successfully");
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
     }
 }

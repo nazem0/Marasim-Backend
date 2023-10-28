@@ -95,7 +95,7 @@ namespace Marasim_Backend
             App.UseStaticFiles();
             App.UseAuthentication();
             App.UseAuthorization();
-            App.MapControllerRoute("Default", "{Controller}/{Action=Index}/{id?}");
+            App.MapControllerRoute("Default", "api/{Controller}/{Action=Index}/{id?}");
 
 
             App.Run();
