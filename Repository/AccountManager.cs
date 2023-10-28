@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
@@ -79,14 +81,23 @@ namespace Repository
             await SignInManager.SignOutAsync();
         }
 
-        public string GenerateJSONWebToken()
+        public async Task<string> GenerateJSONWebToken(string Email)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var user = await UserManager.FindByEmailAsync(Email);
+            List<Claim> claims = new List<Claim>();
+            var roles = await UserManager.GetRolesAsync(user!);
+            foreach(var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role,role));
 
+            }
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user!.Id));
             var token = new JwtSecurityToken(
               expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
+              signingCredentials: credentials,
+              claims:claims);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

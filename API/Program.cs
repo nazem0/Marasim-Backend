@@ -40,7 +40,12 @@ namespace Marasim_Backend
                 .AddEntityFrameworkStores<EntitiesContext>()
                 .AddDefaultTokenProviders();
 
-            Builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            Builder.Services.AddAuthentication(Option =>
+            {
+                Option.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                Option.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+                Option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
                 .AddJwtBearer(Options =>
                 {
                     Options.TokenValidationParameters = new TokenValidationParameters
@@ -49,8 +54,10 @@ namespace Marasim_Backend
                         ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Builder.Configuration["Jwt:Key"]!))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Builder.Configuration["Jwt:Key"]!)),
+                        
                     };
+
                 });
 
             Builder.Services.AddCors(option =>

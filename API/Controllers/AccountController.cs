@@ -90,7 +90,8 @@ namespace API.Controllers
             var user = await AccountManager.Login(viewModel);
             if (user.Succeeded)
             {
-                string tokenString = AccountManager.GenerateJSONWebToken();
+                
+                string tokenString = await AccountManager.GenerateJSONWebToken(viewModel.Email);
                 return Ok(new { token = tokenString });
             }
             else if (user.IsLockedOut) return new ObjectResult("Your Account is Under Review");

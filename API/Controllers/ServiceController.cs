@@ -32,13 +32,15 @@ namespace Marasim_Backend.Controllers
         }
         public IActionResult GetById(int Id)
         {
-            return new JsonResult(ServiceManager.Get(Id));
+            var x = ServiceManager.Get(Id);
+            return new JsonResult(x);
         }
         [Authorize(Roles = "vendor")]
         public IActionResult Add(CreateServiceViewModel Data)
         {
+            var x = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             int LoggedInVendorId = VendorManager.GetVendorIdByUserId
-                (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                (x);
             Service? CreatedService =
                 ServiceManager.Add(Data.ToModel(LoggedInVendorId)).Entity;
             ServiceManager.Save();
