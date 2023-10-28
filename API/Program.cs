@@ -21,6 +21,10 @@ namespace Marasim_Backend
                 context.UseLazyLoadingProxies()
                     .UseSqlServer
                     (Builder.Configuration.GetConnectionString("MyDB"));
+
+                //context.UseLazyLoadingProxies()
+                //    .UseSqlServer
+                //    (Builder.Configuration.GetConnectionString("MySamer"));
             });
 
             Builder.Services.AddIdentity<User, IdentityRole>(Options =>
@@ -76,6 +80,9 @@ namespace Marasim_Backend
             Builder.Services.AddScoped<ServiceAttachmentManager>();
             Builder.Services.AddScoped<ServiceManager>();
             Builder.Services.AddScoped<ReviewManager>();
+            Builder.Services.AddScoped<ReviewManager>();
+            Builder.Services.AddScoped<PostManager>();
+            Builder.Services.AddScoped<PostAttachmentManager>();
             Builder.Services.AddScoped<CheckListManager>();
             Builder.Services.AddScoped<FollowManager>();
             Builder.Services.AddScoped<PromoCodeManager>();
