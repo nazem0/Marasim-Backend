@@ -75,7 +75,7 @@ namespace Marasim_Backend
             Builder.Services.AddScoped<BookingDetailsManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();
             Builder.Services.AddScoped<ServiceManager>();
-            Builder.Services.AddScoped<ReveiwManager>();
+            Builder.Services.AddScoped<ReviewManager>();
             Builder.Services.AddScoped<CheckListManager>();
             Builder.Services.AddScoped<FollowManager>();
             Builder.Services.AddScoped<PromoCodeManager>();

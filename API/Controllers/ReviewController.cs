@@ -39,41 +39,41 @@ namespace API.Controllers
             return new JsonResult(Data);
         }
 
-        [Authorize(Roles = "User")]
-        public IActionResult AddReview([FromForm] AddReviewViewModel Data)
-        {
-            if (ModelState.IsValid)
-            {
-                string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-                ReviewManager.Add(Data.ToModel(UserID));
-                ReviewManager.Save();
-                return Ok("Review Added");
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
+        //[Authorize(Roles = "User")]
+        //public IActionResult AddReview([FromForm] AddReviewViewModel Data)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        //        ReviewManager.Add(Data.ToModel(UserID));
+        //        ReviewManager.Save();
+        //        return Ok("Review Added");
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //}
 
-        [Authorize(Roles = "User,admin")]
-        public IActionResult UpdateReview(int ReviewID, [FromForm] UpdateReviewViewModel OldReview)
-        {
-            string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            if (OldReview.UserID == UserID)
-            {
-                var Data = ReviewManager.GetReviewByID(ReviewID);
-                Data.Message = OldReview.Message ?? Data.Message;
-                Data.Rate = OldReview.Rate;
+        //[Authorize(Roles = "User,admin")]
+        //public IActionResult UpdateReview(int ReviewID, [FromForm] UpdateReviewViewModel OldReview)
+        //{
+        //    string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        //    if (OldReview.UserID == UserID)
+        //    {
+        //        var Data = ReviewManager.GetReviewByID(ReviewID);
+        //        Data.Message = OldReview.Message ?? Data.Message;
+        //        Data.Rate = OldReview.Rate;
 
-                ReviewManager.Update(Data);
-                ReviewManager.Save();
-                return Ok("Updated");
-            }
-            else
-            {
-                return BadRequest("UserID not matched");
-            }
-        }
+        //        ReviewManager.Update(Data);
+        //        ReviewManager.Save();
+        //        return Ok("Updated");
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("UserID not matched");
+        //    }
+        //}
 
         [Authorize(Roles = "User,admin")]
         public IActionResult DeleteReview(int ReviewID)
