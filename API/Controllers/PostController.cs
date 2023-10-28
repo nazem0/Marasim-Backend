@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
@@ -13,14 +14,17 @@ namespace API.Controllers
         private PostManager PostManager { get; set; }
         private PostAttachmentManager PostAttachmentManager { get; set; }
         private VendorManager VendorManager { get; set; }
+        private UserManager<User> UserManager { get; set; }
         public PostController
             (PostManager _PostManager,
             PostAttachmentManager _PostAttachmentManager,
-            VendorManager _VendorManager)
+            VendorManager _VendorManager,
+            UserManager<User> _UserManager)
         {
             PostManager = _PostManager;
             VendorManager = _VendorManager;
             PostAttachmentManager = _PostAttachmentManager;
+            UserManager = _UserManager;
         }
         public IActionResult Get()
         {
@@ -28,6 +32,7 @@ namespace API.Controllers
             return new JsonResult(Data);
         }
 
+        [HttpGet("{PostID:int}")]
         public IActionResult Get(int PostID)
         {
             var Data = PostManager.GetPostByID(PostID);
@@ -35,7 +40,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor")]
-        public IActionResult AddPost(AddPostViewModel Data)
+        public IActionResult AddPost([FromForm] AddPostViewModel Data)
         {
             if (ModelState.IsValid)
             {
@@ -67,6 +72,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor,admin")]
+        [HttpPost("{PostID:int}")]
         public IActionResult SoftDeletePost(int PostID)
         {
             var Data = PostManager.GetPostByID(PostID);
@@ -77,7 +83,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor,admin")]
-        public IActionResult UpdatePost(int PostID, EditPostViewModel OldPost)
+        public IActionResult UpdatePost(int PostID, [FromForm]EditPostViewModel OldPost)
         {
             var Data = PostManager.GetPostByID(PostID);
             Data.Title = OldPost.Title;
