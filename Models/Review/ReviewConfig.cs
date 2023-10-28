@@ -24,6 +24,10 @@ namespace Models
                 .ValueGeneratedOnAdd();
 
             builder
+                .Property(r => r.ServiceID)
+                .IsRequired();
+
+            builder
                 .Property(r => r.Rate)
                 .IsRequired();
 
@@ -32,7 +36,7 @@ namespace Models
                 .HasDefaultValue(DateTime.Now);
 
             builder
-                .Property(r => r.Massage)
+                .Property(r => r.Message)
                 .IsRequired()
                 .HasMaxLength(1000);
         }
