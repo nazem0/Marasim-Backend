@@ -32,10 +32,15 @@ namespace API.Controllers
             return new JsonResult(Data);
         }
 
-        [HttpGet("{PostID:int}")]
-        public IActionResult Get(int PostID)
+        public IActionResult GetPostByID(int PostID)
         {
             var Data = PostManager.GetPostByID(PostID);
+            return new JsonResult(Data);
+        }
+
+        public IActionResult GetByVendorID(int VendorID)
+        {
+            var Data = PostManager.GetByVendorID(VendorID);
             return new JsonResult(Data);
         }
 
@@ -86,10 +91,10 @@ namespace API.Controllers
         public IActionResult UpdatePost(int PostID, [FromForm]EditPostViewModel OldPost)
         {
             var Data = PostManager.GetPostByID(PostID);
-            Data.Title = OldPost.Title;
-            Data.Description = OldPost.Description;
+            Data.Title = OldPost.Title ?? Data.Title;
+            Data.Description = OldPost.Description ?? Data.Description;
             Data.DateTime = OldPost.DateTime;
-            Data.ServiceID = OldPost.ServiceID;
+            Data.ServiceID = OldPost.ServiceID?? Data.ServiceID;
 
             PostManager.Update(Data);
             PostManager.Save();
