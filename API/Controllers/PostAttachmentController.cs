@@ -11,9 +11,9 @@ namespace API.Controllers
         {
             PostAttachmentManager = _PostAttachmentManager;
         }
-        public IActionResult Index()
+        public IActionResult GetPostAttachmentByPostID(int PostID)
         {
-            var Data = PostAttachmentManager.Get().ToList();
+            var Data = PostAttachmentManager.GetPostAttachmentByPostID(PostID);
             return new JsonResult(Data);
         }
     }

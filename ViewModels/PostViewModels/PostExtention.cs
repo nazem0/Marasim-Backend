@@ -21,6 +21,18 @@ namespace ViewModels.PostViewModels
                 DateTime = AddPost.DateTime
             };
         }
+
+        public static PostViewModel ToViewModel(this Post Post)
+        {
+            return new PostViewModel
+            {
+                VendorID = Post.VendorID,
+                Title = Post.Title,
+                Description = Post.Description,
+                DateTime = Post.DateTime,
+                ServiceID = Post.ServiceID
+            };
+        }
     }
 }
 

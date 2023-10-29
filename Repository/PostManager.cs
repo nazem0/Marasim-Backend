@@ -15,7 +15,7 @@ namespace Repository
 
         public IQueryable<Post> GetByVendorID(int VendorID)
         {
-            return Get().Where(p => p.Vendor.ID == VendorID);
+            return Get().Where(p => p.Vendor.ID == VendorID && p.IsDeleted == false);
         }
     }
 }

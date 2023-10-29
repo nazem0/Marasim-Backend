@@ -38,9 +38,12 @@ namespace API.Controllers
             return new JsonResult(Data);
         }
 
-        public IActionResult GetByVendorID(int VendorID)
+        [Authorize(Roles = "vendor")]
+        public IActionResult GetByVendorID()
         {
-            var Data = PostManager.GetByVendorID(VendorID);
+            var x = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            int LoggedInVendorId = VendorManager.GetVendorIdByUserId(x);
+            var Data = PostManager.GetByVendorID(LoggedInVendorId);
             return new JsonResult(Data);
         }
 
@@ -68,7 +71,7 @@ namespace API.Controllers
                         );
                 }
                 PostAttachmentManager.Save();
-                return Ok("Added");
+                return Ok();
             }
             else
             {
@@ -77,7 +80,6 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor,admin")]
-        [HttpPost("{PostID:int}")]
         public IActionResult SoftDeletePost(int PostID)
         {
             var Data = PostManager.GetPostByID(PostID);
@@ -88,13 +90,13 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor,admin")]
-        public IActionResult UpdatePost(int PostID, [FromForm]EditPostViewModel OldPost)
+        public IActionResult UpdatePost(int PostID, [FromForm] EditPostViewModel OldPost)
         {
             var Data = PostManager.GetPostByID(PostID);
             Data.Title = OldPost.Title ?? Data.Title;
             Data.Description = OldPost.Description ?? Data.Description;
             Data.DateTime = OldPost.DateTime;
-            Data.ServiceID = OldPost.ServiceID?? Data.ServiceID;
+            Data.ServiceID = OldPost.ServiceID ?? Data.ServiceID;
 
             PostManager.Update(Data);
             PostManager.Save();

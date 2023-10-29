@@ -7,10 +7,10 @@ namespace ViewModels.PostViewModels
 	public class EditPostViewModel
 	{
         [StringLength(100, MinimumLength = 5)]
-        public required string Title { get; set; }
+        public string? Title { get; set; }
 
         [StringLength(1000, MinimumLength = 10)]
-        public required string Description { get; set; }
+        public string? Description { get; set; }
 
         public required DateTime DateTime { get; set; } = DateTime.Now;
 
