@@ -9,7 +9,7 @@ namespace Models
         public bool IsDeleted { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
-        public string City { get; set; }
+        public string Address { get; set; }
         public virtual ICollection<Follow> Followers { set; get; }
         public virtual ICollection<Service> Services { get; set; }
 

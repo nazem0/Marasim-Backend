@@ -9,7 +9,7 @@ namespace ViewModels.VendorViewModels
             return new Vendor
             {
                 User = _User,
-                City = viewModel.City,
+                Address = viewModel.Address,
                 Latitude = viewModel.Latitude,
                 Longitude = viewModel.Longitude,
                 Summary = viewModel.Summary,

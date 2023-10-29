@@ -37,7 +37,6 @@ namespace Marasim_Backend.Controllers
             Data.PicURL = FileName;
 
             User!.Name = Data.Name ?? User.Name;
-            User.NationalID = Data.NationalID ?? User.NationalID;
             User.PicUrl = Data.PicURL ?? User.PicUrl;
             User.PhoneNumber = Data.PhoneNumber ?? User.PhoneNumber;
             await UserManager.UpdateAsync(User);

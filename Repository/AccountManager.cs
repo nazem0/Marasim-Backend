@@ -83,17 +83,19 @@ namespace Repository
 
         public async Task<string> GenerateJSONWebToken(string Email)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var user = await UserManager.FindByEmailAsync(Email);
-            List<Claim> claims = new List<Claim>();
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!));
+            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            User? user = await UserManager.FindByEmailAsync(Email);
+
+            var claims = await UserManager.GetClaimsAsync(user!);
             var roles = await UserManager.GetRolesAsync(user!);
             foreach(var role in roles)
             {
+                
                 claims.Add(new Claim(ClaimTypes.Role,role));
 
             }
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user!.Id));
+            //claims.Add(new Claim(ClaimTypes.NameIdentifier, user!.Id));
             var token = new JwtSecurityToken(
               expires: DateTime.Now.AddMinutes(120),
               signingCredentials: credentials,

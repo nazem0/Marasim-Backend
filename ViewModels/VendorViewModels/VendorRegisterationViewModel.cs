@@ -9,7 +9,7 @@ namespace ViewModels.VendorViewModels
         public required string Summary { get; set; }
         public required decimal Latitude { get; set; }
         public required decimal Longitude { get; set; }
-        public required string City { get; set; }
+        public required string Address { get; set; }
         public required string Name { get; set; }
         public required string NationalID { get; set; }
         public string PicUrl { get; set; } = string.Empty;

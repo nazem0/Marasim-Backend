@@ -41,14 +41,14 @@ namespace Models
             builder
                 .Property(v => v.Latitude)
                 .IsRequired()
-                .HasPrecision(6)
-                .HasColumnType("float");
+                .HasPrecision(4,4)
+                .HasColumnType("decimal");
 
             builder
                 .Property(v => v.Longitude)
                 .IsRequired()
-                .HasPrecision(6)
-                .HasColumnType("float");
+                .HasPrecision(4, 4)
+                .HasColumnType("decimal");
 
 
             builder
