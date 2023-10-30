@@ -41,15 +41,14 @@ namespace Models
             builder
                 .Property(v => v.Latitude)
                 .IsRequired()
-                .HasPrecision(4,4)
-                .HasColumnType("decimal");
+                .HasColumnType("decimal")
+                .HasPrecision(18, 15);
 
             builder
                 .Property(v => v.Longitude)
                 .IsRequired()
-                .HasPrecision(4, 4)
-                .HasColumnType("decimal");
-
+                .HasColumnType("decimal")
+                .HasPrecision(18, 15);
 
             builder
                  .HasMany(v => v.Followers)

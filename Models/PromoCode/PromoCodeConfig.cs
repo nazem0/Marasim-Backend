@@ -35,7 +35,8 @@ namespace Models
 
             builder
                 .Property(pc => pc.StartDate)
-                .HasDefaultValue(DateTime.Now);
+                .HasDefaultValue(DateTime.Now)
+                .IsRequired();
 
             builder
                 .Property(pc => pc.ExpirationDate)

@@ -81,19 +81,17 @@ namespace Repository
             await SignInManager.SignOutAsync();
         }
 
-        public async Task<string> GenerateJSONWebToken(string Email)
+        public async Task<string> GenerateJSONWebToken(IList<Claim> claims)
         {
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            User? user = await UserManager.FindByEmailAsync(Email);
+            //User? user = await UserManager.FindByEmailAsync(Email);
 
-            var claims = await UserManager.GetClaimsAsync(user!);
+            var user = await UserManager.FindByIdAsync(claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
             var roles = await UserManager.GetRolesAsync(user!);
             foreach(var role in roles)
             {
-                
                 claims.Add(new Claim(ClaimTypes.Role,role));
-
             }
             //claims.Add(new Claim(ClaimTypes.NameIdentifier, user!.Id));
             var token = new JwtSecurityToken(

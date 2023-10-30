@@ -39,12 +39,12 @@ namespace API.Controllers
             return new JsonResult(Data);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "user")]
         public IActionResult AddReview([FromForm] AddReviewViewModel Data)
         {
+            string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             if (ModelState.IsValid)
             {
-                string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
                 ReviewManager.Add(Data.ToModel(UserID));
                 ReviewManager.Save();
                 return Ok("Review Added");
@@ -55,7 +55,7 @@ namespace API.Controllers
             }
         }
 
-        [Authorize(Roles = "User,admin")]
+        [Authorize(Roles = "user,admin")]
         public IActionResult UpdateReview(int ReviewID, [FromForm] UpdateReviewViewModel OldReview)
         {
             string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
@@ -75,7 +75,7 @@ namespace API.Controllers
             }
         }
 
-        [Authorize(Roles = "User,admin")]
+        [Authorize(Roles = "user,admin")]
         public IActionResult DeleteReview(int ReviewID)
         {
             var Data = ReviewManager.GetReviewByID(ReviewID);

@@ -11,9 +11,11 @@ namespace API.Controllers
     public class AccountController : ControllerBase
     {
         readonly AccountManager AccountManager;
-        public AccountController(AccountManager _accManger)
+        readonly UserManager<User> UserManager;
+        public AccountController(AccountManager _accManger, UserManager<User> _UserManager)
         {
             AccountManager = _accManger;
+            UserManager = _UserManager;
         }
         public async Task<IActionResult> Register([FromForm] UserRegisterationViewModel viewModel)
         {
@@ -90,8 +92,9 @@ namespace API.Controllers
             var user = await AccountManager.Login(viewModel);
             if (user.Succeeded)
             {
-                
-                string tokenString = await AccountManager.GenerateJSONWebToken(viewModel.Email);
+                //var x = await UserManager.FindByEmailAsync(viewModel.Email);
+                var claims = await UserManager.GetClaimsAsync(UserManager.FindByEmailAsync(viewModel.Email).Result!);
+                string tokenString = await AccountManager.GenerateJSONWebToken(claims);
                 return Ok(new { token = tokenString });
             }
             else if (user.IsLockedOut) return new ObjectResult("Your Account is Under Review");
