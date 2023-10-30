@@ -4,8 +4,8 @@ namespace ViewModels.PromoCodeViewModel
 {
     public class UpdatePromoCodeViewModel
     {
-
-
+        
+        public required int  Id { get; set; }
 
         [Required, MaxLength(20)]
         public required string Code { get; set; }
@@ -16,9 +16,9 @@ namespace ViewModels.PromoCodeViewModel
         [Required]
         public required int Count { get; set; }
 
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[Range(typeof(DateTime), "Now", "9999-12-31")]
         [Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Range(typeof(DateTime), "Now", "9999-12-31")]
         public required DateTime ExpirationDate { get; set; }
     }
 }
