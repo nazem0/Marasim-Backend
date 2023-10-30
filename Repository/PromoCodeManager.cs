@@ -6,10 +6,10 @@ namespace Repository
     {
         public PromoCodeManager(EntitiesContext _dBContext) : base(_dBContext) { }
 
-        public PromoCode GetPromoCodeByID(int ID)
-        {
-            return Get().Where(p => p.ID == ID && p.IsDeleted == false).FirstOrDefault()!;
-        }
+        //public PromoCode GetPromoCodeByID(int ID)
+        //{
+        //    return Get().Where(p => p.ID == ID && p.IsDeleted == false).FirstOrDefault()!;
+        //}
 
     }
 }

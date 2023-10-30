@@ -16,11 +16,12 @@ namespace ViewModels.PromoCodeViewModel
         [Required]
         public required int Count { get; set; }
         [Required]
-        public required DateTime StartDate { get; set; } = DateTime.Now;
+        public required DateTime StartDate { get; set; }
 
+
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[Range(typeof(DateTime), DateTime.Now.ToLongTimeString(), "9999-12-31")]
         [Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Range(typeof(DateTime), "Now", "9999-12-31")]
         public required DateTime ExpirationDate { get; set; }
 
     }

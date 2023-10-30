@@ -21,9 +21,9 @@ namespace API.Controllers
 
             return new JsonResult(PromoCodeManager.Get().ToList());
         }
-
+        [HttpPost]
         [Authorize(Roles = "vendor")]
-        public IActionResult AddPromoCode([FromBody] CreatePromoCodeViewModel data)
+        public IActionResult AddPromoCode([FromForm] CreatePromoCodeViewModel data)
         {
             if (ModelState.IsValid)
             {
@@ -48,10 +48,10 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
         }
-
-        public IActionResult UpdatePromoCode(int promoCodeID, [FromBody] UpdatePromoCodeViewModel updatedPromoCode)
+        [Authorize(Roles = "vendor")]
+        public IActionResult UpdatePromoCode( [FromForm] UpdatePromoCodeViewModel updatedPromoCode)
         {
-            PromoCode promoCode = PromoCodeManager.GetPromoCodeByID(promoCodeID);
+            PromoCode promoCode = PromoCodeManager.Get(updatedPromoCode.Id);
 
             if (promoCode != null)
             {
@@ -78,10 +78,9 @@ namespace API.Controllers
             return Ok(promoCodes);
         }
 
-        [HttpDelete("{promoCodeID}")]
-        public IActionResult DeletePromoCode(int promoCodeID)
+        public IActionResult DeletePromoCode(int ID)
         {
-            PromoCode promoCode = PromoCodeManager.GetPromoCodeByID(promoCodeID);
+            PromoCode promoCode = PromoCodeManager.Get(ID);
 
             if (promoCode != null)
             {
