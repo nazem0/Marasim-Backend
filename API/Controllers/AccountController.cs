@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Repository;
 using System.Text;
 using ViewModels.UserViewModels;
@@ -45,26 +46,26 @@ namespace API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var str = new StringBuilder();
+                List<ModelError> Errors = new();
                 foreach (var item in ModelState.Values)
                 {
-                    foreach (var item1 in item.Errors)
+                    foreach (ModelError item1 in item.Errors)
                     {
-                        str.Append(item1.ErrorMessage);
+                        Errors.Add(item1);
                     }
                 }
-                return new ObjectResult(str);
+                return new ObjectResult(Errors);
             }
             IdentityResult result = await AccountManager.RegisterAsVendor(viewModel);
-            if (result.Succeeded) return Ok(new string("Your Account Has Been Registered Successfully"));
+            if (result.Succeeded) return Ok();
             else
             {
-                var str2 = new StringBuilder();
-                foreach (var item in result.Errors)
+                List<IdentityError> Errors = new();
+                foreach (IdentityError item in result.Errors)
                 {
-                    str2.Append(item.Description);
+                    Errors.Add(item);
                 }
-                return BadRequest(str2);
+                return BadRequest(Errors);
             }
         }
 

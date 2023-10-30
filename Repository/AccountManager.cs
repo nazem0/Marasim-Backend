@@ -55,7 +55,7 @@ namespace Repository
         {
             var Result = await Register(Data);
 
-            if (!Result.Succeeded) return IdentityResult.Failed();
+            if (!Result.Succeeded) return Result;
             // Not null because if it's null it wouldn't reach this line :|
             User CreatedUser = UserManager.FindByEmailAsync(Data.Email).Result!;
             Result = await UserManager.AddToRoleAsync
@@ -66,7 +66,8 @@ namespace Repository
             if (VendorAddition.State.ToString() != "Added")
             { 
                 await UserManager.DeleteAsync(CreatedUser);
-                return IdentityResult.Failed();
+                return IdentityResult.Failed(new IdentityError {
+                 });
             }
             else
             {
