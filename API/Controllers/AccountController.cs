@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
 using System.Text;
+using System.Text.Json.Nodes;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
@@ -31,7 +33,7 @@ namespace API.Controllers
             }
 
             IdentityResult result = await AccountManager.Register(viewModel);
-            if (result.Succeeded) return Ok("Your Account Has Been Registered Successfully");
+            if (result.Succeeded) return Ok();
             else
             {
                 var str2 = new StringBuilder();
@@ -57,7 +59,7 @@ namespace API.Controllers
                 return new ObjectResult(str);
             }
             IdentityResult result = await AccountManager.RegisterAsVendor(viewModel);
-            if (result.Succeeded) return Ok("Your Account Has Been Registered Successfully");
+            if (result.Succeeded) return Ok(new string("Your Account Has Been Registered Successfully"));
             else
             {
                 var str2 = new StringBuilder();
@@ -65,7 +67,7 @@ namespace API.Controllers
                 {
                     str2.Append(item.Description);
                 }
-                return new ObjectResult(str2);
+                return BadRequest(str2);
             }
 
         }

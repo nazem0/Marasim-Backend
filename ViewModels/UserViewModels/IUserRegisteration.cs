@@ -17,6 +17,7 @@ namespace Models
         public string NationalID { get; set; }
         public string PicUrl { get; set; }
         [Required]
+        [FileExtensions(Extensions = "jpg,png,gif,bmp,tiff,svg,webp")]
         public IFormFile Picture { get; set; }
 
         [Required, StringLength(50)]

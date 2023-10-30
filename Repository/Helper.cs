@@ -56,15 +56,32 @@ namespace Repository
         }
 
         public static void DeleteMediaAsync
-            (string UserID, string MediaDirectoryName, string FileName)
+            (string UserID, string MediaDirectoryName, string FileName, string? SubDirectory = null)
         {
-            string FilePath =
+            string FilePath = "";
+            if (SubDirectory != null)
+            {
+                FilePath =
+                Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    UserID,
+                    MediaDirectoryName,
+                    SubDirectory,
+                    FileName);
+
+            }
+            else
+            {
+                FilePath =
                 Path.Combine(
                     Directory.GetCurrentDirectory(),
                     "wwwroot",
                     UserID,
                     MediaDirectoryName,
                     FileName);
+            }
+            
             File.Delete(FilePath);
         }
     }
