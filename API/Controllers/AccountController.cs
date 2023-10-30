@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using Repository;
 using System.Text;
-using System.Text.Json.Nodes;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
@@ -13,11 +10,9 @@ namespace API.Controllers
     public class AccountController : ControllerBase
     {
         readonly AccountManager AccountManager;
-        readonly UserManager<User> UserManager;
-        public AccountController(AccountManager _accManger, UserManager<User> _UserManager)
+        public AccountController(AccountManager _accManger)
         {
             AccountManager = _accManger;
-            UserManager = _UserManager;
         }
         public async Task<IActionResult> Register([FromForm] UserRegisterationViewModel viewModel)
         {
@@ -71,9 +66,7 @@ namespace API.Controllers
                 }
                 return BadRequest(str2);
             }
-
         }
-
 
         public async Task<IActionResult> Login([FromForm] LoginViewModel viewModel)
         {
@@ -94,9 +87,7 @@ namespace API.Controllers
             var user = await AccountManager.Login(viewModel);
             if (user.Succeeded)
             {
-                //var x = await UserManager.FindByEmailAsync(viewModel.Email);
-                var claims = await UserManager.GetClaimsAsync(UserManager.FindByEmailAsync(viewModel.Email).Result!);
-                string tokenString = await AccountManager.GenerateJSONWebToken(claims);
+                string tokenString = await AccountManager.GenerateJSONWebToken(viewModel.Email);
                 return Ok(new { token = tokenString });
             }
             else if (user.IsLockedOut) return new ObjectResult("Your Account is Under Review");

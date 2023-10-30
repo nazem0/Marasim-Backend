@@ -12,7 +12,7 @@ namespace Marasim_Backend.Controllers
         }
         public IActionResult GetById(int Id)
         {
-            var x = ServiceAttachmentManager.Get().Where(sa=>sa.ServiceID==Id);
+            var x = ServiceAttachmentManager.Get().Where(sa => sa.ServiceID == Id);
             return new JsonResult(x);
         }
     }

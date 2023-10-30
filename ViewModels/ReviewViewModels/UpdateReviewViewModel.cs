@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ViewModels.ReviewViewModels
 {
-	public class UpdateReviewViewModel
-	{
+    public class UpdateReviewViewModel
+    {
         [Required]
         public required string UserID { get; set; }
 

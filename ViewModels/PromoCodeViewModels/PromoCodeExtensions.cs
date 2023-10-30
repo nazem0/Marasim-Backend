@@ -13,8 +13,8 @@ namespace ViewModels.PromoCodeViewModel
                 Limit = Data.Limit,
                 ServiceID = Data.ServiceID,
                 Count = Data.Count,
-                StartDate=Data.StartDate,
-                ExpirationDate=Data.ExpirationDate,
+                StartDate = Data.StartDate,
+                ExpirationDate = Data.ExpirationDate,
             };
         }
     }

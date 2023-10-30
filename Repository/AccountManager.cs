@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using System.Data;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Repository
 {
     public class AccountManager
@@ -36,7 +35,7 @@ namespace Repository
         public async Task<IdentityResult> Register(IUserRegisteration Data)
         {
 
-            FileInfo fi = new (Data.Picture.FileName);
+            FileInfo fi = new(Data.Picture.FileName);
             string FileName = DateTime.Now.Ticks + fi.Extension;
             Data.PicUrl = FileName;
             var User = Data.ToUser();
@@ -51,7 +50,7 @@ namespace Repository
         public async Task<IdentityResult> RegisterAsVendor(VendorRegisterationViewModel Data)
         {
             var Result = await Register(Data);
-            
+
             if (Result.Succeeded)
             {
                 Result = await UserManager.AddToRoleAsync
@@ -81,23 +80,30 @@ namespace Repository
             await SignInManager.SignOutAsync();
         }
 
-        public async Task<string> GenerateJSONWebToken(IList<Claim> claims)
+        public async Task<string> GenerateJSONWebToken(string Email)
         {
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!));
-            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            //User? user = await UserManager.FindByEmailAsync(Email);
+            // Not Null Because this function is called after sigining in using sign in manager
+            User User = UserManager.FindByEmailAsync(Email).Result!;
+            var userRoles = await UserManager.GetRolesAsync(User);
+            var roles = userRoles.Select(o => new Claim(ClaimTypes.Role, o));
+            SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!));
+            SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var user = await UserManager.FindByIdAsync(claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
-            var roles = await UserManager.GetRolesAsync(user!);
-            foreach(var role in roles)
+            var claims = new[]
             {
-                claims.Add(new Claim(ClaimTypes.Role,role));
+                new Claim(JwtRegisteredClaimNames.Sub, User.UserName!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.CurrentCulture)),
+                new Claim(JwtRegisteredClaimNames.Name, User.Name),
+                new Claim(JwtRegisteredClaimNames.Email, User.Email!),
             }
-            //claims.Add(new Claim(ClaimTypes.NameIdentifier, user!.Id));
+            .Union(roles);
+
+
             var token = new JwtSecurityToken(
               expires: DateTime.Now.AddMinutes(120),
               signingCredentials: credentials,
-              claims:claims);
+              claims: claims);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
@@ -124,6 +130,6 @@ namespace Repository
             }
             return new IdentityResult();
         }
-        
+
     }
 }

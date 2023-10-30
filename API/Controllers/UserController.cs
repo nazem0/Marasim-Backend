@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
-using System.Linq;
 using System.Security.Claims;
 using ViewModels.UserViewModels;
 

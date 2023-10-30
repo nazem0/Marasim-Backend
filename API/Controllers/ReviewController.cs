@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
-using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using Repository;
+using System.Security.Claims;
 using ViewModels.PostViewModels;
 using ViewModels.ReviewViewModels;
 

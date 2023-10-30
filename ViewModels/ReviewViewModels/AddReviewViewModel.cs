@@ -1,11 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ViewModels.ReviewViewModels
 {
-	public class AddReviewViewModel
-	{
+    public class AddReviewViewModel
+    {
         [Required]
         public required int ServiceID { get; set; }
 

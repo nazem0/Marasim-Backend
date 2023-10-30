@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ViewModels.PostViewModels
 {
-	public class AddPostViewModel
-	{
+    public class AddPostViewModel
+    {
         [Required]
         public required int VendorID { get; set; }
 

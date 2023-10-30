@@ -1,13 +1,11 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ViewModels.PromoCodeViewModel
 {
-	public class UpdatePromoCodeViewModel
-	{
+    public class UpdatePromoCodeViewModel
+    {
 
-       
+
 
         [Required, MaxLength(20)]
         public required string Code { get; set; }
@@ -17,7 +15,7 @@ namespace ViewModels.PromoCodeViewModel
         public required int Limit { get; set; }
         [Required]
         public required int Count { get; set; }
-        
+
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Range(typeof(DateTime), "Now", "9999-12-31")]

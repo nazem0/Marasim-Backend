@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 
@@ -24,10 +19,10 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<React>>> GetReacts()
         {
-          if (_context.Reacts == null)
-          {
-              return NotFound();
-          }
+            if (_context.Reacts == null)
+            {
+                return NotFound();
+            }
             return await _context.Reacts.ToListAsync();
         }
 
@@ -35,10 +30,10 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<React>> GetReact(int id)
         {
-          if (_context.Reacts == null)
-          {
-              return NotFound();
-          }
+            if (_context.Reacts == null)
+            {
+                return NotFound();
+            }
             var react = await _context.Reacts.FindAsync(id);
 
             if (react == null)
@@ -85,10 +80,10 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<React>> PostReact(React react)
         {
-          if (_context.Reacts == null)
-          {
-              return Problem("Entity set 'EntitiesContext.Reacts'  is null.");
-          }
+            if (_context.Reacts == null)
+            {
+                return Problem("Entity set 'EntitiesContext.Reacts'  is null.");
+            }
             _context.Reacts.Add(react);
             await _context.SaveChangesAsync();
 

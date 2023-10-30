@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Models;
+﻿using Models;
 
 namespace Repository
 {

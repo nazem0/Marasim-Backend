@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Repository;
 using System.Security.Claims;
-using Models;
 using ViewModels.CommentViewModels;
 
 namespace API.Controllers

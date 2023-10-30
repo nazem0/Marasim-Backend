@@ -10,7 +10,7 @@ namespace Models
         public string GroomPicUrl { get; set; }
         public string BrideName { get; set; }
         public string BridePicUrl { get; set; }
-        public string PosterUrl {  get; set; }
+        public string PosterUrl { get; set; }
         public DateTime Date { get; set; }
         public virtual User User { get; set; }
     }

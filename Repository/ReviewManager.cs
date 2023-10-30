@@ -1,10 +1,9 @@
-﻿using System;
-using Models;
+﻿using Models;
 
 namespace Repository
 {
-	public class ReviewManager : MainManager<Review>
-	{
+    public class ReviewManager : MainManager<Review>
+    {
         public ReviewManager(EntitiesContext _dBContext) : base(_dBContext) { }
 
         public IQueryable<Review> GetByServiceID(int ServiceID)

@@ -1,11 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -26,12 +19,12 @@ namespace Repository
             }
             else
             {
-                    MediaPath = Path.Combine(
-                        Directory.GetCurrentDirectory(),
-                        "wwwroot",
-                        UserID,
-                        MediaDirectoryName
-                        );
+                MediaPath = Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    UserID,
+                    MediaDirectoryName
+                    );
             }
             string folderPath = MediaPath;
             if (!Directory.Exists(folderPath))
@@ -81,7 +74,7 @@ namespace Repository
                     MediaDirectoryName,
                     FileName);
             }
-            
+
             File.Delete(FilePath);
         }
     }

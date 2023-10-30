@@ -1,6 +1,4 @@
-﻿using System;
-using Models;
-using ViewModels.PostViewModels;
+﻿using Models;
 
 namespace ViewModels.ReviewViewModels
 {

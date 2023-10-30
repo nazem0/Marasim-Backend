@@ -55,7 +55,7 @@ namespace Marasim_Backend
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = false,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Builder.Configuration["Jwt:Key"]!)),
-                        
+
                     };
 
                 });
@@ -102,7 +102,7 @@ namespace Marasim_Backend
                 .Services
                 .AddControllers()
                 .AddNewtonsoftJson
-                (options =>  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                (options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             #endregion
             var App = Builder.Build();
             App.UseCors();

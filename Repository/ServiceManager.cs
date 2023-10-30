@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
-using Models;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Models;
 
 namespace Repository
 {
@@ -11,7 +8,7 @@ namespace Repository
         public void Delete(int Id)
         {
             Service? Service = Get(Id);
-            if(Service != null)
+            if (Service != null)
             {
                 Service.IsDeleted = true;
             }
@@ -20,7 +17,8 @@ namespace Repository
                 throw new Exception("Service Is Not Found");
             }
         }
-        public IQueryable<Service> GetActive() {
+        public IQueryable<Service> GetActive()
+        {
             return Get().Where(s => s.IsDeleted == false);
         }
     }

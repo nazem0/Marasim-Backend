@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace ViewModels.PostViewModels
 {
-	public class EditPostViewModel
-	{
+    public class EditPostViewModel
+    {
         [StringLength(100, MinimumLength = 5)]
         public string? Title { get; set; }
 

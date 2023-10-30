@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
-using System.Security.Claims;
-using ViewModels.PostViewModels;
 using ViewModels.PromoCodeViewModel;
 
 namespace API.Controllers
@@ -24,7 +22,7 @@ namespace API.Controllers
             return new JsonResult(PromoCodeManager.Get().ToList());
         }
 
-        [Authorize(Roles ="vendor")]
+        [Authorize(Roles = "vendor")]
         public IActionResult AddPromoCode([FromBody] CreatePromoCodeViewModel data)
         {
             if (ModelState.IsValid)
@@ -97,6 +95,6 @@ namespace API.Controllers
             }
         }
 
-        
+
     }
 }

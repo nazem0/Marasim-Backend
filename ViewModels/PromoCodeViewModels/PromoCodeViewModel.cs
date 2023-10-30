@@ -1,10 +1,7 @@
-﻿using System;
-using Models;
-
-namespace ViewModels.PromoCodeViewModel
+﻿namespace ViewModels.PromoCodeViewModel
 {
-	public class PromoCodeViewModel
-	{
+    public class PromoCodeViewModel
+    {
         public string Code { get; set; }
         public float Discount { get; set; }
         //public int Limit { get; set; }
