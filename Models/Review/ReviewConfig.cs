@@ -33,7 +33,8 @@ namespace Models
 
             builder
                 .Property(r => r.DateTime)
-                .HasDefaultValue(DateTime.Now);
+                .HasDefaultValue(DateTime.Now)
+                .IsRequired();
 
             builder
                 .Property(r => r.Message)

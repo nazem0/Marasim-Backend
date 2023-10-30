@@ -24,7 +24,7 @@ namespace API.Controllers
             return new JsonResult(PromoCodeManager.Get().ToList());
         }
 
-
+        [Authorize(Roles ="vendor")]
         public IActionResult AddPromoCode([FromBody] CreatePromoCodeViewModel data)
         {
             if (ModelState.IsValid)
