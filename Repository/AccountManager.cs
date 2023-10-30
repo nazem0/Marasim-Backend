@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using System.Data;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Repository
 {
     public class AccountManager
@@ -91,10 +94,9 @@ namespace Repository
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, User.UserName!),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.CurrentCulture)),
+                new Claim(JwtRegisteredClaimNames.NameId,User.Id),
                 new Claim(JwtRegisteredClaimNames.Name, User.Name),
+                new Claim(JwtRegisteredClaimNames.UniqueName, User.UserName!),
                 new Claim(JwtRegisteredClaimNames.Email, User.Email!),
             }
             .Union(roles);
