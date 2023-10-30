@@ -47,7 +47,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor")]
-        public IActionResult AddPost([FromForm] AddPostViewModel Data)
+        public IActionResult Add([FromForm] AddPostViewModel Data)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor,admin")]
-        public IActionResult SoftDeletePost(int PostID)
+        public IActionResult Delete(int PostID)
         {
             var Data = PostManager.GetPostByID(PostID);
             Data.IsDeleted = true;
@@ -89,7 +89,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor,admin")]
-        public IActionResult UpdatePost(int PostID, [FromForm] EditPostViewModel OldPost)
+        public IActionResult Update(int PostID, [FromForm] EditPostViewModel OldPost)
         {
             var Data = PostManager.GetPostByID(PostID);
             Data.Title = OldPost.Title ?? Data.Title;

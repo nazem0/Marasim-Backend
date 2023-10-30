@@ -37,7 +37,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "user")]
-        public IActionResult AddReview([FromForm] AddReviewViewModel Data)
+        public IActionResult Add([FromForm] AddReviewViewModel Data)
         {
             string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             if (ModelState.IsValid)
@@ -53,15 +53,14 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "user,admin")]
-        public IActionResult UpdateReview(int ReviewID, [FromForm] UpdateReviewViewModel OldReview)
+        public IActionResult Update(int ReviewID, [FromForm] UpdateReviewViewModel OldReview)
         {
             string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            if (OldReview.UserID == UserID)
+            var Data = ReviewManager.GetReviewByID(ReviewID);
+            if (Data.UserID == UserID)
             {
-                var Data = ReviewManager.GetReviewByID(ReviewID);
                 Data.Message = OldReview.Message ?? Data.Message;
                 Data.Rate = OldReview.Rate;
-
                 ReviewManager.Update(Data);
                 ReviewManager.Save();
                 return Ok("Updated");
@@ -73,12 +72,20 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "user,admin")]
-        public IActionResult DeleteReview(int ReviewID)
+        public IActionResult Delete(int ReviewID)
         {
+            string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             var Data = ReviewManager.GetReviewByID(ReviewID);
-            ReviewManager.Delete(Data);
-            ReviewManager.Save();
-            return Ok("Deleted");
+            if (Data.UserID == UserID)
+            {
+                ReviewManager.Delete(Data);
+                ReviewManager.Save();
+                return Ok("Deleted");
+            }
+            else
+            {
+                return BadRequest("UserID not matched");
+            }
         }
 
     }
