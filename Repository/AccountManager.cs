@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
@@ -54,15 +55,26 @@ namespace Repository
         {
             var Result = await Register(Data);
 
-            if (Result.Succeeded)
-            {
-                Result = await UserManager.AddToRoleAsync
-                    ((await UserManager.FindByEmailAsync(Data.Email))!,
-                    "vendor");
-                VendorManager.Add(Data.ToVendor((await UserManager.FindByEmailAsync(Data.Email))!));
-                VendorManager.Save();
+            if (!Result.Succeeded) return IdentityResult.Failed();
+            // Not null because if it's null it wouldn't reach this line :|
+            User CreatedUser = UserManager.FindByEmailAsync(Data.Email).Result!;
+            Result = await UserManager.AddToRoleAsync
+                (CreatedUser,
+                "vendor");
+
+            EntityEntry VendorAddition = VendorManager.Add(Data.ToVendor((await UserManager.FindByEmailAsync(Data.Email))!));
+            if (VendorAddition.State.ToString() != "Added")
+            { 
+                await UserManager.DeleteAsync(CreatedUser);
+                return IdentityResult.Failed();
             }
+            else
+            {
+            VendorManager.Save();
             return Result;
+            }
+
+
         }
         public async Task<SignInResult> Login(LoginViewModel viewModel)
         {
