@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
 using System.Security.Claims;
 using ViewModels.PostViewModels;
+using ViewModels.UserViewModels;
 
 namespace API.Controllers
 {
@@ -27,8 +30,12 @@ namespace API.Controllers
         }
         public IActionResult Get()
         {
-            var Data = PostManager.Get().Where(p => p.IsDeleted == false).ToList();
-            return new JsonResult(Data);
+            var Data = PostManager.Get().Where(p => p.IsDeleted == false)
+                .Include(p => p.PostAttachments)
+                .Include(p => p.Comments)
+                .Include(p => p.Reacts)
+                .Select(p=>p.ToViewModel(p.Vendor.User));
+            return Ok(Data);
         }
 
         public IActionResult GetPostByID(int PostID)

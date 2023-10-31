@@ -20,6 +20,12 @@ namespace Marasim_Backend.Controllers
             return new JsonResult(x);
         }
 
+        public async Task<IActionResult> GetUserPublicDetails(string UserID)
+        {
+            var user = await UserManager.FindByIdAsync(UserID);
+            return new JsonResult(user!.ToUserViewModel());
+        }
+
         public async Task<IActionResult> Update(UpdateProfileViewModel Data)
         {
             ClaimsPrincipal? UserClaims = HttpContext.User;

@@ -23,6 +23,12 @@ namespace Models
                 .Property(pa => pa.AttachmentUrl)
                 .HasMaxLength(2085)
                 .IsRequired();
+
+            builder
+               .HasOne(pa => pa.Post)
+               .WithMany(pa => pa.PostAttachments)
+               .HasForeignKey(pa => pa.PostID);
+
         }
     }
 }
