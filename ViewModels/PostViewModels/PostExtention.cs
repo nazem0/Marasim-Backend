@@ -21,6 +21,7 @@ namespace ViewModels.PostViewModels
         {
             return new PostViewModel
             {
+                ID = Post.ID,
                 VendorID = Post.VendorID,
                 Title = Post.Title,
                 Description = Post.Description,
@@ -30,7 +31,8 @@ namespace ViewModels.PostViewModels
                 Reacts = Post.Reacts,
                 PostAttachments = Post.PostAttachments,
                 VendorName = User.Name,
-                VendorPicUrl = User.PicUrl
+                VendorPicUrl = User.PicUrl,
+                VendorUserID = User.Id
             };
         }
     }

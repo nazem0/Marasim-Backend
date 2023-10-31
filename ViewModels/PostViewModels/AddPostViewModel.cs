@@ -6,9 +6,6 @@ namespace ViewModels.PostViewModels
     public class AddPostViewModel
     {
         [Required]
-        public required int VendorID { get; set; }
-
-        [Required]
         [StringLength(100, MinimumLength = 5)]
         public required string Title { get; set; }
 
@@ -20,6 +17,7 @@ namespace ViewModels.PostViewModels
 
         public int? ServiceID { get; set; }
 
+        [Required]
         public required IFormFileCollection Pictures { get; set; }
 
     }

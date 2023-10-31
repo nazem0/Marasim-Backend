@@ -12,7 +12,7 @@ namespace API.Controllers
         }
         public IActionResult GetPostAttachmentByPostID(int PostID)
         {
-            var Data = PostAttachmentManager.GetPostAttachmentByPostID(PostID);
+            var Data = PostAttachmentManager.Get().Where(sa => sa.PostID == PostID);
             return new JsonResult(Data);
         }
     }

@@ -5,6 +5,7 @@ namespace ViewModels.PostViewModels
 {
     public class PostViewModel
     {
+        public required int ID { get; set; }
         public required int VendorID { get; set; }
         public required string Title { get; set; }
         public required string Description { get; set; }
@@ -15,7 +16,7 @@ namespace ViewModels.PostViewModels
         public virtual ICollection<React>? Reacts { get; set; }
         public required string VendorName { get; set; }
         public required string VendorPicUrl { get; set; }
-
+        public required string VendorUserID { get; set; }
     }
 }
 
