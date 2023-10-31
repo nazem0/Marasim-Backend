@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Models;
 using Repository;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
@@ -10,10 +13,13 @@ namespace API.Controllers
 {
     public class AccountController : ControllerBase
     {
-        readonly AccountManager AccountManager;
-        public AccountController(AccountManager _accManger)
+        private readonly AccountManager AccountManager;
+        private readonly UserManager<User> UserManager;
+
+        public AccountController(AccountManager _accManger, UserManager<User> _userManager)
         {
             AccountManager = _accManger;
+            UserManager = _userManager;
         }
         public async Task<IActionResult> Register([FromForm] UserRegisterationViewModel viewModel)
         {
@@ -88,8 +94,17 @@ namespace API.Controllers
             var user = await AccountManager.Login(viewModel);
             if (user.Succeeded)
             {
-                string tokenString = await AccountManager.GenerateJSONWebToken(viewModel.Email);
-                return Ok(new { token = tokenString });
+                User? User = await UserManager.FindByEmailAsync(viewModel.Email);
+                string tokenString = await AccountManager.GenerateJSONWebToken(User!);
+                IList<string> roles = await
+                    UserManager.GetRolesAsync(User!);
+                return Ok(new { 
+                    token = tokenString,
+                    role = roles,
+                    profilePicture = User!.PicUrl,
+                    name = User!.Name,
+                    id = User!.Id
+                });
             }
             else if (user.IsLockedOut) return new ObjectResult("Your Account is Under Review");
             else return new ObjectResult("User name or Password is Wrong");

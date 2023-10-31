@@ -96,10 +96,9 @@ namespace Repository
             await SignInManager.SignOutAsync();
         }
 
-        public async Task<string> GenerateJSONWebToken(string Email)
+        public async Task<string> GenerateJSONWebToken(User User)
         {
             // Not Null Because this function is called after sigining in using sign in manager
-            User User = UserManager.FindByEmailAsync(Email).Result!;
             var userRoles = await UserManager.GetRolesAsync(User);
             var roles = userRoles.Select(o => new Claim(ClaimTypes.Role, o));
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!));
