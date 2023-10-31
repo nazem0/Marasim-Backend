@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
 using System.Security.Claims;
 using System.Text;
+using ViewModels.ServiceAttatchmentViewModels;
 using ViewModels.ServiceViewModels;
 
 namespace Marasim_Backend.Controllers
@@ -24,7 +26,9 @@ namespace Marasim_Backend.Controllers
         }
         public IActionResult GetAll()
         {
-            var x = ServiceManager.Get();
+            var x = ServiceManager.Get()
+                .Include(s=>s.ServiceAttachments)
+                .Include(s=>s.Vendor);
             return Ok(x);
         }
         public IActionResult GetAllActive()
@@ -72,7 +76,7 @@ namespace Marasim_Backend.Controllers
                 ServiceAttachmentManager.Add(
                     new ServiceAttachment
                     {
-                        Resource = FileName,
+                        AttachmentUrl = FileName,
                         Service = CreatedService
                     }
                     );

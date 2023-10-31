@@ -47,7 +47,7 @@ namespace Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .UseLazyLoadingProxies()
+                //.UseLazyLoadingProxies()
                 .UseSqlServer(@"Data Source=.; Initial Catalog=Marasim; 
                     Integrated Security=True; TrustServerCertificate=True");
 
