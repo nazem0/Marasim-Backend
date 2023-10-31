@@ -26,6 +26,7 @@ namespace ViewModels.ServiceViewModels
                 IsDeleted = Data.IsDeleted,
                 Price = Data.Price,
                 VendorID = Data.VendorID,
+                Id = Data.ID,
                 ReviewsCount = Data.Reviews.Count(),
                 BookingDetails = Data.BookingDetails,
             };

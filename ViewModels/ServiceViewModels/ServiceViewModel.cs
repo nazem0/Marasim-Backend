@@ -9,6 +9,7 @@ namespace ViewModels.ServiceViewModels
 {
     public class ServiceViewModel
     {
+        public int Id { get; set; }
         public required string UserId { get; set; }
         public int VendorID { get; set; }
         public required string Title { get; set; }
