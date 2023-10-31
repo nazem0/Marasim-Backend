@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Models;
 using Repository;
 using System.Security.Claims;
@@ -26,23 +27,38 @@ namespace Marasim_Backend.Controllers
         }
         public IActionResult GetAll()
         {
-            var x = ServiceManager.Get()
-                .Include(s=>s.ServiceAttachments)
-                .Include(s=>s.Vendor);
-            return Ok(x);
+            return Ok(ServiceManager.Get()
+                .Include(S => S.ServiceAttachments)
+                .Include(S => S.BookingDetails)
+                .Include(S => S.PromoCode)
+                .Include(S => S.Reviews));
         }
         public IActionResult GetAllActive()
         {
-            return Ok(ServiceManager.GetActive());
+            return Ok(ServiceManager.GetActive()
+                .Include(S => S.ServiceAttachments)
+                .Include(S => S.BookingDetails)
+                .Include(S => S.PromoCode)
+                .Include(S => S.Reviews));
         }
         public IActionResult GetById(int Id)
         {
-            var x = ServiceManager.Get(Id);
+            var x = ServiceManager.Get(Id)
+                .Include(S => S.ServiceAttachments)
+                .Include(S => S.BookingDetails)
+                .Include(S => S.PromoCode)
+                .Include(S => S.Reviews);
             return new JsonResult(x);
         }
         public IActionResult GetByVendorId(int Id)
         {
-            return Ok(ServiceManager.Get().Where(s => s.VendorID == Id));
+            return Ok(ServiceManager.Get()
+                .Where(S=>S.VendorID == Id)
+                .Include(S => S.ServiceAttachments)
+                .Include(S => S.BookingDetails)
+                .Include(S => S.PromoCode)
+                .Include(S => S.Reviews)
+                .Select(S=>S.ToServiceViewModel(S.Vendor.UserID)));
         }
         [Authorize(Roles = "vendor")]
         public IActionResult Add(CreateServiceViewModel Data)
@@ -87,7 +103,7 @@ namespace Marasim_Backend.Controllers
         [Authorize(Roles = "vendor")]
         public IActionResult Delete(int Id)
         {
-            int? ServiceVendorID = ServiceManager.Get(Id)!.VendorID;
+            int? ServiceVendorID = ServiceManager.Get(Id)!.FirstOrDefault()?.VendorID;
             int LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (ServiceVendorID != null && ServiceVendorID == LoggedInVendorId)
@@ -105,14 +121,14 @@ namespace Marasim_Backend.Controllers
         public IActionResult Update(UpdateServiceViewModel Data)
         {
             string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int? ServiceVendorID = ServiceManager.Get(Data.Id)!.VendorID;
+            int? ServiceVendorID = ServiceManager.Get(Data.Id)!.FirstOrDefault()?.VendorID;
             int LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (LoggedInUserId);
             if (ServiceVendorID == null) return BadRequest("Service ID Invalid");
             else if (ServiceVendorID != LoggedInVendorId) return Unauthorized();
             else
             {
-                Service Service = ServiceManager.Get(Data.Id)!;
+                Service Service = ServiceManager.Get(Data.Id).FirstOrDefault()!;
                 Service.Title = Data.Title ?? Service.Title;
                 Service.Description = Data.Description ?? Service.Description;
                 Service.Price = Data.Price ?? Service.Price;

@@ -51,7 +51,7 @@ namespace API.Controllers
         [Authorize(Roles = "vendor")]
         public IActionResult UpdatePromoCode( [FromForm] UpdatePromoCodeViewModel updatedPromoCode)
         {
-            PromoCode? promoCode = PromoCodeManager.Get(updatedPromoCode.Id);
+            PromoCode? promoCode = PromoCodeManager.Get(updatedPromoCode.Id).FirstOrDefault();
 
             if (promoCode != null)
             {
@@ -80,7 +80,7 @@ namespace API.Controllers
 
         public IActionResult DeletePromoCode(int ID)
         {
-            PromoCode? promoCode = PromoCodeManager.Get(ID);
+            PromoCode? promoCode = PromoCodeManager.Get(ID).FirstOrDefault();
 
             if (promoCode != null)
             {

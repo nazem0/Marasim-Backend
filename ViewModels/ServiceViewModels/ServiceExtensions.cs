@@ -14,5 +14,21 @@ namespace ViewModels.ServiceViewModels
                 VendorID = VendorID
             };
         }
+        public static ServiceViewModel ToServiceViewModel(this Service Data,string UserId)
+        {
+            return new ServiceViewModel
+            {
+                UserId = UserId,
+                ServiceAttachments = Data.ServiceAttachments,
+                Description = Data.Description,
+                PromoCode = Data.PromoCode,
+                Title = Data.Title,
+                IsDeleted = Data.IsDeleted,
+                Price = Data.Price,
+                VendorID = Data.VendorID,
+                ReviewsCount = Data.Reviews.Count(),
+                BookingDetails = Data.BookingDetails,
+            };
+        }
     }
 }
