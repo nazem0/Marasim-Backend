@@ -23,7 +23,7 @@ namespace Marasim_Backend.Controllers
         public async Task<IActionResult> Update(UpdateProfileViewModel Data)
         {
             ClaimsPrincipal? UserClaims = HttpContext.User;
-            var User = UserManager.GetUserAsync(UserClaims).Result;
+            var User =  await UserManager.GetUserAsync(UserClaims);
 
             if (User == null) return new JsonResult("User Not On Our Database");
             if (Data.Picture == null) return new JsonResult("No Profile Picture Uploaded");
