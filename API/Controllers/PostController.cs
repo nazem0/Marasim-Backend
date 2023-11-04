@@ -48,7 +48,8 @@ namespace API.Controllers
                 .AsNoTracking()
                 .Include(p => p.PostAttachments)
                 .Include(p => p.Comments)
-                .Include(p => p.Reacts);
+                .Include(p => p.Reacts)
+                .Select(p => p.ToViewModel(p.Vendor.User));
             return Ok(Data);
         }
 
