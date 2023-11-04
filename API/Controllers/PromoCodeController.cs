@@ -23,7 +23,7 @@ namespace API.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "vendor")]
-        public IActionResult AddPromoCode([FromForm] CreatePromoCodeViewModel data)
+        public IActionResult Add([FromBody] CreatePromoCodeViewModel data)
         {
             if (ModelState.IsValid)
             {
@@ -34,7 +34,7 @@ namespace API.Controllers
                     Discount = data.Discount,
                     Limit = data.Limit,
                     Count = data.Count,
-                    StartDate = data.StartDate,
+                    StartDate = DateTime.Now,
                     ExpirationDate = data.ExpirationDate
                 };
 
@@ -48,29 +48,32 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
         }
-        [Authorize(Roles = "vendor")]
-        public IActionResult UpdatePromoCode( [FromForm] UpdatePromoCodeViewModel updatedPromoCode)
-        {
-            PromoCode promoCode = PromoCodeManager.Get(updatedPromoCode.Id);
+        #region Update
+        //[Authorize(Roles = "vendor")]
+        //public IActionResult Update( [FromForm] UpdatePromoCodeViewModel updatedPromoCode)
+        //{
+        //    PromoCode? promoCode = PromoCodeManager.Get(updatedPromoCode.Id).FirstOrDefault();
 
-            if (promoCode != null)
-            {
-                promoCode.Code = updatedPromoCode.Code;
-                promoCode.Discount = updatedPromoCode.Discount;
-                promoCode.Limit = updatedPromoCode.Limit;
-                promoCode.Count = updatedPromoCode.Count;
-                promoCode.ExpirationDate = updatedPromoCode.ExpirationDate;
+        //    if (promoCode != null)
+        //    {
+        //        promoCode.Code = updatedPromoCode.Code;
+        //        promoCode.Discount = updatedPromoCode.Discount;
+        //        promoCode.Limit = updatedPromoCode.Limit;
+        //        promoCode.Count = updatedPromoCode.Count;
+        //        promoCode.ExpirationDate = updatedPromoCode.ExpirationDate;
 
-                PromoCodeManager.Update(promoCode);
-                PromoCodeManager.Save();
+        //        PromoCodeManager.Update(promoCode);
+        //        PromoCodeManager.Save();
 
-                return Ok("PromoCode updated successfully");
-            }
-            else
-            {
-                return NotFound("PromoCode not found");
-            }
-        }
+        //        return Ok("PromoCode updated successfully");
+        //    }
+        //    else
+        //    {
+        //        return NotFound("PromoCode not found");
+        //    }
+        //}
+        #endregion
+
 
         public IActionResult GetPromoCodes()
         {
@@ -78,9 +81,9 @@ namespace API.Controllers
             return Ok(promoCodes);
         }
 
-        public IActionResult DeletePromoCode(int ID)
+        public IActionResult Delete(int ID)
         {
-            PromoCode promoCode = PromoCodeManager.Get(ID);
+            PromoCode? promoCode = PromoCodeManager.Get(ID).FirstOrDefault();
 
             if (promoCode != null)
             {

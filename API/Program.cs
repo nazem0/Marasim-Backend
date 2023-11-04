@@ -18,7 +18,8 @@ namespace Marasim_Backend
             #region DI Container
             Builder.Services.AddDbContext<EntitiesContext>(context =>
             {
-                context.UseLazyLoadingProxies()
+                context
+                //.UseLazyLoadingProxies()
                     .UseSqlServer
                     (Builder.Configuration.GetConnectionString("MyDB"));
 

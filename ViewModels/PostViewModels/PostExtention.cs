@@ -1,4 +1,5 @@
 ﻿using Models;
+using ViewModels.UserViewModels;
 
 namespace ViewModels.PostViewModels
 {
@@ -16,15 +17,22 @@ namespace ViewModels.PostViewModels
             };
         }
 
-        public static PostViewModel ToViewModel(this Post Post)
+        public static PostViewModel ToViewModel(this Post Post, User User)
         {
             return new PostViewModel
             {
+                ID = Post.ID,
                 VendorID = Post.VendorID,
                 Title = Post.Title,
                 Description = Post.Description,
                 DateTime = Post.DateTime,
-                ServiceID = Post.ServiceID
+                ServiceID = Post.ServiceID,
+                Comments = Post.Comments,
+                Reacts = Post.Reacts,
+                PostAttachments = Post.PostAttachments,
+                VendorName = User.Name,
+                VendorPicUrl = User.PicUrl,
+                VendorUserID = User.Id
             };
         }
     }

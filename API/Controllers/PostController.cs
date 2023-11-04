@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
 using System.Security.Claims;
+using System.Text;
 using ViewModels.PostViewModels;
 
 namespace API.Controllers
@@ -13,22 +16,24 @@ namespace API.Controllers
         private PostManager PostManager { get; set; }
         private PostAttachmentManager PostAttachmentManager { get; set; }
         private VendorManager VendorManager { get; set; }
-        private UserManager<User> UserManager { get; set; }
         public PostController
             (PostManager _PostManager,
             PostAttachmentManager _PostAttachmentManager,
-            VendorManager _VendorManager,
-            UserManager<User> _UserManager)
+            VendorManager _VendorManager)
         {
             PostManager = _PostManager;
             VendorManager = _VendorManager;
             PostAttachmentManager = _PostAttachmentManager;
-            UserManager = _UserManager;
         }
         public IActionResult Get()
         {
-            var Data = PostManager.Get().Where(p => p.IsDeleted == false).ToList();
-            return new JsonResult(Data);
+            var Data = PostManager.Get().Where(p => p.IsDeleted == false)
+                .AsNoTracking()
+                .Include(p => p.PostAttachments)
+                .Include(p => p.Comments)
+                .Include(p => p.Reacts)
+                .Select(p => p.ToViewModel(p.Vendor.User));
+            return Ok(Data);
         }
 
         public IActionResult GetPostByID(int PostID)
@@ -37,13 +42,14 @@ namespace API.Controllers
             return new JsonResult(Data);
         }
 
-        [Authorize(Roles = "vendor")]
-        public IActionResult GetByVendorID()
+        public IActionResult GetByVendorID(int VendorID)
         {
-            var x = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int LoggedInVendorId = VendorManager.GetVendorIdByUserId(x);
-            var Data = PostManager.GetByVendorID(LoggedInVendorId);
-            return new JsonResult(Data);
+            var Data = PostManager.GetByVendorID(VendorID)
+                .AsNoTracking()
+                .Include(p => p.PostAttachments)
+                .Include(p => p.Comments)
+                .Include(p => p.Reacts);
+            return Ok(Data);
         }
 
         [Authorize(Roles = "vendor")]
@@ -74,7 +80,15 @@ namespace API.Controllers
             }
             else
             {
-                return BadRequest(ModelState);
+                var str = new StringBuilder();
+                foreach (var item in ModelState.Values)
+                {
+                    foreach (var item1 in item.Errors)
+                    {
+                        str.Append(item1.ErrorMessage);
+                    }
+                }
+                return BadRequest(str);
             }
         }
 

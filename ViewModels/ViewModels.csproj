@@ -10,6 +10,7 @@
     <None Remove="User\" />
     <None Remove="PostViewModels\" />
     <None Remove="ReviewViewModels\" />
+    <None Remove="PostAttachmentsViewModel\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,5 +22,6 @@
   <ItemGroup>
     <Folder Include="PostViewModels\" />
     <Folder Include="ReviewViewModels\" />
+    <Folder Include="PostAttachmentsViewModel\" />
   </ItemGroup>
 </Project>

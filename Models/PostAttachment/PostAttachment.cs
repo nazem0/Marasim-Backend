@@ -6,6 +6,4 @@
         public string AttachmentUrl { get; set; }
         public virtual Post Post { get; set; }
     }
-
-
 }

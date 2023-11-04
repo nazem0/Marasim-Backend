@@ -7,7 +7,7 @@ namespace Repository
         public ServiceManager(EntitiesContext _dBContext) : base(_dBContext) { }
         public void Delete(int Id)
         {
-            Service? Service = Get(Id);
+            Service? Service = Get(Id).FirstOrDefault();
             if (Service != null)
             {
                 Service.IsDeleted = true;
