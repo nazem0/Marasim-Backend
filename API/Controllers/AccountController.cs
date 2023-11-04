@@ -11,6 +11,8 @@ using ViewModels.VendorViewModels;
 
 namespace API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly AccountManager AccountManager;
@@ -49,6 +51,7 @@ namespace API.Controllers
                 return new ObjectResult(str2);
             }
         }
+        [HttpPost("RegisterAsVendor")]
         public async Task<IActionResult> RegisterAsVendor([FromForm] VendorRegisterationViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -75,7 +78,7 @@ namespace API.Controllers
                 return BadRequest(Errors);
             }
         }
-
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromForm] LoginViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -112,6 +115,7 @@ namespace API.Controllers
 
 
         }
+        [HttpGet("Logout")]
         public async Task Logout() => await AccountManager.Logout();
 
 

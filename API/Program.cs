@@ -67,7 +67,7 @@ Builder.Services.Configure<IdentityOptions>(Options =>
 });
 Builder.Services.ConfigureApplicationCookie(Options =>
 {
-    Options.LoginPath = "Api/Account/Login";
+    Options.LoginPath = "/Api/Account/Login";
 
 });
 // Add services to the container.
@@ -106,7 +106,9 @@ if (App.Environment.IsDevelopment())
 }
 
 App.UseHttpsRedirection();
-
+App.UseCors();
+App.UseStaticFiles();
+App.UseAuthentication();
 App.UseAuthorization();
 App.MapControllerRoute("Default", "api/{Controller}/{Action=Index}/{id?}");
 

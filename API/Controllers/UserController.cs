@@ -7,6 +7,8 @@ using ViewModels.UserViewModels;
 
 namespace Marasim_Backend.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private UserManager<User> UserManager { get; set; }
@@ -14,17 +16,19 @@ namespace Marasim_Backend.Controllers
         {
             UserManager = _UserManager;
         }
+        [HttpGet("Users")]
         public IActionResult Index()
         {
             var x = UserManager.Users;
             return new JsonResult(x);
         }
-
+        [HttpPost("GetUserPublicDetails")]
         public async Task<IActionResult> GetUserPublicDetails(string UserID)
         {
             var user = await UserManager.FindByIdAsync(UserID);
             return new JsonResult(user!.ToUserViewModel());
         }
+        [HttpPut("Update")]
 
         public async Task<IActionResult> Update(UpdateProfileViewModel Data)
         {
