@@ -6,47 +6,37 @@ using Models;
 using Repository;
 using System.Text;
 
-namespace Marasim_Backend
+var Builder = WebApplication.CreateBuilder(args);
+Builder.Services.AddDbContext<EntitiesContext>(context =>
 {
-    public class Program
-    {
-        public static int Main()
-        {
-            WebApplicationBuilder Builder =
-              WebApplication.CreateBuilder();
+    context
+        //.UseLazyLoadingProxies()
+        .UseSqlServer
+        (Builder.Configuration.GetConnectionString("MyDB"));
 
-            #region DI Container
-            Builder.Services.AddDbContext<EntitiesContext>(context =>
-            {
-                context
-                //.UseLazyLoadingProxies()
-                    .UseSqlServer
-                    (Builder.Configuration.GetConnectionString("MyDB"));
+    //context.UseLazyLoadingProxies()
+    //    .UseSqlServer
+    //    (Builder.Configuration.GetConnectionString("MySamer"));
+});
 
-                //context.UseLazyLoadingProxies()
-                //    .UseSqlServer
-                //    (Builder.Configuration.GetConnectionString("MySamer"));
-            });
-
-            Builder.Services.AddIdentity<User, IdentityRole>(Options =>
-            {
-                Options.Lockout.MaxFailedAccessAttempts = 2;
-                Options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
-                Options.User.RequireUniqueEmail = true;
-                Options.SignIn.RequireConfirmedPhoneNumber = false;
-                Options.SignIn.RequireConfirmedEmail = false;
-                Options.SignIn.RequireConfirmedAccount = false;
-                Options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
-            })
+Builder.Services.AddIdentity<User, IdentityRole>(Options =>
+{
+    Options.Lockout.MaxFailedAccessAttempts = 2;
+    Options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+    Options.User.RequireUniqueEmail = true;
+    Options.SignIn.RequireConfirmedPhoneNumber = false;
+    Options.SignIn.RequireConfirmedEmail = false;
+    Options.SignIn.RequireConfirmedAccount = false;
+    Options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
+})
                 .AddEntityFrameworkStores<EntitiesContext>()
                 .AddDefaultTokenProviders();
-
-            Builder.Services.AddAuthentication(Option =>
-            {
-                Option.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-                Option.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-                Option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+Builder.Services.AddAuthentication(Option =>
+{
+    Option.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+    Option.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+    Option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+})
                 .AddJwtBearer(Options =>
                 {
                     Options.TokenValidationParameters = new TokenValidationParameters
@@ -61,63 +51,65 @@ namespace Marasim_Backend
 
                 });
 
-            Builder.Services.AddCors(option =>
-            {
-                option.AddDefaultPolicy(i =>
-                i.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod());
-            });
+Builder.Services.AddCors(option =>
+{
+    option.AddDefaultPolicy(i =>
+    i.AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod());
+});
 
-            Builder.Services.Configure<IdentityOptions>(Options =>
-            {
-                Options.Password.RequireNonAlphanumeric = false;
-                Options.Password.RequireUppercase = false;
+Builder.Services.Configure<IdentityOptions>(Options =>
+{
+    Options.Password.RequireNonAlphanumeric = false;
+    Options.Password.RequireUppercase = false;
 
-            });
-            Builder.Services.ConfigureApplicationCookie(Options =>
-            {
-                Options.LoginPath = "/Account/Login";
+});
+Builder.Services.ConfigureApplicationCookie(Options =>
+{
+    Options.LoginPath = "Api/Account/Login";
 
-            });
+});
+// Add services to the container.
+Builder.Services.AddScoped<CategoryManager>();
+Builder.Services.AddScoped<BookingManager>();
+Builder.Services.AddScoped<BookingDetailsManager>();
+Builder.Services.AddScoped<ServiceAttachmentManager>();
+Builder.Services.AddScoped<ServiceManager>();
+Builder.Services.AddScoped<ReviewManager>();
+Builder.Services.AddScoped<ReviewManager>();
+Builder.Services.AddScoped<PostManager>();
+Builder.Services.AddScoped<PostAttachmentManager>();
+Builder.Services.AddScoped<CheckListManager>();
+Builder.Services.AddScoped<FollowManager>();
+Builder.Services.AddScoped<PromoCodeManager>();
+Builder.Services.AddScoped<VendorManager>();
+Builder.Services.AddScoped<ServiceAttachmentManager>();
+Builder.Services.AddScoped<AccountManager>();
+Builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+        {
+            options.SerializerSettings.ReferenceLoopHandling =
+            Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        });
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+Builder.Services.AddEndpointsApiExplorer();
+Builder.Services.AddSwaggerGen();
 
+var App = Builder.Build();
 
-            Builder.Services.AddScoped<CategoryManager>();
-            Builder.Services.AddScoped<BookingManager>();
-            Builder.Services.AddScoped<BookingDetailsManager>();
-            Builder.Services.AddScoped<ServiceAttachmentManager>();
-            Builder.Services.AddScoped<ServiceManager>();
-            Builder.Services.AddScoped<ReviewManager>();
-            Builder.Services.AddScoped<ReviewManager>();
-            Builder.Services.AddScoped<PostManager>();
-            Builder.Services.AddScoped<PostAttachmentManager>();
-            Builder.Services.AddScoped<CheckListManager>();
-            Builder.Services.AddScoped<FollowManager>();
-            Builder.Services.AddScoped<PromoCodeManager>();
-            Builder.Services.AddScoped<VendorManager>();
-            Builder.Services.AddScoped<ServiceAttachmentManager>();
-            Builder.Services.AddScoped<AccountManager>();
-
-            //Builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, UesrClaimsFactory>();
-            Builder
-                .Services
-                .AddControllers()
-                .AddNewtonsoftJson
-                (options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            #endregion
-            var App = Builder.Build();
-            App.UseCors();
-            App.UseStaticFiles();
-            App.UseAuthentication();
-            App.UseAuthorization();
-            App.MapControllerRoute("Default", "api/{Controller}/{Action=Index}/{id?}");
-
-
-            App.Run();
-
-
-            return 0;
-        }
-
-    }
+// Configure the HTTP request pipeline.
+if (App.Environment.IsDevelopment())
+{
+    App.UseSwagger();
+    App.UseSwaggerUI();
 }
+
+App.UseHttpsRedirection();
+
+App.UseAuthorization();
+App.MapControllerRoute("Default", "api/{Controller}/{Action=Index}/{id?}");
+
+//app.MapControllers();
+
+App.Run();
