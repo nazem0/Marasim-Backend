@@ -33,8 +33,5 @@ namespace Models
 
         [Required]
         public bool Gender { get; set; }
-        public bool IsDeleted { get; set; }
-
-
     }
 }

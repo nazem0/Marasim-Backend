@@ -21,7 +21,7 @@ namespace API.Controllers
             ReactsManager = _ReactsManager;
             VendorManager = _VendorManager;
         }
-
+        [HttpGet("GetReactsByPostID")]
         public IActionResult GetReactsByPostID(int PostID)
         {
             var Data = PostManager.GetPostByID(PostID).Reacts;
