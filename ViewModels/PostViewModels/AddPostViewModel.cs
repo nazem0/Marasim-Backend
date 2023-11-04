@@ -12,9 +12,6 @@ namespace ViewModels.PostViewModels
         [Required, StringLength(1000, MinimumLength = 10)]
         public required string Description { get; set; }
 
-        [Required]
-        public required DateTime DateTime { get; set; } = DateTime.Now;
-
         public int? ServiceID { get; set; }
 
         [Required]

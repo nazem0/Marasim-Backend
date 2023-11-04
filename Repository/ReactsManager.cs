@@ -11,12 +11,17 @@ namespace Repository
             return Get().Where(r => r.PostID == PostID);
         }
 
-        public int CountReacts(int PostID)
+        public void Delete(int ReactID)
         {
-            return Get().Where(r => r.PostID == PostID).Count();
+            React? React = Get(ReactID).FirstOrDefault();
+            if (React != null)
+            {
+                Delete(React);
+            }
+            else
+            {
+                throw new Exception("React Not Found");
+            }
         }
-
-
-
     }
 }

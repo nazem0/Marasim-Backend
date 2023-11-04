@@ -1,9 +1,8 @@
 ﻿using Models;
-using ViewModels.UserViewModels;
 
 namespace ViewModels.PostViewModels
 {
-    public static class PostExtention
+    public static class PostExtension
     {
         public static Post ToModel(this AddPostViewModel AddPost, int VendorID)
         {
@@ -13,7 +12,7 @@ namespace ViewModels.PostViewModels
                 Title = AddPost.Title,
                 ServiceID = AddPost.ServiceID,
                 Description = AddPost.Description,
-                DateTime = AddPost.DateTime
+                DateTime = DateTime.Now
             };
         }
 
