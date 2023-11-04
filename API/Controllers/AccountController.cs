@@ -17,11 +17,13 @@ namespace API.Controllers
     {
         private readonly AccountManager AccountManager;
         private readonly UserManager<User> UserManager;
+        private readonly VendorManager VendorManager;
 
-        public AccountController(AccountManager _accManger, UserManager<User> _userManager)
+        public AccountController(AccountManager _accManger, UserManager<User> _userManager, VendorManager vendorManager)
         {
             AccountManager = _accManger;
             UserManager = _userManager;
+            VendorManager = vendorManager;
         }
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromForm] UserRegisterationViewModel viewModel)
@@ -102,13 +104,29 @@ namespace API.Controllers
                 string tokenString = await AccountManager.GenerateJSONWebToken(User!);
                 IList<string> roles = await
                     UserManager.GetRolesAsync(User!);
-                return Ok(new { 
-                    token = tokenString,
-                    role = roles,
-                    profilePicture = User!.PicUrl,
-                    name = User!.Name,
-                    id = User!.Id
-                });
+                if (roles.Contains("vendor"))
+                {
+                    return Ok(new
+                    {
+                        token = tokenString,
+                        role = roles,
+                        profilePicture = User!.PicUrl,
+                        name = User!.Name,
+                        id = User!.Id,
+                        vendorId = VendorManager.GetVendorIdByUserId(User.Id)
+                    }) ;
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        token = tokenString,
+                        role = roles,
+                        profilePicture = User!.PicUrl,
+                        name = User!.Name,
+                        id = User!.Id
+                    });
+                }
             }
             else if (user.IsLockedOut) return new ObjectResult("Your Account is Under Review");
             else return new ObjectResult("User name or Password is Wrong");

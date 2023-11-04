@@ -11,6 +11,8 @@ using ViewModels.ServiceViewModels;
 
 namespace Marasim_Backend.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ServiceController : ControllerBase
     {
         private readonly ServiceManager ServiceManager;
@@ -25,6 +27,7 @@ namespace Marasim_Backend.Controllers
             VendorManager = _vendorManager;
             ServiceAttachmentManager = _ServiceAttachmentManager;
         }
+        [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             return Ok(ServiceManager.Get()
@@ -33,6 +36,7 @@ namespace Marasim_Backend.Controllers
                 .Include(S => S.PromoCode)
                 .Include(S => S.Reviews));
         }
+        [HttpGet("GetAllActive")]
         public IActionResult GetAllActive()
         {
             return Ok(ServiceManager.GetActive()
@@ -41,6 +45,7 @@ namespace Marasim_Backend.Controllers
                 .Include(S => S.PromoCode)
                 .Include(S => S.Reviews));
         }
+        [HttpGet("GetById")]
         public IActionResult GetById(int Id)
         {
             var x = ServiceManager.Get(Id)
@@ -50,6 +55,7 @@ namespace Marasim_Backend.Controllers
                 .Include(S => S.Reviews);
             return new JsonResult(x);
         }
+        [HttpGet("GetByVendorId/{Id?}")]
         public IActionResult GetByVendorId(int Id)
         {
             return Ok(ServiceManager.Get()
@@ -60,8 +66,9 @@ namespace Marasim_Backend.Controllers
                 .Include(S => S.Reviews)
                 .Select(S=>S.ToServiceViewModel(S.Vendor.UserID)));
         }
+        [HttpPost("Add")]
         [Authorize(Roles = "vendor")]
-        public IActionResult Add(CreateServiceViewModel Data)
+        public IActionResult Add([FromForm]CreateServiceViewModel Data)
         {
             if (!ModelState.IsValid)
             {
@@ -100,6 +107,7 @@ namespace Marasim_Backend.Controllers
             ServiceAttachmentManager.Save();
             return Ok();
         }
+        [HttpDelete("Delete")]
         [Authorize(Roles = "vendor")]
         public IActionResult Delete(int Id)
         {
@@ -117,6 +125,7 @@ namespace Marasim_Backend.Controllers
                 return Unauthorized();
             }
         }
+        [HttpPost("Update")]
         [Authorize(Roles = "vendor,admin")]
         public IActionResult Update(UpdateServiceViewModel Data)
         {
