@@ -6,7 +6,7 @@ namespace Marasim_Backend.Controllers
 
     public class FollowController : ControllerBase
     {
-        private FollowManager FollowManager { get; set; }
+        private readonly FollowManager FollowManager;
         public FollowController(FollowManager _FollowManger)
         {
             FollowManager = _FollowManger;

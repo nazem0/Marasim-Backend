@@ -8,13 +8,11 @@ namespace API.Controllers
 {
     public class PromoCodeController : ControllerBase
     {
-        private PromoCodeManager PromoCodeManager { get; set; }
-        private ServiceManager ServiceManager { get; set; }
+        private readonly PromoCodeManager PromoCodeManager;
 
-        public PromoCodeController(PromoCodeManager _PromoCodeManger, ServiceManager _ServiceManager)
+        public PromoCodeController(PromoCodeManager _PromoCodeManger)
         {
             PromoCodeManager = _PromoCodeManger;
-            ServiceManager = _ServiceManager;
         }
         public IActionResult Index()
         {
@@ -27,7 +25,7 @@ namespace API.Controllers
         {
             if (ModelState.IsValid)
             {
-                PromoCode newPromoCode = new PromoCode
+                PromoCode newPromoCode = new()
                 {
                     ServiceID = data.ServiceID,
                     Code = data.Code,

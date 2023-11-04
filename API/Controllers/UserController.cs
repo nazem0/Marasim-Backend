@@ -11,7 +11,7 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private UserManager<User> UserManager { get; set; }
+        private readonly UserManager<User> UserManager;
         public UserController(UserManager<User> _UserManager)
         {
             UserManager = _UserManager;

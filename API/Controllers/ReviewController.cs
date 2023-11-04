@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     public class ReviewController : ControllerBase
     {
-        private ReviewManager ReviewManager { get; set; }
+        private readonly ReviewManager ReviewManager;
         public ReviewController
             (ReviewManager _ReviewManager)
         {

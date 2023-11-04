@@ -5,7 +5,7 @@ namespace Marasim_Backend.Controllers
 {
     public class VendorController : ControllerBase
     {
-        private VendorManager VendorManager { get; set; }
+        private readonly VendorManager VendorManager;
         public VendorController(VendorManager _VendorManager)
         {
             VendorManager = _VendorManager;

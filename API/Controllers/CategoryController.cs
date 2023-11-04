@@ -5,7 +5,7 @@ namespace Marasim_Backend.Controllers
 {
     public class CategoryController : ControllerBase
     {
-        private CategoryManager CategoryManager { get; set; }
+        private readonly CategoryManager CategoryManager;
         public CategoryController(CategoryManager _CategoryManager)
         {
             CategoryManager = _CategoryManager;

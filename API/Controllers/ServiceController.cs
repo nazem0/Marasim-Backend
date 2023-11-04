@@ -13,9 +13,9 @@ namespace Marasim_Backend.Controllers
 {
     public class ServiceController : ControllerBase
     {
-        private ServiceManager ServiceManager { get; set; }
-        private ServiceAttachmentManager ServiceAttachmentManager { get; set; }
-        private VendorManager VendorManager { get; set; }
+        private readonly ServiceManager ServiceManager;
+        private readonly ServiceAttachmentManager ServiceAttachmentManager;
+        private readonly VendorManager VendorManager;
         public ServiceController
             (ServiceManager _serviceManager,
             ServiceAttachmentManager _ServiceAttachmentManager,

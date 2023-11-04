@@ -13,9 +13,9 @@ namespace API.Controllers
 {
     public class PostController : ControllerBase
     {
-        private PostManager PostManager { get; set; }
-        private PostAttachmentManager PostAttachmentManager { get; set; }
-        private VendorManager VendorManager { get; set; }
+        private readonly PostManager PostManager;
+        private readonly PostAttachmentManager PostAttachmentManager;
+        private readonly VendorManager VendorManager;
         public PostController
             (PostManager _PostManager,
             PostAttachmentManager _PostAttachmentManager,
@@ -60,7 +60,7 @@ namespace API.Controllers
                 int VendorID = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
                 Post? NewPost = PostManager.Add(Data.ToModel(VendorID)).Entity;
                 PostManager.Save();
-                foreach (FormFile item in Data.Pictures)
+                foreach (IFormFile item in Data.Pictures)
                 {
                     FileInfo fi = new(item.FileName);
                     string FileName = DateTime.Now.Ticks + fi.Extension;

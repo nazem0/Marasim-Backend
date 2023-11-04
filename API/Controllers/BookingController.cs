@@ -5,7 +5,7 @@ namespace Marasim_Backend.Controllers
 {
     public class BookingController : ControllerBase
     {
-        private BookingManager BookingManager { get; set; }
+        private readonly BookingManager BookingManager;
         public BookingController(BookingManager _BookingManager)
         {
             BookingManager = _BookingManager;

@@ -5,7 +5,7 @@ namespace API.Controllers
 {
     public class RoleController : ControllerBase
     {
-        readonly RoleManager<IdentityRole> RoleManager;
+        private readonly RoleManager<IdentityRole> RoleManager;
         public RoleController(RoleManager<IdentityRole> _RoleManager)
         {
             RoleManager = _RoleManager;

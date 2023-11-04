@@ -5,7 +5,7 @@ namespace API.Controllers
 {
     public class PostAttachmentController : ControllerBase
     {
-        private PostAttachmentManager PostAttachmentManager { get; set; }
+        private readonly PostAttachmentManager PostAttachmentManager;
         public PostAttachmentController(PostAttachmentManager _PostAttachmentManager)
         {
             PostAttachmentManager = _PostAttachmentManager;

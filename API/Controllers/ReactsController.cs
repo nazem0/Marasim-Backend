@@ -9,9 +9,9 @@ namespace API.Controllers
     [ApiController]
     public class ReactsController : ControllerBase
     {
-        private PostManager PostManager { get; set; }
-        private ReactsManager ReactsManager { get; set; }
-        private VendorManager VendorManager { get; set; }
+        private readonly PostManager PostManager;
+        private readonly ReactsManager ReactsManager;
+        private readonly VendorManager VendorManager;
         public ReactsController
             (PostManager _PostManager,
             ReactsManager _ReactsManager,
@@ -24,8 +24,8 @@ namespace API.Controllers
 
         public IActionResult GetReactsByPostID(int PostID)
         {
-            //var Data =  PostManager.GetPostByID(PostID).Reacts;
-            //return new JsonResult(Data);
+            var Data = PostManager.GetPostByID(PostID).Reacts;
+            return new JsonResult(Data);
         }
     }
 }

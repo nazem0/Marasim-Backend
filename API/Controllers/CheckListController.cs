@@ -6,7 +6,7 @@ namespace Marasim_Backend.Controllers
 {
     public class CheckListController : ControllerBase
     {
-        private CheckListManager CheckListManager { get; set; }
+        private readonly CheckListManager CheckListManager;
         public CheckListController(CheckListManager _CheckListManager)
         {
             CheckListManager = _CheckListManager;
