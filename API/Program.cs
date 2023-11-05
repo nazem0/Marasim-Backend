@@ -86,6 +86,8 @@ namespace API
             Builder.Services.AddScoped<ReviewManager>();
             Builder.Services.AddScoped<ReviewManager>();
             Builder.Services.AddScoped<PostManager>();
+            Builder.Services.AddScoped<CommentManager>();
+            Builder.Services.AddScoped<ReactManager>();
             Builder.Services.AddScoped<PostAttachmentManager>();
             Builder.Services.AddScoped<CheckListManager>();
             Builder.Services.AddScoped<FollowManager>();
