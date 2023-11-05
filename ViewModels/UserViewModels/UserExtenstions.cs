@@ -6,12 +6,17 @@ namespace ViewModels.UserViewModels
 {
     public static class UserExtentions
     {
-        public static UserPublicDetails ToUserViewModel(this User User)
+        public static UserDetails ToUserViewModel(this User User)
         {
-            return new UserPublicDetails
+            return new UserDetails
             {
+                Id = User.Id,
                 Name = User.Name,
-                PicUrl = User.PicUrl
+                PicUrl = User.PicUrl,
+                NationalID = User.NationalID,
+                Gender = User.Gender,
+                PhoneNumber = User.PhoneNumber!,
+                Email = User.Email!
             };
         }
     }

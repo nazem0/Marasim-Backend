@@ -78,6 +78,7 @@ namespace API
 
             });
             // Add services to the container.
+            Builder.Services.AddScoped<UserManager>();
             Builder.Services.AddScoped<CategoryManager>();
             Builder.Services.AddScoped<BookingManager>();
             Builder.Services.AddScoped<BookingDetailsManager>();

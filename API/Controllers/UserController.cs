@@ -11,8 +11,8 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserManager<User> UserManager;
-        public UserController(UserManager<User> _UserManager)
+        private readonly UserManager UserManager;
+        public UserController(UserManager _UserManager)
         {
             UserManager = _UserManager;
         }
@@ -22,10 +22,10 @@ namespace Marasim_Backend.Controllers
             var x = UserManager.Users;
             return new JsonResult(x);
         }
-        [HttpPost("GetUserPublicDetails")]
-        public async Task<IActionResult> GetUserPublicDetails(string UserID)
+        [HttpGet("UserDetails/{UserID}")]
+        public async Task<IActionResult> UserDetails(string UserID)
         {
-            var user = await UserManager.FindByIdAsync(UserID);
+            User? user = await UserManager.FindByIdAsync(UserID);
             return new JsonResult(user!.ToUserViewModel());
         }
         [HttpPut("Update")]
