@@ -1,38 +1,54 @@
 ﻿using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
-using ViewModels.ReactsViewModel;
+using ViewModels.ReactViewModel;
+using ViewModels.UserViewModels;
 
 namespace API.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
-    public class ReactsController : ControllerBase
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ReactController : ControllerBase
     {
-        private readonly PostManager PostManager;
-        private readonly ReactsManager ReactsManager;
-        private readonly VendorManager VendorManager;
-        public ReactsController
-            (PostManager _PostManager,
-            ReactsManager _ReactsManager,
-            VendorManager _VendorManager)
+        private readonly ReactManager ReactManager;
+        public ReactController
+            (ReactManager _ReactManager)
         {
-            PostManager = _PostManager;
-            ReactsManager = _ReactsManager;
-            VendorManager = _VendorManager;
+            ReactManager = _ReactManager;
         }
 
+        [HttpGet("GetReactsByPostID/{PostID}")]
         public IActionResult GetReactsByPostID(int PostID)
         {
-            var Data = ReactsManager.GetByPostID(PostID);
+            var Data = ReactManager.GetByPostID(PostID)
+                         .Include(r => r.User)
+                         .Select(r => r.ToViewModel(r.User));
+
             return new JsonResult(Data);
         }
 
-        public IActionResult Add(AddReactViewModel AddReact)
+        [HttpGet("GetIsLiked/{PostID}")]
+        public IActionResult GetIsLiked(int PostID)
+        {
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (ReactManager.GetByPostID(PostID).Any(r => r.UserID == UserId))
+            {
+                return new JsonResult("true");
+            }
+            else
+            {
+                return new JsonResult("false");
+            }
+        }
+
+        [Authorize]
+        [HttpPost("Add")]
+        public IActionResult Add([FromForm] AddReactViewModel AddReact)
         {
             if (!ModelState.IsValid)
             {
@@ -47,11 +63,12 @@ namespace API.Controllers
                 return BadRequest(str);
             }
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (ReactsManager.Get(AddReact.ToModel(UserId!).ID) is null)
+
+            if (ReactManager.isLiked(UserId!))
             {
-                ReactsManager.Add(AddReact.ToModel(UserId!));
-                ReactsManager.Save();
-                return Ok();
+                ReactManager.Add(AddReact.ToModel(UserId!));
+                ReactManager.Save();
+                return Ok("Liked");
             }
             else
             {
@@ -67,14 +84,17 @@ namespace API.Controllers
             }
         }
 
-        public IActionResult Delete(int ReactID)
+        [Authorize]
+        [HttpDelete("Delete/{PostID}")]
+        public IActionResult Delete(int PostID)
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var React = ReactsManager.Get(ReactID).FirstOrDefault();
+            var React = ReactManager.GetByPostID(PostID).FirstOrDefault();
             if (React is not null && React.UserID == UserId)
             {
-                ReactsManager.Delete(React);
-                return Ok();
+                ReactManager.Delete(React);
+                ReactManager.Save();
+                return Ok("Disliked");
             }
             else
             {

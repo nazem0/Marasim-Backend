@@ -2,13 +2,23 @@
 
 namespace Repository
 {
-    public class ReactsManager : MainManager<React>
+    public class ReactManager : MainManager<React>
     {
-        public ReactsManager(EntitiesContext _dBContext) : base(_dBContext) { }
+        public ReactManager(EntitiesContext _dBContext) : base(_dBContext) { }
 
         public IQueryable<React> GetByPostID(int PostID)
         {
             return Get().Where(r => r.PostID == PostID);
+        }
+
+        public bool isLiked(string UserID)
+        {
+            if (!Get().Any(r => r.UserID == UserID))
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         public void Delete(int ReactID)
