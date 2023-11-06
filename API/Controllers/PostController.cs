@@ -72,7 +72,7 @@ namespace API.Controllers
                     Helper.UploadMediaAsync
                         (User.FindFirstValue(ClaimTypes.NameIdentifier)!
                         , "PostAttachment", FileName, item, $"{NewPost.Id}-{NewPost.Title}");
-                    NewPost.PostAttachments.Add(
+                    PostAttachmentManager.Add(
                         new PostAttachment
                         {
                             AttachmentUrl = FileName,
