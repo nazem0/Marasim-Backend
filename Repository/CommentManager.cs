@@ -6,7 +6,8 @@ namespace Repository
     public class CommentManager : MainManager<Comment>
     {
         private readonly EntitiesContext EntitiesContext;
-        public CommentManager(EntitiesContext _dBContext) : base(_dBContext) {
+        public CommentManager(EntitiesContext _dBContext) : base(_dBContext)
+        {
             EntitiesContext = _dBContext;
         }
         public EntityEntry<Comment> Add(Comment comment)

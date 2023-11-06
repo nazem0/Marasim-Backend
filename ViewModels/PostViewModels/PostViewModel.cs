@@ -1,5 +1,4 @@
 ﻿using Models;
-using ViewModels.UserViewModels;
 
 namespace ViewModels.PostViewModels
 {

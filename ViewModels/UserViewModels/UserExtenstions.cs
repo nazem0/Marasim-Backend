@@ -1,6 +1,4 @@
-﻿using System;
-using Models;
-using ViewModels.VendorViewModels;
+﻿using Models;
 
 namespace ViewModels.UserViewModels
 {

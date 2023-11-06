@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models
 {
@@ -36,11 +31,11 @@ namespace Models
 
             builder
                 .HasOne(r => r.Service)
-                .WithMany(s=>s.Reservations)
+                .WithMany(s => s.Reservations)
                 .HasForeignKey(r => r.ServiceId)
                 .IsRequired();
 
-            
+
         }
     }
 }

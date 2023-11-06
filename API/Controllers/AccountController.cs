@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Models;
 using Repository;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
@@ -116,7 +114,7 @@ namespace API.Controllers
                         name = User!.Name,
                         id = User!.Id,
                         vendorId = VendorManager.GetVendorIdByUserId(User.Id)
-                    }) ;
+                    });
                 }
                 else
                 {

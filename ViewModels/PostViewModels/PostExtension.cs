@@ -19,7 +19,7 @@ namespace ViewModels.PostViewModels
         {
             return new PostViewModel
             {
-                Id= Post.Id,
+                Id = Post.Id,
                 VendorId = Post.VendorId,
                 Title = Post.Title,
                 Description = Post.Description,

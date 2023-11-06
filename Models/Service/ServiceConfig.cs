@@ -36,7 +36,7 @@ namespace Models
                 .Property(s => s.Price)
                 .IsRequired();
 
-            
+
             //relationship
             builder
                .HasMany(s => s.Reviews)

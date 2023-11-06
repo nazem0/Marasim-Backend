@@ -6,7 +6,8 @@ namespace Repository
     public class ReactManager : MainManager<React>
     {
         private readonly EntitiesContext EntitiesContext;
-        public ReactManager(EntitiesContext _dBContext) : base(_dBContext) {
+        public ReactManager(EntitiesContext _dBContext) : base(_dBContext)
+        {
             EntitiesContext = _dBContext;
         }
         public EntityEntry<React> Add(React Entity)

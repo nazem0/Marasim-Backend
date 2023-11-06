@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Models;
 using Repository;
 using System.Security.Claims;
 using System.Text;
-using ViewModels.ServiceAttatchmentViewModels;
 using ViewModels.ServiceViewModels;
 
 namespace Marasim_Backend.Controllers
@@ -59,16 +57,16 @@ namespace Marasim_Backend.Controllers
         public IActionResult GetByVendorId(int Id)
         {
             return Ok(ServiceManager.Get()
-                .Where(S=>S.VendorID == Id)
+                .Where(S => S.VendorID == Id)
                 .Include(S => S.ServiceAttachments)
                 .Include(S => S.Reservations)
                 .Include(S => S.PromoCode)
                 .Include(S => S.Reviews)
-                .Select(S=>S.ToServiceViewModel(S.Vendor.UserId)));
+                .Select(S => S.ToServiceViewModel(S.Vendor.UserId)));
         }
         [HttpPost("Add")]
         [Authorize(Roles = "vendor")]
-        public IActionResult Add([FromForm]CreateServiceViewModel Data)
+        public IActionResult Add([FromForm] CreateServiceViewModel Data)
         {
             if (!ModelState.IsValid)
             {

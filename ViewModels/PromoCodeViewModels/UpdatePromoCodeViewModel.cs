@@ -4,8 +4,8 @@ namespace ViewModels.PromoCodeViewModel
 {
     public class UpdatePromoCodeViewModel
     {
-        
-        public required int  Id { get; set; }
+
+        public required int Id { get; set; }
 
         [Required, MaxLength(20)]
         public required string Code { get; set; }

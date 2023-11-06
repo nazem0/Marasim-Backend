@@ -1,10 +1,7 @@
-﻿using System;
-using Models;
-
-namespace ViewModels.VendorViewModels
+﻿namespace ViewModels.VendorViewModels
 {
-	public class VendorViewModel
-	{
+    public class VendorViewModel
+    {
         public required string UserID { get; set; }
         public required string Summary { get; set; }
         public required decimal Latitude { get; set; }

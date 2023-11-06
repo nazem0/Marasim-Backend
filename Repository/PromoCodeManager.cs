@@ -6,7 +6,8 @@ namespace Repository
     public class PromoCodeManager : MainManager<PromoCode>
     {
         private readonly EntitiesContext EntitiesContext;
-        public PromoCodeManager(EntitiesContext _dBContext) : base(_dBContext) {
+        public PromoCodeManager(EntitiesContext _dBContext) : base(_dBContext)
+        {
             EntitiesContext = _dBContext;
         }
         public EntityEntry<PromoCode> Add(PromoCode entity)

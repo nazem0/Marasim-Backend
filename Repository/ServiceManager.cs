@@ -6,7 +6,8 @@ namespace Repository
     public class ServiceManager : MainManager<Service>
     {
         private readonly EntitiesContext EntitiesContext;
-        public ServiceManager(EntitiesContext _dBContext) : base(_dBContext) {
+        public ServiceManager(EntitiesContext _dBContext) : base(_dBContext)
+        {
             EntitiesContext = _dBContext;
         }
         public EntityEntry<Service> Add(Service entity)

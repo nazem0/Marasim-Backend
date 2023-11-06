@@ -1,8 +1,7 @@
-﻿using System;
-namespace ViewModels.CommentViewModels
+﻿namespace ViewModels.CommentViewModels
 {
-	public class CommentViewModel
-	{
+    public class CommentViewModel
+    {
         public required int Id { get; set; }
         public required string UserId { get; set; }
         public required int PostId { get; set; }

@@ -1,18 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using System.Data;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Repository
 {
     public class AccountRepository
@@ -64,15 +60,16 @@ namespace Repository
 
             EntityEntry VendorAddition = VendorManager.Add(Data.ToVendor((await UserManager.FindByEmailAsync(Data.Email))!));
             if (VendorAddition.State.ToString() != "Added")
-            { 
+            {
                 await UserManager.DeleteAsync(CreatedUser);
-                return IdentityResult.Failed(new IdentityError {
-                 });
+                return IdentityResult.Failed(new IdentityError
+                {
+                });
             }
             else
             {
-            VendorManager.Save();
-            return Result;
+                VendorManager.Save();
+                return Result;
             }
 
 

@@ -1,13 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using Repository;
-using System.Security.Claims;
-using System.Text;
-using ViewModels.UserViewModels;
-using ViewModels.VendorViewModels;
-
 namespace Marasim_Backend.Controllers
 {
     [Route("api/[controller]")]
@@ -23,19 +15,14 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var Data = VendorManager.Get()
-                .Include(v => v.User);
+            var Data = VendorManager.Get();
             return new JsonResult(Data);
         }
 
         [HttpGet("GetVendorByID/{VendorID}")]
         public IActionResult GetVendorByID(int VendorID)
         {
-            var Data = VendorManager.Get(VendorID)
-                .Include(v => v.User)
-                .FirstOrDefault();
-                //.Select(v => v.ToVendorViewModel(v.User))
-                //.FirstOrDefault();
+            var Data = VendorManager.GetVendorByID(VendorID);
             return new JsonResult(Data);
         }
 

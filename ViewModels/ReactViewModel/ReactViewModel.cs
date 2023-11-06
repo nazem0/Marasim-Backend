@@ -1,10 +1,7 @@
-﻿using System;
-using Models;
-
-namespace ViewModels.ReactViewModel
+﻿namespace ViewModels.ReactViewModel
 {
-	public class ReactViewModel
-	{
+    public class ReactViewModel
+    {
         public required int Id { get; set; }
         public required string UserId { get; set; }
         public required int PostId { get; set; }

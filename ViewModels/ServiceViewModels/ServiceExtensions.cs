@@ -14,7 +14,7 @@ namespace ViewModels.ServiceViewModels
                 VendorID = VendorID
             };
         }
-        public static ServiceViewModel ToServiceViewModel(this Service Data,string UserId)
+        public static ServiceViewModel ToServiceViewModel(this Service Data, string UserId)
         {
             return new ServiceViewModel
             {

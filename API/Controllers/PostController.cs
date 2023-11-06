@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -64,7 +62,7 @@ namespace API.Controllers
         {
             if (ModelState.IsValid)
             {
-               int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
                 Post? NewPost = PostManager.Add(Data.ToModel(VendorId)).Entity;
                 PostManager.Save();
                 foreach (IFormFile item in Data.Pictures)

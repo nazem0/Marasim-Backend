@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
-
-namespace ViewModels.UserViewModels
+﻿namespace ViewModels.UserViewModels
 {
-	public class UserDetails
-	{
+    public class UserDetails
+    {
         public required string Id { get; set; }
         public required string Name { get; set; }
         public required string PicUrl { get; set; }

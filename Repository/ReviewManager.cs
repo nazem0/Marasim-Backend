@@ -6,7 +6,8 @@ namespace Repository
     public class ReviewManager : MainManager<Review>
     {
         private readonly EntitiesContext EntitiesContext;
-        public ReviewManager(EntitiesContext _dBContext) : base(_dBContext) {
+        public ReviewManager(EntitiesContext _dBContext) : base(_dBContext)
+        {
             EntitiesContext = _dBContext;
         }
         public EntityEntry<Review> Add(Review Entity)

@@ -1,13 +1,11 @@
-﻿using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
+using System.Security.Claims;
+using System.Text;
 using ViewModels.ReactViewModel;
-using ViewModels.UserViewModels;
 
 namespace API.Controllers
 {

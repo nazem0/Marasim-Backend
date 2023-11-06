@@ -10,7 +10,7 @@ namespace API.Controllers
         {
             RoleManager = _RoleManager;
         }
-        
+
         [HttpPost("AddRole")]
         public async Task<IdentityResult> AddRole(string RoleName)
         {

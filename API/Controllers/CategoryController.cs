@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
 using ViewModels.CategoryViewModels;
-using ViewModels.UserViewModels;
 
 namespace Marasim_Backend.Controllers
 {
@@ -56,7 +54,7 @@ namespace Marasim_Backend.Controllers
             }
             else
             {
-            EntityEntry<Category>? Entry = CategoryManager.Add(Data);
+                EntityEntry<Category>? Entry = CategoryManager.Add(Data);
 
                 if (Entry is null)
                     return BadRequest("This Category Already Exists");

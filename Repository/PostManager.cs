@@ -6,7 +6,8 @@ namespace Repository
     public class PostManager : MainManager<Post>
     {
         private readonly EntitiesContext EntitiesContext;
-        public PostManager(EntitiesContext _dBContext) : base(_dBContext) {
+        public PostManager(EntitiesContext _dBContext) : base(_dBContext)
+        {
             EntitiesContext = _dBContext;
         }
         public EntityEntry<Post> Add(Post Entity)

@@ -1,11 +1,10 @@
-﻿using System;
-namespace ViewModels.CategoryViewModels
+﻿namespace ViewModels.CategoryViewModels
 {
-	public class CategoryViewModel
-	{
-		public CategoryViewModel()
-		{
-		}
-	}
+    public class CategoryViewModel
+    {
+        public CategoryViewModel()
+        {
+        }
+    }
 }
 

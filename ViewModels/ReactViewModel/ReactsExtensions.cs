@@ -1,11 +1,9 @@
-﻿using System;
-using Models;
-using ViewModels.PostViewModels;
+﻿using Models;
 
 namespace ViewModels.ReactViewModel
 {
-	public static class ReactExtensions
-	{
+    public static class ReactExtensions
+    {
         public static React ToModel(this AddReactViewModel AddReact, string UserID)
         {
             return new React
@@ -21,7 +19,7 @@ namespace ViewModels.ReactViewModel
             return new ReactViewModel
             {
                 Id = React.Id,
-                PostId= React.PostId,
+                PostId = React.PostId,
                 DateTime = React.DateTime,
                 UserName = User.Name,
                 UserPicUrl = User.PicUrl,

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
 using System.Security.Claims;
@@ -33,7 +32,7 @@ namespace Marasim_Backend.Controllers
         public async Task<IActionResult> Update(UpdateProfileViewModel Data)
         {
             ClaimsPrincipal? UserClaims = HttpContext.User;
-            var User =  await UserManager.GetUserAsync(UserClaims);
+            var User = await UserManager.GetUserAsync(UserClaims);
 
             if (User == null) return new JsonResult("User Not On Our Database");
             if (Data.Picture == null) return new JsonResult("No Profile Picture Uploaded");
