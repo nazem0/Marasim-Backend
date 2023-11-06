@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Models;
 using Repository;
-
+using System.Security.Claims;
+using System.Text;
 namespace Marasim_Backend.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class VendorController : ControllerBase
     {
         private readonly VendorManager VendorManager;
@@ -10,11 +16,21 @@ namespace Marasim_Backend.Controllers
         {
             VendorManager = _VendorManager;
         }
-        public IActionResult Index()
+
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
         {
-            var x = VendorManager.Get().ToList();
-            return new JsonResult(x);
+            var Data = VendorManager.Get();
+            return new JsonResult(Data);
         }
+
+        [HttpGet("GetVendorByID/{VendorID}")]
+        public IActionResult GetVendorByID(int VendorID)
+        {
+            var Data = VendorManager.GetVendorByID(VendorID);
+            return new JsonResult(Data);
+        }
+
     }
 }
 
