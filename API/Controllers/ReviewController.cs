@@ -7,6 +7,8 @@ using ViewModels.ReviewViewModels;
 
 namespace API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ReviewController : ControllerBase
     {
         private readonly ReviewManager ReviewManager;
@@ -16,12 +18,14 @@ namespace API.Controllers
             ReviewManager = _ReviewManager;
         }
 
+        [HttpGet("Get")]
         public IActionResult Get()
         {
             var Data = ReviewManager.Get().ToList();
             return new JsonResult(Data);
         }
 
+        [HttpGet("GetByServiceID/{ServiceID}")]
         public IActionResult GetByServiceID(int ServiceID)
         {
             var Data = ReviewManager.GetByServiceID(ServiceID);
@@ -29,6 +33,7 @@ namespace API.Controllers
             return new JsonResult(Data);
         }
 
+        [HttpGet("GetByVendorID/{VendorID}")]
         public IActionResult GetByVendorID(int VendorID)
         {
             var Data = ReviewManager.GetByVendorID(VendorID);
@@ -37,6 +42,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "user")]
+        [HttpPost("Add")]
         public IActionResult Add([FromForm] AddReviewViewModel Data)
         {
             string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
@@ -53,6 +59,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "user,admin")]
+        [HttpPut("Update/{ReviewID}")]
         public IActionResult Update(int ReviewID, [FromForm] UpdateReviewViewModel OldReview)
         {
             string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
@@ -72,6 +79,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "user,admin")]
+        [HttpDelete("Delete/{ReviewID}")]
         public IActionResult Delete(int ReviewID)
         {
             string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;

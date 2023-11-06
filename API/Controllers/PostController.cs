@@ -11,6 +11,8 @@ using ViewModels.PostViewModels;
 
 namespace API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class PostController : ControllerBase
     {
         private readonly PostManager PostManager;
@@ -25,6 +27,8 @@ namespace API.Controllers
             VendorManager = _VendorManager;
             PostAttachmentManager = _PostAttachmentManager;
         }
+
+        [HttpGet("Get")]
         public IActionResult Get()
         {
             var Data = PostManager.Get()
@@ -35,12 +39,14 @@ namespace API.Controllers
             return Ok(Data);
         }
 
+        [HttpGet("GetPostByID/{PostID}")]
         public IActionResult GetPostByID(int PostID)
         {
             var Data = PostManager.GetPostByID(PostID);
             return new JsonResult(Data);
         }
 
+        [HttpGet("GetByVendorID/{VendorID}")]
         public IActionResult GetByVendorID(int VendorID)
         {
             var Data = PostManager.GetByVendorID(VendorID)
@@ -53,6 +59,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor")]
+        [HttpPost("Add")]
         public IActionResult Add([FromForm] AddPostViewModel Data)
         {
             if (ModelState.IsValid)
@@ -93,6 +100,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor,admin")]
+        [HttpDelete("Delete")]
         public IActionResult Delete(int PostID)
         {
             Post? Post = PostManager.GetPostByID(PostID);
@@ -109,6 +117,7 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor,admin")]
+        [HttpPut("Update/{PostID}")]
         public IActionResult Update(int PostID, [FromForm] EditPostViewModel OldPost)
         {
             Post? Post = PostManager.GetPostByID(PostID);
