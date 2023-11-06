@@ -1,4 +1,5 @@
 ﻿using Models;
+using ViewModels.ServiceViewModels;
 
 namespace ViewModels.VendorViewModels
 {
@@ -21,6 +22,7 @@ namespace ViewModels.VendorViewModels
         {
             return new VendorViewModel
             {
+                Id = Vendor.Id,
                 Address = Vendor.Address,
                 Latitude = Vendor.Latitude,
                 Longitude = Vendor.Longitude,
