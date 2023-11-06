@@ -36,27 +36,27 @@ namespace API
                 Options.SignIn.RequireConfirmedAccount = false;
                 Options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
             })
-                            .AddEntityFrameworkStores<EntitiesContext>()
-                            .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<EntitiesContext>()
+                .AddDefaultTokenProviders();
             Builder.Services.AddAuthentication(Option =>
             {
                 Option.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
                 Option.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
                 Option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                            .AddJwtBearer(Options =>
-                            {
-                                Options.TokenValidationParameters = new TokenValidationParameters
-                                {
-                                    ValidateIssuer = false,
-                                    ValidateAudience = false,
-                                    ValidateLifetime = true,
-                                    ValidateIssuerSigningKey = false,
-                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Builder.Configuration["Jwt:Key"]!)),
+            .AddJwtBearer(Options =>
+            {
+                Options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Builder.Configuration["Jwt:Key"]!)),
 
-                                };
+                };
 
-                            });
+            });
 
             Builder.Services.AddCors(option =>
             {
@@ -99,7 +99,7 @@ namespace API
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling =
-        Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             Builder.Services.AddEndpointsApiExplorer();
