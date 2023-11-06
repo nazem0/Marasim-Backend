@@ -53,7 +53,7 @@ namespace Marasim_Backend.Controllers
                 .Include(S => S.Reviews);
             return new JsonResult(x);
         }
-        [HttpGet("GetByVendorId/{Id?}")]
+        [HttpGet("GetByVendorId/{Id}")]
         public IActionResult GetByVendorId(int Id)
         {
             return Ok(ServiceManager.Get()
