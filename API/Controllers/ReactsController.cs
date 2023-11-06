@@ -33,10 +33,10 @@ namespace API.Controllers
         }
 
         [HttpGet("GetIsLiked/{PostID}")]
-        public IActionResult GetIsLiked(int PostID)
+        public IActionResult GetIsLiked(int PostId)
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (ReactManager.GetByPostID(PostID).Any(r => r.UserID == UserId))
+            if (ReactManager.GetByPostID(PostId).Any(r => r.UserId == UserId))
             {
                 return new JsonResult("true");
             }
@@ -64,7 +64,7 @@ namespace API.Controllers
             }
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (ReactManager.isLiked(UserId!))
+            if (ReactManager.IsLiked(UserId!))
             {
                 ReactManager.Add(AddReact.ToModel(UserId!));
                 ReactManager.Save();
@@ -90,7 +90,7 @@ namespace API.Controllers
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var React = ReactManager.GetByPostID(PostID).FirstOrDefault();
-            if (React is not null && React.UserID == UserId)
+            if (React is not null && React.UserId == UserId)
             {
                 ReactManager.Delete(React);
                 ReactManager.Save();

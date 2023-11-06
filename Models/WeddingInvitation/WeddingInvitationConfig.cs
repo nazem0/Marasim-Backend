@@ -13,10 +13,10 @@ namespace Models
 
             // ID
             builder
-                .HasKey(w => w.ID);
+                .HasKey(w => w.Id);
 
             builder
-                .Property(w => w.ID)
+                .Property(w => w.Id)
                 .ValueGeneratedOnAdd();
 
 
@@ -25,7 +25,7 @@ namespace Models
             // Properties
 
             builder
-              .Property(w => w.UserID)
+              .Property(w => w.UserId)
               .IsRequired();
 
 
@@ -60,7 +60,7 @@ namespace Models
             builder
                 .HasOne(wi => wi.User)
                 .WithMany(u => u.WeddingInvitations)
-                .HasForeignKey(wi => wi.UserID);
+                .HasForeignKey(wi => wi.UserId);
 
 
         }

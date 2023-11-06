@@ -27,7 +27,7 @@ namespace API.Controllers
             {
                 PromoCode newPromoCode = new()
                 {
-                    ServiceID = data.ServiceID,
+                    ServiceId = data.ServiceId,
                     Code = data.Code,
                     Discount = data.Discount,
                     Limit = data.Limit,

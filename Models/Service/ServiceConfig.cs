@@ -9,10 +9,10 @@ namespace Models
         {
             builder.ToTable("Service");
             builder
-                .HasKey(s => s.ID);
+                .HasKey(s => s.Id);
 
             builder
-                .Property(s => s.ID)
+                .Property(s => s.Id)
                 .ValueGeneratedOnAdd();
 
 
@@ -41,7 +41,7 @@ namespace Models
             builder
                .HasMany(s => s.Reviews)
                .WithOne(r => r.Service)
-               .HasForeignKey(r => r.ServiceID)
+               .HasForeignKey(r => r.ServiceId)
                .OnDelete(DeleteBehavior.ClientCascade)
                .IsRequired();
 
@@ -54,11 +54,11 @@ namespace Models
             builder
                .HasOne(s => s.PromoCode)
                .WithOne(pc => pc.Service)
-               .HasForeignKey<PromoCode>(pc => pc.ServiceID)
+               .HasForeignKey<PromoCode>(pc => pc.ServiceId)
                .IsRequired();
 
             builder
-                .HasMany(s => s.BookingDetails)
+                .HasMany(s => s.Reservations)
                 .WithOne(bd => bd.Service)
                 .HasForeignKey(bd => bd.ServiceId)
                 .OnDelete(DeleteBehavior.ClientCascade);

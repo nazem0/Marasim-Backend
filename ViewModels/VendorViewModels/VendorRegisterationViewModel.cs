@@ -11,7 +11,7 @@ namespace ViewModels.VendorViewModels
         public required decimal Longitude { get; set; }
         public required string Address { get; set; }
         public required string Name { get; set; }
-        public required string NationalID { get; set; }
+        public required string NationalId { get; set; }
         public string PicUrl { get; set; } = string.Empty;
         public required IFormFile Picture { get; set; }
         public required string Email { get; set; }

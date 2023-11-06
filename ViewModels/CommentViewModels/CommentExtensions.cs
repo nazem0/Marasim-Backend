@@ -8,8 +8,8 @@ namespace ViewModels.CommentViewModels
             return new Comment
             {
                 Text = Data.Text,
-                UserID = LoggedInUserId,
-                PostID = Data.PostId,
+                UserId = LoggedInUserId,
+                PostId = Data.PostId,
                 DateTime = DateTime.Now
             };
         }
@@ -18,13 +18,13 @@ namespace ViewModels.CommentViewModels
         {
             return new CommentViewModel
             {
-                ID = Comment.ID,
-                PostID = Comment.PostID,
+                Id = Comment.Id,
+                PostId = Comment.PostId,
                 Text = Comment.Text,
                 DateTime = Comment.DateTime,
                 UserName = User.Name,
                 UserPicUrl = User.PicUrl,
-                UserID = Comment.UserID
+                UserId = Comment.UserId
             };
         }
     }

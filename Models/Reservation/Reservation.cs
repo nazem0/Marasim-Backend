@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Review : BaseModel
+    public class Reservation : BaseModel
     {
         public string UserId { get; set; }
         public int ServiceId { get; set; }
-        public int Rate { get; set; }
-        public string Message { get; set; }
-        public DateTime DateTime { get; set; }
+        public float Price { get; set; }
+        public char Status { get; set; } 
         public virtual User User { get; set; }
         public virtual Service Service { get; set; }
     }

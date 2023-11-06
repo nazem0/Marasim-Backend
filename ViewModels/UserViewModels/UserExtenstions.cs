@@ -13,7 +13,7 @@ namespace ViewModels.UserViewModels
                 Id = User.Id,
                 Name = User.Name,
                 PicUrl = User.PicUrl,
-                NationalID = User.NationalID,
+                NationalId = User.NationalId,
                 Gender = User.Gender,
                 PhoneNumber = User.PhoneNumber!,
                 Email = User.Email!

@@ -6,8 +6,10 @@ namespace Repository
 {
     public class CategoryManager : MainManager<Category>
     {
+        private readonly EntitiesContext EntitesContext;
         public CategoryManager(EntitiesContext _dBContext) : base(_dBContext)
         {
+            EntitesContext = _dBContext;
         }
         public EntityEntry<Category>? Add(AddCategoryViewModel Data)
         {
@@ -16,7 +18,7 @@ namespace Repository
                 return null;
             }
             else
-                return Add(Data.ToCategory());
+                return EntitesContext.Add(Data.ToCategory());
         }
     }
 }

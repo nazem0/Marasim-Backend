@@ -32,7 +32,7 @@ namespace Marasim_Backend.Controllers
         {
             return Ok(ServiceManager.Get()
                 .Include(S => S.ServiceAttachments)
-                .Include(S => S.BookingDetails)
+                .Include(S => S.Reservations)
                 .Include(S => S.PromoCode)
                 .Include(S => S.Reviews));
         }
@@ -41,7 +41,7 @@ namespace Marasim_Backend.Controllers
         {
             return Ok(ServiceManager.GetActive()
                 .Include(S => S.ServiceAttachments)
-                .Include(S => S.BookingDetails)
+                .Include(S => S.Reservations)
                 .Include(S => S.PromoCode)
                 .Include(S => S.Reviews));
         }
@@ -50,7 +50,7 @@ namespace Marasim_Backend.Controllers
         {
             var x = ServiceManager.Get(Id)
                 .Include(S => S.ServiceAttachments)
-                .Include(S => S.BookingDetails)
+                .Include(S => S.Reservations)
                 .Include(S => S.PromoCode)
                 .Include(S => S.Reviews);
             return new JsonResult(x);
@@ -61,10 +61,10 @@ namespace Marasim_Backend.Controllers
             return Ok(ServiceManager.Get()
                 .Where(S=>S.VendorID == Id)
                 .Include(S => S.ServiceAttachments)
-                .Include(S => S.BookingDetails)
+                .Include(S => S.Reservations)
                 .Include(S => S.PromoCode)
                 .Include(S => S.Reviews)
-                .Select(S=>S.ToServiceViewModel(S.Vendor.UserID)));
+                .Select(S=>S.ToServiceViewModel(S.Vendor.UserId)));
         }
         [HttpPost("Add")]
         [Authorize(Roles = "vendor")]
@@ -84,8 +84,7 @@ namespace Marasim_Backend.Controllers
 
             }
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int LoggedInVendorId = VendorManager.GetVendorIdByUserId
-                (UserId);
+            int LoggedInVendorId = VendorManager.GetVendorIdByUserId(UserId)!;
             Service? CreatedService =
                 ServiceManager.Add(Data.ToModel(LoggedInVendorId)).Entity;
             ServiceManager.Save();
@@ -95,8 +94,8 @@ namespace Marasim_Backend.Controllers
                 string FileName = DateTime.Now.Ticks + fi.Extension;
                 Helper.UploadMediaAsync
                     (User.FindFirstValue(ClaimTypes.NameIdentifier)!
-                    , "ServiceAttachment", FileName, item, $"{CreatedService.ID}-{CreatedService.Title}");
-                ServiceAttachmentManager.Add(
+                    , "ServiceAttachment", FileName, item, $"{CreatedService.Id}-{CreatedService.Title}");
+                CreatedService.ServiceAttachments.Add(
                     new ServiceAttachment
                     {
                         AttachmentUrl = FileName,
@@ -112,7 +111,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult Delete(int Id)
         {
             int? ServiceVendorID = ServiceManager.Get(Id)!.FirstOrDefault()?.VendorID;
-            int LoggedInVendorId = VendorManager.GetVendorIdByUserId
+            int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (ServiceVendorID != null && ServiceVendorID == LoggedInVendorId)
             {
@@ -131,7 +130,7 @@ namespace Marasim_Backend.Controllers
         {
             string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             int? ServiceVendorID = ServiceManager.Get(Data.Id)!.FirstOrDefault()?.VendorID;
-            int LoggedInVendorId = VendorManager.GetVendorIdByUserId
+            int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (LoggedInUserId);
             if (ServiceVendorID == null) return BadRequest("Service ID Invalid");
             else if (ServiceVendorID != LoggedInVendorId) return Unauthorized();

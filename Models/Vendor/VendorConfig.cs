@@ -13,10 +13,10 @@ namespace Models
 
             // ID
             builder
-                .HasKey(v => v.ID);
+                .HasKey(v => v.Id);
 
             builder
-                .Property(v => v.ID)
+                .Property(v => v.Id)
                 .ValueGeneratedOnAdd();
 
 
@@ -30,7 +30,7 @@ namespace Models
                 .IsRequired();
 
             builder
-              .Property(v => v.UserID)
+              .Property(v => v.UserId)
               .IsRequired();
 
 
@@ -58,7 +58,7 @@ namespace Models
                  .HasMany(v => v.Followers)
                  .WithOne(f => f.Vendor)
                  .OnDelete(DeleteBehavior.NoAction)
-                 .HasForeignKey(f => f.VendorID);
+                 .HasForeignKey(f => f.VendorId);
 
         }
     }

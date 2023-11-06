@@ -10,9 +10,9 @@ namespace ViewModels.ReactViewModel
         {
             return new React
             {
-                PostID = AddReact.PostID,
+                PostId = AddReact.PostID,
                 DateTime = DateTime.Now,
-                UserID = UserID
+                UserId = UserID
             };
         }
 
@@ -20,12 +20,12 @@ namespace ViewModels.ReactViewModel
         {
             return new ReactViewModel
             {
-                ID = React.ID,
-                PostID = React.PostID,
+                Id = React.Id,
+                PostId= React.PostId,
                 DateTime = React.DateTime,
                 UserName = User.Name,
                 UserPicUrl = User.PicUrl,
-                UserID = React.UserID
+                UserId = React.UserId
             };
         }
     }

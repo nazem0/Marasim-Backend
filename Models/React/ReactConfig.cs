@@ -10,21 +10,21 @@ namespace Models
             builder
                 .ToTable("React");
             builder
-                .HasKey(r => r.ID);
+                .HasKey(r => r.Id);
 
             //Properties
             builder
-                .Property(r => r.ID)
+                .Property(r => r.Id)
                 .ValueGeneratedOnAdd()
                 .HasMaxLength(11);
 
             builder
-                .Property(r => r.PostID)
+                .Property(r => r.PostId)
                 .HasMaxLength(11)
                 .IsRequired();
 
             builder
-                .Property(r => r.UserID)
+                .Property(r => r.UserId)
                 .IsRequired();
 
 

@@ -12,11 +12,10 @@ namespace ViewModels.PostViewModels
         [Required, StringLength(1000, MinimumLength = 10)]
         public required string Description { get; set; }
 
-        public int? ServiceID { get; set; }
+        public int? ServiceId { get; set; }
 
         [Required]
         public required IFormFileCollection Pictures { get; set; }
-
     }
 }
 

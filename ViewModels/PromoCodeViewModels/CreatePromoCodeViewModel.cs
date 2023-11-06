@@ -5,7 +5,7 @@ namespace ViewModels.PromoCodeViewModel
     public class CreatePromoCodeViewModel
     {
         [Required]
-        public int ServiceID { get; set; }
+        public int ServiceId { get; set; }
 
         [Required, MaxLength(20)]
         public required string Code { get; set; }

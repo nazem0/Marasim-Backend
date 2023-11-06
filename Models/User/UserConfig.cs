@@ -40,14 +40,14 @@ namespace Models
             .IsRequired();
 
             builder
-            .Property(u => u.NationalID)
+            .Property(u => u.NationalId)
             .HasMaxLength(20)
             .IsRequired();
             //unique
             // Relations
 
             builder
-               .HasMany(u => u.Bookings)
+               .HasMany(u => u.Reservations)
                .WithOne(b => b.User)
                .HasForeignKey(b => b.UserId)
                .IsRequired();
@@ -55,38 +55,38 @@ namespace Models
             builder
               .HasOne(u => u.CheckList)
               .WithOne(cl => cl.User)
-              .HasForeignKey<CheckList>(cl => cl.UserID);
+              .HasForeignKey<CheckList>(cl => cl.UserId);
 
 
 
             builder
                 .HasMany(u => u.Comments)
                 .WithOne(c => c.User)
-                .HasForeignKey(c => c.UserID)
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
 
             builder
                 .HasMany(f => f.Follows)
                 .WithOne(u => u.User)
-                .HasForeignKey(f => f.UserID)
+                .HasForeignKey(f => f.UserId)
                 .IsRequired();
 
             builder
                 .HasMany(u => u.Reviews)
                 .WithOne(r => r.User)
-                .HasForeignKey(r => r.UserID)
+                .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasOne(v => v.Vendor)
                 .WithOne(u => u.User)
-                .HasForeignKey<Vendor>(v => v.UserID);
+                .HasForeignKey<Vendor>(v => v.UserId);
 
             builder
                 .HasMany(u => u.Reacts)
                 .WithOne(r => r.User)
-                .HasForeignKey(r => r.UserID);
+                .HasForeignKey(r => r.UserId);
         }
     }
 }

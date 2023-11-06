@@ -21,7 +21,7 @@ namespace ViewModels.PostViewModels
         {
             return new PostAttachmentViewModel
             {
-                ID = PostAttachment.ID,
+                Id = PostAttachment.Id,
                 PostID = PostAttachment.PostID,
                 AttachmentUrl = PostAttachment.AttachmentUrl
             };

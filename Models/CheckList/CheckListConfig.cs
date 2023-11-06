@@ -12,14 +12,14 @@ namespace Models
                 .ToTable("CheckList");
 
             builder
-                .HasKey(cl => cl.ID);
+                .HasKey(cl => cl.Id);
 
             builder
-                .Property(cl => cl.ID)
+                .Property(cl => cl.Id)
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(cl => cl.UserID)
+                .Property(cl => cl.UserId)
                 .IsRequired();
 
             builder
@@ -29,7 +29,7 @@ namespace Models
             builder
                 .HasMany(cl => cl.CheckListItems)
                 .WithOne(cli => cli.CheckList)
-                .HasForeignKey(cli => cli.ChecklistID);
+                .HasForeignKey(cli => cli.ChecklistId);
         }
     }
 

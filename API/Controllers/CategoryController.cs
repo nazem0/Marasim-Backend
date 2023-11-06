@@ -63,7 +63,7 @@ namespace Marasim_Backend.Controllers
                 else
                 {
                     CategoryManager.Save();
-                    return Ok($"Category {Entry.Entity.Name} Created Successfully With The Id {Entry.Entity.ID}");
+                    return Ok($"Category {Entry.Entity.Name} Created Successfully With The Id {Entry.Entity.Id}");
                 }
             }
         }

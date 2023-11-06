@@ -1,19 +1,26 @@
-﻿using Models;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Models;
 
 namespace Repository
 {
     public class ReactManager : MainManager<React>
     {
-        public ReactManager(EntitiesContext _dBContext) : base(_dBContext) { }
-
+        private readonly EntitiesContext EntitiesContext;
+        public ReactManager(EntitiesContext _dBContext) : base(_dBContext) {
+            EntitiesContext = _dBContext;
+        }
+        public EntityEntry<React> Add(React Entity)
+        {
+            return EntitiesContext.Add(Entity);
+        }
         public IQueryable<React> GetByPostID(int PostID)
         {
-            return Get().Where(r => r.PostID == PostID);
+            return Get().Where(r => r.PostId == PostID);
         }
 
-        public bool isLiked(string UserID)
+        public bool IsLiked(string UserId)
         {
-            if (!Get().Any(r => r.UserID == UserID))
+            if (!Get().Any(r => r.UserId == UserId))
             {
                 return true;
             }

@@ -13,18 +13,18 @@ namespace Models
                 .ToTable("Review");
 
             builder
-                .HasKey(r => r.ID);
+                .HasKey(r => r.Id);
 
             builder
-                .Property(r => r.UserID)
+                .Property(r => r.UserId)
                 .IsRequired();
 
             builder
-                .Property(r => r.ID)
+                .Property(r => r.Id)
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(r => r.ServiceID)
+                .Property(r => r.ServiceId)
                 .IsRequired();
 
             builder

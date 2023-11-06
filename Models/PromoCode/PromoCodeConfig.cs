@@ -14,10 +14,10 @@ namespace Models
             //ID
 
             builder
-                .HasKey(pc => pc.ID);
+                .HasKey(pc => pc.Id);
 
             builder
-                .Property(pc => pc.ID)
+                .Property(pc => pc.Id)
                 .ValueGeneratedOnAdd()
                 .HasMaxLength(11);
 
@@ -26,11 +26,6 @@ namespace Models
             builder
                 .Property(pc => pc.Code)
                 .HasMaxLength(8)
-                .IsRequired();
-
-            builder
-                .Property(pc => pc.IsDeleted)
-                .HasDefaultValue(false)
                 .IsRequired();
 
             builder
@@ -50,7 +45,7 @@ namespace Models
             builder
                 .HasOne(pc => pc.Service)
                 .WithOne(s => s.PromoCode)
-                .HasForeignKey<PromoCode>(pc => pc.ServiceID)
+                .HasForeignKey<PromoCode>(pc => pc.ServiceId)
                 .IsRequired();
 
 

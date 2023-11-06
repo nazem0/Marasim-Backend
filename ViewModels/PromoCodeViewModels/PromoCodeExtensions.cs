@@ -11,7 +11,7 @@ namespace ViewModels.PromoCodeViewModel
                 Code = Data.Code,
                 Discount = Data.Discount,
                 Limit = Data.Limit,
-                ServiceID = Data.ServiceID,
+                ServiceId = Data.ServiceId,
                 Count = Data.Count,
                 StartDate = Data.StartDate,
                 ExpirationDate = Data.ExpirationDate,

@@ -19,7 +19,7 @@ namespace ViewModels.ServiceViewModels
         public bool IsDeleted { get; set; }
         public virtual required ICollection<ServiceAttachment> ServiceAttachments { set; get; }
         public virtual required PromoCode PromoCode { set; get; }
-        public virtual required ICollection<BookingDetails> BookingDetails { set; get; }
+        public virtual required ICollection<Reservation> Reservations { set; get; }
 
 
     }

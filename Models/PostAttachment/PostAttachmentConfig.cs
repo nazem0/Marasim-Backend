@@ -9,10 +9,10 @@ namespace Models
         {
             builder.ToTable("PostAttachment");
 
-            builder.HasKey(pa => pa.ID);
+            builder.HasKey(pa => pa.Id);
 
             builder
-                .Property(pa => pa.ID)
+                .Property(pa => pa.Id)
                 .ValueGeneratedOnAdd()
                 .HasMaxLength(11);
             builder

@@ -80,8 +80,7 @@ namespace API
             // Add services to the container.
             Builder.Services.AddScoped<UserManager>();
             Builder.Services.AddScoped<CategoryManager>();
-            Builder.Services.AddScoped<BookingManager>();
-            Builder.Services.AddScoped<BookingDetailsManager>();
+            Builder.Services.AddScoped<ReservationManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();
             Builder.Services.AddScoped<ServiceManager>();
             Builder.Services.AddScoped<ReviewManager>();
@@ -95,7 +94,7 @@ namespace API
             Builder.Services.AddScoped<PromoCodeManager>();
             Builder.Services.AddScoped<VendorManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();
-            Builder.Services.AddScoped<AccountManager>();
+            Builder.Services.AddScoped<AccountRepository>();
             Builder.Services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {

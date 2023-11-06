@@ -6,7 +6,7 @@ namespace ViewModels.UserViewModels
     public class UserRegisterationViewModel : IUserRegisteration
     {
         public required string Name { get; set; }
-        public required string NationalID { get; set; }
+        public required string NationalId { get; set; }
         public string PicUrl { get; set; } = string.Empty;
         public required IFormFile Picture { get; set; }
         public required string Email { get; set; }

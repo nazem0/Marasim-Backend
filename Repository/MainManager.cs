@@ -15,10 +15,7 @@ namespace Repository
         }
         public IQueryable<T> Get() => DbSet;
         public int Count() => DbSet.Count();
-        public IQueryable<T> Get(int ID) => DbSet.Where(i => i.ID == ID);
-        public EntityEntry<T> Add(T entity) => DbSet.Add(entity);
-
-        public EntityEntry<T> Update(T entity) => DbSet.Update(entity);
+        public IQueryable<T> Get(int Id) => DbSet.Where(i => i.Id == Id);
 
         public EntityEntry<T> Delete(T entity) => DbSet.Remove(entity);
         public void Save()

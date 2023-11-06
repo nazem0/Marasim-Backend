@@ -10,19 +10,19 @@ namespace Models
             builder
                 .ToTable("Follow");
             builder
-                .HasKey(f => f.ID);
+                .HasKey(f => f.Id);
             ;
 
             builder
-                .Property(f => f.ID)
+                .Property(f => f.Id)
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(c => c.UserID)
+                .Property(c => c.UserId)
                 .IsRequired();
 
             builder
-                .Property(f => f.VendorID)
+                .Property(f => f.VendorId)
                 .IsRequired();
 
             builder

@@ -9,16 +9,16 @@ namespace Models
         {
             builder.ToTable("Post");
 
-            builder.HasKey(p => p.ID);
+            builder.HasKey(p => p.Id);
 
             //Properties
             builder
-                .Property(p => p.ID)
+                .Property(p => p.Id)
                 .HasMaxLength(11)
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(p => p.VendorID)
+                .Property(p => p.VendorId)
                 .HasMaxLength(11)
                 .IsRequired();
             builder
@@ -43,13 +43,13 @@ namespace Models
             builder
                 .HasMany(p => p.Comments)
                 .WithOne(c => c.Post)
-                .HasForeignKey(c => c.PostID)
+                .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.ClientCascade);
 
             builder
                 .HasMany(p => p.Reacts)
                 .WithOne(r => r.Post)
-                .HasForeignKey(r => r.PostID)
+                .HasForeignKey(r => r.PostId)
                 .OnDelete(DeleteBehavior.ClientCascade);
         }
     }

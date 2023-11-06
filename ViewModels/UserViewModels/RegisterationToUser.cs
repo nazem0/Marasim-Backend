@@ -9,7 +9,7 @@ namespace ViewModels.UserViewModels
             return new User
             {
                 Name = viewModel.Name,
-                NationalID = viewModel.NationalID,
+                NationalId = viewModel.NationalId,
                 PicUrl = viewModel.PicUrl,
                 UserName = viewModel.Email,
                 Email = viewModel.Email,

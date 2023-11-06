@@ -11,14 +11,14 @@ namespace Models
                 .ToTable("CheckListItem");
 
             builder
-                .HasKey(cli => cli.ID);
+                .HasKey(cli => cli.Id);
 
             builder
-                .Property(cli => cli.ID)
+                .Property(cli => cli.Id)
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(cli => cli.ChecklistID)
+                .Property(cli => cli.ChecklistId)
                 .IsRequired();
 
             builder

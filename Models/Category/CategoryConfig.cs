@@ -12,10 +12,10 @@ namespace Models
                 .ToTable("Category");
 
             builder
-                .HasKey(c => c.ID);
+                .HasKey(c => c.Id);
 
             builder
-                .Property(c => c.ID)
+                .Property(c => c.Id)
                 .ValueGeneratedOnAdd();
 
             builder
@@ -31,7 +31,8 @@ namespace Models
             builder
                 .HasMany(c => c.Vendors)
                 .WithOne(v => v.Category)
-                .HasForeignKey(v => v.CategoryId);
+                .HasForeignKey(v => v.CategoryId)
+                .IsRequired();
         }
     }
 

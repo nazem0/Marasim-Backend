@@ -60,11 +60,11 @@ namespace API.Controllers
 
         [Authorize(Roles = "user,admin")]
         [HttpPut("Update/{ReviewID}")]
-        public IActionResult Update(int ReviewID, [FromForm] UpdateReviewViewModel OldReview)
+        public IActionResult Update(int ReviewId, [FromForm] UpdateReviewViewModel OldReview)
         {
-            string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var Data = ReviewManager.GetReviewByID(ReviewID);
-            if (Data.UserID == UserID)
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var Data = ReviewManager.GetReviewByID(ReviewId);
+            if (Data.UserId == UserId)
             {
                 Data.Message = OldReview.Message ?? Data.Message;
                 Data.Rate = OldReview.Rate;
@@ -82,9 +82,9 @@ namespace API.Controllers
         [HttpDelete("Delete/{ReviewID}")]
         public IActionResult Delete(int ReviewID)
         {
-            string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             var Data = ReviewManager.GetReviewByID(ReviewID);
-            if (Data.UserID == UserID)
+            if (Data.UserId == UserId)
             {
                 ReviewManager.Delete(Data);
                 ReviewManager.Save();

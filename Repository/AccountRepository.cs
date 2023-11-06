@@ -15,7 +15,7 @@ using ViewModels.VendorViewModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Repository
 {
-    public class AccountManager
+    public class AccountRepository
     {
         readonly UserManager<User> UserManager;
         readonly SignInManager<User> SignInManager;
@@ -23,7 +23,7 @@ namespace Repository
         readonly VendorManager VendorManager;
 
 
-        public AccountManager(
+        public AccountRepository(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
             VendorManager _vendorManager,

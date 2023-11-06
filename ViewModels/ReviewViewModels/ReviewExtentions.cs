@@ -4,12 +4,12 @@ namespace ViewModels.ReviewViewModels
 {
     public static class ReviewExtentions
     {
-        public static Review ToModel(this AddReviewViewModel AddReview, string UserID)
+        public static Review ToModel(this AddReviewViewModel AddReview, string UserId)
         {
             return new Review
             {
-                UserID = UserID,
-                ServiceID = AddReview.ServiceID,
+                UserId = UserId,
+                ServiceId = AddReview.ServiceId,
                 Rate = AddReview.Rate,
                 Message = AddReview.Message,
                 DateTime = AddReview.DateTime

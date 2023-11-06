@@ -4,7 +4,7 @@ namespace Models
 {
     public class WeddingInvitation : BaseModel
     {
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public string Decsription { get; set; }
         public string GroomName { get; set; }
         public string GroomPicUrl { get; set; }

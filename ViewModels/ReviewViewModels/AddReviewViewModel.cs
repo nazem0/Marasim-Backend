@@ -5,7 +5,7 @@ namespace ViewModels.ReviewViewModels
     public class AddReviewViewModel
     {
         [Required]
-        public required int ServiceID { get; set; }
+        public required int ServiceId { get; set; }
 
         [Required]
         public required int Rate { get; set; }

@@ -1,23 +1,33 @@
-﻿using Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Models;
 
 namespace Repository
 {
     public class VendorManager : MainManager<Vendor>
     {
-        public VendorManager(EntitiesContext _dBContext) : base(_dBContext) { }
-
-        public Vendor GetVendorByUserId(string ID)
+        private readonly EntitiesContext EntitiesContext;
+        public VendorManager(EntitiesContext _dBContext) : base(_dBContext)
         {
-            return Get().Where(v => v.UserID == ID).FirstOrDefault()!;
+            EntitiesContext = _dBContext;
         }
-        public int GetVendorIdByUserId(string ID)
+        public EntityEntry<Vendor> Add(Vendor Vendor)
         {
-            return Get().Where(v => v.UserID == ID).FirstOrDefault()!.ID;
+            return EntitiesContext.Add(Vendor);
+        }
+        public Vendor GetVendorByUserId(string Id)
+        {
+            return Get().Where(v => v.UserId == Id).FirstOrDefault()!;
+        }
+        public int GetVendorIdByUserId(string Id)
+        {
+            Vendor Vendor = Get().Where(v => v.UserId == Id).FirstOrDefault()!;
+            return Vendor.Id;
         }
 
-        public Vendor GetVendorByID(int ID)
+        public Vendor GetVendorByID(int Id)
         {
-            return Get().Where(v => v.ID == ID).FirstOrDefault()!;
+            return Get().Where(v => v.Id == Id).FirstOrDefault()!;
         }
     }
 }

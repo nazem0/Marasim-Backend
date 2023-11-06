@@ -12,10 +12,10 @@ namespace Models
                 .ToTable("ServiceAttachment");
 
             builder
-                .HasKey(i => i.ID);
+                .HasKey(i => i.Id);
 
             builder
-                .Property(i => i.ID)
+                .Property(i => i.Id)
                 .ValueGeneratedOnAdd();
 
             builder

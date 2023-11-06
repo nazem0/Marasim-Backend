@@ -11,20 +11,20 @@ namespace Models
             builder
                 .ToTable("Comment");
             builder
-                .HasKey(c => c.ID);
+                .HasKey(c => c.Id);
 
             builder
-                .Property(c => c.ID)
+                .Property(c => c.Id)
                 .HasMaxLength(11)
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(c => c.PostID)
+                .Property(c => c.PostId)
                 .HasMaxLength(11)
                 .IsRequired();
 
             builder
-                .Property(c => c.UserID)
+                .Property(c => c.UserId)
                 .IsRequired();
 
             builder

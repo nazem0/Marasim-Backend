@@ -56,7 +56,7 @@ namespace API.Controllers
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var Comment = CommentManager.Get(CommentID).FirstOrDefault();
-            if (Comment is not null && Comment.UserID == UserId)
+            if (Comment is not null && Comment.UserId == UserId)
             {
                 CommentManager.Delete(Comment);
                 CommentManager.Save();

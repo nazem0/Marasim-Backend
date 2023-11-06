@@ -64,8 +64,8 @@ namespace API.Controllers
         {
             if (ModelState.IsValid)
             {
-                int VendorID = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-                Post? NewPost = PostManager.Add(Data.ToModel(VendorID)).Entity;
+               int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                Post? NewPost = PostManager.Add(Data.ToModel(VendorId)).Entity;
                 PostManager.Save();
                 foreach (IFormFile item in Data.Pictures)
                 {
@@ -73,8 +73,8 @@ namespace API.Controllers
                     string FileName = DateTime.Now.Ticks + fi.Extension;
                     Helper.UploadMediaAsync
                         (User.FindFirstValue(ClaimTypes.NameIdentifier)!
-                        , "PostAttachment", FileName, item, $"{NewPost.ID}-{NewPost.Title}");
-                    PostAttachmentManager.Add(
+                        , "PostAttachment", FileName, item, $"{NewPost.Id}-{NewPost.Title}");
+                    NewPost.PostAttachments.Add(
                         new PostAttachment
                         {
                             AttachmentUrl = FileName,
@@ -104,11 +104,11 @@ namespace API.Controllers
         public IActionResult Delete(int PostID)
         {
             Post? Post = PostManager.GetPostByID(PostID);
-            if(Post is not null)
+            if (Post is not null)
             {
                 PostManager.Delete(Post);
                 PostManager.Save();
-            return Ok("Deleted");
+                return Ok("Deleted");
             }
             else
             {
@@ -121,13 +121,11 @@ namespace API.Controllers
         public IActionResult Update(int PostID, [FromForm] EditPostViewModel OldPost)
         {
             Post? Post = PostManager.GetPostByID(PostID);
-            if(Post is not null)
+            if (Post is not null)
             {
                 Post.Title = OldPost.Title ?? Post.Title;
                 Post.Description = OldPost.Description ?? Post.Description;
                 Post.DateTime = OldPost.DateTime;
-                Post.ServiceID = OldPost.ServiceID ?? Post.ServiceID;
-
                 PostManager.Update(Post);
                 PostManager.Save();
                 return Ok("Updated");

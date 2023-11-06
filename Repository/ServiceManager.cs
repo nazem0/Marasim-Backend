@@ -1,10 +1,18 @@
-﻿using Models;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Models;
 
 namespace Repository
 {
     public class ServiceManager : MainManager<Service>
     {
-        public ServiceManager(EntitiesContext _dBContext) : base(_dBContext) { }
+        private readonly EntitiesContext EntitiesContext;
+        public ServiceManager(EntitiesContext _dBContext) : base(_dBContext) {
+            EntitiesContext = _dBContext;
+        }
+        public EntityEntry<Service> Add(Service entity)
+        {
+            return EntitiesContext.Add(entity);
+        }
         public void Delete(int Id)
         {
             Service? Service = Get(Id).FirstOrDefault();
@@ -20,6 +28,11 @@ namespace Repository
         public IQueryable<Service> GetActive()
         {
             return Get().Where(s => s.IsDeleted == false);
+        }
+
+        public EntityEntry<Service> Update(Service Entity)
+        {
+            return EntitiesContext.Update(Entity);
         }
     }
 }

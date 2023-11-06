@@ -6,8 +6,8 @@ namespace Models
     {
         public EntitiesContext() { }
         public EntitiesContext(DbContextOptions options) : base(options) { }
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<BookingDetails> BookingsDetails { get; set; }
+        //public DbSet<Booking> Bookings { get; set; }
+        //public DbSet<BookingDetails> BookingsDetails { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CheckList> CheckLists { get; set; }
         public DbSet<CheckListItem> CheckListItems { get; set; }
@@ -24,8 +24,8 @@ namespace Models
         public DbSet<WeddingInvitation> WeddingInvitations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new BookingConfig());
-            modelBuilder.ApplyConfiguration(new BookingDetailsConfig());
+            //modelBuilder.ApplyConfiguration(new BookingConfig());
+            //modelBuilder.ApplyConfiguration(new BookingDetailsConfig());
             modelBuilder.ApplyConfiguration(new CategoryConfig());
             modelBuilder.ApplyConfiguration(new CheckListConfig());
             modelBuilder.ApplyConfiguration(new CheckListItemConfig());

@@ -4,7 +4,7 @@ namespace Models
 {
     public class Vendor : BaseModel
     {
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public string Summary { get; set; }
         public bool IsDeleted { get; set; }
         public decimal Latitude { get; set; }

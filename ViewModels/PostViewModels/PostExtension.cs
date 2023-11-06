@@ -4,13 +4,12 @@ namespace ViewModels.PostViewModels
 {
     public static class PostExtension
     {
-        public static Post ToModel(this AddPostViewModel AddPost, int VendorID)
+        public static Post ToModel(this AddPostViewModel AddPost, int VendorId)
         {
             return new Post
             {
-                VendorID = VendorID,
+                VendorId = VendorId,
                 Title = AddPost.Title,
-                ServiceID = AddPost.ServiceID,
                 Description = AddPost.Description,
                 DateTime = DateTime.Now
             };
@@ -20,18 +19,17 @@ namespace ViewModels.PostViewModels
         {
             return new PostViewModel
             {
-                ID = Post.ID,
-                VendorID = Post.VendorID,
+                Id= Post.Id,
+                VendorId = Post.VendorId,
                 Title = Post.Title,
                 Description = Post.Description,
                 DateTime = Post.DateTime,
-                ServiceID = Post.ServiceID,
                 Comments = Post.Comments,
                 Reacts = Post.Reacts,
                 PostAttachments = Post.PostAttachments,
                 VendorName = User.Name,
                 VendorPicUrl = User.PicUrl,
-                VendorUserID = User.Id
+                VendorUserId = User.Id
             };
         }
     }
