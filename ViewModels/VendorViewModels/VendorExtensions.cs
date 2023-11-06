@@ -27,10 +27,10 @@ namespace ViewModels.VendorViewModels
                 Summary = Vendor.Summary,
                 CategoryId = Vendor.CategoryId,
                 ExternalUrl = Vendor.ExternalUrl,
-                UserID = Vendor.UserID,
+                UserId = Vendor.UserId,
                 Name = _User.Name,
                 Gender = _User.Gender,
-                NationalID = _User.NationalID,
+                NationalId = _User.NationalId,
                 PicUrl = _User.PicUrl
             };
         }

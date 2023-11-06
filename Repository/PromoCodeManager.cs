@@ -14,10 +14,14 @@ namespace Repository
         {
             return EntitiesContext.Add(entity);
         }
-        //public PromoCode GetPromoCodeByID(int ID)
-        //{
-        //    return Get().Where(p => p.ID == ID && p.IsDeleted == false).FirstOrDefault()!;
-        //}
+        public PromoCode GetPromoCodeByID(int Id)
+        {
+            return Get().Where(p => p.Id == Id).FirstOrDefault()!;
+        }
+        public PromoCode? GetPromoCodeByCode(string Code,int ServiceId)
+        {
+            return Get().Where(pc => pc.Code == Code & pc.ServiceId==ServiceId).FirstOrDefault();
+        }
 
     }
 }

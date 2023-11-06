@@ -93,7 +93,7 @@ namespace Marasim_Backend.Controllers
                 Helper.UploadMediaAsync
                     (User.FindFirstValue(ClaimTypes.NameIdentifier)!
                     , "ServiceAttachment", FileName, item, $"{CreatedService.Id}-{CreatedService.Title}");
-                CreatedService.ServiceAttachments.Add(
+                ServiceAttachmentManager.Add(
                     new ServiceAttachment
                     {
                         AttachmentUrl = FileName,

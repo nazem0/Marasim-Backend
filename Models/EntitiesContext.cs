@@ -6,8 +6,6 @@ namespace Models
     {
         public EntitiesContext() { }
         public EntitiesContext(DbContextOptions options) : base(options) { }
-        //public DbSet<Booking> Bookings { get; set; }
-        //public DbSet<BookingDetails> BookingsDetails { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CheckList> CheckLists { get; set; }
         public DbSet<CheckListItem> CheckListItems { get; set; }
@@ -18,6 +16,7 @@ namespace Models
         public DbSet<PromoCode> PromoCodes { get; set; }
         public DbSet<React> Reacts { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceAttachment> ServiceAttachments { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
