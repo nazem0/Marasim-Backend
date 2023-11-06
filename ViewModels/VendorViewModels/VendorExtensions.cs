@@ -13,6 +13,7 @@ namespace ViewModels.VendorViewModels
                 Latitude = viewModel.Latitude,
                 Longitude = viewModel.Longitude,
                 Summary = viewModel.Summary,
+                CategoryId = viewModel.CategoryId
             };
         }
     }

@@ -19,6 +19,6 @@ namespace ViewModels.VendorViewModels
         public required string Password { get; set; }
         public required string ConfirmPassword { get; set; }
         public required bool Gender { get; set; }
-        public required bool IsDeleted { get; set; }
+        public required int CategoryId { get; set; }
     }
 }

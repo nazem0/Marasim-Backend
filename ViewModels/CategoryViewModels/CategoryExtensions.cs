@@ -9,9 +9,9 @@ namespace ViewModels.CategoryViewModels
 {
     public static class CategoryExtensions
     {
-        public Category ToCategory(this AddCategoryViewModel Data)
+        public static Category ToCategory(this AddCategoryViewModel Data)
         {
-            return new Category {  }
+            return new Category { Name = Data.Name };
         }
     }
 }
