@@ -5,8 +5,6 @@ namespace Models
 {
     public class BookingDetailsConfig : IEntityTypeConfiguration<BookingDetails>
     {
-
-        //public Booking Booking { get; set; }
         public void Configure(EntityTypeBuilder<BookingDetails> builder)
         {
             builder
@@ -20,7 +18,7 @@ namespace Models
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(bd => bd.BookingID)
+                .Property(bd => bd.BookingId)
                 .HasMaxLength(11)
                 .IsRequired();
 
@@ -30,7 +28,7 @@ namespace Models
                 .IsRequired();
 
             builder
-                .Property(bd => bd.ServiceID)
+                .Property(bd => bd.ServiceId)
                 .HasMaxLength(11)
                 .IsRequired();
 

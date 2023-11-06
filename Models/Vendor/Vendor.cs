@@ -10,9 +10,11 @@ namespace Models
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public string Address { get; set; }
+        public int CategoryId { get; set; }
+        public string ExternalUrl { get; set; }
+        public virtual Category Category { get; set; }
         public virtual ICollection<Follow> Followers { set; get; }
         public virtual ICollection<Service> Services { get; set; }
-
         public virtual User User { get; set; }
 
     }

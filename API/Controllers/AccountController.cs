@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace API.Controllers
 {
@@ -97,8 +98,9 @@ namespace API.Controllers
                 return new ObjectResult(str);
 
             }
-            var user = await AccountManager.Login(viewModel);
-            if (user.Succeeded)
+            SignInResult SignInResult = await AccountManager.Login(viewModel);
+            if (SignInResult.IsLockedOut) return new ObjectResult("Your Account is Under Review");
+            else if (SignInResult.Succeeded)
             {
                 User? User = await UserManager.FindByEmailAsync(viewModel.Email);
                 string tokenString = await AccountManager.GenerateJSONWebToken(User!);
@@ -128,7 +130,6 @@ namespace API.Controllers
                     });
                 }
             }
-            else if (user.IsLockedOut) return new ObjectResult("Your Account is Under Review");
             else return new ObjectResult("User name or Password is Wrong");
 
 

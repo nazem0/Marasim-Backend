@@ -8,8 +8,7 @@ namespace Models
         public string Name { get; set; }
         public string PicUrl { get; set; }
         public bool IsDeleted { get; set; }
-
-        public virtual ICollection<Service> Services { set; get; }
+        public virtual ICollection<Vendor> Vendors { set; get; }
     }
 
 }

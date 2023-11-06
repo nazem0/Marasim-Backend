@@ -49,7 +49,7 @@ namespace Models
             builder
                .HasMany(u => u.Bookings)
                .WithOne(b => b.User)
-               .HasForeignKey(b => b.UserID)
+               .HasForeignKey(b => b.UserId)
                .IsRequired();
 
             builder

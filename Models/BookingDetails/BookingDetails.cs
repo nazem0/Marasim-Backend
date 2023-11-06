@@ -4,8 +4,8 @@ namespace Models
 {
     public class BookingDetails : BaseModel
     {
-        public int BookingID { get; set; }
-        public int ServiceID { get; set; }
+        public int BookingId { get; set; }
+        public int ServiceId { get; set; }
         public string Code { get; set; }
         public Status Status { get; set; }
         public float Payment { get; set; }

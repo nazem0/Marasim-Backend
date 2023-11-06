@@ -36,21 +36,7 @@ namespace Models
                 .Property(s => s.Price)
                 .IsRequired();
 
-            //builder
-            //    .Property(s=> s.Street)
-            //    .HasMaxLength(100);
-
-            //builder
-            //    .Property(s=> s.District)
-            //    .HasMaxLength(100)
-            //    .IsRequired();
-
-            //builder
-            //    .Property(s=> s.Governance)
-            //    .HasMaxLength(100)
-            //    .IsRequired();
-
-
+            
             //relationship
             builder
                .HasMany(s => s.Reviews)
@@ -65,22 +51,16 @@ namespace Models
                 .HasForeignKey(s => s.VendorID)
                 .IsRequired();
 
-            //builder
-            //   .HasMany(s => s.PromoCodes)
-            //   .WithOne(pc => pc.Service)
-            //   .HasForeignKey(pc => pc.ServiceID)
-            //   .IsRequired();
-
-            //builder
-            //    .HasOne(s=> s.Category)
-            //    .WithMany(c=> c.Services)
-            //    .HasForeignKey(s=> s.CategoryID)
-            //    .IsRequired();
+            builder
+               .HasOne(s => s.PromoCode)
+               .WithOne(pc => pc.Service)
+               .HasForeignKey<PromoCode>(pc => pc.ServiceID)
+               .IsRequired();
 
             builder
                 .HasMany(s => s.BookingDetails)
                 .WithOne(bd => bd.Service)
-                .HasForeignKey(bd => bd.ServiceID)
+                .HasForeignKey(bd => bd.ServiceId)
                 .OnDelete(DeleteBehavior.ClientCascade);
         }
     }

@@ -5,7 +5,7 @@ namespace Models
 {
     public class Booking : BaseModel
     {
-        public string UserID { get; set; }
+        public string UserId { get; set; }
         public float TotalPrice { get; set; }
         public DateTime DateTime { get; set; }
         public virtual ICollection<BookingDetails> BookingsDetails { get; set; }

@@ -51,6 +51,10 @@ namespace Models
                 .HasPrecision(18, 15);
 
             builder
+                .Property(v => v.ExternalUrl)
+                .HasMaxLength(2085);
+
+            builder
                  .HasMany(v => v.Followers)
                  .WithOne(f => f.Vendor)
                  .OnDelete(DeleteBehavior.NoAction)

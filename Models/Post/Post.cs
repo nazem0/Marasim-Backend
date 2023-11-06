@@ -14,8 +14,6 @@ namespace Models
         public virtual ICollection<PostAttachment> PostAttachments { set; get; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<React> Reacts { get; set; }
-
-        public bool IsDeleted { get; set; }
     }
 
 

@@ -19,7 +19,7 @@ namespace Models
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(b => b.UserID)
+                .Property(b => b.UserId)
                 .IsRequired();
 
             builder
@@ -34,7 +34,7 @@ namespace Models
             builder
                 .HasMany(b => b.BookingsDetails)
                 .WithOne(bd => bd.Booking)
-                .HasForeignKey(bd => bd.BookingID)
+                .HasForeignKey(bd => bd.BookingId)
                 .IsRequired();
 
 

@@ -1,5 +1,8 @@
 ﻿
-public enum Status
+namespace Models
 {
-    Pending, Approved, Declined
+    public enum Status
+    {
+        Pending, Approved, Declined
+    }
 }

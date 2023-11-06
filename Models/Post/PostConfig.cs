@@ -18,11 +18,6 @@ namespace Models
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(p => p.IsDeleted)
-                .HasDefaultValue(false)
-                .IsRequired();
-
-            builder
                 .Property(p => p.VendorID)
                 .HasMaxLength(11)
                 .IsRequired();

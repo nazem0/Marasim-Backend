@@ -27,8 +27,7 @@ namespace API.Controllers
         }
         public IActionResult Get()
         {
-            var Data = PostManager.Get().Where(p => p.IsDeleted == false)
-                .AsNoTracking()
+            var Data = PostManager.Get()
                 .Include(p => p.PostAttachments)
                 .Include(p => p.Comments)
                 .Include(p => p.Reacts)
@@ -96,25 +95,38 @@ namespace API.Controllers
         [Authorize(Roles = "vendor,admin")]
         public IActionResult Delete(int PostID)
         {
-            var Data = PostManager.GetPostByID(PostID);
-            Data.IsDeleted = true;
-            PostManager.Update(Data);
-            PostManager.Save();
+            Post? Post = PostManager.GetPostByID(PostID);
+            if(Post is not null)
+            {
+                PostManager.Delete(Post);
+                PostManager.Save();
             return Ok("Deleted");
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [Authorize(Roles = "vendor,admin")]
         public IActionResult Update(int PostID, [FromForm] EditPostViewModel OldPost)
         {
-            var Data = PostManager.GetPostByID(PostID);
-            Data.Title = OldPost.Title ?? Data.Title;
-            Data.Description = OldPost.Description ?? Data.Description;
-            Data.DateTime = OldPost.DateTime;
-            Data.ServiceID = OldPost.ServiceID ?? Data.ServiceID;
+            Post? Post = PostManager.GetPostByID(PostID);
+            if(Post is not null)
+            {
+                Post.Title = OldPost.Title ?? Post.Title;
+                Post.Description = OldPost.Description ?? Post.Description;
+                Post.DateTime = OldPost.DateTime;
+                Post.ServiceID = OldPost.ServiceID ?? Post.ServiceID;
 
-            PostManager.Update(Data);
-            PostManager.Save();
-            return Ok("Updated");
+                PostManager.Update(Post);
+                PostManager.Save();
+                return Ok("Updated");
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
