@@ -29,11 +29,6 @@ namespace Models
                 .IsRequired();
 
             builder
-                .Property(c => c.PicUrl)
-                .IsRequired()
-                .HasMaxLength(2083);
-
-            builder
                 .HasMany(c => c.Vendors)
                 .WithOne(v => v.Category)
                 .HasForeignKey(v => v.CategoryId);
