@@ -15,8 +15,6 @@ namespace Models
                 .Property(s => s.Id)
                 .ValueGeneratedOnAdd();
 
-
-
             builder
                 .Property(s => s.Title)
                 .HasMaxLength(100)
@@ -59,8 +57,8 @@ namespace Models
 
             builder
                 .HasMany(s => s.Reservations)
-                .WithOne(bd => bd.Service)
-                .HasForeignKey(bd => bd.ServiceId)
+                .WithOne(r => r.Service)
+                .HasForeignKey(r => r.ServiceId)
                 .OnDelete(DeleteBehavior.ClientCascade);
         }
     }

@@ -23,8 +23,6 @@ namespace Models
         public DbSet<WeddingInvitation> WeddingInvitations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new BookingConfig());
-            //modelBuilder.ApplyConfiguration(new BookingDetailsConfig());
             modelBuilder.ApplyConfiguration(new CategoryConfig());
             modelBuilder.ApplyConfiguration(new CheckListConfig());
             modelBuilder.ApplyConfiguration(new CheckListItemConfig());
@@ -34,6 +32,7 @@ namespace Models
             modelBuilder.ApplyConfiguration(new PostAttachmentConfig());
             modelBuilder.ApplyConfiguration(new PromoCodeConfig());
             modelBuilder.ApplyConfiguration(new ReactConfig());
+            modelBuilder.ApplyConfiguration(new ReservationConfig());
             modelBuilder.ApplyConfiguration(new ReviewConfig());
             modelBuilder.ApplyConfiguration(new ServiceConfig());
             modelBuilder.ApplyConfiguration(new ServiceAttachmentConfig());

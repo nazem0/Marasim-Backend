@@ -8,6 +8,8 @@ namespace Models
         public void Configure(EntityTypeBuilder<Reservation> builder)
         {
             builder
+                .ToTable("Reservation");
+            builder
                 .HasKey(r => r.Id);
 
             builder
@@ -28,14 +30,6 @@ namespace Models
                 .WithMany(u => u.Reservations)
                 .HasForeignKey(r => r.UserId)
                 .IsRequired();
-
-            builder
-                .HasOne(r => r.Service)
-                .WithMany(s => s.Reservations)
-                .HasForeignKey(r => r.ServiceId)
-                .IsRequired();
-
-
         }
     }
 }
