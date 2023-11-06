@@ -14,7 +14,7 @@ namespace Repository
         }
         public EntityEntry<Category>? Add(AddCategoryViewModel Data)
         {
-            if (Get().Where(c => c.Name == Data.Name).Any())
+            if (EntitesContext.Set<Category>().Where(c => c.Name == Data.Name).Any())
             {
                 return null;
             }
