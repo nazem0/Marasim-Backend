@@ -1,4 +1,5 @@
 ﻿using Models;
+using ViewModels.VendorViewModels;
 
 namespace Repository
 {
@@ -13,11 +14,6 @@ namespace Repository
         public int GetVendorIdByUserId(string ID)
         {
             return Get().Where(v => v.UserID == ID).FirstOrDefault()!.ID;
-        }
-
-        public Vendor GetVendorByID(int ID)
-        {
-            return Get().Where(v => v.ID == ID).FirstOrDefault()!;
         }
     }
 }

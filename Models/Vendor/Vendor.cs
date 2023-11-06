@@ -14,6 +14,7 @@ namespace Models
         public string ExternalUrl { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<Follow> Followers { set; get; }
+        public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Service> Services { get; set; }
         public virtual User User { get; set; }
 

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
 using ViewModels.CategoryViewModels;
+using ViewModels.UserViewModels;
 
 namespace Marasim_Backend.Controllers
 {
@@ -23,7 +24,8 @@ namespace Marasim_Backend.Controllers
         {
             var Data = CategoryManager.Get()
                 .Where(c => c.IsDeleted == false)
-                .Include(c => c.Vendors);
+                .Include(c => c.Vendors)
+                .ThenInclude(v => v.User);
             return new JsonResult(Data);
         }
         [HttpGet("Count")]
