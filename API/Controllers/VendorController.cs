@@ -31,6 +31,7 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetVendorByID/{VendorID}")]
         public IActionResult GetVendorByID(int VendorID)
         {
+            //محتاجين واحدة بتعرض بقا المعلومات كاااااااااملة جواها سرفس وبوست وكلو كلو كلو
             var Data = VendorManager.Get(VendorID)
                 .Include(v => v.User)
                 //.Select(v => v.ToVendorViewModel(v.User))
