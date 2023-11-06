@@ -21,8 +21,10 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetAll")]
         public IActionResult Get()
         {
-            var x = CategoryManager.Get().ToList();
-            return new JsonResult(x);
+            var Data = CategoryManager.Get()
+                .Where(c => c.IsDeleted == false)
+                .Include(c => c.Vendors);
+            return new JsonResult(Data);
         }
         [HttpGet("Count")]
         public IActionResult Count()
