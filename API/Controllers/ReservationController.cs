@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
+using System.Security.Claims;
 using ViewModels.ReservationViewModels;
 
 namespace Api.Controllers
@@ -15,11 +16,13 @@ namespace Api.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly ReservationManager ReservationManager;
-        public ReservationController(ReservationManager reservationManager)
+        private readonly VendorManager VendorManager;
+        public ReservationController(ReservationManager reservationManager, VendorManager vendorManager)
         {
             ReservationManager = reservationManager;
+            VendorManager = vendorManager;
         }
-        [HttpPost("Add"),Authorize()]
+        [HttpPost("Add"), Authorize()]
         public IActionResult Add([FromForm] AddReservationViewModel Data)
         {
             if (!ModelState.IsValid)
@@ -35,7 +38,7 @@ namespace Api.Controllers
                 return BadRequest(Errors);
             }
             EntityEntry<Reservation>? Entry = ReservationManager.Add(Data);
-            if(Entry is null)
+            if (Entry is null)
             {
                 return BadRequest("Service Doesn't Exist");
             }
@@ -48,6 +51,38 @@ namespace Api.Controllers
             {
                 return BadRequest(Entry.State);
             }
+        }
+        [HttpPost("Accept")]
+        public IActionResult Accept([FromForm] AcceptReservation Data)
+        {
+            if (!ModelState.IsValid)
+            {
+                List<ModelError> Errors = new();
+                foreach (var item in ModelState.Values)
+                {
+                    foreach (ModelError item1 in item.Errors)
+                    {
+                        Errors.Add(item1);
+                    }
+                }
+                return BadRequest(Errors);
+            }
+            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (Data.VendorId!=VendorId)
+                return Unauthorized("YOU ARE NOT THE PROVIDER OF THIS BOOKING");
+            
+            EntityEntry<Reservation>? Entry = ReservationManager.Accept(Data);
+            if (Entry is null)
+                return BadRequest("Reservation Doesn't Exist");
+            
+            if (Entry.State == EntityState.Modified)
+            {
+                ReservationManager.Save();
+                return Ok(Entry.Entity);
+            }
+            else            
+                return BadRequest(Entry.State);
+            
         }
     }
 }
