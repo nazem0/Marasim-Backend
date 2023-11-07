@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.ReservationViewModels;
 
@@ -40,6 +41,14 @@ namespace Repository
             if(Reservation == null) return null;
             Reservation.Status = 'a';
             return EntitiesContext.Update(Reservation);
+        }
+        public IQueryable<ReservationViewModel> Get(string UserId)
+        {
+            return Get()
+                .Where(r => r.UserId == UserId)
+                .Include(r => r.Service)
+                .ThenInclude(s=>s.Vendor.User)
+                .Select(r => r.ToReservationViewModel());
         }
     }
 }

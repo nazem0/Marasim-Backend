@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
 using System.Security.Claims;
+using System.Text.Json.Nodes;
 using ViewModels.ReservationViewModels;
 
 namespace Api.Controllers
@@ -83,6 +84,11 @@ namespace Api.Controllers
             else            
                 return BadRequest(Entry.State);
             
+        }
+        [HttpGet("GetAllByUserId/{UserId}")]
+        public IActionResult GetAllByUserId(string UserId)
+        {
+            return Ok(ReservationManager.Get(UserId));
         }
     }
 }

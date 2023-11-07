@@ -4,18 +4,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModels.VendorViewModels;
 
 namespace ViewModels.ReservationViewModels
 {
     public static class ReservationExtensions
     {
-        public static Reservation ToReservation(this AddReservationViewModel Reservation) {
+        public static Reservation ToReservation(this AddReservationViewModel Data)
+        {
             return new Reservation
             {
-                UserId = Reservation.UserId,
-                ServiceId = Reservation.ServiceId,
-                DateTime = Reservation.DateTime,
+                UserId = Data.UserId,
+                ServiceId = Data.ServiceId,
+                DateTime = Data.DateTime
             };
-        } 
+        }
+        public static ReservationViewModel ToReservationViewModel(this Reservation Data)
+        {
+            return new ReservationViewModel
+            {
+                UserId = Data.UserId,
+                ServiceId = Data.ServiceId,
+                DateTime = Data.DateTime,
+                Price = Data.Price,
+                Status = Data.Status,
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
+            };
+        }
     }
 }
