@@ -21,6 +21,11 @@ namespace Models
                 .IsRequired();
 
             builder
+                .Property(r => r.IsDeleted)
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            builder
                 .Property(r => r.Status)
                 .HasDefaultValue('p')
                 .IsRequired();

@@ -8,6 +8,7 @@ namespace Models
         public int ServiceId { get; set; }
         public float Price { get; set; }
         public char Status { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public virtual User User { get; set; }
         public virtual Service Service { get; set; }
     }
