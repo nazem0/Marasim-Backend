@@ -28,5 +28,10 @@ namespace Repository
                 .ThenInclude(V=>V.User)
                 .Select(C => C.ToCategoryViewModel());
         }
+
+        public IEnumerable<CategoryNameViewModel> GetNames()
+        {
+            return base.Get().Select(c => c.ToCategoryNameViewModel());
+        }
     }
 }

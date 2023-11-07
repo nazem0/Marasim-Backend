@@ -13,5 +13,9 @@ namespace ViewModels.CategoryViewModels
         {
             return new CategoryViewModel { Name = Data.Name, Vendors = Data.Vendors.Select(v => v.ToVendorViewModel(v.User)) };
         }
+        public static CategoryNameViewModel ToCategoryNameViewModel(this Category Data)
+        {
+            return new CategoryNameViewModel { Id = Data.Id, Name = Data.Name };
+        }
     }
 }
