@@ -78,14 +78,10 @@ namespace Repository
         {
             var User = await UserManager.FindByEmailAsync(viewModel.Email);
             if (User != null)
-            {
-                return await SignInManager.PasswordSignInAsync(User,
-                                  viewModel.Password, viewModel.RememberMe, true);
-            }
+                return await SignInManager.PasswordSignInAsync
+                    (User, viewModel.Password, viewModel.RememberMe, viewModel.RememberMe);
             else
-            {
                 return SignInResult.Failed;
-            }
         }
 
         public async Task Logout()
@@ -112,7 +108,7 @@ namespace Repository
 
 
             var token = new JwtSecurityToken(
-              expires: DateTime.Now.AddMinutes(120),
+              expires: DateTime.Now.AddDays(30),
               signingCredentials: credentials,
               claims: claims);
 

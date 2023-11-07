@@ -30,7 +30,7 @@ namespace API
             Builder.Services.AddIdentity<User, IdentityRole>(Options =>
             {
                 Options.Lockout.MaxFailedAccessAttempts = 2;
-                Options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+                Options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                 Options.User.RequireUniqueEmail = true;
                 Options.SignIn.RequireConfirmedPhoneNumber = false;
                 Options.SignIn.RequireConfirmedEmail = false;

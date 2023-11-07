@@ -23,6 +23,7 @@ namespace ViewModels.ReservationViewModels
         {
             return new ReservationViewModel
             {
+                Id = Data.Id,
                 UserId = Data.UserId,
                 ServiceId = Data.ServiceId,
                 DateTime = Data.DateTime,

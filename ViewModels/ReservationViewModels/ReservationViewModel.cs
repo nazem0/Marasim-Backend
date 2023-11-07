@@ -11,6 +11,7 @@ namespace ViewModels.ReservationViewModels
 {
     public class ReservationViewModel
     {
+        public int Id { get; set; }
         public required string UserId { get; set; }
         public int ServiceId { get; set; }
         public float Price { get; set; }

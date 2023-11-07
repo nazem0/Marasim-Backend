@@ -53,8 +53,8 @@ namespace Api.Controllers
                 return BadRequest(Entry.State);
             }
         }
-        [HttpPut("Accept"), Authorize(Roles ="vendor")]
-        public IActionResult Accept([FromForm] AcceptReservation Data)
+        [HttpPut("Accept"), Authorize(Roles = "vendor")]
+        public IActionResult Accept([FromForm] ChangeReservationStatusViewModel Data)
         {
             if (!ModelState.IsValid)
             {
@@ -69,28 +69,60 @@ namespace Api.Controllers
                 return BadRequest(Errors);
             }
             int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (Data.VendorId!=VendorId)
+            if (Data.VendorId != VendorId)
                 return Unauthorized("This Reservation Doesn't Belong To You.");
-            
+
             EntityEntry<Reservation>? Entry = ReservationManager.Accept(Data);
             if (Entry is null)
                 return BadRequest("Reservation Doesn't Exist");
-            
-            if (Entry.State == EntityState.Modified)
+
+            if (Entry.State != EntityState.Modified)
+                return BadRequest(Entry.State);
+            else
             {
                 ReservationManager.Save();
                 return Ok(Entry.Entity);
             }
-            else            
-                return BadRequest(Entry.State);
-            
+
         }
-        [HttpGet("GetAllByUserId/{UserId}"),Authorize()]
+        [HttpPut("Reject"), Authorize(Roles = "vendor")]
+        public IActionResult Reject([FromForm] ChangeReservationStatusViewModel Data)
+        {
+            if (!ModelState.IsValid)
+            {
+                List<ModelError> Errors = new();
+                foreach (var item in ModelState.Values)
+                {
+                    foreach (ModelError item1 in item.Errors)
+                    {
+                        Errors.Add(item1);
+                    }
+                }
+                return BadRequest(Errors);
+            }
+            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (Data.VendorId != VendorId)
+                return Unauthorized("This Reservation Doesn't Belong To You.");
+
+            EntityEntry<Reservation>? Entry = ReservationManager.Reject(Data);
+            if (Entry is null)
+                return BadRequest("Reservation Doesn't Exist");
+
+            if (Entry.State != EntityState.Modified)
+                return BadRequest(Entry.State);
+            else
+            {
+                ReservationManager.Save();
+                return Ok(Entry.Entity);
+            }
+
+        }
+        [HttpGet("GetAllByUserId/{UserId}"), Authorize()]
         public IActionResult GetAllByUserId(string UserId)
         {
-            if(UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
+            if (UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
                 return Unauthorized();
-            
+
             return Ok(ReservationManager.Get(UserId));
         }
 
