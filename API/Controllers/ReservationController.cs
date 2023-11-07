@@ -52,7 +52,7 @@ namespace Api.Controllers
                 return BadRequest(Entry.State);
             }
         }
-        [HttpPost("Accept"), Authorize(Roles ="vendor")]
+        [HttpPut("Accept"), Authorize(Roles ="vendor")]
         public IActionResult Accept([FromForm] AcceptReservation Data)
         {
             if (!ModelState.IsValid)
