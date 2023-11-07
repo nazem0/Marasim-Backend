@@ -81,7 +81,7 @@ namespace Api.Controllers
             else
             {
                 ReservationManager.Save();
-                return Ok(Entry.Entity);
+                return Ok("Service Accepted");
             }
 
         }
@@ -113,7 +113,7 @@ namespace Api.Controllers
             else
             {
                 ReservationManager.Save();
-                return Ok(Entry.Entity);
+                return Ok("Service Rejected");
             }
 
         }
@@ -141,6 +141,14 @@ namespace Api.Controllers
                 return Unauthorized();
 
             return Ok(ReservationManager.GetAcceptedByUserId(UserId));
+        }
+        [HttpGet("GetRejectedByUserId/{UserId}"), Authorize()]
+        public IActionResult GetRejectedByUserId(string UserId)
+        {
+            if (UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
+                return Unauthorized();
+
+            return Ok(ReservationManager.GetRejectedByUserId(UserId));
         }
     }
 }

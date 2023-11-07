@@ -75,5 +75,13 @@ namespace Repository
                 .ThenInclude(s => s.Vendor.User)
                 .Select(r => r.ToReservationViewModel());
         }
+        public IQueryable<ReservationViewModel> GetRejectedByUserId(string UserId)
+        {
+            return Get()
+                .Where(r => r.UserId == UserId && r.Status == 'r')
+                .Include(r => r.Service)
+                .ThenInclude(s => s.Vendor.User)
+                .Select(r => r.ToReservationViewModel());
+        }
     }
 }
