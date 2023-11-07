@@ -58,5 +58,15 @@ namespace ViewModels.VendorViewModels
                 Posts = Vendor.Posts.Select(p => p.ToViewModel(_User))
             };
         }
+        public static VendorMinInfoViewModel ToVendorMinInfoViewModel(this Vendor Data)
+        {
+            return new VendorMinInfoViewModel
+            {
+                Id = Data.Id,
+                Name = Data.User.Name,
+                PicUrl = Data.User.PicUrl,
+                UserId = Data.UserId
+            };
+        }
     }
 }
