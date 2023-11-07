@@ -1,9 +1,10 @@
-﻿using Models;
+﻿using System;
+using Models;
 
 namespace ViewModels.PostViewModels
 {
-    public class PostViewModel
-    {
+	public class PostPartialViewModel
+	{
         public required int Id { get; set; }
         public required int VendorId { get; set; }
         public required string Title { get; set; }
@@ -12,9 +13,6 @@ namespace ViewModels.PostViewModels
         public required IEnumerable<PostAttachmentViewModel> PostAttachments { get; set; }
         public ICollection<Comment>? Comments { get; set; }
         public ICollection<React>? Reacts { get; set; }
-        public required string VendorName { get; set; }
-        public required string VendorPicUrl { get; set; }
-        public required string VendorUserId { get; set; }
     }
 }
 

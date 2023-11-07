@@ -48,7 +48,6 @@ namespace API.Controllers
         public IActionResult GetByVendorID(int VendorID)
         {
             var Data = PostManager.GetByVendorID(VendorID)
-                .AsNoTracking()
                 .Include(p => p.PostAttachments)
                 .Include(p => p.Comments)
                 .Include(p => p.Reacts)

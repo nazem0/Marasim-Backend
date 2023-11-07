@@ -5,6 +5,7 @@ using Models;
 using Repository;
 using System.Security.Claims;
 using System.Text;
+using ViewModels.PostViewModels;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
@@ -35,6 +36,21 @@ namespace Marasim_Backend.Controllers
             var Data = VendorManager.Get(VendorID)
                 .Include(v => v.User)
                 //.Select(v => v.ToVendorViewModel(v.User))
+                .FirstOrDefault();
+            return new JsonResult(Data);
+        }
+
+        [HttpGet("GetVendorFullFull/{VendorID}")]
+        public IActionResult GetVendorFullFull(int VendorID)
+        {
+            var Data = VendorManager.Get(VendorID)
+                .Include(v => v.User)
+                .Include(v=> v.Services)
+                .ThenInclude(s => s.ServiceAttachments)
+                .Include(v => v.Posts)
+                .ThenInclude(p => p.PostAttachments)
+                .Include(v => v.Category)
+                .Select(v => v.ToVendorFullViewModel(v.User))
                 .FirstOrDefault();
             return new JsonResult(Data);
         }

@@ -26,10 +26,26 @@ namespace ViewModels.PostViewModels
                 DateTime = Post.DateTime,
                 Comments = Post.Comments,
                 Reacts = Post.Reacts,
-                PostAttachments = Post.PostAttachments,
+                PostAttachments = Post.PostAttachments.Select(pa => pa.ToViewModel()),
                 VendorName = User.Name,
                 VendorPicUrl = User.PicUrl,
                 VendorUserId = User.Id
+            };
+        }
+
+
+        public static PostPartialViewModel ToPostPartialViewModel(this Post Post)
+        {
+            return new PostPartialViewModel
+            {
+                Id = Post.Id,
+                VendorId = Post.VendorId,
+                Title = Post.Title,
+                Description = Post.Description,
+                DateTime = Post.DateTime,
+                Comments = Post.Comments,
+                Reacts = Post.Reacts,
+                PostAttachments = Post.PostAttachments.Select(pa => pa.ToViewModel())
             };
         }
     }
