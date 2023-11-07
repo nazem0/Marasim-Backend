@@ -1,4 +1,4 @@
-﻿namespace ViewModels.ReactViewModel
+﻿namespace ViewModels.ReactViewModels
 {
     public class ReactViewModel
     {

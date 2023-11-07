@@ -5,7 +5,7 @@ using Models;
 using Repository;
 using System.Security.Claims;
 using System.Text;
-using ViewModels.ReactViewModel;
+using ViewModels.ReactViewModels;
 
 namespace API.Controllers
 {
