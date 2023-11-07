@@ -52,7 +52,7 @@ namespace Api.Controllers
                 return BadRequest(Entry.State);
             }
         }
-        [HttpPost("Accept")]
+        [HttpPost("Accept"), Authorize(Roles ="vendor")]
         public IActionResult Accept([FromForm] AcceptReservation Data)
         {
             if (!ModelState.IsValid)
@@ -69,7 +69,7 @@ namespace Api.Controllers
             }
             int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (Data.VendorId!=VendorId)
-                return Unauthorized("YOU ARE NOT THE PROVIDER OF THIS BOOKING");
+                return Unauthorized("This Reservation Doesn't Belong To You.");
             
             EntityEntry<Reservation>? Entry = ReservationManager.Accept(Data);
             if (Entry is null)
