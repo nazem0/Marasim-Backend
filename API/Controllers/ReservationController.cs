@@ -85,10 +85,30 @@ namespace Api.Controllers
                 return BadRequest(Entry.State);
             
         }
-        [HttpGet("GetAllByUserId/{UserId}")]
+        [HttpGet("GetAllByUserId/{UserId}"),Authorize()]
         public IActionResult GetAllByUserId(string UserId)
         {
+            if(UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
+                return Unauthorized();
+            
             return Ok(ReservationManager.Get(UserId));
+        }
+
+        [HttpGet("GetPendingByUserId/{UserId}"), Authorize()]
+        public IActionResult GetPendingByUserId(string UserId)
+        {
+            if (UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
+                return Unauthorized();
+
+            return Ok(ReservationManager.GetPendingByUserId(UserId));
+        }
+        [HttpGet("GetAcceptedByUserId/{UserId}"), Authorize()]
+        public IActionResult GetAcceptedByUserId(string UserId)
+        {
+            if (UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
+                return Unauthorized();
+
+            return Ok(ReservationManager.GetAcceptedByUserId(UserId));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Repository
         public EntityEntry<Reservation>? Accept(AcceptReservation Data)
         {
             Reservation? Reservation = Get(Data.Id).FirstOrDefault();
-            if(Reservation == null) return null;
+            if (Reservation == null) return null;
             Reservation.Status = 'a';
             return EntitiesContext.Update(Reservation);
         }
@@ -47,7 +47,25 @@ namespace Repository
             return Get()
                 .Where(r => r.UserId == UserId)
                 .Include(r => r.Service)
-                .ThenInclude(s=>s.Vendor.User)
+                .ThenInclude(s => s.Vendor.User)
+                .Select(r => r.ToReservationViewModel());
+
+
+        }
+        public IQueryable<ReservationViewModel> GetPendingByUserId(string UserId)
+        {
+            return Get()
+                .Where(r => r.UserId == UserId && r.Status == 'p')
+                .Include(r => r.Service)
+                .ThenInclude(s => s.Vendor.User)
+                .Select(r => r.ToReservationViewModel());
+        }
+        public IQueryable<ReservationViewModel> GetAcceptedByUserId(string UserId)
+        {
+            return Get()
+                .Where(r => r.UserId == UserId && r.Status == 'a')
+                .Include(r => r.Service)
+                .ThenInclude(s => s.Vendor.User)
                 .Select(r => r.ToReservationViewModel());
         }
     }
