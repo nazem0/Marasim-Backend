@@ -20,7 +20,7 @@ namespace ViewModels.VendorViewModels
         public required bool Gender { get; set; }
         public required string NationalId { get; set; }
         public required IEnumerable<ServicePartialViewModel> Services { get; set; }
-        public required IEnumerable<PostPartialViewModel> Posts { get; set; }
+        public required IEnumerable<PostViewModel> Posts { get; set; }
     }
 }
 

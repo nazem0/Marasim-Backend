@@ -32,22 +32,6 @@ namespace ViewModels.PostViewModels
                 VendorUserId = User.Id
             };
         }
-
-
-        public static PostPartialViewModel ToPostPartialViewModel(this Post Post)
-        {
-            return new PostPartialViewModel
-            {
-                Id = Post.Id,
-                VendorId = Post.VendorId,
-                Title = Post.Title,
-                Description = Post.Description,
-                DateTime = Post.DateTime,
-                Comments = Post.Comments,
-                Reacts = Post.Reacts,
-                PostAttachments = Post.PostAttachments.Select(pa => pa.ToViewModel())
-            };
-        }
     }
 }
 
