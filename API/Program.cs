@@ -17,11 +17,12 @@ namespace API
             Builder.Services.AddDbContext<EntitiesContext>(context =>
             {
                 context
-                    //.UseLazyLoadingProxies()
+                    .UseLazyLoadingProxies()
                     .UseSqlServer
                     (Builder.Configuration.GetConnectionString("MyDB"));
 
-                //context.UseLazyLoadingProxies()
+                //context
+                //    .UseLazyLoadingProxies()
                 //    .UseSqlServer
                 //    (Builder.Configuration.GetConnectionString("MySamer"));
             });

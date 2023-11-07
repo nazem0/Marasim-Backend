@@ -1,4 +1,6 @@
 ﻿using Models;
+using ViewModels.CommentViewModels;
+using ViewModels.ReactViewModels;
 
 namespace ViewModels.PostViewModels
 {
@@ -10,8 +12,8 @@ namespace ViewModels.PostViewModels
         public required string Description { get; set; }
         public required DateTime DateTime { get; set; }
         public required IEnumerable<PostAttachmentViewModel> PostAttachments { get; set; }
-        public ICollection<Comment>? Comments { get; set; }
-        public ICollection<React>? Reacts { get; set; }
+        public IEnumerable<CommentViewModel>? Comments { get; set; }
+        public IEnumerable<ReactViewModel>? Reacts { get; set; }
         public required string VendorName { get; set; }
         public required string VendorPicUrl { get; set; }
         public required string VendorUserId { get; set; }

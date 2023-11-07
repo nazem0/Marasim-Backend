@@ -14,6 +14,7 @@ namespace ViewModels.ReservationViewModels
             {
                 UserId = Reservation.UserId,
                 ServiceId = Reservation.ServiceId,
+                DateTime = Reservation.DateTime,
             };
         } 
     }

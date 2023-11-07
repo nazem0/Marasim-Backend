@@ -29,6 +29,11 @@ namespace Repository
                 .Select(C => C.ToCategoryViewModel());
         }
 
+        public Category GetByVendorId(int VendorId)
+        {
+            return base.Get().Where(c => c.Vendors.Any(v => v.Id == VendorId)).FirstOrDefault()!;
+        }
+
         public IEnumerable<CategoryNameViewModel> GetNames()
         {
             return base.Get().Select(c => c.ToCategoryNameViewModel());

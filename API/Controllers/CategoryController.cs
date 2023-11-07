@@ -18,29 +18,41 @@ namespace Marasim_Backend.Controllers
         {
             CategoryManager = _CategoryManager;
         }
+
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             var Data = CategoryManager.Get();
             return new JsonResult(Data);
         }
+
         [HttpGet("GetNames")]
         public IActionResult GetNames()
         {
             IEnumerable<CategoryNameViewModel> Categories = CategoryManager.GetNames();
             return Ok(Categories);
         }
+
         [HttpGet("Count")]
         public IActionResult Count()
         {
             return Ok(CategoryManager.Count());
         }
-        [HttpGet("GetById/{ID}")]
-        public IActionResult GetById(int ID)
+
+        [HttpGet("GetById/{Id}")]
+        public IActionResult GetById(int Id)
         {
-            var x = CategoryManager.Get(ID).FirstOrDefault();
+            var x = CategoryManager.Get(Id).FirstOrDefault();
             return Ok(x);
         }
+
+        [HttpGet("GetByVendorId/{Id}")]
+        public IActionResult GetByVendorId(int Id)
+        {
+            var x = CategoryManager.GetByVendorId(Id);
+            return Ok(x);
+        }
+
         [HttpPost("Add")]
         public IActionResult Add([FromForm] AddCategoryViewModel Data)
         {

@@ -55,7 +55,7 @@ namespace ViewModels.VendorViewModels
                 NationalId = _User.NationalId,
                 PicUrl = _User.PicUrl,
                 Services = Vendor.Services.Select(s => s.ToServicePartialViewModel()),
-                Posts = Vendor.Posts.Select(p => p.ToPostPartialViewModel())
+                Posts = Vendor.Posts.Select(p => p.ToViewModel(_User))
             };
         }
     }

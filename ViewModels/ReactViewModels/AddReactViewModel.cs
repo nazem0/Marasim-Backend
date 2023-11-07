@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ViewModels.ReactViewModel
+namespace ViewModels.ReactViewModels
 {
     public class AddReactViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace ViewModels.ReactViewModel
+namespace ViewModels.ReactViewModels
 {
     public static class ReactExtensions
     {

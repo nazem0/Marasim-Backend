@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.VisualBasic;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models
 {
@@ -9,6 +11,7 @@ namespace Models
         public float Price { get; set; }
         public char Status { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public DateTime DateTime { get; set; }
         public virtual User User { get; set; }
         public virtual Service Service { get; set; }
     }

@@ -80,7 +80,7 @@ namespace Repository
             if (User != null)
             {
                 return await SignInManager.PasswordSignInAsync(User,
-                                  viewModel.Password, viewModel.RememberMe, false);
+                                  viewModel.Password, viewModel.RememberMe, true);
             }
             else
             {

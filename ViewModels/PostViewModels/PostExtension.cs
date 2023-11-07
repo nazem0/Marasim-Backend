@@ -1,4 +1,6 @@
 ﻿using Models;
+using ViewModels.CommentViewModels;
+using ViewModels.ReactViewModels;
 
 namespace ViewModels.PostViewModels
 {
@@ -24,28 +26,12 @@ namespace ViewModels.PostViewModels
                 Title = Post.Title,
                 Description = Post.Description,
                 DateTime = Post.DateTime,
-                Comments = Post.Comments,
-                Reacts = Post.Reacts,
+                Comments = Post.Comments?.Select(c => c.ToViewModel(User)),
+                Reacts = Post.Reacts?.Select(r => r.ToViewModel(User)),
                 PostAttachments = Post.PostAttachments.Select(pa => pa.ToViewModel()),
                 VendorName = User.Name,
                 VendorPicUrl = User.PicUrl,
                 VendorUserId = User.Id
-            };
-        }
-
-
-        public static PostPartialViewModel ToPostPartialViewModel(this Post Post)
-        {
-            return new PostPartialViewModel
-            {
-                Id = Post.Id,
-                VendorId = Post.VendorId,
-                Title = Post.Title,
-                Description = Post.Description,
-                DateTime = Post.DateTime,
-                Comments = Post.Comments,
-                Reacts = Post.Reacts,
-                PostAttachments = Post.PostAttachments.Select(pa => pa.ToViewModel())
             };
         }
     }
