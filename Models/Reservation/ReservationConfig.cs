@@ -26,6 +26,10 @@ namespace Models
                 .IsRequired();
 
             builder
+                .Property(r => r.DateTime)
+                .IsRequired();
+
+            builder
                 .Property(r => r.Status)
                 .HasDefaultValue('p')
                 .IsRequired();
