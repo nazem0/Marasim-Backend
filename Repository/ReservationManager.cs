@@ -8,17 +8,21 @@ namespace Repository
     {
         private readonly EntitiesContext EntitiesContext;
         private readonly PromoCodeManager PromoCodeManager;
-        public ReservationManager(EntitiesContext _dBContext, PromoCodeManager promoCodeManager) : base(_dBContext)
+        private readonly ServiceManager ServiceManager;
+        public ReservationManager(EntitiesContext _dBContext, PromoCodeManager promoCodeManager, ServiceManager serviceManager) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
             PromoCodeManager = promoCodeManager;
+            ServiceManager = serviceManager;
         }
-        public EntityEntry<Reservation> Add(AddReservationViewModel Data)
+        public EntityEntry<Reservation>? Add(AddReservationViewModel Data)
         {
-
             float Discount = 0;
             Reservation Reservation = Data.ToReservation();
-            Reservation.Price = Reservation.Service.Price;
+            Service? ReservedService = ServiceManager.Get(Data.ServiceId).FirstOrDefault();
+            if (ReservedService is null)
+                return null;
+            Reservation.Price = ReservedService.Price;
             if (Data.PromoCode is null)
                 return EntitiesContext.Add(Reservation);
             PromoCode? PromoCode = PromoCodeManager.GetPromoCodeByCode(Data.PromoCode, Data.ServiceId);

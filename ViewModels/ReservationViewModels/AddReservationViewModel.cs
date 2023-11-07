@@ -11,7 +11,6 @@ namespace ViewModels.ReservationViewModels
     {
         public required string UserId { get; set; }
         public int ServiceId { get; set; }
-        public float Price { get; set; }
         public string? PromoCode { get; set; }
     }
 }
