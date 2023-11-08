@@ -82,6 +82,7 @@ namespace API
             Builder.Services.AddScoped<UserManager>();
             Builder.Services.AddScoped<CategoryManager>();
             Builder.Services.AddScoped<ReservationManager>();
+            Builder.Services.AddScoped<PaymentManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();
             Builder.Services.AddScoped<ServiceManager>();
             Builder.Services.AddScoped<ReviewManager>();
