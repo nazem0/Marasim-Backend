@@ -51,6 +51,10 @@ namespace Models
                 .HasPrecision(18, 15);
 
             builder
+                .Property(v => v.Address)
+                .IsRequired();
+
+            builder
                 .Property(v => v.ExternalUrl)
                 .HasMaxLength(2085);
 
