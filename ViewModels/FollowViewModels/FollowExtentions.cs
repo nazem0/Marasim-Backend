@@ -1,15 +1,9 @@
 ﻿using Models;
-using ViewModeles;
-using ViewModels.PostViewModels;
 
-namespace ViewModels.PostViewModels
+namespace ViewModels.FollowViewModels
 {
     public static class FollowExtentions
     {
-    
-
-    
-
         public static Follow ToEntity(this AddFollowViewModel addFollowViewModel, string UserId)
         {
             return new Follow
@@ -19,14 +13,13 @@ namespace ViewModels.PostViewModels
             };
         }
 
-
-        public static FollowViewModel ToViewModel(this Follow follow)
+        public static FollowViewModel ToViewModel(this Follow Follow)
         {
             return new FollowViewModel
             {
-                Id = follow.Id,
-                UserId = follow.UserId,
-                VendorId = follow.VendorId,
+                Id = Follow.Id,
+                UserId = Follow.UserId,
+                VendorId = Follow.VendorId,
             };
         }
     }

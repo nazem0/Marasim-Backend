@@ -4,7 +4,7 @@ using Models;
 using Repository;
 using System.Security.Claims;
 using System.Text;
-using ViewModeles;
+using ViewModels.FollowViewModels;
 
 namespace Api.Controllers
 {

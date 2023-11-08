@@ -1,7 +1,7 @@
 ﻿using Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace ViewModeles
+namespace ViewModels.FollowViewModels
 {
     public  class AddFollowViewModel
     {
