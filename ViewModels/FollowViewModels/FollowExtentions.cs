@@ -13,13 +13,13 @@ namespace ViewModels.FollowViewModels
             };
         }
 
-        public static FollowViewModel ToViewModel(this Follow Follow)
+        public static FollowViewModel ToViewModel(this Follow Follow, User User)
         {
             return new FollowViewModel
             {
-                Id = Follow.Id,
-                UserId = Follow.UserId,
-                VendorId = Follow.VendorId,
+                UserName = User.Name,
+                DateTime = Follow.DateTime,
+
             };
         }
     }

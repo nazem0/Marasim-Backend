@@ -11,7 +11,7 @@ namespace Repository
             EntitiesContext = _dBContext;
         }
 
-        public IQueryable<Follow> GetFollowersForVendor(int vendorId)
+        public IQueryable<Follow> GetFollowersVendor(int vendorId)
         {
             return Get().Where(f => f.VendorId == vendorId);
         }
@@ -21,31 +21,30 @@ namespace Repository
             return Get().Where(f => f.UserId == userId);
         }
 
-        public EntityEntry<Follow> Add(Follow follow)
+        public string Add(Follow follow)
         {
-            return EntitiesContext.Add(follow);
-        }
-       
-        public bool IsUserFollowingVendor(string userId, int vendorId)
-        {
-            return Get().Any(f => f.UserId == userId && f.VendorId == vendorId);
+            if (IsUserFollowingVendor(follow.UserId, follow.VendorId)){
+                
+                return "You are already following this vendor.";
+            }
+            else
+            {
+                EntitiesContext.Add(follow);
+                return "Followed";
+            }
         }
 
+        public bool IsUserFollowingVendor(string userId, int vendorId)
+        {
+            if (Get().Where(f => f.UserId == userId && f.VendorId == vendorId).Count() > 0)
+                return true;
+            else
+                return false;
+        }
 
         public Follow? GetFollowByID(int ID)
         {
            return Get(ID).FirstOrDefault();
-
         }
-
-
     }
 }
-
- 
-
-
-
-       
-
-    

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
 using System.Security.Claims;
@@ -18,16 +19,18 @@ namespace Api.Controllers
             FollowManager = _FollowManager;
         }
 
-        [HttpGet("Get")]
-        public IActionResult Get()
+        [HttpGet("GetFollowersVendor/{vendorId}")]
+        public IActionResult GetFollowersForVendor(int vendorId)
         {
-            var x = FollowManager.Get().ToList();
-            return new JsonResult(x);
+            var users = FollowManager.GetFollowersVendor(vendorId)
+                .Include(f => f.User)
+                .Select(f => f.ToViewModel(f.User))
+                .ToList();
+            return new JsonResult(users);
         }
 
-
-        [HttpGet("AddFollow/{id}")]
-        public IActionResult AddFollow(int id)
+        [HttpGet("Add/{id}")]
+        public IActionResult Add(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -43,12 +46,12 @@ namespace Api.Controllers
             }
 
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            FollowManager.Add(new Follow() { UserId = UserId, VendorId = id, DateTime = DateTime.Now });
+            var res = FollowManager.Add(new Follow() { UserId = UserId, VendorId = id, DateTime = DateTime.Now });
             FollowManager.Save();
-            return Ok("Follow added successfully.");
+            return Ok(res);
         }
 
-        [HttpDelete("RemoveFollow/{id}")]
+        [HttpDelete("Remove/{id}")]
         public IActionResult Delete(int id)
         {
             Follow? Follow = FollowManager.GetFollowByID(id);
