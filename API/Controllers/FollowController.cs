@@ -4,11 +4,12 @@ using Models;
 using Repository;
 using System.Security.Claims;
 using System.Text;
-using ViewModeles;
+using ViewModels.FollowViewModels;
 
 namespace Api.Controllers
 {
-   
+    [Route("api/[controller]")]
+    [ApiController]
     public class FollowController : ControllerBase
     {
         private readonly FollowManager FollowManager;
@@ -16,16 +17,17 @@ namespace Api.Controllers
         {
             FollowManager = _FollowManager;
         }
-        public IActionResult Index()
-        {
 
+        [HttpGet("Get")]
+        public IActionResult Get()
+        {
             var x = FollowManager.Get().ToList();
             return new JsonResult(x);
         }
-        
+
 
         [HttpGet("AddFollow/{id}")]
-        public IActionResult AddFollow( int id)
+        public IActionResult AddFollow(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -41,15 +43,13 @@ namespace Api.Controllers
             }
 
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            FollowManager.Add(new Follow() {UserId=UserId,VendorId=id, DateTime=DateTime.Now });
+            FollowManager.Add(new Follow() { UserId = UserId, VendorId = id, DateTime = DateTime.Now });
             FollowManager.Save();
             return Ok("Follow added successfully.");
         }
 
-
-
-        [HttpDelete("removefollow/{id}")]
-    public IActionResult Delete(int id)
+        [HttpDelete("RemoveFollow/{id}")]
+        public IActionResult Delete(int id)
         {
             Follow? Follow = FollowManager.GetFollowByID(id);
             if (Follow is not null)
@@ -63,6 +63,5 @@ namespace Api.Controllers
                 return NotFound();
             }
         }
-
     }
 }
