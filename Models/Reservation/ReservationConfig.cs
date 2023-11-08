@@ -35,6 +35,22 @@ namespace Models
                 .IsRequired();
 
             builder
+                .Property(r => r.Latitude)
+                .IsRequired()
+                .HasColumnType("decimal")
+                .HasPrecision(18, 15);
+
+            builder
+                .Property(r => r.Longitude)
+                .IsRequired()
+                .HasColumnType("decimal")
+                .HasPrecision(18, 15);
+
+            builder
+                .Property(r => r.Address)
+                .IsRequired();
+
+            builder
                 .HasOne(r => r.User)
                 .WithMany(u => u.Reservations)
                 .HasForeignKey(r => r.UserId)
