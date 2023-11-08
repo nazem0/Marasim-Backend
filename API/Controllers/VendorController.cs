@@ -5,7 +5,6 @@ using Models;
 using Repository;
 using System.Security.Claims;
 using System.Text;
-using ViewModels.PostViewModels;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
@@ -16,9 +15,14 @@ namespace Marasim_Backend.Controllers
     public class VendorController : ControllerBase
     {
         private readonly VendorManager VendorManager;
-        public VendorController(VendorManager _VendorManager)
+        private readonly UserManager UserManager;
+
+        public VendorController(
+            VendorManager _VendorManager,
+            UserManager _UserManager)
         {
             VendorManager = _VendorManager;
+            UserManager = _UserManager;
         }
 
         [HttpGet("GetAll")]
@@ -32,11 +36,17 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetVendorByID/{VendorID}")]
         public IActionResult GetVendorByID(int VendorID)
         {
-            //محتاجين واحدة بتعرض بقا المعلومات كاااااااااملة جواها سرفس وبوست وكلو كلو كلو
             var Data = VendorManager.Get(VendorID)
                 .Include(v => v.User)
                 //.Select(v => v.ToVendorViewModel(v.User))
                 .FirstOrDefault();
+            return new JsonResult(Data);
+        }
+
+        [HttpGet("GetVendorByUserId/{UserId}")]
+        public IActionResult GetVendorByUserId(string UserId)
+        {
+            var Data = VendorManager.GetVendorByUserId(UserId);
             return new JsonResult(Data);
         }
 
@@ -45,13 +55,45 @@ namespace Marasim_Backend.Controllers
         {
             var Data = VendorManager.Get(VendorID)
                 .Include(v => v.User)
-                .Include(v=> v.Services)
+                .Include(v => v.Services)
                 .ThenInclude(s => s.ServiceAttachments)
                 .Include(v => v.Posts)
                 .ThenInclude(p => p.PostAttachments)
                 .Include(v => v.Category)
                 .Select(v => v.ToVendorFullViewModel(v.User))
                 .FirstOrDefault();
+            return new JsonResult(Data);
+        }
+
+        [HttpPut("Update")]
+        [Authorize(Roles = "vendor")]
+        public async Task<IActionResult> Update([FromForm] UpdateVendorProfileViewModel Data)
+        {
+            ClaimsPrincipal? UserClaims = HttpContext.User;
+            var User = await UserManager.GetUserAsync(UserClaims);
+            var Vendor = VendorManager.GetVendorByUserId(User!.Id);
+
+            if (User == null) return new JsonResult("User Not On Our Database");
+            if (Data.Picture != null)
+            {
+                Helper.DeleteMediaAsync(User.Id, "ProfilePicture", User.PicUrl);
+                FileInfo fi = new(Data.Picture.FileName);
+                string FileName = DateTime.Now.Ticks + fi.Extension;
+                User.Name = Data.Name ?? User.Name;
+                Helper.UploadMediaAsync(User.Id, "ProfilePicture", FileName, Data.Picture);
+                Data.PicURL = FileName;
+            }
+
+            User!.Name = Data.Name ?? User.Name;
+            User.PicUrl = Data.PicURL ?? User.PicUrl;
+            User.PhoneNumber = Data.PhoneNumber ?? User.PhoneNumber;
+            Vendor.Summary = Data.Summary ?? Vendor.Summary;
+            Vendor.CategoryId = Data.CategoryId ?? Vendor.CategoryId;
+
+            await UserManager.UpdateAsync(User);
+            VendorManager.Update(Vendor);
+            VendorManager.Save();
+
             return new JsonResult(Data);
         }
 
