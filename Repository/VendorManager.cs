@@ -28,5 +28,10 @@ namespace Repository
         {
             return Get().Where(v => v.Id == Id).FirstOrDefault()!;
         }
+
+        public EntityEntry<Vendor> Update(Vendor Entity)
+        {
+            return EntitiesContext.Update(Entity);
+        }
     }
 }

@@ -34,6 +34,7 @@ namespace ViewModels.VendorViewModels
                 Name = _User.Name,
                 Gender = _User.Gender,
                 NationalId = _User.NationalId,
+                PhoneNumber = _User.PhoneNumber!,
                 PicUrl = _User.PicUrl
             };
         }
@@ -53,6 +54,7 @@ namespace ViewModels.VendorViewModels
                 Name = _User.Name,
                 Gender = _User.Gender,
                 NationalId = _User.NationalId,
+                PhoneNumber = _User.PhoneNumber!,
                 PicUrl = _User.PicUrl,
                 Services = Vendor.Services.Select(s => s.ToServicePartialViewModel()),
                 Posts = Vendor.Posts.Select(p => p.ToViewModel(_User))

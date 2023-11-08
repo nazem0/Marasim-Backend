@@ -19,6 +19,7 @@ namespace ViewModels.VendorViewModels
         public required string PicUrl { get; set; }
         public required bool Gender { get; set; }
         public required string NationalId { get; set; }
+        public required string PhoneNumber { get; set; }
         public required IEnumerable<ServicePartialViewModel> Services { get; set; }
         public required IEnumerable<PostViewModel> Posts { get; set; }
     }

@@ -14,6 +14,7 @@
         public required string PicUrl { get; set; }
         public required bool Gender { get; set; }
         public required string NationalId { get; set; }
+        public required string PhoneNumber { get; set; }
     }
 }
 
