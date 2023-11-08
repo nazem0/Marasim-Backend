@@ -49,39 +49,31 @@ namespace Repository
             Reservation.Status = 'r';
             return EntitiesContext.Update(Reservation);
         }
-        public IQueryable<ReservationViewModel> Get(string UserId)
+        public IQueryable<UserReservationViewModel> Get(string UserId)
         {
             return Get()
                 .Where(r => r.UserId == UserId)
                 .Include(r => r.Service)
                 .ThenInclude(s => s.Vendor.User)
-                .Select(r => r.ToReservationViewModel());
+                .Select(r => r.ToUserReservationViewModel());
 
 
         }
-        public IQueryable<ReservationViewModel> GetPendingByUserId(string UserId)
+        public IQueryable<UserReservationViewModel> GetUserReservationsByIdAndStatus(string UserId,char Status)
         {
             return Get()
-                .Where(r => r.UserId == UserId && r.Status == 'p')
+                .Where(r => r.UserId == UserId && r.Status == Status)
                 .Include(r => r.Service)
                 .ThenInclude(s => s.Vendor.User)
-                .Select(r => r.ToReservationViewModel());
+                .Select(r => r.ToUserReservationViewModel());
         }
-        public IQueryable<ReservationViewModel> GetAcceptedByUserId(string UserId)
+        public IQueryable<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status)
         {
             return Get()
-                .Where(r => r.UserId == UserId && r.Status == 'a')
                 .Include(r => r.Service)
-                .ThenInclude(s => s.Vendor.User)
-                .Select(r => r.ToReservationViewModel());
-        }
-        public IQueryable<ReservationViewModel> GetRejectedByUserId(string UserId)
-        {
-            return Get()
-                .Where(r => r.UserId == UserId && r.Status == 'r')
-                .Include(r => r.Service)
-                .ThenInclude(s => s.Vendor.User)
-                .Select(r => r.ToReservationViewModel());
+                .Include(r=>r.User)
+                .Where(r => r.Service.VendorID == VendorId && r.Status == Status)
+                .Select(r => r.ToVendorReservationViewModel());
         }
     }
 }

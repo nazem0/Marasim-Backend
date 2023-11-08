@@ -117,38 +117,26 @@ namespace Api.Controllers
             }
 
         }
-        [HttpGet("GetAllByUserId/{UserId}"), Authorize()]
-        public IActionResult GetAllByUserId(string UserId)
+        [HttpGet("GetAllUserReservations"), Authorize()]
+        public IActionResult GetAllUserReservations()
         {
-            if (UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
-                return Unauthorized();
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
             return Ok(ReservationManager.Get(UserId));
         }
 
-        [HttpGet("GetPendingByUserId/{UserId}"), Authorize()]
-        public IActionResult GetPendingByUserId(string UserId)
+        [HttpGet("GetUserReservationsByStatus/{Status}"), Authorize()]
+        public IActionResult GetUserReservationsByStatus(char Status)
         {
-            if (UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
-                return Unauthorized();
-
-            return Ok(ReservationManager.GetPendingByUserId(UserId));
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            return Ok(ReservationManager.GetUserReservationsByIdAndStatus(UserId, Status));
         }
-        [HttpGet("GetAcceptedByUserId/{UserId}"), Authorize()]
-        public IActionResult GetAcceptedByUserId(string UserId)
+        [HttpGet("GetVendorReservationsByStatus/{Status}"), Authorize(Roles = "vendor")]
+        public IActionResult GetVendorReservationsByStatus(char Status)
         {
-            if (UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
-                return Unauthorized();
-
-            return Ok(ReservationManager.GetAcceptedByUserId(UserId));
+            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            return Ok(ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status));
         }
-        [HttpGet("GetRejectedByUserId/{UserId}"), Authorize()]
-        public IActionResult GetRejectedByUserId(string UserId)
-        {
-            if (UserId != User.FindFirstValue(ClaimTypes.NameIdentifier)!)
-                return Unauthorized();
 
-            return Ok(ReservationManager.GetRejectedByUserId(UserId));
-        }
     }
 }

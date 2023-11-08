@@ -2,7 +2,7 @@
 
 namespace ViewModels.UserViewModels
 {
-    public static class UserExtentions
+    public static class UserExtensions
     {
         public static UserDetails ToUserViewModel(this User User)
         {
@@ -15,6 +15,15 @@ namespace ViewModels.UserViewModels
                 Gender = User.Gender,
                 PhoneNumber = User.PhoneNumber!,
                 Email = User.Email!
+            };
+        }
+        public static UserMinInfoViewModel ToUserMinInfoViewModel(this User User)
+        {
+            return new UserMinInfoViewModel
+            {
+                Id = User.Id,
+                Name = User.Name,
+                PicUrl = User.PicUrl,
             };
         }
     }
