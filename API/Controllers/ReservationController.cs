@@ -122,7 +122,7 @@ namespace Api.Controllers
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-            return Ok(ReservationManager.Get(UserId));
+            return Ok(ReservationManager.GetUserReservations(UserId));
         }
 
         [HttpGet("GetUserReservationsByStatus/{Status}"), Authorize()]
@@ -131,11 +131,24 @@ namespace Api.Controllers
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             return Ok(ReservationManager.GetUserReservationsByIdAndStatus(UserId, Status));
         }
+        [HttpGet("GetAllVendorReservations"), Authorize()]
+        public IActionResult GetAllVendorReservations()
+        {
+            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            return Ok(ReservationManager.GetVendorReservations(VendorId));
+        }
         [HttpGet("GetVendorReservationsByStatus/{Status}"), Authorize(Roles = "vendor")]
         public IActionResult GetVendorReservationsByStatus(char Status)
         {
             int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            return Ok(ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status));
+            return Ok(ReservationManager.GetVendorReservationsByIdAndStatus(VendorId,Status));
+        }
+        [HttpGet("CheckoutReservationById/{Id}"), Authorize()]
+        public IActionResult CheckoutReservationById(int Id)
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            return Ok(ReservationManager.CheckoutReservationById(UserId,Id));
         }
 
     }

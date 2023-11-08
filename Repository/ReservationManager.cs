@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.ReservationViewModels;
+using ViewModels.UserViewModels;
 
 namespace Repository
 {
@@ -49,7 +50,7 @@ namespace Repository
             Reservation.Status = 'r';
             return EntitiesContext.Update(Reservation);
         }
-        public IQueryable<UserReservationViewModel> Get(string UserId)
+        public IQueryable<UserReservationViewModel> GetUserReservations(string UserId)
         {
             return Get()
                 .Where(r => r.UserId == UserId)
@@ -59,7 +60,7 @@ namespace Repository
 
 
         }
-        public IQueryable<UserReservationViewModel> GetUserReservationsByIdAndStatus(string UserId,char Status)
+        public IQueryable<UserReservationViewModel> GetUserReservationsByIdAndStatus(string UserId, char Status)
         {
             return Get()
                 .Where(r => r.UserId == UserId && r.Status == Status)
@@ -67,13 +68,32 @@ namespace Repository
                 .ThenInclude(s => s.Vendor.User)
                 .Select(r => r.ToUserReservationViewModel());
         }
+        public IQueryable<VendorReservationViewModel> GetVendorReservations(int VendorId)
+        {
+            return Get()
+                .Include(r => r.Service)
+                .Include(r => r.User)
+                .Where(r => r.Service.VendorID == VendorId)
+                .Select(r => r.ToVendorReservationViewModel());
+
+
+        }
         public IQueryable<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status)
         {
             return Get()
                 .Include(r => r.Service)
-                .Include(r=>r.User)
+                .Include(r => r.User)
                 .Where(r => r.Service.VendorID == VendorId && r.Status == Status)
                 .Select(r => r.ToVendorReservationViewModel());
+        }
+        public CheckoutReservationViewModel? CheckoutReservationById(string UserId,int ReservationId)
+        {
+            return Get()
+                .Where(r => r.UserId == UserId && r.Id == ReservationId && r.Status == 'a')
+                .Include(r => r.Service)
+                .ThenInclude(s => s.Vendor.User)
+                .Select(r => r.ToCheckoutReservationViewModel())
+                .FirstOrDefault();
         }
     }
 }

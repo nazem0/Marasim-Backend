@@ -17,7 +17,10 @@ namespace ViewModels.ReservationViewModels
             {
                 UserId = Data.UserId,
                 ServiceId = Data.ServiceId,
-                DateTime = Data.DateTime
+                DateTime = Data.DateTime,
+                Latitude = Data.Latitude,
+                Longitude = Data.Longitude,
+                Address = Data.Address,
             };
         }
         public static UserReservationViewModel ToUserReservationViewModel(this Reservation Data)
@@ -29,6 +32,9 @@ namespace ViewModels.ReservationViewModels
                 DateTime = Data.DateTime,
                 Price = Data.Price,
                 Status = Data.Status,
+                Address = Data.Address,
+                Latitude = Data.Latitude,
+                Longitude = Data.Longitude,
                 Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
             };
         }
@@ -41,7 +47,21 @@ namespace ViewModels.ReservationViewModels
                 DateTime = Data.DateTime,
                 Price = Data.Price,
                 Status = Data.Status,
+                Address = Data.Address,
+                Latitude = Data.Latitude,
+                Longitude = Data.Longitude,
                 User = Data.User.ToUserViewModel()
+            };
+        }
+        public static CheckoutReservationViewModel ToCheckoutReservationViewModel(this Reservation Data)
+        {
+            return new CheckoutReservationViewModel
+            {
+                Address = Data.Address,
+                ServiceName = Data.Service.Title,
+                DateTime = Data.DateTime,
+                Price = Data.Price,
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
             };
         }
     }
