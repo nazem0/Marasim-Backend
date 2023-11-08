@@ -17,6 +17,7 @@ namespace Models
         public DbSet<React> Reacts { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Payment> Payments { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceAttachment> ServiceAttachments { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
@@ -34,6 +35,7 @@ namespace Models
             modelBuilder.ApplyConfiguration(new ReactConfig());
             modelBuilder.ApplyConfiguration(new ReservationConfig());
             modelBuilder.ApplyConfiguration(new ReviewConfig());
+            modelBuilder.ApplyConfiguration(new PaymentConfig());
             modelBuilder.ApplyConfiguration(new ServiceConfig());
             modelBuilder.ApplyConfiguration(new ServiceAttachmentConfig());
             modelBuilder.ApplyConfiguration(new UserConfig());
