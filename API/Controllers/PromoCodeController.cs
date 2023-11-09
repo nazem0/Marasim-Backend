@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
+using ViewModels.PostViewModels;
 using ViewModels.PromoCodeViewModel;
 
 namespace API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class PromoCodeController : ControllerBase
     {
         private readonly PromoCodeManager PromoCodeManager;
@@ -14,13 +17,9 @@ namespace API.Controllers
         {
             PromoCodeManager = _PromoCodeManger;
         }
-        public IActionResult Index()
-        {
-
-            return new JsonResult(PromoCodeManager.Get().ToList());
-        }
-        [HttpPost]
+  
         [Authorize(Roles = "vendor")]
+        [HttpPost("Add")]
         public IActionResult Add([FromBody] CreatePromoCodeViewModel data)
         {
             if (ModelState.IsValid)
@@ -73,15 +72,19 @@ namespace API.Controllers
         #endregion
 
 
+        [HttpGet("GetPromoCodes")]
         public IActionResult GetPromoCodes()
         {
             var promoCodes = PromoCodeManager.Get().ToList();
             return Ok(promoCodes);
         }
 
-        public IActionResult Delete(int ID)
+
+        [Authorize(Roles = "vendor")]
+        [HttpDelete("Delete/{ServiceID}")]
+        public IActionResult Delete(int ServiceID)
         {
-            PromoCode? promoCode = PromoCodeManager.Get(ID).FirstOrDefault();
+            var promoCode = PromoCodeManager.GetPromoCodeByServicID(ServiceID);
 
             if (promoCode != null)
             {

@@ -14,9 +14,9 @@ namespace Repository
         {
             return EntitiesContext.Add(entity);
         }
-        public PromoCode GetPromoCodeByID(int Id)
+        public PromoCode GetPromoCodeByServicID(int ServiceId)
         {
-            return Get().Where(p => p.Id == Id).FirstOrDefault()!;
+            return Get().Where(p => p.ServiceId == ServiceId).FirstOrDefault()!;
         }
         public PromoCode? GetPromoCodeByCode(string Code,int ServiceId)
         {
