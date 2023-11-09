@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ViewModels.FollowViewModels
-{  public class FollowViewModel
+﻿namespace ViewModels.FollowViewModels
+{
+    public class FollowViewModel
     {
         public DateTime DateTime { get; set; }
-        public required string UserName { get; set; }
+        public required string Name { get; set; }
+        public required string UserId { get; set; }
+        public required string PicUrl { get; set; }
+    }
+
+
+    public class FollowingViewModel
+    {
+        public DateTime DateTime { get; set; }
+        public required string Name { get; set; }
+        public required string UserId { get; set; }
+        public required string PicUrl { get; set; }
+        public required int VendorId { get; set; }
     }
 }

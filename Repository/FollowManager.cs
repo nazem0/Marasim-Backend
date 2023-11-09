@@ -23,8 +23,8 @@ namespace Repository
 
         public string Add(Follow follow)
         {
-            if (IsUserFollowingVendor(follow.UserId, follow.VendorId)){
-                
+            if (IsUserFollowingVendor(follow.UserId, follow.VendorId))
+            {
                 return "You are already following this vendor.";
             }
             else
@@ -36,15 +36,31 @@ namespace Repository
 
         public bool IsUserFollowingVendor(string userId, int vendorId)
         {
-            if (Get().Where(f => f.UserId == userId && f.VendorId == vendorId).Count() > 0)
+            if (Get().Any(f => f.UserId == userId && f.VendorId == vendorId))
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
+        }
+
+        public Follow GetFollow(string userId, int vendorId)
+        {
+            if (Get().Any(f => f.UserId == userId && f.VendorId == vendorId))
+            {
+                return Get().Where(f => f.UserId == userId && f.VendorId == vendorId).FirstOrDefault()!;
+            }
+            else
+            {
+                return null!;
+            }
         }
 
         public Follow? GetFollowByID(int ID)
         {
-           return Get(ID).FirstOrDefault();
+            return Get(ID).FirstOrDefault();
         }
     }
 }

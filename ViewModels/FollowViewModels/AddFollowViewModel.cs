@@ -7,8 +7,6 @@ namespace ViewModels.FollowViewModels
     {
         public int VendorId { get; set; }
     }
-
-  
 }
 
 

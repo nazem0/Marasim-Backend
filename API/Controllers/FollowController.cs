@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -14,23 +15,35 @@ namespace Api.Controllers
     public class FollowController : ControllerBase
     {
         private readonly FollowManager FollowManager;
-        public FollowController(FollowManager _FollowManager)
+        public FollowController(
+            FollowManager _FollowManager)
         {
             FollowManager = _FollowManager;
         }
 
-        [HttpGet("GetFollowersVendor/{vendorId}")]
-        public IActionResult GetFollowersForVendor(int vendorId)
+        [HttpGet("GetFollowersVendor/{VendorId}")]
+        public IActionResult GetFollowersForVendor(int VendorId)
         {
-            var users = FollowManager.GetFollowersVendor(vendorId)
+            var Users = FollowManager.GetFollowersVendor(VendorId)
                 .Include(f => f.User)
-                .Select(f => f.ToViewModel(f.User))
+                .Select(f => f.ToFollowerViewModel())
                 .ToList();
-            return new JsonResult(users);
+            return new JsonResult(Users);
         }
 
-        [HttpGet("Add/{id}")]
-        public IActionResult Add(int id)
+        [HttpGet("GetFollowingForUser/{UserId}")]
+        public IActionResult GetFollowingForUser(string UserId)
+        {
+            var Vendors = FollowManager.GetFollowingForUser(UserId)
+                .Include(f => f.Vendor.User)
+                .Select(f => f.ToFollowingViewModel())
+                .ToList();
+            return new JsonResult(Vendors);
+        }
+
+        [HttpPost("Add")]
+        [Authorize(Roles = "user")]
+        public IActionResult Add([FromBody]AddFollowViewModel Follow)
         {
             if (!ModelState.IsValid)
             {
@@ -44,26 +57,27 @@ namespace Api.Controllers
                 }
                 return BadRequest(str.ToString());
             }
-
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var res = FollowManager.Add(new Follow() { UserId = UserId, VendorId = id, DateTime = DateTime.Now });
+            var res = FollowManager.Add(Follow.ToEntity(UserId!));
             FollowManager.Save();
             return Ok(res);
         }
 
-        [HttpDelete("Remove/{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("Remove/{VendorId}")]
+        [Authorize(Roles = "user")]
+        public IActionResult Delete(int VendorId)
         {
-            Follow? Follow = FollowManager.GetFollowByID(id);
-            if (Follow is not null)
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Follow Follow = FollowManager.GetFollow(UserId!,VendorId);
+            if (Follow != null)
             {
                 FollowManager.Delete(Follow);
                 FollowManager.Save();
-                return Ok("Deleted");
+                return Ok();
             }
             else
             {
-                return NotFound();
+                return BadRequest("Not Followed");
             }
         }
     }
