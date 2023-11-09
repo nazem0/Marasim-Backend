@@ -10,16 +10,30 @@ namespace ViewModels.FollowViewModels
             {
                 UserId = UserId,
                 VendorId = addFollowViewModel.VendorId,
+                DateTime = DateTime.Now
             };
         }
 
-        public static FollowViewModel ToViewModel(this Follow Follow, User User)
+        public static FollowViewModel ToFollowerViewModel(this Follow Follow)
         {
             return new FollowViewModel
             {
-                UserName = User.Name,
+                Name = Follow.User.Name,
+                UserId = Follow.User.Id,
+                PicUrl = Follow.User.PicUrl,
                 DateTime = Follow.DateTime,
+            };
+        }
 
+        public static FollowingViewModel ToFollowingViewModel(this Follow Follow)
+        {
+            return new FollowingViewModel
+            {
+                Name = Follow.Vendor.User.Name,
+                PicUrl = Follow.Vendor.User.PicUrl,
+                UserId = Follow.Vendor.UserId,
+                VendorId = Follow.Vendor.Id,
+                DateTime = Follow.DateTime
             };
         }
     }

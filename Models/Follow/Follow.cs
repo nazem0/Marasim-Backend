@@ -7,7 +7,7 @@ namespace Models
     {
         public string UserId { get; set; }
         public int VendorId { get; set; }
-        public virtual DateTime DateTime { get; set; }
+        public DateTime DateTime { get; set; }
         public virtual User User { get; set; }
         public virtual Vendor Vendor { get; set; }
     }
