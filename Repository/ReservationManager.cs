@@ -36,6 +36,15 @@ namespace Repository
                 return EntitiesContext.Add(Reservation);
             }
         }
+
+        public EntityEntry<Reservation>? Paid(ChangeReservationStatusViewModel Data)
+        {
+            Reservation? Reservation = Get(Data.Id).FirstOrDefault();
+            if (Reservation == null) return null;
+            Reservation.Status = 'f';
+            return EntitiesContext.Update(Reservation);
+        }
+
         public EntityEntry<Reservation>? Accept(ChangeReservationStatusViewModel Data)
         {
             Reservation? Reservation = Get(Data.Id).FirstOrDefault();

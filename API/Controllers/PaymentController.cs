@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
 using ViewModels.PaymentViewModel;
+using ViewModels.ReservationViewModels;
 
 namespace Api.Controllers
 {
@@ -15,12 +16,19 @@ namespace Api.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly PaymentManager PaymentManager;
-        public PaymentController(PaymentManager paymentManager)
+        private readonly ReservationManager ReservationManager;
+        private readonly ServiceManager ServiceManager;
+        public PaymentController(
+            PaymentManager _PaymentManager,
+            ReservationManager _ReservationManager,
+            ServiceManager _ServiceManager)
         {
-            PaymentManager = paymentManager;
+            PaymentManager = _PaymentManager;
+            ReservationManager = _ReservationManager;
+            ServiceManager = _ServiceManager;
         }
 
-        [HttpPost("Add"),Authorize()]
+        [HttpPost("Add"), Authorize()]
         public IActionResult Add(AddPaymentViewModel Data)
         {
             if (!ModelState.IsValid)
@@ -42,7 +50,18 @@ namespace Api.Controllers
                     return BadRequest(Entry.State);
                 else
                 {
+                    // Not Tested
+                    var Res = ReservationManager.Get(Data.ReservationId).FirstOrDefault();
+                    var VendorId = ServiceManager.Get(Res!.ServiceId).FirstOrDefault()!.VendorID;
+                    ReservationManager.Paid(
+                        new ChangeReservationStatusViewModel
+                        {
+                            Id = Res.Id,
+                            VendorId = VendorId
+                        });
+
                     PaymentManager.Save();
+                    ReservationManager.Save();
                     return Ok("Payment Done Successfully");
                 }
             }
