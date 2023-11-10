@@ -74,5 +74,21 @@ namespace ViewModels.ReservationViewModels
                 Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
             };
         }
+        public static AdminReservationViewModel ToAdminReservationViewModel(this Reservation Data)
+        {
+            return new AdminReservationViewModel
+            {
+                Id = Data.Id,
+                ServiceId = Data.ServiceId,
+                DateTime = Data.DateTime,
+                Price = Data.Price,
+                Status = Data.Status,
+                Address = Data.Address,
+                Latitude = Data.Latitude,
+                Longitude = Data.Longitude,
+                User = Data.User.ToUserMinInfoViewModel(),
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()  
+            };
+        }
     }
 }

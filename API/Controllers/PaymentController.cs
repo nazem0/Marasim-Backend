@@ -49,7 +49,7 @@ namespace Api.Controllers
                 else
                 {
                     Reservation Reservation = ReservationManager.Get(Data.ReservationId).First();
-                    ReservationManager.Paid(Reservation.ToChangeReservationStatusViewModel());
+                    ReservationManager.ChangeStatus(Reservation.ToChangeReservationStatusViewModel(),'f');
 
                     PaymentManager.Save();
                     ReservationManager.Save();

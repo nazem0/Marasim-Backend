@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentFormat.OpenXml.Vml.Office;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -72,7 +73,7 @@ namespace Api.Controllers
             if (Data.VendorId != VendorId)
                 return Unauthorized("This Reservation Doesn't Belong To You.");
 
-            EntityEntry<Reservation>? Entry = ReservationManager.Accept(Data);
+            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data, 'a');
             if (Entry is null)
                 return BadRequest("Reservation Doesn't Exist");
 
@@ -104,7 +105,7 @@ namespace Api.Controllers
             if (Data.VendorId != VendorId)
                 return Unauthorized("This Reservation Doesn't Belong To You.");
 
-            EntityEntry<Reservation>? Entry = ReservationManager.Reject(Data);
+            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data, 'f');
             if (Entry is null)
                 return BadRequest("Reservation Doesn't Exist");
 
@@ -142,13 +143,27 @@ namespace Api.Controllers
         public IActionResult GetVendorReservationsByStatus(char Status)
         {
             int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            return Ok(ReservationManager.GetVendorReservationsByIdAndStatus(VendorId,Status));
+            return Ok(ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status));
         }
         [HttpGet("CheckoutReservationById/{Id}"), Authorize()]
         public IActionResult CheckoutReservationById(int Id)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            return Ok(ReservationManager.CheckoutReservationById(UserId,Id));
+            return Ok(ReservationManager.CheckoutReservationById(UserId, Id));
+        }
+        [HttpGet("Confirm/{Id}"), Authorize()]
+        public IActionResult Confirm(int Id)
+        {
+            EntityEntry<Reservation>? Entry = ReservationManager.Confirm(Id);
+            if (Entry is null)
+                return BadRequest("Reservation Doesn't Exist");
+            if (Entry.State != EntityState.Modified)
+                return BadRequest(Entry.State);
+            else
+            {
+                ReservationManager.Save();
+                return Ok();
+            }
         }
 
     }

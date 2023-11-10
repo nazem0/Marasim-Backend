@@ -36,27 +36,18 @@ namespace Repository
                 return EntitiesContext.Add(Reservation);
             }
         }
-
-        public EntityEntry<Reservation>? Paid(ChangeReservationStatusViewModel Data)
+        public EntityEntry<Reservation>? ChangeStatus(ChangeReservationStatusViewModel Data,char Status)
         {
             Reservation? Reservation = Get(Data.Id).FirstOrDefault();
             if (Reservation == null) return null;
-            Reservation.Status = 'f';
+            Reservation.Status = Status;
             return EntitiesContext.Update(Reservation);
         }
-
-        public EntityEntry<Reservation>? Accept(ChangeReservationStatusViewModel Data)
+        public EntityEntry<Reservation>? Confirm(int ReservationId)
         {
-            Reservation? Reservation = Get(Data.Id).FirstOrDefault();
+            Reservation? Reservation = Get(ReservationId).FirstOrDefault();
             if (Reservation == null) return null;
-            Reservation.Status = 'a';
-            return EntitiesContext.Update(Reservation);
-        }
-        public EntityEntry<Reservation>? Reject(ChangeReservationStatusViewModel Data)
-        {
-            Reservation? Reservation = Get(Data.Id).FirstOrDefault();
-            if (Reservation == null) return null;
-            Reservation.Status = 'r';
+            Reservation.Status = 'c';
             return EntitiesContext.Update(Reservation);
         }
         public IQueryable<UserReservationViewModel> GetUserReservations(string UserId)
