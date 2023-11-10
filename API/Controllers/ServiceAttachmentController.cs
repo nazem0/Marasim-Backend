@@ -3,6 +3,8 @@ using Repository;
 
 namespace Marasim_Backend.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ServiceAttachmentController : ControllerBase
     {
         private readonly ServiceAttachmentManager ServiceAttachmentManager;
@@ -10,10 +12,26 @@ namespace Marasim_Backend.Controllers
         {
             ServiceAttachmentManager = _ServiceAttachmentManager;
         }
-        public IActionResult GetById(int Id)
+
+        [HttpGet("GetAllActive")]
+        public IActionResult GetAllActive()
         {
-            var x = ServiceAttachmentManager.Get().Where(sa => sa.ServiceID == Id);
-            return new JsonResult(x);
+            var Data = ServiceAttachmentManager.GetAllActive();
+            return new JsonResult(Data);
+        }
+
+        [HttpGet("GetByServiceId/{ServiceId}")]
+        public IActionResult GetByServiceId(int ServiceId)
+        {
+            var Data = ServiceAttachmentManager.Get().Where(sa => sa.ServiceID == ServiceId);
+            return new JsonResult(Data);
+        }
+
+        [HttpGet("GetByVendorId/{VendorId}")]
+        public IActionResult GetByVendorId(int VendorId)
+        {
+            var Data = ServiceAttachmentManager.GetByVendorId(VendorId);
+            return new JsonResult(Data);
         }
     }
 }

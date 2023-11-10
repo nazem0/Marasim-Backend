@@ -57,7 +57,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult GetByVendorId(int Id)
         {
             return Ok(ServiceManager.Get()
-                .Where(S => S.VendorID == Id)
+                .Where(S => S.VendorID == Id && S.IsDeleted == false)
                 .Include(S => S.ServiceAttachments)
                 .Include(S => S.Reservations)
                 .Include(S => S.PromoCode)
@@ -92,7 +92,7 @@ namespace Marasim_Backend.Controllers
                 string FileName = DateTime.Now.Ticks + fi.Extension;
                 Helper.UploadMediaAsync
                     (User.FindFirstValue(ClaimTypes.NameIdentifier)!
-                    , "ServiceAttachment", FileName, item, $"{CreatedService.Id}-{CreatedService.Title}");
+                    , "ServiceAttachment", FileName, item, $"{CreatedService.Id}-{CreatedService.VendorID}");
                 ServiceAttachmentManager.Add(
                     new ServiceAttachment
                     {
@@ -104,7 +104,8 @@ namespace Marasim_Backend.Controllers
             ServiceAttachmentManager.Save();
             return Ok();
         }
-        [HttpDelete("Delete")]
+
+        [HttpDelete("Delete/{Id}")]
         [Authorize(Roles = "vendor")]
         public IActionResult Delete(int Id)
         {
@@ -115,35 +116,35 @@ namespace Marasim_Backend.Controllers
             {
                 ServiceManager.Delete(Id);
                 ServiceManager.Save();
-                return Ok("Service Deleted Successfully");
+                return Ok();
             }
             else
             {
                 return Unauthorized();
             }
         }
-        [HttpPost("Update")]
+
+        [HttpPut("Update/{ServiceId}")]
         [Authorize(Roles = "vendor,admin")]
-        public IActionResult Update(UpdateServiceViewModel Data)
+        public IActionResult Update([FromForm] UpdateServiceViewModel Data, int ServiceId)
         {
             string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int? ServiceVendorID = ServiceManager.Get(Data.Id)!.FirstOrDefault()?.VendorID;
+            int? ServiceVendorID = ServiceManager.Get(ServiceId)!.FirstOrDefault()?.VendorID;
             int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (LoggedInUserId);
             if (ServiceVendorID == null) return BadRequest("Service ID Invalid");
             else if (ServiceVendorID != LoggedInVendorId) return Unauthorized();
             else
             {
-                Service Service = ServiceManager.Get(Data.Id).FirstOrDefault()!;
+                Service Service = ServiceManager.Get(ServiceId).FirstOrDefault()!;
                 Service.Title = Data.Title ?? Service.Title;
                 Service.Description = Data.Description ?? Service.Description;
                 Service.Price = Data.Price ?? Service.Price;
                 ServiceManager.Update(Service);
-                return Ok("Service Updated Successfully");
+                ServiceManager.Save();
+                return Ok();
             }
         }
-
-
 
     }
 }
