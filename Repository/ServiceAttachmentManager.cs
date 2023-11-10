@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.ServiceAttatchmentViewModels;
 
@@ -16,16 +17,24 @@ namespace Repository
             return EntitiesContext.Add(Entity);
         }
 
-        public IQueryable<ServiceAttatchmentViewModel> GetByVendorId(int VendorId)
+        public IQueryable<ServiceAttachmentCustomViewModel> GetByVendorId(int VendorId)
         {
             return Get().Where(sa => sa.Service.VendorID == VendorId && sa.Service.IsDeleted == false)
-                .Select(sa => sa.ToViewModel());
+                .Include(sa => sa.Service.Vendor.User)
+                .Select(sa => sa.ToCustomViewModel());
         }
 
         public IQueryable<ServiceAttatchmentViewModel> GetAllActive()
         {
             return Get().Where(sa => sa.Service.IsDeleted == false)
                 .Select(sa => sa.ToViewModel());
+        }
+
+        public IQueryable<ServiceAttachmentCustomViewModel> GetCustomAttachment()
+        {
+            return Get().Where(sa => sa.Service.IsDeleted == false)
+                .Include(sa => sa.Service.Vendor.User)
+                .Select(sa => sa.ToCustomViewModel());
         }
     }
 }

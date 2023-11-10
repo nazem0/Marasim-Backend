@@ -1,4 +1,5 @@
 ﻿using Models;
+using ViewModels.CategoryViewModels;
 using ViewModels.PostViewModels;
 using ViewModels.ServiceViewModels;
 
@@ -68,6 +69,19 @@ namespace ViewModels.VendorViewModels
                 Name = Data.User.Name,
                 PicUrl = Data.User.PicUrl,
                 UserId = Data.UserId
+            };
+        }
+
+        public static VendorMidInfoViewModel ToVendorMidInfoViewModel(this Vendor Data)
+        {
+            return new VendorMidInfoViewModel
+            {
+                Id = Data.Id,
+                Name = Data.User.Name,
+                PicUrl = Data.User.PicUrl,
+                UserId = Data.UserId,
+                CategoryName = Data.Category.ToCategoryNameViewModel().Name,
+                Summary = Data.Summary
             };
         }
     }

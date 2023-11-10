@@ -33,5 +33,12 @@ namespace Marasim_Backend.Controllers
             var Data = ServiceAttachmentManager.GetByVendorId(VendorId);
             return new JsonResult(Data);
         }
+
+        [HttpGet("GetAllCustom")]
+        public IActionResult GetAllCustom()
+        {
+            var Data = ServiceAttachmentManager.GetCustomAttachment();
+            return new JsonResult(Data);
+        }
     }
 }

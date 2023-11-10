@@ -24,5 +24,16 @@ namespace ViewModels.ServiceAttatchmentViewModels
                 AttachmentUrl = ServiceAttachment.AttachmentUrl
             };
         }
+
+        public static ServiceAttachmentCustomViewModel ToCustomViewModel(this ServiceAttachment ServiceAttachment)
+        {
+            return new ServiceAttachmentCustomViewModel
+            {
+                ServiceId = ServiceAttachment.ServiceID,
+                AttachmentUrl = ServiceAttachment.AttachmentUrl,
+                UserId = ServiceAttachment.Service.Vendor.UserId,
+                VendorId = ServiceAttachment.Service.VendorID
+            };
+        }
     }
 }

@@ -51,12 +51,22 @@ namespace Marasim_Backend.Controllers
             return new JsonResult(Data);
         }
 
+        [HttpGet("GetVendorMidInfo")]
+        public IActionResult GetVendorMidInfo()
+        {
+            var Data = VendorManager.Get()
+                .Include(v => v.User)
+                .Include(v => v.Category)
+                .Select(v => v.ToVendorMidInfoViewModel());
+            return new JsonResult(Data);
+        }
+
         [HttpGet("GetVendorFullFull/{VendorID}")]
         public IActionResult GetVendorFullFull(int VendorID)
         {
             var Data = VendorManager.Get(VendorID)
                 .Include(v => v.User)
-                .Include(v => v.Services)
+                .Include(v => v.Services.Where(s => s.IsDeleted == false))
                 .ThenInclude(s => s.ServiceAttachments)
                 .Include(v => v.Posts)
                 .ThenInclude(p => p.PostAttachments)
