@@ -13,7 +13,7 @@ namespace ViewModels.PromoCodeViewModel
                 Limit = Data.Limit,
                 ServiceId = Data.ServiceId,
                 Count = Data.Count,
-                StartDate = Data.StartDate,
+                StartDate = DateTime.Now,
                 ExpirationDate = Data.ExpirationDate,
             };
         }

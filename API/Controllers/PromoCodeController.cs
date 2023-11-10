@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
@@ -17,34 +18,29 @@ namespace API.Controllers
         {
             PromoCodeManager = _PromoCodeManger;
         }
-  
+
         [Authorize(Roles = "vendor")]
         [HttpPost("Add")]
-        public IActionResult Add([FromBody] CreatePromoCodeViewModel data)
+        public IActionResult Add([FromForm] CreatePromoCodeViewModel Data)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                PromoCode newPromoCode = new()
+                var str = new StringBuilder();
+                foreach (var item in ModelState.Values)
                 {
-                    ServiceId = data.ServiceId,
-                    Code = data.Code,
-                    Discount = data.Discount,
-                    Limit = data.Limit,
-                    Count = data.Count,
-                    StartDate = DateTime.Now,
-                    ExpirationDate = data.ExpirationDate
-                };
-
-                PromoCodeManager.Add(newPromoCode);
-                PromoCodeManager.Save();
-
-                return Ok("PromoCode added successfully");
+                    foreach (var item1 in item.Errors)
+                    {
+                        str.Append(item1.ErrorMessage);
+                    }
+                }
+                return BadRequest(str);
             }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            PromoCodeManager.Add(Data.ToModel());
+            PromoCodeManager.Save();
+            return Ok();
         }
+
+
         #region Update
         //[Authorize(Roles = "vendor")]
         //public IActionResult Update( [FromForm] UpdatePromoCodeViewModel updatedPromoCode)
@@ -90,7 +86,7 @@ namespace API.Controllers
             {
                 PromoCodeManager.Delete(promoCode);
                 PromoCodeManager.Save();
-                return Ok("PromoCode deleted successfully");
+                return Ok();
             }
             else
             {
