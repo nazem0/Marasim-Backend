@@ -4,7 +4,7 @@ namespace Models
 {
     public class Service : BaseModel
     {
-        public int VendorId { get; set; }
+        public int VendorID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public float Price { get; set; }

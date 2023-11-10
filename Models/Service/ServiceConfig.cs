@@ -46,7 +46,7 @@ namespace Models
             builder
                 .HasOne(s => s.Vendor)
                 .WithMany(v => v.Services)
-                .HasForeignKey(s => s.VendorId)
+                .HasForeignKey(s => s.VendorID)
                 .IsRequired();
 
             builder

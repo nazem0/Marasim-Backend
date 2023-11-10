@@ -24,12 +24,12 @@ namespace ViewModels.ReservationViewModels
             };
         }
 
-        public static ChangeReservationStatusViewModel ToReservation(this Reservation Data)
+        public static ChangeReservationStatusViewModel ToChangeReservationStatusViewModel(this Reservation Data)
         {
             return new ChangeReservationStatusViewModel
             {
                 Id = Data.Id,
-                VendorId = Data.Service.VendorId
+                VendorId = Data.Service.VendorID
             };
         }
         public static UserReservationViewModel ToUserReservationViewModel(this Reservation Data)
