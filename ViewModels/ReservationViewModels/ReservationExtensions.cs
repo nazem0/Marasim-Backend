@@ -23,6 +23,15 @@ namespace ViewModels.ReservationViewModels
                 Address = Data.Address,
             };
         }
+
+        public static ChangeReservationStatusViewModel ToReservation(this Reservation Data)
+        {
+            return new ChangeReservationStatusViewModel
+            {
+                Id = Data.Id,
+                VendorId = Data.Service.VendorId
+            };
+        }
         public static UserReservationViewModel ToUserReservationViewModel(this Reservation Data)
         {
             return new UserReservationViewModel

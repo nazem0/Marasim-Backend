@@ -52,7 +52,7 @@ namespace Api.Controllers
                 {
                     // Not Tested
                     var Res = ReservationManager.Get(Data.ReservationId).FirstOrDefault();
-                    var VendorId = ServiceManager.Get(Res!.ServiceId).FirstOrDefault()!.VendorID;
+                    var VendorId = ServiceManager.Get(Res!.ServiceId).FirstOrDefault()!.VendorId;
                     ReservationManager.Paid(
                         new ChangeReservationStatusViewModel
                         {
