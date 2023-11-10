@@ -17,19 +17,16 @@ namespace Api.Controllers
     {
         private readonly PaymentManager PaymentManager;
         private readonly ReservationManager ReservationManager;
-        private readonly ServiceManager ServiceManager;
         public PaymentController(
             PaymentManager _PaymentManager,
-            ReservationManager _ReservationManager,
-            ServiceManager _ServiceManager)
+            ReservationManager _ReservationManager)
         {
             PaymentManager = _PaymentManager;
             ReservationManager = _ReservationManager;
-            ServiceManager = _ServiceManager;
         }
 
         [HttpPost("Add"), Authorize()]
-        public IActionResult Add(AddPaymentViewModel Data)
+        public IActionResult Add([FromForm] AddPaymentViewModel Data)
         {
             if (!ModelState.IsValid)
             {
@@ -51,14 +48,8 @@ namespace Api.Controllers
                 else
                 {
                     // Not Tested
-                    var Res = ReservationManager.Get(Data.ReservationId).FirstOrDefault();
-                    var VendorId = ServiceManager.Get(Res!.ServiceId).FirstOrDefault()!.VendorId;
-                    ReservationManager.Paid(
-                        new ChangeReservationStatusViewModel
-                        {
-                            Id = Res.Id,
-                            VendorId = VendorId
-                        });
+                    Reservation Reservation = ReservationManager.Get(Data.ReservationId).First();
+                    ReservationManager.Paid(Reservation.ToChangeReservationStatusViewModel());
 
                     PaymentManager.Save();
                     ReservationManager.Save();
