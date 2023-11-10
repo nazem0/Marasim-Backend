@@ -47,7 +47,7 @@ namespace API.Controllers
             string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             CommentManager.Add(Data.ToComment(LoggedInUserId));
             CommentManager.Save();
-            return Ok("Comment Added");
+            return Ok();
         }
 
         [Authorize]
@@ -60,7 +60,7 @@ namespace API.Controllers
             {
                 CommentManager.Delete(Comment);
                 CommentManager.Save();
-                return Ok("Comment Deleted");
+                return Ok();
             }
             else
             {

@@ -87,7 +87,7 @@ namespace API.Controllers
         public IActionResult Delete(int PostID)
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var React = ReactManager.GetByPostID(PostID).FirstOrDefault();
+            var React = ReactManager.GetByPostID(PostID).Where(r => r.UserId == UserId).FirstOrDefault();
             if (React is not null && React.UserId == UserId)
             {
                 ReactManager.Delete(React);
