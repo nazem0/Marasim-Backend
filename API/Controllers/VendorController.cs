@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -71,9 +72,11 @@ namespace Marasim_Backend.Controllers
         {
             ClaimsPrincipal? UserClaims = HttpContext.User;
             var User = await UserManager.GetUserAsync(UserClaims);
+            if (User == null)
+            {
+                return BadRequest("User Not On Our Database");
+            }
             var Vendor = VendorManager.GetVendorByUserId(User!.Id);
-
-            if (User == null) return new JsonResult("User Not On Our Database");
             if (Data.Picture != null)
             {
                 Helper.DeleteMediaAsync(User.Id, "ProfilePicture", User.PicUrl);
@@ -90,11 +93,10 @@ namespace Marasim_Backend.Controllers
             Vendor.Summary = Data.Summary ?? Vendor.Summary;
             Vendor.CategoryId = Data.CategoryId ?? Vendor.CategoryId;
 
-            await UserManager.UpdateAsync(User);
             VendorManager.Update(Vendor);
             VendorManager.Save();
-
-            return new JsonResult(Data);
+            _ = await UserManager.UpdateAsync(User);
+            return Ok();
         }
 
     }
