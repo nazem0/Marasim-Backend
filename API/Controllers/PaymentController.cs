@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
+using System.Text.Json.Nodes;
 using ViewModels.PaymentViewModel;
 using ViewModels.ReservationViewModels;
 
@@ -47,15 +48,20 @@ namespace Api.Controllers
                     return BadRequest(Entry.State);
                 else
                 {
-                    // Not Tested
                     Reservation Reservation = ReservationManager.Get(Data.ReservationId).First();
                     ReservationManager.Paid(Reservation.ToChangeReservationStatusViewModel());
 
                     PaymentManager.Save();
                     ReservationManager.Save();
-                    return Ok("Payment Done Successfully");
+                    return Ok();
                 }
             }
+        }
+        //To Be Only For Admin Later
+        [HttpGet("Get")]
+        public IActionResult Get()
+        {
+            return new JsonResult(PaymentManager.Get());
         }
     }
 }
