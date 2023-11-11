@@ -1,4 +1,5 @@
 ﻿using Models;
+using ViewModels.UserViewModels;
 
 namespace ViewModels.ReviewViewModels
 {
@@ -14,6 +15,19 @@ namespace ViewModels.ReviewViewModels
                 Rate = AddReview.Rate,
                 Message = AddReview.Message,
                 DateTime = AddReview.DateTime
+            };
+        }
+
+        public static ReviewViewModel? ToReviewViewModel(this Review Data)
+        {
+            if (Data is null)
+                return null;
+            return new ReviewViewModel
+            {
+                DateTime = Data.DateTime,
+                Message = Data.Message,
+                Rate = Data.Rate,
+                User = Data.User.ToUserMinInfoViewModel()
             };
         }
 
