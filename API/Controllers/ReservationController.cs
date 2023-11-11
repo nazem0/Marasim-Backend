@@ -55,7 +55,7 @@ namespace Api.Controllers
             }
         }
         [HttpPut("Accept"), Authorize(Roles = "vendor")]
-        public IActionResult Accept([FromForm] ChangeReservationStatusViewModel Data)
+        public IActionResult Accept([FromBody]ChangeReservationStatusViewModel Data)
         {
             if (!ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace Api.Controllers
 
         }
         [HttpPut("Reject"), Authorize(Roles = "vendor")]
-        public IActionResult Reject([FromForm] ChangeReservationStatusViewModel Data)
+        public IActionResult Reject([FromBody] ChangeReservationStatusViewModel Data)
         {
             if (!ModelState.IsValid)
             {
@@ -105,7 +105,7 @@ namespace Api.Controllers
             if (Data.VendorId != VendorId)
                 return Unauthorized("This Reservation Doesn't Belong To You.");
 
-            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data, 'f');
+            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data, 'r');
             if (Entry is null)
                 return BadRequest("Reservation Doesn't Exist");
 
