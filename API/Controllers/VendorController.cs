@@ -34,10 +34,10 @@ namespace Marasim_Backend.Controllers
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetVendorByID/{VendorID}")]
-        public IActionResult GetVendorByID(int VendorID)
+        [HttpGet("GetVendorById/{VendorId}")]
+        public IActionResult GetVendorById(int VendorId)
         {
-            var Data = VendorManager.Get(VendorID)
+            var Data = VendorManager.Get(VendorId)
                 .Include(v => v.User)
                 //.Select(v => v.ToVendorViewModel(v.User))
                 .FirstOrDefault();
@@ -51,20 +51,20 @@ namespace Marasim_Backend.Controllers
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetVendorMidInfo")]
-        public IActionResult GetVendorMidInfo()
+        [HttpGet("GetVendorMIdInfo")]
+        public IActionResult GetVendorMIdInfo()
         {
             var Data = VendorManager.Get()
                 .Include(v => v.User)
                 .Include(v => v.Category)
-                .Select(v => v.ToVendorMidInfoViewModel());
+                .Select(v => v.ToVendorMIdInfoViewModel());
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetVendorFullFull/{VendorID}")]
-        public IActionResult GetVendorFullFull(int VendorID)
+        [HttpGet("GetVendorFullFull/{VendorId}")]
+        public IActionResult GetVendorFullFull(int VendorId)
         {
-            var Data = VendorManager.Get(VendorID)
+            var Data = VendorManager.Get(VendorId)
                 .Include(v => v.User)
                 .Include(v => v.Services.Where(s => s.IsDeleted == false))
                 .ThenInclude(s => s.ServiceAttachments)

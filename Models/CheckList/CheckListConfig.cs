@@ -29,7 +29,7 @@ namespace Models
             builder
                 .HasMany(cl => cl.CheckListItems)
                 .WithOne(cli => cli.CheckList)
-                .HasForeignKey(cli => cli.ChecklistId);
+                .HasForeignKey(cli => cli.CheckListId);
         }
     }
 

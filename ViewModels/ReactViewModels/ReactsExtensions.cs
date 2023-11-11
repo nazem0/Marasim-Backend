@@ -4,13 +4,13 @@ namespace ViewModels.ReactViewModels
 {
     public static class ReactExtensions
     {
-        public static React ToModel(this AddReactViewModel AddReact, string UserID)
+        public static React ToModel(this AddReactViewModel AddReact, string UserId)
         {
             return new React
             {
-                PostId = AddReact.PostID,
+                PostId = AddReact.PostId,
                 DateTime = DateTime.Now,
-                UserId = UserID
+                UserId = UserId
             };
         }
 

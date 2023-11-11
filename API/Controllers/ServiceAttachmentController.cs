@@ -23,7 +23,7 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetByServiceId/{ServiceId}")]
         public IActionResult GetByServiceId(int ServiceId)
         {
-            var Data = ServiceAttachmentManager.Get().Where(sa => sa.ServiceID == ServiceId);
+            var Data = ServiceAttachmentManager.Get().Where(sa => sa.ServiceId == ServiceId);
             return new JsonResult(Data);
         }
 

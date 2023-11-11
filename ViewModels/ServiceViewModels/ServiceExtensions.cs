@@ -6,14 +6,14 @@ namespace ViewModels.ServiceViewModels
 {
     public static class ServiceExtensions
     {
-        public static Service ToModel(this CreateServiceViewModel Data, int VendorID)
+        public static Service ToModel(this CreateServiceViewModel Data, int VendorId)
         {
             return new Service()
             {
                 Title = Data.Title,
                 Description = Data.Description,
                 Price = Data.Price,
-                VendorID = VendorID
+                VendorId = VendorId
             };
         }
         public static ServiceViewModel ToServiceViewModel(this Service Data, string UserId)
@@ -27,7 +27,7 @@ namespace ViewModels.ServiceViewModels
                 Title = Data.Title,
                 IsDeleted = Data.IsDeleted,
                 Price = Data.Price,
-                VendorID = Data.VendorID,
+                VendorId = Data.VendorId,
                 Id = Data.Id,
                 ReviewsCount = Data.Reviews.Count,
                 Reservations = Data.Reservations,
@@ -45,7 +45,7 @@ namespace ViewModels.ServiceViewModels
                 Title = Data.Title,
                 //IsDeleted = Data.IsDeleted,
                 Price = Data.Price,
-                VendorID = Data.VendorID,
+                VendorId = Data.VendorId,
                 Id = Data.Id,
                 //ReviewsCount = Data.Reviews.Count,
                 //ReservationsCount = Data.Reservations.Count,
@@ -57,7 +57,7 @@ namespace ViewModels.ServiceViewModels
         {
             return new ServiceMinInfoViewModel
             {
-                VendorID = Service.VendorID,
+                VendorId = Service.VendorId,
                 Title =Service.Title
             };
         }

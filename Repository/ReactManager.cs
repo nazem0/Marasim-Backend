@@ -14,9 +14,9 @@ namespace Repository
         {
             return EntitiesContext.Add(Entity);
         }
-        public IQueryable<React> GetByPostID(int PostID)
+        public IQueryable<React> GetByPostId(int PostId)
         {
-            return Get().Where(r => r.PostId == PostID);
+            return Get().Where(r => r.PostId == PostId);
         }
 
         public bool IsLiked(string UserId)
@@ -29,9 +29,9 @@ namespace Repository
                 return false;
         }
 
-        public void Delete(int ReactID)
+        public void Delete(int ReactId)
         {
-            React? React = Get(ReactID).FirstOrDefault();
+            React? React = Get(ReactId).FirstOrDefault();
             if (React != null)
             {
                 Delete(React);

@@ -10,12 +10,6 @@ namespace ViewModels.PostViewModels
 
         [StringLength(1000, MinimumLength = 10)]
         public string? Description { get; set; }
-
-        public required DateTime DateTime { get; set; } = DateTime.Now;
-
-        public int? ServiceID { get; set; }
-
-        public required IFormFileCollection Pictures { get; set; }
     }
 }
 

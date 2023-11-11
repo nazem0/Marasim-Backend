@@ -25,18 +25,18 @@ namespace API.Controllers
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetByServiceID/{ServiceID}")]
-        public IActionResult GetByServiceID(int ServiceID)
+        [HttpGet("GetByServiceId/{ServiceId}")]
+        public IActionResult GetByServiceId(int ServiceId)
         {
-            var Data = ReviewManager.GetByServiceID(ServiceID);
+            var Data = ReviewManager.GetByServiceId(ServiceId);
             Data.Count();
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetByVendorID/{VendorID}")]
-        public IActionResult GetByVendorID(int VendorID)
+        [HttpGet("GetByVendorId/{VendorId}")]
+        public IActionResult GetByVendorId(int VendorId)
         {
-            var Data = ReviewManager.GetByVendorID(VendorID);
+            var Data = ReviewManager.GetByVendorId(VendorId);
             Data.Count();
             return new JsonResult(Data);
         }
@@ -45,10 +45,10 @@ namespace API.Controllers
         [HttpPost("Add")]
         public IActionResult Add([FromForm] AddReviewViewModel Data)
         {
-            string UserID = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             if (ModelState.IsValid)
             {
-                ReviewManager.Add(Data.ToModel(UserID));
+                ReviewManager.Add(Data.ToModel(UserId));
                 ReviewManager.Save();
                 return Ok("Review Added");
             }
@@ -59,11 +59,11 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "user,admin")]
-        [HttpPut("Update/{ReviewID}")]
+        [HttpPut("Update/{ReviewId}")]
         public IActionResult Update(int ReviewId, [FromForm] UpdateReviewViewModel OldReview)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var Data = ReviewManager.GetReviewByID(ReviewId);
+            var Data = ReviewManager.GetReviewById(ReviewId);
             if (Data.UserId == UserId)
             {
                 Data.Message = OldReview.Message ?? Data.Message;
@@ -74,16 +74,16 @@ namespace API.Controllers
             }
             else
             {
-                return BadRequest("UserID not matched");
+                return BadRequest("UserId not matched");
             }
         }
 
         [Authorize(Roles = "user,admin")]
-        [HttpDelete("Delete/{ReviewID}")]
-        public IActionResult Delete(int ReviewID)
+        [HttpDelete("Delete/{ReviewId}")]
+        public IActionResult Delete(int ReviewId)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var Data = ReviewManager.GetReviewByID(ReviewID);
+            var Data = ReviewManager.GetReviewById(ReviewId);
             if (Data.UserId == UserId)
             {
                 ReviewManager.Delete(Data);
@@ -92,7 +92,7 @@ namespace API.Controllers
             }
             else
             {
-                return BadRequest("UserID not matched");
+                return BadRequest("UserId not matched");
             }
         }
 

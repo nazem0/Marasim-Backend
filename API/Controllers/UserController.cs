@@ -21,10 +21,10 @@ namespace Marasim_Backend.Controllers
             var x = UserManager.Users;
             return new JsonResult(x);
         }
-        [HttpGet("UserDetails/{UserID}")]
-        public async Task<IActionResult> UserDetails(string UserID)
+        [HttpGet("UserDetails/{UserId}")]
+        public async Task<IActionResult> UserDetails(string UserId)
         {
-            User? user = await UserManager.FindByIdAsync(UserID);
+            User? user = await UserManager.FindByIdAsync(UserId);
             return new JsonResult(user!.ToUserViewModel());
         }
         [HttpPut("Update")]

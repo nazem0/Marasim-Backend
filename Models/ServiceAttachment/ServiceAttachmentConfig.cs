@@ -28,7 +28,7 @@ namespace Models
             builder
                 .HasOne(i => i.Service)
                 .WithMany(s => s.ServiceAttachments)
-                .HasForeignKey(i => i.ServiceID);
+                .HasForeignKey(i => i.ServiceId);
 
 
         }

@@ -19,10 +19,10 @@ namespace API.Controllers
             CommentManager = _CommentManager;
         }
 
-        [HttpGet("GetCommentsByPostID/{PostID}")]
-        public IActionResult GetCommentsByPostID(int PostID)
+        [HttpGet("GetCommentsByPostId/{PostId}")]
+        public IActionResult GetCommentsByPostId(int PostId)
         {
-            var Data = CommentManager.GetByPostID(PostID)
+            var Data = CommentManager.GetByPostId(PostId)
                         .Include(c => c.User)
                         .Select(c => c.ToViewModel(c.User));
             return new JsonResult(Data);
@@ -51,11 +51,11 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("Delete/{CommentID}")]
-        public IActionResult Delete(int CommentID)
+        [HttpDelete("Delete/{CommentId}")]
+        public IActionResult Delete(int CommentId)
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var Comment = CommentManager.Get(CommentID).FirstOrDefault();
+            var Comment = CommentManager.Get(CommentId).FirstOrDefault();
             if (Comment is not null && Comment.UserId == UserId)
             {
                 CommentManager.Delete(Comment);

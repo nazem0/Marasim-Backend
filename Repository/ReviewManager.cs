@@ -14,17 +14,17 @@ namespace Repository
         {
             return EntitiesContext.Add(Entity);
         }
-        public IQueryable<Review> GetByServiceID(int ServiceId)
+        public IQueryable<Review> GetByServiceId(int ServiceId)
         {
             return Get().Where(r => r.ServiceId == ServiceId);
         }
 
-        public IQueryable<Review> GetByVendorID(int VendorId)
+        public IQueryable<Review> GetByVendorId(int VendorId)
         {
-            return Get().Where(r => r.Service.VendorID == VendorId);
+            return Get().Where(r => r.Service.VendorId == VendorId);
         }
 
-        public Review GetReviewByID(int Id)
+        public Review GetReviewById(int Id)
         {
             return Get().Where(p => p.Id == Id).FirstOrDefault()!;
         }

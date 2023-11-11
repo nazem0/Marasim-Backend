@@ -20,7 +20,7 @@ namespace ViewModels.ServiceAttatchmentViewModels
             return new ServiceAttatchmentViewModel
             {
                 Id = ServiceAttachment.Id,
-                ServiceID = ServiceAttachment.ServiceID,
+                ServiceId = ServiceAttachment.ServiceId,
                 AttachmentUrl = ServiceAttachment.AttachmentUrl
             };
         }
@@ -29,10 +29,10 @@ namespace ViewModels.ServiceAttatchmentViewModels
         {
             return new ServiceAttachmentCustomViewModel
             {
-                ServiceId = ServiceAttachment.ServiceID,
+                ServiceId = ServiceAttachment.ServiceId,
                 AttachmentUrl = ServiceAttachment.AttachmentUrl,
                 UserId = ServiceAttachment.Service.Vendor.UserId,
-                VendorId = ServiceAttachment.Service.VendorID
+                VendorId = ServiceAttachment.Service.VendorId
             };
         }
     }

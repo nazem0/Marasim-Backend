@@ -24,7 +24,7 @@ namespace Repository
             return Vendor.Id;
         }
 
-        public Vendor GetVendorByID(int Id)
+        public Vendor GetVendorById(int Id)
         {
             return Get().Where(v => v.Id == Id).FirstOrDefault()!;
         }

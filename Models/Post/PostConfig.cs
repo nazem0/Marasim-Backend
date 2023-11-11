@@ -37,7 +37,7 @@ namespace Models
             //builder
             //    .HasMany(p => p.PostAttachments)
             //    .WithOne(pa => pa.Post)
-            //    .HasForeignKey(pa => pa.PostID)
+            //    .HasForeignKey(pa => pa.PostId)
             //    .IsRequired();
 
             builder

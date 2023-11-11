@@ -14,6 +14,4 @@ namespace Models
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<React> Reacts { get; set; }
     }
-
-
 }

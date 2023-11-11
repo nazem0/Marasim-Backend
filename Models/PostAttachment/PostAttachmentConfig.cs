@@ -16,7 +16,7 @@ namespace Models
                 .ValueGeneratedOnAdd()
                 .HasMaxLength(11);
             builder
-                .Property(pa => pa.PostID)
+                .Property(pa => pa.PostId)
                 .HasMaxLength(11)
                 .IsRequired();
             builder
@@ -27,7 +27,7 @@ namespace Models
             builder
                .HasOne(pa => pa.Post)
                .WithMany(pa => pa.PostAttachments)
-               .HasForeignKey(pa => pa.PostID);
+               .HasForeignKey(pa => pa.PostId);
 
         }
     }
