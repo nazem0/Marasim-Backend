@@ -24,10 +24,10 @@ namespace Models
                 .HasMaxLength(2085)
                 .IsRequired();
 
-            builder
-               .HasOne(pa => pa.Post)
-               .WithMany(pa => pa.PostAttachments)
-               .HasForeignKey(pa => pa.PostId);
+            //builder
+            //   .HasOne(pa => pa.Post)
+            //   .WithMany(pa => pa.PostAttachments)
+            //   .HasForeignKey(pa => pa.PostId);
 
         }
     }
