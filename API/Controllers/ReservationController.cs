@@ -82,7 +82,7 @@ namespace Api.Controllers
             else
             {
                 ReservationManager.Save();
-                return Ok("Service Accepted");
+                return Ok();
             }
 
         }
@@ -105,7 +105,7 @@ namespace Api.Controllers
             if (Data.VendorId != VendorId)
                 return Unauthorized("This Reservation Doesn't Belong To You.");
 
-            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus((Data.Id, 'r');
+            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data.Id, 'r');
             if (Entry is null)
                 return BadRequest("Reservation Doesn't Exist");
 
