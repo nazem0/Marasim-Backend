@@ -95,6 +95,11 @@ namespace API.Controllers
                 return BadRequest("UserId not matched");
             }
         }
+        [HttpGet("HasReviews/{Id}")]
+        public IActionResult HasReviews(int Id)
+        {
+            return Ok(ReviewManager.HasReviews(Id));
+        }
 
     }
 }

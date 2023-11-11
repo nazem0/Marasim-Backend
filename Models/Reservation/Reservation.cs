@@ -18,5 +18,6 @@ namespace Models
         public virtual User User { get; set; }
         public virtual Service Service { get; set; }
         public virtual Payment Payment { get; set; }
+        public virtual Review Review { get; set; }
     }
 }

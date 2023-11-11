@@ -40,6 +40,12 @@ namespace Models
                 .Property(r => r.Message)
                 .IsRequired()
                 .HasMaxLength(1000);
+
+            builder
+                .HasOne(r => r.Reservation)
+                .WithOne(r => r.Review)
+                .HasForeignKey<Review>(r => r.ReservationId)
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }
