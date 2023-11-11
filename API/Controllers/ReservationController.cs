@@ -114,7 +114,7 @@ namespace Api.Controllers
             else
             {
                 ReservationManager.Save();
-                return Ok("Service Rejected");
+                return Ok();
             }
 
         }
@@ -198,6 +198,9 @@ namespace Api.Controllers
             }
 
         }
+
+
+
 
     }
 }
