@@ -34,11 +34,12 @@ namespace Models
                 .IsRequired();
 
             // Realeations
-            //builder
-            //    .HasMany(p => p.PostAttachments)
-            //    .WithOne(pa => pa.Post)
-            //    .HasForeignKey(pa => pa.PostID)
-            //    .IsRequired();
+            builder
+                .HasMany(p => p.PostAttachments)
+                .WithOne(pa => pa.Post)
+                .HasForeignKey(pa => pa.PostId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             builder
                 .HasMany(p => p.Comments)

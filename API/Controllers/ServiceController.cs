@@ -57,7 +57,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult GetByVendorId(int Id)
         {
             return Ok(ServiceManager.Get()
-                .Where(S => S.VendorID == Id && S.IsDeleted == false)
+                .Where(S => S.VendorId == Id && S.IsDeleted == false)
                 .Include(S => S.ServiceAttachments)
                 .Include(S => S.Reservations)
                 .Include(S => S.PromoCode)
@@ -92,7 +92,7 @@ namespace Marasim_Backend.Controllers
                 string FileName = DateTime.Now.Ticks + fi.Extension;
                 Helper.UploadMediaAsync
                     (User.FindFirstValue(ClaimTypes.NameIdentifier)!
-                    , "ServiceAttachment", FileName, item, $"{CreatedService.Id}-{CreatedService.VendorID}");
+                    , "ServiceAttachment", FileName, item, $"{CreatedService.Id}-{CreatedService.VendorId}");
                 ServiceAttachmentManager.Add(
                     new ServiceAttachment
                     {
@@ -109,10 +109,10 @@ namespace Marasim_Backend.Controllers
         [Authorize(Roles = "vendor")]
         public IActionResult Delete(int Id)
         {
-            int? ServiceVendorID = ServiceManager.Get(Id)!.FirstOrDefault()?.VendorID;
+            int? ServiceVendorId = ServiceManager.Get(Id)!.FirstOrDefault()?.VendorId;
             int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (ServiceVendorID != null && ServiceVendorID == LoggedInVendorId)
+            if (ServiceVendorId != null && ServiceVendorId == LoggedInVendorId)
             {
                 ServiceManager.Delete(Id);
                 ServiceManager.Save();
@@ -129,11 +129,11 @@ namespace Marasim_Backend.Controllers
         public IActionResult Update([FromForm] UpdateServiceViewModel Data, int ServiceId)
         {
             string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int? ServiceVendorID = ServiceManager.Get(ServiceId)!.FirstOrDefault()?.VendorID;
+            int? ServiceVendorId = ServiceManager.Get(ServiceId)!.FirstOrDefault()?.VendorId;
             int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (LoggedInUserId);
-            if (ServiceVendorID == null) return BadRequest("Service ID Invalid");
-            else if (ServiceVendorID != LoggedInVendorId) return Unauthorized();
+            if (ServiceVendorId == null) return BadRequest("Service Id InvalId");
+            else if (ServiceVendorId != LoggedInVendorId) return Unauthorized();
             else
             {
                 Service Service = ServiceManager.Get(ServiceId).FirstOrDefault()!;

@@ -73,7 +73,7 @@ namespace Api.Controllers
             if (Data.VendorId != VendorId)
                 return Unauthorized("This Reservation Doesn't Belong To You.");
 
-            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data, 'a');
+            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data.Id, 'a');
             if (Entry is null)
                 return BadRequest("Reservation Doesn't Exist");
 
@@ -105,7 +105,7 @@ namespace Api.Controllers
             if (Data.VendorId != VendorId)
                 return Unauthorized("This Reservation Doesn't Belong To You.");
 
-            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data, 'r');
+            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus((Data.Id, 'r');
             if (Entry is null)
                 return BadRequest("Reservation Doesn't Exist");
 
@@ -164,6 +164,39 @@ namespace Api.Controllers
                 ReservationManager.Save();
                 return Ok();
             }
+        }
+
+        [HttpPut("Done"), Authorize()]
+        public IActionResult Done([FromBody] UserChangeReservationStatusViewModel Data)
+        {
+            if (!ModelState.IsValid)
+            {
+                List<ModelError> Errors = new();
+                foreach (var item in ModelState.Values)
+                {
+                    foreach (ModelError item1 in item.Errors)
+                    {
+                        Errors.Add(item1);
+                    }
+                }
+                return BadRequest(Errors);
+            }
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            if (Data.UserId != UserId)
+                return Unauthorized("This Reservation Doesn't Belong To You.");
+
+            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data.Id, 'd');
+            if (Entry is null)
+                return BadRequest("Reservation Doesn't Exist");
+
+            if (Entry.State != EntityState.Modified)
+                return BadRequest(Entry.State);
+            else
+            {
+                ReservationManager.Save();
+                return Ok();
+            }
+
         }
 
     }

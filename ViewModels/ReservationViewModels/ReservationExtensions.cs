@@ -30,7 +30,7 @@ namespace ViewModels.ReservationViewModels
             return new ChangeReservationStatusViewModel
             {
                 Id = Data.Id,
-                VendorId = Data.Service.VendorID
+                VendorId = Data.Service.VendorId
             };
         }
         public static UserReservationViewModel ToUserReservationViewModel(this Reservation Data)

@@ -18,7 +18,7 @@ namespace Models
                 .ValueGeneratedOnAdd();
 
             builder
-                .Property(cli => cli.ChecklistId)
+                .Property(cli => cli.CheckListId)
                 .IsRequired();
 
             builder

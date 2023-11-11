@@ -8,7 +8,7 @@ namespace ViewModels.ServiceViewModels
 {
     public class ServiceMinInfoViewModel
     {
-        public int VendorID { get; set; } 
-        public string Title { get; set; }
+        public required int VendorId { get; set; } 
+        public required string Title { get; set; }
     }
 }

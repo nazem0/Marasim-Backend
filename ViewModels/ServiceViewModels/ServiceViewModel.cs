@@ -5,7 +5,7 @@ namespace ViewModels.ServiceViewModels
     {
         public int Id { get; set; }
         public required string UserId { get; set; }
-        public int VendorID { get; set; }
+        public int VendorId { get; set; }
         public required string Title { get; set; }
         public required string Description { get; set; }
         public float Price { get; set; }

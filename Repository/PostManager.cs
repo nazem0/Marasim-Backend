@@ -14,12 +14,12 @@ namespace Repository
         {
             return EntitiesContext.Add(Entity);
         }
-        public Post? GetPostByID(int ID)
+        public Post? GetPostById(int Id)
         {
-            return Get(ID).FirstOrDefault();
+            return Get(Id).FirstOrDefault();
         }
 
-        public IQueryable<Post> GetByVendorID(int VendorId)
+        public IQueryable<Post> GetByVendorId(int VendorId)
         {
             return Get().Where(p => p.Vendor.Id == VendorId);
         }

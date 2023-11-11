@@ -117,7 +117,7 @@ namespace Repository
 
         public async Task<IdentityResult> ChangePassword(ChangePasswordViewModel Data)
         {
-            var user = await UserManager.FindByIdAsync(Data.ID);
+            var user = await UserManager.FindByIdAsync(Data.Id);
             if (user != null)
             {
                 return await UserManager.ChangePasswordAsync(user, Data.OldPassword, Data.NewPassword);

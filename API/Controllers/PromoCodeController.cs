@@ -77,10 +77,10 @@ namespace API.Controllers
 
 
         [Authorize(Roles = "vendor")]
-        [HttpDelete("Delete/{ServiceID}")]
-        public IActionResult Delete(int ServiceID)
+        [HttpDelete("Delete/{ServiceId}")]
+        public IActionResult Delete(int ServiceId)
         {
-            var promoCode = PromoCodeManager.GetPromoCodeByServicID(ServiceID);
+            var promoCode = PromoCodeManager.GetPromoCodeByServicId(ServiceId);
 
             if (promoCode != null)
             {

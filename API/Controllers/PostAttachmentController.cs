@@ -10,9 +10,9 @@ namespace API.Controllers
         {
             PostAttachmentManager = _PostAttachmentManager;
         }
-        public IActionResult GetPostAttachmentByPostID(int PostID)
+        public IActionResult GetPostAttachmentByPostId(int PostId)
         {
-            var Data = PostAttachmentManager.Get().Where(sa => sa.PostID == PostID);
+            var Data = PostAttachmentManager.Get().Where(sa => sa.PostId == PostId);
             return new JsonResult(Data);
         }
     }

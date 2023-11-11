@@ -14,7 +14,7 @@ namespace Repository
         {
             return EntitiesContext.Add(comment);
         }
-        public IQueryable<Comment> GetByPostID(int PostId)
+        public IQueryable<Comment> GetByPostId(int PostId)
         {
             return Get().Where(c => c.PostId == PostId);
         }

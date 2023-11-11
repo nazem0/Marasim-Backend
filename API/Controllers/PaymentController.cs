@@ -48,8 +48,7 @@ namespace Api.Controllers
                     return BadRequest(Entry.State);
                 else
                 {
-                    Reservation Reservation = ReservationManager.Get(Data.ReservationId).First();
-                    ReservationManager.ChangeStatus(Reservation.ToChangeReservationStatusViewModel(),'f');
+                    ReservationManager.ChangeStatus(Data.ReservationId, 'f');
 
                     PaymentManager.Save();
                     ReservationManager.Save();

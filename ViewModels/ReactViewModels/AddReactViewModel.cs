@@ -5,7 +5,7 @@ namespace ViewModels.ReactViewModels
     public class AddReactViewModel
     {
         [Required]
-        public required int PostID { get; set; }
+        public required int PostId { get; set; }
     }
 }
 

@@ -4,7 +4,7 @@ namespace ViewModels.PostViewModels
 {
     public class PostAttachmentViewModel : BaseModel
     {
-        public required int PostID { get; set; }
+        public required int PostId { get; set; }
         public required string AttachmentUrl { get; set; }
     }
 }

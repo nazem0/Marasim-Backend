@@ -58,9 +58,9 @@ namespace Repository
             }
         }
 
-        public Follow? GetFollowByID(int ID)
+        public Follow? GetFollowById(int Id)
         {
-            return Get(ID).FirstOrDefault();
+            return Get(Id).FirstOrDefault();
         }
     }
 }

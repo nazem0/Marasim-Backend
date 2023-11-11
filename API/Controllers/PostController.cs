@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -37,17 +38,17 @@ namespace API.Controllers
             return Ok(Data);
         }
 
-        [HttpGet("GetPostByID/{PostID}")]
-        public IActionResult GetPostByID(int PostID)
+        [HttpGet("GetPostById/{PostId}")]
+        public IActionResult GetPostById(int PostId)
         {
-            var Data = PostManager.GetPostByID(PostID);
+            var Data = PostManager.GetPostById(PostId);
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetByVendorID/{VendorID}")]
-        public IActionResult GetByVendorID(int VendorID)
+        [HttpGet("GetByVendorId/{VendorId}")]
+        public IActionResult GetByVendorId(int VendorId)
         {
-            var Data = PostManager.GetByVendorID(VendorID)
+            var Data = PostManager.GetByVendorId(VendorId)
                 .Include(p => p.PostAttachments)
                 .Include(p => p.Comments)
                 .Include(p => p.Reacts)
@@ -70,7 +71,7 @@ namespace API.Controllers
                     string FileName = DateTime.Now.Ticks + fi.Extension;
                     Helper.UploadMediaAsync
                         (User.FindFirstValue(ClaimTypes.NameIdentifier)!
-                        , "PostAttachment", FileName, item, $"{NewPost.Id}-{NewPost.Title}");
+                        , "PostAttachment", FileName, item, $"{NewPost.Id}-{NewPost.VendorId}");
                     PostAttachmentManager.Add(
                         new PostAttachment
                         {
@@ -103,7 +104,7 @@ namespace API.Controllers
             int? PostVendorId = PostManager.Get(PostId)!.FirstOrDefault()?.VendorId;
             int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (PostVendorId != null && PostVendorId == LoggedInVendorId )
+            if (PostVendorId != null && PostVendorId == LoggedInVendorId)
             {
                 PostManager.Delete(PostId);
                 PostManager.Save();
@@ -115,24 +116,31 @@ namespace API.Controllers
             }
         }
 
-        [Authorize(Roles = "vendor,admin")]
-        [HttpPut("Update/{PostID}")]
-        public IActionResult Update(int PostID, [FromForm] EditPostViewModel OldPost)
+        [Authorize(Roles = "vendor")]
+        [HttpPut("Update/{PostId}")]
+        public IActionResult Update(int PostId, [FromForm] EditPostViewModel OldPost)
         {
-            Post? Post = PostManager.GetPostByID(PostID);
-            if (Post is not null)
+            string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            int? PostVendorId = PostManager.Get(PostId)!.FirstOrDefault()?.VendorId;
+            int? LoggedInVendorId = VendorManager.GetVendorIdByUserId(LoggedInUserId);
+            Post? Post = PostManager.GetPostById(PostId);
+            if (!ModelState.IsValid || Post == null)
             {
-                Post.Title = OldPost.Title ?? Post.Title;
-                Post.Description = OldPost.Description ?? Post.Description;
-                Post.DateTime = OldPost.DateTime;
-                PostManager.Update(Post);
-                PostManager.Save();
-                return Ok("Updated");
+                return BadRequest("Post InvalId");
+            }
+            else if (PostVendorId != LoggedInVendorId)
+            {
+                return Unauthorized();
             }
             else
             {
-                return NotFound();
+                Post.Title = OldPost.Title ?? Post.Title;
+                Post.Description = OldPost.Description ?? Post.Description;
+                PostManager.Update(Post);
+                PostManager.Save();
+                return Ok();
             }
+
         }
     }
 }
