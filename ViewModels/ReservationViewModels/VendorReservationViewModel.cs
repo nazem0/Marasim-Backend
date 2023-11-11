@@ -22,5 +22,6 @@ namespace ViewModels.ReservationViewModels
         public decimal Longitude { get; set; }
         public required string Address { get; set; }
         public required UserDetails User { get; set; }
+        public required ServiceMinInfoViewModel Service { get; set; }
     }
 }

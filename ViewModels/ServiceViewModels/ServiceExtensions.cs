@@ -1,5 +1,6 @@
 ﻿using Models;
 using ViewModels.ServiceAttatchmentViewModels;
+using ViewModels.UserViewModels;
 
 namespace ViewModels.ServiceViewModels
 {
@@ -48,6 +49,16 @@ namespace ViewModels.ServiceViewModels
                 Id = Data.Id,
                 //ReviewsCount = Data.Reviews.Count,
                 //ReservationsCount = Data.Reservations.Count,
+            };
+        }
+
+
+        public static ServiceMinInfoViewModel ToServiceMinInfoViewModel(this Service Service)
+        {
+            return new ServiceMinInfoViewModel
+            {
+                VendorID = Service.VendorID,
+                Title =Service.Title
             };
         }
     }
