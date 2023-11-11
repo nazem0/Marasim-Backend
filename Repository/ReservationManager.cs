@@ -32,7 +32,7 @@ namespace Repository
                 return EntitiesContext.Add(Reservation);
             else
             {
-                Reservation.Price -= Discount;
+                Reservation.Price -= PromoCode.Discount;
                 return EntitiesContext.Add(Reservation);
             }
         }
@@ -64,8 +64,9 @@ namespace Repository
         {
             return Get()
                 .Where(r => r.UserId == UserId && r.Status == Status)
-                .Include(r => r.Service)
-                .ThenInclude(s => s.Vendor.User)
+                .Include(r=>r.Review)
+                .Include(r=>r.Review.User)
+                .Include(r => r.Service.Vendor.User)
                 .Select(r => r.ToUserReservationViewModel());
         }
         public IQueryable<VendorReservationViewModel> GetVendorReservations(int VendorId)
