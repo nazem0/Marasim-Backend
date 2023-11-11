@@ -20,8 +20,19 @@ namespace ViewModels.ServiceAttatchmentViewModels
             return new ServiceAttatchmentViewModel
             {
                 Id = ServiceAttachment.Id,
-                ServiceId = ServiceAttachment.ServiceID,
+                ServiceID = ServiceAttachment.ServiceID,
                 AttachmentUrl = ServiceAttachment.AttachmentUrl
+            };
+        }
+
+        public static ServiceAttachmentCustomViewModel ToCustomViewModel(this ServiceAttachment ServiceAttachment)
+        {
+            return new ServiceAttachmentCustomViewModel
+            {
+                ServiceId = ServiceAttachment.ServiceID,
+                AttachmentUrl = ServiceAttachment.AttachmentUrl,
+                UserId = ServiceAttachment.Service.Vendor.UserId,
+                VendorId = ServiceAttachment.Service.VendorID
             };
         }
     }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ViewModels.ServiceViewModels;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
@@ -73,6 +72,22 @@ namespace ViewModels.ReservationViewModels
                 DateTime = Data.DateTime,
                 Price = Data.Price,
                 Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
+            };
+        }
+        public static AdminReservationViewModel ToAdminReservationViewModel(this Reservation Data)
+        {
+            return new AdminReservationViewModel
+            {
+                Id = Data.Id,
+                ServiceId = Data.ServiceId,
+                DateTime = Data.DateTime,
+                Price = Data.Price,
+                Status = Data.Status,
+                Address = Data.Address,
+                Latitude = Data.Latitude,
+                Longitude = Data.Longitude,
+                User = Data.User.ToUserMinInfoViewModel(),
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()  
             };
         }
     }
