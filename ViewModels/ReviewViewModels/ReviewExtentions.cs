@@ -9,6 +9,7 @@ namespace ViewModels.ReviewViewModels
             return new Review
             {
                 UserId = UserId,
+                ReservationId = AddReview.ReservationId,
                 ServiceId = AddReview.ServiceId,
                 Rate = AddReview.Rate,
                 Message = AddReview.Message,
