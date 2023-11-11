@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModels.ReviewViewModels;
 using ViewModels.ServiceViewModels;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
@@ -45,7 +46,8 @@ namespace ViewModels.ReservationViewModels
                 Address = Data.Address,
                 Latitude = Data.Latitude,
                 Longitude = Data.Longitude,
-                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel(),
+                Review = Data.Review.ToReviewViewModel()
             };
         }
         public static VendorReservationViewModel ToVendorReservationViewModel(this Reservation Data)
