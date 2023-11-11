@@ -50,7 +50,7 @@ namespace API.Controllers
             {
                 ReviewManager.Add(Data.ToModel(UserId));
                 ReviewManager.Save();
-                return Ok("Review Added");
+                return Ok();
             }
             else
             {
@@ -70,7 +70,7 @@ namespace API.Controllers
                 Data.Rate = OldReview.Rate;
                 ReviewManager.Update(Data);
                 ReviewManager.Save();
-                return Ok("Updated");
+                return Ok();
             }
             else
             {
@@ -88,7 +88,7 @@ namespace API.Controllers
             {
                 ReviewManager.Delete(Data);
                 ReviewManager.Save();
-                return Ok("Deleted");
+                return Ok();
             }
             else
             {
