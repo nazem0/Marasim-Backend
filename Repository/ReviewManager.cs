@@ -33,6 +33,10 @@ namespace Repository
         {
             return EntitiesContext.Update(Entity);
         }
+        public bool HasReviews(int ReservationId)
+        {
+            return Get().Where(r => r.ReservationId == ReservationId).Any();
+        }
     }
 }
 

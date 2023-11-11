@@ -55,6 +55,8 @@ namespace Models
                 .WithMany(u => u.Reservations)
                 .HasForeignKey(r => r.UserId)
                 .IsRequired();
+
+
         }
     }
 }
