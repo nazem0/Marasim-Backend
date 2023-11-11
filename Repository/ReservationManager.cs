@@ -36,9 +36,9 @@ namespace Repository
                 return EntitiesContext.Add(Reservation);
             }
         }
-        public EntityEntry<Reservation>? ChangeStatus(ChangeReservationStatusViewModel Data,char Status)
+        public EntityEntry<Reservation>? ChangeStatus(int ReservationId,char Status)
         {
-            Reservation? Reservation = Get(Data.Id).FirstOrDefault();
+            Reservation? Reservation = Get(ReservationId).FirstOrDefault();
             if (Reservation == null) return null;
             Reservation.Status = Status;
             return EntitiesContext.Update(Reservation);
@@ -95,5 +95,6 @@ namespace Repository
                 .Select(r => r.ToCheckoutReservationViewModel())
                 .FirstOrDefault();
         }
+      
     }
 }
