@@ -28,6 +28,19 @@ namespace Repository
         {
             return EntitiesContext.Update(Entity);
         }
+
+        public void Delete(int PostId)
+        {
+            Post? Post = Get(PostId).FirstOrDefault();
+            if (Post != null)
+            {
+                base.Delete(Post);
+            }
+            else
+            {
+                throw new Exception("Post Is Not Found");
+            }
+        }
     }
 }
 

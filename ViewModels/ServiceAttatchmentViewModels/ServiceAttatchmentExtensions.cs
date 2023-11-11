@@ -20,7 +20,7 @@ namespace ViewModels.ServiceAttatchmentViewModels
             return new ServiceAttatchmentViewModel
             {
                 Id = ServiceAttachment.Id,
-                ServiceId = ServiceAttachment.ServiceID,
+                ServiceID = ServiceAttachment.ServiceID,
                 AttachmentUrl = ServiceAttachment.AttachmentUrl
             };
         }

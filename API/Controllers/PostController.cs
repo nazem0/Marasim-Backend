@@ -97,19 +97,21 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "vendor,admin")]
-        [HttpDelete("Delete")]
-        public IActionResult Delete(int PostID)
+        [HttpDelete("Delete/{PostId}")]
+        public IActionResult Delete(int PostId)
         {
-            Post? Post = PostManager.GetPostByID(PostID);
-            if (Post is not null)
+            int? PostVendorId = PostManager.Get(PostId)!.FirstOrDefault()?.VendorId;
+            int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
+                (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (PostVendorId != null && PostVendorId == LoggedInVendorId )
             {
-                PostManager.Delete(Post);
+                PostManager.Delete(PostId);
                 PostManager.Save();
-                return Ok("Deleted");
+                return Ok();
             }
             else
             {
-                return NotFound();
+                return Unauthorized();
             }
         }
 
