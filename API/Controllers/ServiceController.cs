@@ -68,7 +68,7 @@ namespace Marasim_Backend.Controllers
         [Authorize(Roles = "vendor")]
         public IActionResult Add([FromForm] CreateServiceViewModel Data)
         {
-            if (!ModelState.IsValId)
+            if (!ModelState.IsValid)
             {
                 var str = new StringBuilder();
                 foreach (var item in ModelState.Values)

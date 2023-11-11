@@ -73,7 +73,7 @@ namespace Repository
             return Get()
                 .Include(r => r.Service)
                 .Include(r => r.User)
-                .Where(r => r.Service.VendorID == VendorId)
+                .Where(r => r.Service.VendorId == VendorId)
                 .Select(r => r.ToVendorReservationViewModel());
 
 
@@ -83,7 +83,7 @@ namespace Repository
             return Get()
                 .Include(r => r.Service)
                 .Include(r => r.User)
-                .Where(r => r.Service.VendorID == VendorId && r.Status == Status)
+                .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
                 .Select(r => r.ToVendorReservationViewModel());
         }
         public CheckoutReservationViewModel? CheckoutReservationById(string UserId,int ReservationId)
