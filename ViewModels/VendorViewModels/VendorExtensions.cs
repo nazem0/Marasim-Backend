@@ -1,5 +1,6 @@
 ﻿using Models;
 using ViewModels.CategoryViewModels;
+using ViewModels.FollowViewModels;
 using ViewModels.PostViewModels;
 using ViewModels.ServiceViewModels;
 
@@ -57,6 +58,7 @@ namespace ViewModels.VendorViewModels
                 NationalId = _User.NationalId,
                 PhoneNumber = _User.PhoneNumber!,
                 PicUrl = _User.PicUrl,
+                Followers = Vendor.Followers.Select(f => f.ToFollowerViewModel()),
                 Services = Vendor.Services.Select(s => s.ToServicePartialViewModel()),
                 Posts = Vendor.Posts.Select(p => p.ToViewModel())
             };

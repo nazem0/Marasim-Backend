@@ -71,6 +71,7 @@ namespace Marasim_Backend.Controllers
                 .Include(v => v.Posts)
                 .ThenInclude(p => p.PostAttachments)
                 .Include(v => v.Category)
+                .Include(v => v.Followers)
                 .Select(v => v.ToVendorFullViewModel(v.User))
                 .FirstOrDefault();
             return new JsonResult(Data);

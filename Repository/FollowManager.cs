@@ -21,16 +21,19 @@ namespace Repository
             return Get().Where(f => f.UserId == userId);
         }
 
-        public string Add(Follow follow)
+        public void Add(Follow Follow)
         {
-            if (IsUserFollowingVendor(follow.UserId, follow.VendorId))
+            if (Follow == null)
             {
-                return "You are already following this vendor.";
+                throw new Exception("Follow Not Found");
+            }
+            else if (IsUserFollowingVendor(Follow.UserId, Follow.VendorId))
+            {
+                throw new Exception("Already Following");
             }
             else
             {
-                EntitiesContext.Add(follow);
-                return "Followed";
+                EntitiesContext.Add(Follow);
             }
         }
 
