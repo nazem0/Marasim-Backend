@@ -41,6 +41,13 @@ namespace Models
             modelBuilder.ApplyConfiguration(new VendorConfig());
             modelBuilder.ApplyConfiguration(new InvitationConfig());
 
+            #region DataSeeding
+            modelBuilder.Entity<Category>().HasData(new Category
+            {
+                Id = 1,
+                Name = "مديري القاعات"
+            });
+            #endregion
             base.OnModelCreating(modelBuilder);
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -53,5 +60,6 @@ namespace Models
         //    //optionsBuilder.UseSqlServer(@"Data Source=localhost; Initial Catalog=Marasim; TrustServerCertificate=True; User Id=SA; Password=$aMer2030");
         //    base.OnConfiguring(optionsBuilder);
         //}
+
     }
 }
