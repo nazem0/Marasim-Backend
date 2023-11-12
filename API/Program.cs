@@ -16,15 +16,15 @@ namespace API
             var Builder = WebApplication.CreateBuilder(args);
             Builder.Services.AddDbContext<EntitiesContext>(context =>
             {
-                context
-                    .UseLazyLoadingProxies()
-                    .UseSqlServer
-                    (Builder.Configuration.GetConnectionString("MyDB"));
-
                 //context
                 //    .UseLazyLoadingProxies()
                 //    .UseSqlServer
-                //    (Builder.Configuration.GetConnectionString("MySamer"));
+                //    (Builder.Configuration.GetConnectionString("MyDB"));
+
+                context
+                    .UseLazyLoadingProxies()
+                    .UseSqlServer
+                    (Builder.Configuration.GetConnectionString("MySamer"));
             });
 
             Builder.Services.AddIdentity<User, IdentityRole>(Options =>

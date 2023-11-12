@@ -62,7 +62,7 @@ namespace API.Controllers
             }
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (!ReactManager.IsLiked(UserId!))
+            if (!ReactManager.IsLiked(UserId!, AddReact.PostId))
             {
                 ReactManager.Add(AddReact.ToModel(UserId!));
                 ReactManager.Save();

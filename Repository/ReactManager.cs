@@ -19,14 +19,16 @@ namespace Repository
             return Get().Where(r => r.PostId == PostId);
         }
 
-        public bool IsLiked(string UserId)
+        public bool IsLiked(string UserId, int PostId)
         {
-            if (!Get().Any(r => r.UserId == UserId))
+            if (Get().Any(r => r.UserId == UserId && r.PostId == PostId))
             {
                 return true;
             }
             else
+            {
                 return false;
+            }
         }
 
         public void Delete(int ReactId)
