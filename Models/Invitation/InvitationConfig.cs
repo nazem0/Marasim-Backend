@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Models
 {
-    public class WeddingInvitationConfig : IEntityTypeConfiguration<WeddingInvitation>
+    public class InvitationConfig : IEntityTypeConfiguration<Invitation>
     {
-        public void Configure(EntityTypeBuilder<WeddingInvitation> builder)
+        public void Configure(EntityTypeBuilder<Invitation> builder)
         {
             builder
-                .ToTable("WeddingInvitation");
+                .ToTable("Invitation");
 
             // ID
             builder
@@ -24,18 +24,14 @@ namespace Models
 
             // Properties
 
-            builder
-              .Property(w => w.UserId)
-              .IsRequired();
-
 
             builder
-                .Property(w => w.Decsription)
-                .IsRequired().HasMaxLength(1000);
+                .Property(w => w.Location)
+                .IsRequired().HasMaxLength(150);
 
             builder
                .Property(w => w.GroomName)
-               .IsRequired().HasMaxLength(20);
+               .IsRequired().HasMaxLength(150);
 
             builder
                .Property(w => w.GroomPicUrl)
@@ -43,7 +39,7 @@ namespace Models
 
             builder
                .Property(w => w.BrideName)
-               .IsRequired().HasMaxLength(20);
+               .IsRequired().HasMaxLength(150);
 
             builder
                .Property(w => w.BridePicUrl)
