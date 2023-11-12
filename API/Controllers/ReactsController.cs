@@ -24,7 +24,6 @@ namespace API.Controllers
         public IActionResult GetReactsByPostId(int PostId)
         {
             var Data = ReactManager.GetByPostId(PostId)
-                         .Include(r => r.User)
                          .Select(r => r.ToViewModel(r.User));
 
             return new JsonResult(Data);

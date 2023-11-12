@@ -29,8 +29,7 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var Data = VendorManager.Get()
-                .Include(v => v.User);
+            var Data = VendorManager.Get();
             return new JsonResult(Data);
         }
 
@@ -38,8 +37,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult GetVendorById(int VendorId)
         {
             var Data = VendorManager.Get(VendorId)
-                .Include(v => v.User)
-                //.Select(v => v.ToVendorViewModel(v.User))
+                .Select(v => v.ToVendorViewModel(v.User))
                 .FirstOrDefault();
             return new JsonResult(Data);
         }
@@ -54,10 +52,7 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetVendorMIdInfo")]
         public IActionResult GetVendorMIdInfo()
         {
-            var Data = VendorManager.Get()
-                .Include(v => v.User)
-                .Include(v => v.Category)
-                .Select(v => v.ToVendorMIdInfoViewModel());
+            var Data = VendorManager.Get();
             return new JsonResult(Data);
         }
 
@@ -65,13 +60,6 @@ namespace Marasim_Backend.Controllers
         public IActionResult GetVendorFullFull(int VendorId)
         {
             var Data = VendorManager.Get(VendorId)
-                .Include(v => v.User)
-                .Include(v => v.Services.Where(s => s.IsDeleted == false))
-                .ThenInclude(s => s.ServiceAttachments)
-                .Include(v => v.Posts)
-                .ThenInclude(p => p.PostAttachments)
-                .Include(v => v.Category)
-                .Include(v => v.Followers)
                 .Select(v => v.ToVendorFullViewModel(v.User))
                 .FirstOrDefault();
             return new JsonResult(Data);

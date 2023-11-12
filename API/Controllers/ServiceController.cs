@@ -28,29 +28,17 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            return Ok(ServiceManager.Get()
-                .Include(S => S.ServiceAttachments)
-                .Include(S => S.Reservations)
-                .Include(S => S.PromoCode)
-                .Include(S => S.Reviews));
+            return Ok(ServiceManager.Get());
         }
         [HttpGet("GetAllActive")]
         public IActionResult GetAllActive()
         {
-            return Ok(ServiceManager.GetActive()
-                .Include(S => S.ServiceAttachments)
-                .Include(S => S.Reservations)
-                .Include(S => S.PromoCode)
-                .Include(S => S.Reviews));
+            return Ok(ServiceManager.GetActive());
         }
         [HttpGet("GetById")]
         public IActionResult GetById(int Id)
         {
-            var x = ServiceManager.Get(Id)
-                .Include(S => S.ServiceAttachments)
-                .Include(S => S.Reservations)
-                .Include(S => S.PromoCode)
-                .Include(S => S.Reviews);
+            var x = ServiceManager.Get(Id);
             return new JsonResult(x);
         }
         [HttpGet("GetByVendorId/{Id}")]
@@ -58,10 +46,6 @@ namespace Marasim_Backend.Controllers
         {
             return Ok(ServiceManager.Get()
                 .Where(S => S.VendorId == Id && S.IsDeleted == false)
-                .Include(S => S.ServiceAttachments)
-                .Include(S => S.Reservations)
-                .Include(S => S.PromoCode)
-                .Include(S => S.Reviews)
                 .Select(S => S.ToServiceViewModel(S.Vendor.UserId)));
         }
         [HttpPost("Add")]
@@ -132,7 +116,7 @@ namespace Marasim_Backend.Controllers
             int? ServiceVendorId = ServiceManager.Get(ServiceId)!.FirstOrDefault()?.VendorId;
             int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (LoggedInUserId);
-            if (ServiceVendorId == null) return BadRequest("Service Id InvalId");
+            if (ServiceVendorId == null) return BadRequest("Service Id Invalid");
             else if (ServiceVendorId != LoggedInVendorId) return Unauthorized();
             else
             {

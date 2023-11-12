@@ -54,8 +54,6 @@ namespace Repository
         {
             return Get()
                 .Where(r => r.UserId == UserId)
-                .Include(r => r.Service)
-                .ThenInclude(s => s.Vendor.User)
                 .Select(r => r.ToUserReservationViewModel());
 
 
@@ -64,16 +62,11 @@ namespace Repository
         {
             return Get()
                 .Where(r => r.UserId == UserId && r.Status == Status)
-                .Include(r=>r.Review)
-                .Include(r=>r.Review.User)
-                .Include(r => r.Service.Vendor.User)
                 .Select(r => r.ToUserReservationViewModel());
         }
         public IQueryable<VendorReservationViewModel> GetVendorReservations(int VendorId)
         {
             return Get()
-                .Include(r => r.Service)
-                .Include(r => r.User)
                 .Where(r => r.Service.VendorId == VendorId)
                 .Select(r => r.ToVendorReservationViewModel());
 
@@ -82,8 +75,6 @@ namespace Repository
         public IQueryable<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status)
         {
             return Get()
-                .Include(r => r.Service)
-                .Include(r => r.User)
                 .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
                 .Select(r => r.ToVendorReservationViewModel());
         }
@@ -91,8 +82,6 @@ namespace Repository
         {
             return Get()
                 .Where(r => r.UserId == UserId && r.Id == ReservationId && r.Status == 'a')
-                .Include(r => r.Service)
-                .ThenInclude(s => s.Vendor.User)
                 .Select(r => r.ToCheckoutReservationViewModel())
                 .FirstOrDefault();
         }

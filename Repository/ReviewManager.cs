@@ -23,8 +23,7 @@ namespace Repository
 
         public IQueryable<Review> GetByVendorId(int VendorId)
         {
-            return Get().Include(r => r.User)
-                .Include(r => r.Service)
+            return Get()
                 .Where(r => r.Service.VendorId == VendorId);
                 
         }

@@ -25,7 +25,6 @@ namespace Api.Controllers
         public IActionResult GetFollowersForVendor(int VendorId)
         {
             var Users = FollowManager.GetFollowersVendor(VendorId)
-                .Include(f => f.User)
                 .Select(f => f.ToFollowerViewModel())
                 .ToList();
             return new JsonResult(Users);
@@ -35,7 +34,6 @@ namespace Api.Controllers
         public IActionResult GetFollowingForUser(string UserId)
         {
             var Vendors = FollowManager.GetFollowingForUser(UserId)
-                .Include(f => f.Vendor.User)
                 .Select(f => f.ToFollowingViewModel())
                 .ToList();
             return new JsonResult(Vendors);

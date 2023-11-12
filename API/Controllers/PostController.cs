@@ -31,9 +31,6 @@ namespace API.Controllers
         public IActionResult Get()
         {
             var Data = PostManager.Get()
-                .Include(p => p.PostAttachments)
-                .Include(p => p.Comments)
-                .Include(p => p.Reacts)
                 .Select(p => p.ToViewModel());
             return Ok(Data);
         }

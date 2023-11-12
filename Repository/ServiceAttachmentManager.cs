@@ -20,7 +20,6 @@ namespace Repository
         public IQueryable<ServiceAttachmentCustomViewModel> GetByVendorId(int VendorId)
         {
             return Get().Where(sa => sa.Service.VendorId == VendorId && sa.Service.IsDeleted == false)
-                .Include(sa => sa.Service.Vendor.User)
                 .Select(sa => sa.ToCustomViewModel());
         }
 
@@ -33,7 +32,6 @@ namespace Repository
         public IQueryable<ServiceAttachmentCustomViewModel> GetCustomAttachment()
         {
             return Get().Where(sa => sa.Service.IsDeleted == false)
-                .Include(sa => sa.Service.Vendor.User)
                 .Select(sa => sa.ToCustomViewModel());
         }
     }
