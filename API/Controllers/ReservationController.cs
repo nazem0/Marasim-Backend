@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentFormat.OpenXml.Vml.Office;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +8,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
 using System.Security.Claims;
+using System.Text.Json.Nodes;
 using ViewModels.ReservationViewModels;
 
 namespace Api.Controllers
@@ -52,7 +55,7 @@ namespace Api.Controllers
             }
         }
         [HttpPut("Accept"), Authorize(Roles = "vendor")]
-        public IActionResult Accept([FromBody] ChangeReservationStatusViewModel Data)
+        public IActionResult Accept([FromBody]ChangeReservationStatusViewModel Data)
         {
             if (!ModelState.IsValid)
             {

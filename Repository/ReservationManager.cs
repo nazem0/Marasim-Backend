@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.ReservationViewModels;
+using ViewModels.UserViewModels;
 
 namespace Repository
 {
@@ -35,7 +36,7 @@ namespace Repository
                 return EntitiesContext.Add(Reservation);
             }
         }
-        public EntityEntry<Reservation>? ChangeStatus(int ReservationId, char Status)
+        public EntityEntry<Reservation>? ChangeStatus(int ReservationId,char Status)
         {
             Reservation? Reservation = Get(ReservationId).FirstOrDefault();
             if (Reservation == null) return null;
@@ -63,8 +64,8 @@ namespace Repository
         {
             return Get()
                 .Where(r => r.UserId == UserId && r.Status == Status)
-                .Include(r => r.Review)
-                .Include(r => r.Review.User)
+                .Include(r=>r.Review)
+                .Include(r=>r.Review.User)
                 .Include(r => r.Service.Vendor.User)
                 .Select(r => r.ToUserReservationViewModel());
         }
@@ -86,7 +87,7 @@ namespace Repository
                 .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
                 .Select(r => r.ToVendorReservationViewModel());
         }
-        public CheckoutReservationViewModel? CheckoutReservationById(string UserId, int ReservationId)
+        public CheckoutReservationViewModel? CheckoutReservationById(string UserId,int ReservationId)
         {
             return Get()
                 .Where(r => r.UserId == UserId && r.Id == ReservationId && r.Status == 'a')
@@ -95,6 +96,6 @@ namespace Repository
                 .Select(r => r.ToCheckoutReservationViewModel())
                 .FirstOrDefault();
         }
-
+      
     }
 }

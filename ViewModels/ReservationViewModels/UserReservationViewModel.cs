@@ -1,4 +1,12 @@
-﻿using ViewModels.VendorViewModels;
+﻿using Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ViewModels.ReviewViewModels;
+using ViewModels.ServiceViewModels;
+using ViewModels.VendorViewModels;
 
 namespace ViewModels.ReservationViewModels
 {
@@ -13,6 +21,7 @@ namespace ViewModels.ReservationViewModels
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public required string Address { get; set; }
+        public ReviewViewModel? Review { get; set; }
         public required VendorMinInfoViewModel Vendor { get; set; }
     }
 }

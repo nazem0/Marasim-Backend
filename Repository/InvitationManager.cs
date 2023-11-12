@@ -1,7 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ViewModels.InvitationViewModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -13,7 +18,7 @@ namespace Repository
             EntitiesContext = _dBContext;
         }
 
-        public bool Add(AddInvitationViewModel Data, string UserId)
+        public bool Add(AddInvitationViewModel Data,string UserId)
         {
             FileInfo fiGroom = new(Data.GroomPic.FileName);
             FileInfo fiBride = new(Data.BridePic.FileName);
@@ -21,7 +26,7 @@ namespace Repository
             string FileNameGroom = DateTime.Now.Ticks + fiGroom.Extension;
             string FileNameBride = DateTime.Now.Ticks + fiBride.Extension;
             string FileNamePoster = DateTime.Now.Ticks + fiPoster.Extension;
-            Helper.UploadMediaAsync(UserId, "Invitation", FileNameGroom, Data.GroomPic);
+            Helper.UploadMediaAsync(UserId, "Invitation",FileNameGroom, Data.GroomPic);
             Helper.UploadMediaAsync(UserId, "Invitation", FileNameBride, Data.BridePic);
             Helper.UploadMediaAsync(UserId, "Invitation", FileNamePoster, Data.Poster);
             Data.GroomPicUrl = FileNameGroom;

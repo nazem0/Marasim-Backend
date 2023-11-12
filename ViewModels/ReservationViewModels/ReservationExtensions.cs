@@ -1,4 +1,11 @@
 ﻿using Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ViewModels.ReviewViewModels;
+using ViewModels.ServiceViewModels;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
@@ -24,7 +31,7 @@ namespace ViewModels.ReservationViewModels
             return new ChangeReservationStatusViewModel
             {
                 Id = Data.Id,
-                VendorId = Data.Service.VendorID
+                VendorId = Data.Service.VendorId
             };
         }
         public static UserReservationViewModel ToUserReservationViewModel(this Reservation Data)
@@ -39,7 +46,8 @@ namespace ViewModels.ReservationViewModels
                 Address = Data.Address,
                 Latitude = Data.Latitude,
                 Longitude = Data.Longitude,
-                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel(),
+                Review = Data.Review.ToReviewViewModel()
             };
         }
         public static VendorReservationViewModel ToVendorReservationViewModel(this Reservation Data)
@@ -54,7 +62,8 @@ namespace ViewModels.ReservationViewModels
                 Address = Data.Address,
                 Latitude = Data.Latitude,
                 Longitude = Data.Longitude,
-                User = Data.User.ToUserViewModel()
+                User = Data.User.ToUserViewModel(),
+                Service =Data.Service.ToServiceMinInfoViewModel()
             };
         }
         public static CheckoutReservationViewModel ToCheckoutReservationViewModel(this Reservation Data)
@@ -81,7 +90,7 @@ namespace ViewModels.ReservationViewModels
                 Latitude = Data.Latitude,
                 Longitude = Data.Longitude,
                 User = Data.User.ToUserMinInfoViewModel(),
-                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()  
             };
         }
     }

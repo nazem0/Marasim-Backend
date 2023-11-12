@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using Repository;
-using System.Text;
 using ViewModels.PostViewModels;
 using ViewModels.PromoCodeViewModel;
 
@@ -76,10 +77,10 @@ namespace API.Controllers
 
 
         [Authorize(Roles = "vendor")]
-        [HttpDelete("Delete/{ServiceID}")]
-        public IActionResult Delete(int ServiceID)
+        [HttpDelete("Delete/{ServiceId}")]
+        public IActionResult Delete(int ServiceId)
         {
-            var promoCode = PromoCodeManager.GetPromoCodeByServicID(ServiceID);
+            var promoCode = PromoCodeManager.GetPromoCodeByServicId(ServiceId);
 
             if (promoCode != null)
             {

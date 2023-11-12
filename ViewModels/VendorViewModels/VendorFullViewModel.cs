@@ -1,4 +1,7 @@
-﻿using ViewModels.PostViewModels;
+﻿using System;
+using Models;
+using ViewModels.FollowViewModels;
+using ViewModels.PostViewModels;
 using ViewModels.ServiceViewModels;
 
 namespace ViewModels.VendorViewModels
@@ -20,6 +23,7 @@ namespace ViewModels.VendorViewModels
         public required string PhoneNumber { get; set; }
         public required IEnumerable<ServicePartialViewModel> Services { get; set; }
         public required IEnumerable<PostViewModel> Posts { get; set; }
+        public required IEnumerable<FollowViewModel> Followers { get; set; }
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using ViewModels.VendorViewModels;
+﻿using Models;
+using ViewModels.VendorViewModels;
 
 namespace ViewModels.CategoryViewModels
 {

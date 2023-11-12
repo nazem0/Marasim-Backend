@@ -1,4 +1,10 @@
 ﻿using Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ViewModels.PostViewModels;
 
 namespace ViewModels.ServiceAttatchmentViewModels
 {
@@ -14,7 +20,7 @@ namespace ViewModels.ServiceAttatchmentViewModels
             return new ServiceAttatchmentViewModel
             {
                 Id = ServiceAttachment.Id,
-                ServiceId = ServiceAttachment.ServiceID,
+                ServiceId = ServiceAttachment.ServiceId,
                 AttachmentUrl = ServiceAttachment.AttachmentUrl
             };
         }
@@ -23,10 +29,10 @@ namespace ViewModels.ServiceAttatchmentViewModels
         {
             return new ServiceAttachmentCustomViewModel
             {
-                ServiceId = ServiceAttachment.ServiceID,
+                ServiceId = ServiceAttachment.ServiceId,
                 AttachmentUrl = ServiceAttachment.AttachmentUrl,
                 UserId = ServiceAttachment.Service.Vendor.UserId,
-                VendorId = ServiceAttachment.Service.VendorID
+                VendorId = ServiceAttachment.Service.VendorId
             };
         }
     }

@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
+using System.Text.Json.Nodes;
 using ViewModels.PaymentViewModel;
+using ViewModels.ReservationViewModels;
 
 namespace Api.Controllers
 {
