@@ -14,7 +14,6 @@ namespace ViewModels.ServiceViewModels
         //public int? ReviewsCount { get; set; }
         //public int? ReservationsCount { get; set; }
         public required IEnumerable<ServiceAttatchmentViewModel> ServiceAttachments { set; get; }
-        public virtual PromoCode? PromoCode { set; get; }
     }
 }
 
