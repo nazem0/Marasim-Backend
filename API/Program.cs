@@ -81,6 +81,7 @@ namespace API
             // Add services to the container.
             Builder.Services.AddScoped<UserManager>();
             Builder.Services.AddScoped<CategoryManager>();
+            Builder.Services.AddScoped<InvitationManager>();
             Builder.Services.AddScoped<ReservationManager>();
             Builder.Services.AddScoped<PaymentManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();

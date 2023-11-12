@@ -34,7 +34,7 @@ namespace API.Controllers
                 .Include(p => p.PostAttachments)
                 .Include(p => p.Comments)
                 .Include(p => p.Reacts)
-                .Select(p => p.ToViewModel(p.Vendor.User));
+                .Select(p => p.ToViewModel());
             return Ok(Data);
         }
 
@@ -46,13 +46,10 @@ namespace API.Controllers
         }
 
         [HttpGet("GetByVendorId/{VendorId}")]
-        public IActionResult GetByVendorId(int VendorId)
+        public IActionResult GetByVendorId(int VendorId, int PageSize =2, int PageIndex =1)
         {
-            var Data = PostManager.GetByVendorId(VendorId)
-                .Include(p => p.PostAttachments)
-                .Include(p => p.Comments)
-                .Include(p => p.Reacts)
-                .Select(p => p.ToViewModel(p.Vendor.User));
+            var Data = PostManager.GetByVendorId(VendorId, PageSize, PageIndex);
+                
             return Ok(Data);
         }
 

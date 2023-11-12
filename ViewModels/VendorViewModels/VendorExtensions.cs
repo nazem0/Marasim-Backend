@@ -58,7 +58,7 @@ namespace ViewModels.VendorViewModels
                 PhoneNumber = _User.PhoneNumber!,
                 PicUrl = _User.PicUrl,
                 Services = Vendor.Services.Select(s => s.ToServicePartialViewModel()),
-                Posts = Vendor.Posts.Select(p => p.ToViewModel(_User))
+                Posts = Vendor.Posts.Select(p => p.ToViewModel())
             };
         }
         public static VendorMinInfoViewModel ToVendorMinInfoViewModel(this Vendor Data)

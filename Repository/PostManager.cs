@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
-
+using ViewModels;
+using ViewModels.PostViewModels;
 namespace Repository
 {
     public class PostManager : MainManager<Post>
@@ -19,9 +21,20 @@ namespace Repository
             return Get(Id).FirstOrDefault();
         }
 
-        public IQueryable<Post> GetByVendorId(int VendorId)
+        public PaginationViewModel<PostViewModel> GetByVendorId(int VendorId, int PageSize, int PageIndex)
         {
-            return Get().Where(p => p.Vendor.Id == VendorId);
+            var data = base.Filter(p => p.Vendor.Id == VendorId, PageSize, PageIndex)
+                .Select(p => p.ToViewModel());
+            int Count = Get().Where(p => p.Vendor.Id == VendorId).Count();
+            int Max = Convert.ToInt32(Math.Ceiling((double)Count / PageSize));
+            return new PaginationViewModel<PostViewModel>
+            {
+                Data = data.ToList(),
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+                Count = Count,
+                LastPage = Max
+            };
         }
 
         public EntityEntry<Post> Update(Post Entity)
