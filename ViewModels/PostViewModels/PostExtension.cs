@@ -1,4 +1,5 @@
 ﻿using Models;
+using System.Runtime.InteropServices;
 using ViewModels.CommentViewModels;
 using ViewModels.ReactViewModels;
 
@@ -17,7 +18,7 @@ namespace ViewModels.PostViewModels
             };
         }
 
-        public static PostViewModel ToViewModel(this Post Post, User User)
+        public static PostViewModel ToViewModel(this Post Post)
         {
             return new PostViewModel
             {
@@ -26,12 +27,12 @@ namespace ViewModels.PostViewModels
                 Title = Post.Title,
                 Description = Post.Description,
                 DateTime = Post.DateTime,
-                Comments = Post.Comments?.Select(c => c.ToViewModel(User)),
-                Reacts = Post.Reacts?.Select(r => r.ToViewModel(User)),
+                Comments = Post.Comments?.Select(c => c.ToViewModel(Post.Vendor.User)),
+                Reacts = Post.Reacts?.Select(r => r.ToViewModel(Post.Vendor.User)),
                 PostAttachments = Post.PostAttachments.Select(pa => pa.ToViewModel()),
-                VendorName = User.Name,
-                VendorPicUrl = User.PicUrl,
-                VendorUserId = User.Id
+                VendorName =Post.Vendor.User.Name,
+                VendorPicUrl = Post.Vendor.User.PicUrl,
+                VendorUserId = Post.Vendor.User.Id
             };
         }
     }

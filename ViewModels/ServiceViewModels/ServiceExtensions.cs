@@ -41,7 +41,6 @@ namespace ViewModels.ServiceViewModels
             {
                 ServiceAttachments = Data.ServiceAttachments.Select(sa => sa.ToViewModel()),
                 Description = Data.Description,
-                PromoCode = Data.PromoCode,
                 Title = Data.Title,
                 //IsDeleted = Data.IsDeleted,
                 Price = Data.Price,

@@ -24,7 +24,6 @@ namespace API.Controllers
         public IActionResult GetReactsByPostId(int PostId)
         {
             var Data = ReactManager.GetByPostId(PostId)
-                         .Include(r => r.User)
                          .Select(r => r.ToViewModel(r.User));
 
             return new JsonResult(Data);
@@ -36,11 +35,11 @@ namespace API.Controllers
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (ReactManager.GetByPostId(PostId).Any(r => r.UserId == UserId))
             {
-                return new JsonResult("true");
+                return Ok(true);
             }
             else
             {
-                return new JsonResult("false");
+                return Ok(false);
             }
         }
 
@@ -62,11 +61,11 @@ namespace API.Controllers
             }
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (ReactManager.IsLiked(UserId!))
+            if (!ReactManager.IsLiked(UserId!, AddReact.PostId))
             {
                 ReactManager.Add(AddReact.ToModel(UserId!));
                 ReactManager.Save();
-                return Ok("Liked");
+                return Ok();
             }
             else
             {
@@ -92,7 +91,7 @@ namespace API.Controllers
             {
                 ReactManager.Delete(React);
                 ReactManager.Save();
-                return Ok("Disliked");
+                return Ok();
             }
             else
             {

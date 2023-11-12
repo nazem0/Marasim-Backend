@@ -20,8 +20,6 @@ namespace Repository
         public new IEnumerable<PaymentViewModel> Get()
         {
             return base.Get()
-                .Include(p=>p.Reservation.User)
-                .Include(p=>p.Reservation.Service.Vendor.User)
                 .Select(p => p.ToPaymentViewModel());
         }
         public EntityEntry<Payment> Add(AddPaymentViewModel Data)

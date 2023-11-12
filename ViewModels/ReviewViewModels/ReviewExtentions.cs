@@ -31,6 +31,20 @@ namespace ViewModels.ReviewViewModels
             };
         }
 
+        public static ReviewFullViewModel ToReviewFullViewModel(this Review Data)
+        {
+            return new ReviewFullViewModel
+            {
+                Id = Data.Id,
+                DateTime = Data.DateTime,
+                Message = Data.Message,
+                ServiceId = Data.ServiceId,
+                ServiceTitle = Data.Service.Title,
+                Rate = Data.Rate,
+                User = Data.User.ToUserMinInfoViewModel()
+            };
+        }
+
     }
 }
 

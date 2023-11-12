@@ -23,7 +23,6 @@ namespace API.Controllers
         public IActionResult GetCommentsByPostId(int PostId)
         {
             var Data = CommentManager.GetByPostId(PostId)
-                        .Include(c => c.User)
                         .Select(c => c.ToViewModel(c.User));
             return new JsonResult(Data);
         }

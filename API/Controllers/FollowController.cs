@@ -25,7 +25,6 @@ namespace Api.Controllers
         public IActionResult GetFollowersForVendor(int VendorId)
         {
             var Users = FollowManager.GetFollowersVendor(VendorId)
-                .Include(f => f.User)
                 .Select(f => f.ToFollowerViewModel())
                 .ToList();
             return new JsonResult(Users);
@@ -35,7 +34,6 @@ namespace Api.Controllers
         public IActionResult GetFollowingForUser(string UserId)
         {
             var Vendors = FollowManager.GetFollowingForUser(UserId)
-                .Include(f => f.Vendor.User)
                 .Select(f => f.ToFollowingViewModel())
                 .ToList();
             return new JsonResult(Vendors);
@@ -43,7 +41,7 @@ namespace Api.Controllers
 
         [HttpPost("Add")]
         [Authorize(Roles = "user")]
-        public IActionResult Add([FromBody]AddFollowViewModel Follow)
+        public IActionResult Add([FromForm] AddFollowViewModel Follow)
         {
             if (!ModelState.IsValid)
             {
@@ -58,9 +56,9 @@ namespace Api.Controllers
                 return BadRequest(str.ToString());
             }
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var res = FollowManager.Add(Follow.ToEntity(UserId!));
+            FollowManager.Add(Follow.ToEntity(UserId!));
             FollowManager.Save();
-            return Ok(res);
+            return Ok();
         }
 
         [HttpDelete("Remove/{VendorId}")]
@@ -68,7 +66,7 @@ namespace Api.Controllers
         public IActionResult Delete(int VendorId)
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Follow Follow = FollowManager.GetFollow(UserId!,VendorId);
+            Follow Follow = FollowManager.GetFollow(UserId!, VendorId);
             if (Follow != null)
             {
                 FollowManager.Delete(Follow);
@@ -80,5 +78,22 @@ namespace Api.Controllers
                 return BadRequest("Not Followed");
             }
         }
+
+        [HttpGet("IsUserFollowingVendor/{VendorId}")]
+        public IActionResult IsUserFollowingVendor(int VendorId)
+        {
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (UserId == null) { return BadRequest(); }
+            bool Bool = FollowManager.IsUserFollowingVendor(UserId!, VendorId);
+            if (Bool)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }
+        }
+
     }
 }

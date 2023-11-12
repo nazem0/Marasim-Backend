@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using ViewModels.ReviewViewModels;
 
 namespace Repository
 {
@@ -21,7 +23,9 @@ namespace Repository
 
         public IQueryable<Review> GetByVendorId(int VendorId)
         {
-            return Get().Where(r => r.Service.VendorId == VendorId);
+            return Get()
+                .Where(r => r.Service.VendorId == VendorId);
+                
         }
 
         public Review GetReviewById(int Id)

@@ -36,8 +36,8 @@ namespace API.Controllers
         [HttpGet("GetByVendorId/{VendorId}")]
         public IActionResult GetByVendorId(int VendorId)
         {
-            var Data = ReviewManager.GetByVendorId(VendorId);
-            Data.Count();
+            var Data = ReviewManager.GetByVendorId(VendorId)
+                .Select(r => r.ToReviewFullViewModel());
             return new JsonResult(Data);
         }
 
