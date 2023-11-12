@@ -1,12 +1,4 @@
-﻿using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ViewModels.ServiceViewModels;
-using ViewModels.UserViewModels;
-using ViewModels.VendorViewModels;
+﻿using ViewModels.UserViewModels;
 
 namespace ViewModels.ReservationViewModels
 {
@@ -22,6 +14,5 @@ namespace ViewModels.ReservationViewModels
         public decimal Longitude { get; set; }
         public required string Address { get; set; }
         public required UserDetails User { get; set; }
-        public required ServiceMinInfoViewModel Service { get; set; }
     }
 }

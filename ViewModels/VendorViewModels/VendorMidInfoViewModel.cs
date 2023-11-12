@@ -1,6 +1,4 @@
-﻿using ViewModels.CategoryViewModels;
-
-namespace ViewModels.VendorViewModels
+﻿namespace ViewModels.VendorViewModels
 {
     public class VendorMidInfoViewModel
     {

@@ -24,8 +24,8 @@ namespace Repository
         public new IQueryable<CategoryViewModel> Get()
         {
             return base.Get()
-                .Include(C=>C.Vendors)
-                .ThenInclude(V=>V.User)
+                .Include(C => C.Vendors)
+                .ThenInclude(V => V.User)
                 .Select(C => C.ToCategoryViewModel());
         }
 

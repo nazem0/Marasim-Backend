@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Models;
+﻿using Models;
 
 namespace Repository
 {
@@ -21,19 +20,16 @@ namespace Repository
             return Get().Where(f => f.UserId == userId);
         }
 
-        public void Add(Follow Follow)
+        public string Add(Follow follow)
         {
-            if (Follow == null)
+            if (IsUserFollowingVendor(follow.UserId, follow.VendorId))
             {
-                throw new Exception("Follow Not Found");
-            }
-            else if (IsUserFollowingVendor(Follow.UserId, Follow.VendorId))
-            {
-                throw new Exception("Already Following");
+                return "You are already following this vendor.";
             }
             else
             {
-                EntitiesContext.Add(Follow);
+                EntitiesContext.Add(follow);
+                return "Followed";
             }
         }
 
@@ -61,9 +57,9 @@ namespace Repository
             }
         }
 
-        public Follow? GetFollowById(int Id)
+        public Follow? GetFollowByID(int ID)
         {
-            return Get(Id).FirstOrDefault();
+            return Get(ID).FirstOrDefault();
         }
     }
 }

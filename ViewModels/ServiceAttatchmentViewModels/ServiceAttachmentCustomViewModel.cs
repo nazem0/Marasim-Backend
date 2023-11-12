@@ -1,7 +1,4 @@
-﻿using System;
-using Models;
-
-namespace ViewModels.ServiceAttatchmentViewModels
+﻿namespace ViewModels.ServiceAttatchmentViewModels
 {
     public class ServiceAttachmentCustomViewModel
     {

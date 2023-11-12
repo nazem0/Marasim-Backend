@@ -4,6 +4,7 @@ namespace Models
 {
     public class EntitiesContext : IdentityDbContext<User>
     {
+        public EntitiesContext() { }
         public EntitiesContext(DbContextOptions options) : base(options) { }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CheckList> CheckLists { get; set; }
@@ -20,7 +21,7 @@ namespace Models
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceAttachment> ServiceAttachments { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
-        public DbSet<Invitation> WeddingInvitations { get; set; }
+        public DbSet<WeddingInvitation> WeddingInvitations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CategoryConfig());
@@ -39,19 +40,19 @@ namespace Models
             modelBuilder.ApplyConfiguration(new ServiceAttachmentConfig());
             modelBuilder.ApplyConfiguration(new UserConfig());
             modelBuilder.ApplyConfiguration(new VendorConfig());
-            modelBuilder.ApplyConfiguration(new InvitationConfig());
+            modelBuilder.ApplyConfiguration(new WeddingInvitationConfig());
 
             base.OnModelCreating(modelBuilder);
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder
-        //        //.UseLazyLoadingProxies()
-        //        .UseSqlServer(@"Data Source=.; Initial Catalog=Marasim; 
-        //            Integrated Security=True; TrustServerCertificate=True");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder
+                //.UseLazyLoadingProxies()
+                .UseSqlServer(@"Data Source=.; Initial Catalog=Marasim; 
+                    Integrated Security=True; TrustServerCertificate=True");
 
-        //    //optionsBuilder.UseSqlServer(@"Data Source=localhost; Initial Catalog=Marasim; TrustServerCertificate=True; User Id=SA; Password=$aMer2030");
-        //    base.OnConfiguring(optionsBuilder);
-        //}
+            //optionsBuilder.UseSqlServer(@"Data Source=localhost; Initial Catalog=Marasim; TrustServerCertificate=True; User Id=SA; Password=$aMer2030");
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }

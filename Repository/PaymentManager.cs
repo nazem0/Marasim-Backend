@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ViewModels.PaymentViewModel;
 
 namespace Repository
@@ -20,8 +15,8 @@ namespace Repository
         public new IEnumerable<PaymentViewModel> Get()
         {
             return base.Get()
-                .Include(p=>p.Reservation.User)
-                .Include(p=>p.Reservation.Service.Vendor.User)
+                .Include(p => p.Reservation.User)
+                .Include(p => p.Reservation.Service.Vendor.User)
                 .Select(p => p.ToPaymentViewModel());
         }
         public EntityEntry<Payment> Add(AddPaymentViewModel Data)

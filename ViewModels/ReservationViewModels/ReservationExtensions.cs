@@ -1,11 +1,4 @@
 ﻿using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ViewModels.ReviewViewModels;
-using ViewModels.ServiceViewModels;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
@@ -31,7 +24,7 @@ namespace ViewModels.ReservationViewModels
             return new ChangeReservationStatusViewModel
             {
                 Id = Data.Id,
-                VendorId = Data.Service.VendorId
+                VendorId = Data.Service.VendorID
             };
         }
         public static UserReservationViewModel ToUserReservationViewModel(this Reservation Data)
@@ -46,8 +39,7 @@ namespace ViewModels.ReservationViewModels
                 Address = Data.Address,
                 Latitude = Data.Latitude,
                 Longitude = Data.Longitude,
-                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel(),
-                Review = Data.Review.ToReviewViewModel()
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
             };
         }
         public static VendorReservationViewModel ToVendorReservationViewModel(this Reservation Data)
@@ -62,8 +54,7 @@ namespace ViewModels.ReservationViewModels
                 Address = Data.Address,
                 Latitude = Data.Latitude,
                 Longitude = Data.Longitude,
-                User = Data.User.ToUserViewModel(),
-                Service =Data.Service.ToServiceMinInfoViewModel()
+                User = Data.User.ToUserViewModel()
             };
         }
         public static CheckoutReservationViewModel ToCheckoutReservationViewModel(this Reservation Data)
@@ -90,7 +81,7 @@ namespace ViewModels.ReservationViewModels
                 Latitude = Data.Latitude,
                 Longitude = Data.Longitude,
                 User = Data.User.ToUserMinInfoViewModel(),
-                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()  
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
             };
         }
     }

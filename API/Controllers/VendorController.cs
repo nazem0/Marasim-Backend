@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
 using System.Security.Claims;
-using System.Text;
-using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
 namespace Marasim_Backend.Controllers
@@ -34,10 +31,10 @@ namespace Marasim_Backend.Controllers
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetVendorById/{VendorId}")]
-        public IActionResult GetVendorById(int VendorId)
+        [HttpGet("GetVendorByID/{VendorID}")]
+        public IActionResult GetVendorByID(int VendorID)
         {
-            var Data = VendorManager.Get(VendorId)
+            var Data = VendorManager.Get(VendorID)
                 .Include(v => v.User)
                 //.Select(v => v.ToVendorViewModel(v.User))
                 .FirstOrDefault();
@@ -51,27 +48,26 @@ namespace Marasim_Backend.Controllers
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetVendorMIdInfo")]
-        public IActionResult GetVendorMIdInfo()
+        [HttpGet("GetVendorMidInfo")]
+        public IActionResult GetVendorMidInfo()
         {
             var Data = VendorManager.Get()
                 .Include(v => v.User)
                 .Include(v => v.Category)
-                .Select(v => v.ToVendorMIdInfoViewModel());
+                .Select(v => v.ToVendorMidInfoViewModel());
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetVendorFullFull/{VendorId}")]
-        public IActionResult GetVendorFullFull(int VendorId)
+        [HttpGet("GetVendorFullFull/{VendorID}")]
+        public IActionResult GetVendorFullFull(int VendorID)
         {
-            var Data = VendorManager.Get(VendorId)
+            var Data = VendorManager.Get(VendorID)
                 .Include(v => v.User)
                 .Include(v => v.Services.Where(s => s.IsDeleted == false))
                 .ThenInclude(s => s.ServiceAttachments)
                 .Include(v => v.Posts)
                 .ThenInclude(p => p.PostAttachments)
                 .Include(v => v.Category)
-                .Include(v => v.Followers)
                 .Select(v => v.ToVendorFullViewModel(v.User))
                 .FirstOrDefault();
             return new JsonResult(Data);

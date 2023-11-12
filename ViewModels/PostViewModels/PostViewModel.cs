@@ -1,5 +1,4 @@
-﻿using Models;
-using ViewModels.CommentViewModels;
+﻿using ViewModels.CommentViewModels;
 using ViewModels.ReactViewModels;
 
 namespace ViewModels.PostViewModels

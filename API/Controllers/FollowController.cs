@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -43,7 +42,7 @@ namespace Api.Controllers
 
         [HttpPost("Add")]
         [Authorize(Roles = "user")]
-        public IActionResult Add([FromForm] AddFollowViewModel Follow)
+        public IActionResult Add([FromBody] AddFollowViewModel Follow)
         {
             if (!ModelState.IsValid)
             {
@@ -58,9 +57,9 @@ namespace Api.Controllers
                 return BadRequest(str.ToString());
             }
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            FollowManager.Add(Follow.ToEntity(UserId!));
+            var res = FollowManager.Add(Follow.ToEntity(UserId!));
             FollowManager.Save();
-            return Ok();
+            return Ok(res);
         }
 
         [HttpDelete("Remove/{VendorId}")]
@@ -80,22 +79,5 @@ namespace Api.Controllers
                 return BadRequest("Not Followed");
             }
         }
-
-        [HttpGet("IsUserFollowingVendor/{VendorId}")]
-        public IActionResult IsUserFollowingVendor(int VendorId)
-        {
-            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (UserId == null) { return BadRequest(); }
-            bool Bool = FollowManager.IsUserFollowingVendor(UserId!, VendorId);
-            if (Bool)
-            {
-                return Ok(true);
-            }
-            else
-            {
-                return Ok(false);
-            }
-        }
-
     }
 }
