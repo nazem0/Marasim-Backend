@@ -85,6 +85,35 @@ namespace Repository
                 .Select(r => r.ToCheckoutReservationViewModel())
                 .FirstOrDefault();
         }
-      
+
+
+
+        public Dictionary<string, int> GetReservationStatsByMonthAndYear(int vendorId, int year)
+        {
+            var reservations = Get()
+                .Where(r => r.Service.VendorId == vendorId && r.Status == 'd' && r.DateTime.Year == year)
+                .ToList();
+
+            var stats = new Dictionary<string, int>();
+
+            foreach (var reservation in reservations)
+            {
+                var monthYear = $"{reservation.DateTime.Month}-{reservation.DateTime.Year}";
+
+                if (stats.ContainsKey(monthYear))
+                {
+                    stats[monthYear]++;
+                }
+                else
+                {
+                    stats.Add(monthYear, 1);
+                }
+            }
+
+            return stats;
+        }
+
     }
+
+
 }

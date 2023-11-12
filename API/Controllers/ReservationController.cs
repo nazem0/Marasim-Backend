@@ -201,6 +201,19 @@ namespace Api.Controllers
 
 
 
+        [HttpGet("GetTotalOrder"), Authorize(Roles = "vendor")]
+        public IActionResult GetTotalOrder()
+        {
+            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            var stats = ReservationManager.GetReservationStatsByMonthAndYear(VendorId, DateTime.Now.Year);
+
+            return Ok(stats);
+        }
+
+
+
+
 
     }
 }
