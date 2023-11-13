@@ -1,4 +1,6 @@
 ﻿using Models;
+using ViewModels.PostViewModels;
+using ViewModels.VendorViewModels;
 
 namespace ViewModels.FollowViewModels
 {
@@ -36,9 +38,17 @@ namespace ViewModels.FollowViewModels
                 DateTime = Follow.DateTime
             };
         }
+
+        public static FollowPostsViewModel ToFollowPostsViewModel(this Follow Follow)
+        {
+            return new FollowPostsViewModel
+            {
+                Vendor = Follow.Vendor.ToVendorMidInfoViewModel(),
+                Posts = Follow.Vendor.Posts.Select(p => p.ToViewModel())
+            };
+        }
     }
 }
 
 
-    
-  
+

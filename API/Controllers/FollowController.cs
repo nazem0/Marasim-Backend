@@ -30,13 +30,22 @@ namespace Api.Controllers
             return new JsonResult(Users);
         }
 
-        [HttpGet("GetFollowingForUser/{UserId}")]
-        public IActionResult GetFollowingForUser(string UserId)
+        [HttpGet("GetFollowingForUser")]
+        public IActionResult GetFollowingForUser()
         {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier!)!;
             var Vendors = FollowManager.GetFollowingForUser(UserId)
                 .Select(f => f.ToFollowingViewModel())
                 .ToList();
             return new JsonResult(Vendors);
+        }
+
+        [HttpGet("GetPostsByFollow")]
+        public IActionResult GetPostsByFollow()
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier!)!;
+            var Data = FollowManager.GetPostsByFollow(UserId);
+            return new JsonResult(Data);
         }
 
         [HttpPost("Add")]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using ViewModels.FollowViewModels;
 using ViewModels.PostViewModels;
 
 namespace Repository
@@ -73,7 +74,7 @@ namespace Repository
         {
             return Get()
                 .Where(f => f.UserId == UserId)
-                .Include(f => f.Vendor.Posts.Select(p => p.ToViewModel()));
+                .Select(f => f.ToFollowPostsViewModel());
         }
     }
 }

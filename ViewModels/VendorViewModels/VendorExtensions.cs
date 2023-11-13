@@ -74,7 +74,7 @@ namespace ViewModels.VendorViewModels
             };
         }
 
-        public static VendorMidInfoViewModel ToVendorMIdInfoViewModel(this Vendor Data)
+        public static VendorMidInfoViewModel ToVendorMidInfoViewModel(this Vendor Data)
         {
             return new VendorMidInfoViewModel
             {
