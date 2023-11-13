@@ -259,7 +259,6 @@ namespace Models
                 new City { Id = 161, GovernorateId = 5, NameAr = "الشلاتين", NameEn = "Shalatin" },
                 new City { Id = 162, GovernorateId = 5, NameAr = "حلايب", NameEn = "Halaib" },
                 new City { Id = 163, GovernorateId = 5, NameAr = "الدهار", NameEn = "Aldahar" },
-                new City { Id = 265, GovernorateId = 5, NameAr = "مرسى علم", NameEn = "Marsa Alam" },
                 new City { Id = 164, GovernorateId = 6, NameAr = "دمنهور", NameEn = "Damanhour" },
                 new City { Id = 165, GovernorateId = 6, NameAr = "كفر الدوار", NameEn = "Kafr El Dawar" },
                 new City { Id = 166, GovernorateId = 6, NameAr = "رشيد", NameEn = "RashId" },
