@@ -98,6 +98,8 @@ namespace API
             Builder.Services.AddScoped<VendorManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();
             Builder.Services.AddScoped<AccountRepository>();
+            Builder.Services.AddScoped<CityManager>();
+            Builder.Services.AddScoped<GovernorateManager>();
             Builder.Services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {

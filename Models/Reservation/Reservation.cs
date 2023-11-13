@@ -10,14 +10,17 @@ namespace Models
         public int ServiceId { get; set; }
         public float Price { get; set; }
         public char Status { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
-        public string Address { get; set; }
+        public string Street { get; set; }
+        public int CityId { get; set; }
+        public int GovernorateId { get; set; }
+        public string District { get; set; }
         public bool IsDeleted { get; set; } = false;
         public DateTime DateTime { get; set; }
         public virtual User User { get; set; }
         public virtual Service Service { get; set; }
         public virtual Payment Payment { get; set; }
         public virtual Review Review { get; set; }
+        public virtual City City { get; set; }
+        public virtual Governorate Governorate { get; set; }
     }
 }

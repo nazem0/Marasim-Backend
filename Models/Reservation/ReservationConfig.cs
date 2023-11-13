@@ -35,20 +35,20 @@ namespace Models
                 .IsRequired();
 
             builder
-                .Property(r => r.Latitude)
-                .IsRequired()
-                .HasColumnType("decimal")
-                .HasPrecision(18, 15);
-
-            builder
-                .Property(r => r.Longitude)
-                .IsRequired()
-                .HasColumnType("decimal")
-                .HasPrecision(18, 15);
-
-            builder
-                .Property(r => r.Address)
+                .Property(r => r.CityId)
                 .IsRequired();
+            builder
+                .Property(r => r.GovernorateId)
+                .IsRequired();
+
+            builder
+                .Property(r => r.District)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            builder
+                .Property(r => r.Street)
+                .HasMaxLength(100);
 
             builder
                 .HasOne(r => r.User)
@@ -56,6 +56,10 @@ namespace Models
                 .HasForeignKey(r => r.UserId)
                 .IsRequired();
 
+            builder
+                .HasOne(r => r.City)
+                .WithMany(c => c.Reservations)
+                .HasForeignKey(r => r.CityId);
 
         }
     }
