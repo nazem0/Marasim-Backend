@@ -16,9 +16,10 @@ namespace ViewModels.ReservationViewModels
         public char Status { get; set; }
         public bool IsDeleted { get; set; } = false;
         public DateTime DateTime { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
-        public required string Address { get; set; }
+        public required string Street { get; set; }
+        public required int CityId { get; set; }
+        public required int GovId { get; set; }
+        public required string District { get; set; }
         public required UserMinInfoViewModel User { get; set; }
         public required VendorMinInfoViewModel Vendor { get; set; }
     }

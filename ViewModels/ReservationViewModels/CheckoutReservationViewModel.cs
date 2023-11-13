@@ -11,8 +11,11 @@ namespace ViewModels.ReservationViewModels
     public class CheckoutReservationViewModel
     {
         public DateTime DateTime { get; set; }
-        public required string Address { get; set; }
-        public float Price { get; set; }
+        public required string Street { get; set; }
+        public required int CityId { get; set; }
+        public required int GovId { get; set; }
+        public required string District { get; set; }
+        public required float Price { get; set; }
         public required string ServiceName { get; set; }
         public required virtual VendorMinInfoViewModel Vendor { get; set; }
 

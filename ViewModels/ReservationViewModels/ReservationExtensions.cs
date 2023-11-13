@@ -20,9 +20,10 @@ namespace ViewModels.ReservationViewModels
                 UserId = Data.UserId,
                 ServiceId = Data.ServiceId,
                 DateTime = Data.DateTime,
-                Latitude = Data.Latitude,
-                Longitude = Data.Longitude,
-                Address = Data.Address,
+                CityId = Data.CityId,
+                GovernorateId = Data.GovId,
+                Street = Data.Street,
+                District = Data.District
             };
         }
 
@@ -43,11 +44,13 @@ namespace ViewModels.ReservationViewModels
                 DateTime = Data.DateTime,
                 Price = Data.Price,
                 Status = Data.Status,
-                Address = Data.Address,
-                Latitude = Data.Latitude,
-                Longitude = Data.Longitude,
+                City = Data.City.NameAr,
+                Gov = Data.Governorate.NameAr,
+                Street = Data.Street,
+                District = Data.District,
                 Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel(),
-                Review = Data.Review.ToReviewViewModel()
+                Review = Data.Review.ToReviewViewModel(),
+                IsDeleted = Data.IsDeleted
             };
         }
         public static VendorReservationViewModel ToVendorReservationViewModel(this Reservation Data)
@@ -59,9 +62,10 @@ namespace ViewModels.ReservationViewModels
                 DateTime = Data.DateTime,
                 Price = Data.Price,
                 Status = Data.Status,
-                Address = Data.Address,
-                Latitude = Data.Latitude,
-                Longitude = Data.Longitude,
+                City = Data.City.NameAr,
+                Gov = Data.Governorate.NameAr,
+                Street = Data.Street,
+                District = Data.District,
                 User = Data.User.ToUserViewModel(),
                 Service =Data.Service.ToServiceMinInfoViewModel()
             };
@@ -70,7 +74,10 @@ namespace ViewModels.ReservationViewModels
         {
             return new CheckoutReservationViewModel
             {
-                Address = Data.Address,
+                CityId = Data.CityId,
+                GovId = Data.GovernorateId,
+                Street = Data.Street,
+                District = Data.District,
                 ServiceName = Data.Service.Title,
                 DateTime = Data.DateTime,
                 Price = Data.Price,
@@ -86,9 +93,10 @@ namespace ViewModels.ReservationViewModels
                 DateTime = Data.DateTime,
                 Price = Data.Price,
                 Status = Data.Status,
-                Address = Data.Address,
-                Latitude = Data.Latitude,
-                Longitude = Data.Longitude,
+                CityId = Data.CityId,
+                GovId = Data.GovernorateId,
+                Street = Data.Street,
+                District = Data.District,
                 User = Data.User.ToUserMinInfoViewModel(),
                 Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()  
             };

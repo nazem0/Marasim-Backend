@@ -12,15 +12,19 @@ namespace ViewModels.ReservationViewModels
 {
     public class UserReservationViewModel
     {
-        public int Id { get; set; }
-        public int ServiceId { get; set; }
-        public float Price { get; set; }
-        public char Status { get; set; }
-        public bool IsDeleted { get; set; } = false;
+        public required int Id { get; set; }
+        public required int ServiceId { get; set; }
+        public required float Price { get; set; }
+        public required char Status { get; set; }
+        public required bool IsDeleted
+        {
+            get; set;
+        }
         public DateTime DateTime { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
-        public required string Address { get; set; }
+        public required string Street { get; set; }
+        public required string City { get; set; }
+        public required string Gov { get; set; }
+        public required string District { get; set; }
         public ReviewViewModel? Review { get; set; }
         public required VendorMinInfoViewModel Vendor { get; set; }
     }
