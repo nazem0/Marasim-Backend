@@ -19,7 +19,22 @@ namespace Repository
         }
         public new IEnumerable<PaymentViewModel> Get()
         {
-            return base.Get()
+            return
+                EntitiesContext.Payments
+                .Select(p => p.ToPaymentViewModel());
+        }
+        public IEnumerable<PaymentViewModel> GetUnconfirmed()
+        {
+            return
+                EntitiesContext.Payments
+                .Where(p => p.Reservation.Status == 'f')
+                .Select(p => p.ToPaymentViewModel());
+        }
+        public IEnumerable<PaymentViewModel> GetConfirmed()
+        {
+            return
+                EntitiesContext.Payments
+                .Where(p => p.Reservation.Status != 'f')
                 .Select(p => p.ToPaymentViewModel());
         }
         public EntityEntry<Payment> Add(AddPaymentViewModel Data)
