@@ -11,14 +11,19 @@ namespace API.Controllers
             RoleManager = _RoleManager;
         }
 
-        [HttpPost("AddRole")]
-        public async Task<IdentityResult> AddRole(string RoleName)
+        [HttpPost("Add")]
+        public async Task<IdentityResult> Add(string RoleName)
         {
             return await RoleManager.CreateAsync(
                  new IdentityRole
                  {
                      Name = RoleName,
                  });
+        }
+        [HttpGet("Get")]
+        public IActionResult Get()
+        {
+            return Ok(RoleManager.Roles);
         }
     }
 }
