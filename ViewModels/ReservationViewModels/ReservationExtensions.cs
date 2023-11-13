@@ -74,8 +74,8 @@ namespace ViewModels.ReservationViewModels
         {
             return new CheckoutReservationViewModel
             {
-                CityId = Data.CityId,
-                GovId = Data.GovernorateId,
+                City = Data.City.NameAr,
+                Gov = Data.Governorate.NameAr,
                 Street = Data.Street,
                 District = Data.District,
                 ServiceName = Data.Service.Title,
@@ -93,8 +93,8 @@ namespace ViewModels.ReservationViewModels
                 DateTime = Data.DateTime,
                 Price = Data.Price,
                 Status = Data.Status,
-                CityId = Data.CityId,
-                GovId = Data.GovernorateId,
+                City = Data.City.NameAr,
+                Gov = Data.Governorate.NameAr,
                 Street = Data.Street,
                 District = Data.District,
                 User = Data.User.ToUserMinInfoViewModel(),
