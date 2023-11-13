@@ -40,13 +40,13 @@ namespace Api.Controllers
             return new JsonResult(Vendors);
         }
 
-        [HttpGet("GetPostsByFollow")]
-        public IActionResult GetPostsByFollow()
-        {
-            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier!)!;
-            var Data = FollowManager.GetPostsByFollow(UserId);
-            return new JsonResult(Data);
-        }
+        //[HttpGet("GetPostsByFollow")]
+        //public IActionResult GetPostsByFollow()
+        //{
+        //    string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier!)!;
+        //    var Data = FollowManager.GetPostsByFollow(UserId);
+        //    return new JsonResult(Data);
+        //}
 
         [HttpPost("Add")]
         [Authorize(Roles = "user")]

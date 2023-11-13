@@ -70,11 +70,11 @@ namespace Repository
         }
 
         // not tested
-        public IQueryable GetPostsByFollow(string UserId)
-        {
-            return Get()
-                .Where(f => f.UserId == UserId)
-                .Select(f => f.ToFollowPostsViewModel());
-        }
+        //public IQueryable GetPostsByFollow(string UserId)
+        //{
+        //    return Get()
+        //        .Where(f => f.UserId == UserId)
+        //        .Select(f => f.ToFollowPostsViewModel());
+        //}
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels;
@@ -36,6 +37,24 @@ namespace Repository
                 LastPage = Max
             };
         }
+
+        public PaginationViewModel<PostViewModel> GetByPostsByFollow(string UserId, int PageSize, int PageIndex)
+        {
+            var Data = base.Filter(p => p.Vendor.Followers.Any(f => f.UserId == UserId), PageSize, PageIndex)
+                .Select(p => p.ToViewModel());
+            int Count = Get().Where(p => p.Vendor.Followers.Any(f => f.UserId == UserId)).Count();
+            int Max = Convert.ToInt32(Math.Ceiling((double)Count / PageSize));
+            return new PaginationViewModel<PostViewModel>
+            {
+                Data = Data.ToList(),
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+                Count = Count,
+                LastPage = Max
+            };
+        }
+
+
 
         public EntityEntry<Post> Update(Post Entity)
         {
