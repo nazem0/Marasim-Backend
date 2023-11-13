@@ -46,23 +46,58 @@ namespace Models
             modelBuilder.ApplyConfiguration(new InvitationConfig());
 
             #region DataSeeding
-            modelBuilder.Entity<Category>().HasData(new Category
+            modelBuilder.Entity<Category>().HasData(
+            new Category
             {
                 Id = 1,
-                Name = "مديري القاعات"
-            });
+                Name = "قاعة"
+            },
+            new Category
+            {
+                Id = 2,
+                Name = "قاعة اسلامي"
+            },
+            new Category
+            {
+                Id = 3,
+                Name = "مصور"
+            },
+            new Category
+            {
+                Id = 4,
+                Name = "مطعم"
+            },
+            new Category
+            {
+                Id = 5,
+                Name = "صالون تجميل"
+            },
+            new Category
+            {
+                Id = 6,
+                Name = "كوافير للرجال"
+            },
+            new Category
+            {
+                Id = 7,
+                Name = "كوافير للسيدات"
+            }
+            );
 
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
             {
                 Name = "user",
+                NormalizedName = "USER"
             },
             new IdentityRole
             {
                 Name = "vendor",
+                NormalizedName = "VENDOR",
             },
             new IdentityRole
             {
                 Name = "admin",
+                NormalizedName = "ADMIN"
             });
             #endregion
             base.OnModelCreating(modelBuilder);
