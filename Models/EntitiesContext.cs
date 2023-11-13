@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Castle.Components.DictionaryAdapter;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
+
 namespace Models
 {
     public class EntitiesContext : IdentityDbContext<User>
@@ -46,6 +50,19 @@ namespace Models
             {
                 Id = 1,
                 Name = "مديري القاعات"
+            });
+
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Name = "user",
+            },
+            new IdentityRole
+            {
+                Name = "vendor",
+            },
+            new IdentityRole
+            {
+                Name = "admin",
             });
             #endregion
             base.OnModelCreating(modelBuilder);
