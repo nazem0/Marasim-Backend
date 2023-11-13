@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using ViewModels.PostViewModels;
 
 namespace Repository
 {
@@ -64,6 +66,14 @@ namespace Repository
         public Follow? GetFollowById(int Id)
         {
             return Get(Id).FirstOrDefault();
+        }
+
+        // not tested
+        public IQueryable GetPostsByFollow(string UserId)
+        {
+            return Get()
+                .Where(f => f.UserId == UserId)
+                .Include(f => f.Vendor.Posts.Select(p => p.ToViewModel()));
         }
     }
 }
