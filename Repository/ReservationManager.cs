@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.ReservationViewModels;
 using ViewModels.UserViewModels;
@@ -19,7 +18,6 @@ namespace Repository
         }
         public EntityEntry<Reservation>? Add(AddReservationViewModel Data)
         {
-            float Discount = 0;
             Reservation Reservation = Data.ToReservation();
             Service? ReservedService = ServiceManager.Get(Data.ServiceId).FirstOrDefault();
             if (ReservedService is null)
