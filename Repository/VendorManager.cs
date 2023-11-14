@@ -70,7 +70,7 @@ namespace Repository
                 {
                     CategoryId = CategoryId,
                     CityId = Data.CityId,
-                    GovernorateId = Data.GovernorateId,
+                    GovernorateId = Data.GovId,
                     Price = Data.Budget / Data.Categories.Length,
                     Rate = Data.Rate
                 });
