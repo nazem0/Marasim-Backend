@@ -97,6 +97,11 @@ namespace Marasim_Backend.Controllers
             _ = await UserManager.UpdateAsync(User);
             return Ok();
         }
+        [HttpGet,Authorize]
+        public IActionResult GeneratePackage()
+        {
+
+        }
 
     }
 }

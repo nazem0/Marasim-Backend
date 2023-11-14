@@ -10,7 +10,7 @@ namespace Models
         public int ServiceId { get; set; }
         public float Price { get; set; }
         public char Status { get; set; }
-        public string Street { get; set; }
+        public string Street { get; set; }= string.Empty;
         public int CityId { get; set; }
         public int GovernorateId { get; set; }
         public string District { get; set; }

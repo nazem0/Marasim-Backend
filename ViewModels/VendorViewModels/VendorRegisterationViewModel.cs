@@ -4,12 +4,15 @@ using Models;
 
 namespace ViewModels.VendorViewModels
 {
-    public class VendorRegisterationViewModel : IUserRegisteration
+    public class VendorRegistrationViewModel : IUserRegisteration
     {
         public required string Summary { get; set; }
-        public required decimal Latitude { get; set; }
-        public required decimal Longitude { get; set; }
-        public required string Address { get; set; }
+        public decimal? Latitude { get; set; } = null;
+        public decimal? Longitude { get; set; } = null;
+        public string Street { get; set; } = string.Empty;
+        public required int CityId { get; set; }
+        public required int GovernorateId { get; set; }
+        public required string District { get; set; }
         public required string Name { get; set; }
         public required string NationalId { get; set; }
         public string PicUrl { get; set; } = string.Empty;
