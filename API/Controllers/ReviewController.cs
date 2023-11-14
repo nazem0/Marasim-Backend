@@ -41,6 +41,20 @@ namespace API.Controllers
             return new JsonResult(Data);
         }
 
+        [HttpGet("GetPagedReviewsByVendorId/{VendorId}")]
+        public IActionResult GetPagedReviewsByVendorId(int VendorId, int PageSize = 3, int PageIndex = 1)
+        {
+            var Data = ReviewManager.GetPagedReviewsByVendorId(VendorId, PageSize, PageIndex);
+            return Ok(Data);
+        }
+
+        [HttpGet("GetAverageRate/{VendorId}")]
+        public IActionResult GetAverageRate(int VendorId)
+        {
+            var Data = ReviewManager.GetAverageRate(VendorId);
+            return Ok(Data);
+        }
+
         [Authorize(Roles = "user")]
         [HttpPost("Add")]
         public IActionResult Add([FromForm] AddReviewViewModel Data)
@@ -58,25 +72,25 @@ namespace API.Controllers
             }
         }
 
-        [Authorize(Roles = "user,admin")]
-        [HttpPut("Update/{ReviewId}")]
-        public IActionResult Update(int ReviewId, [FromForm] UpdateReviewViewModel OldReview)
-        {
-            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var Data = ReviewManager.GetReviewById(ReviewId);
-            if (Data.UserId == UserId)
-            {
-                Data.Message = OldReview.Message ?? Data.Message;
-                Data.Rate = OldReview.Rate;
-                ReviewManager.Update(Data);
-                ReviewManager.Save();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest("UserId not matched");
-            }
-        }
+        //[Authorize(Roles = "user,admin")]
+        //[HttpPut("Update/{ReviewId}")]
+        //public IActionResult Update(int ReviewId, [FromForm] UpdateReviewViewModel OldReview)
+        //{
+        //    string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        //    var Data = ReviewManager.GetReviewById(ReviewId);
+        //    if (Data.UserId == UserId)
+        //    {
+        //        Data.Message = OldReview.Message ?? Data.Message;
+        //        Data.Rate = OldReview.Rate;
+        //        ReviewManager.Update(Data);
+        //        ReviewManager.Save();
+        //        return Ok();
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("UserId not matched");
+        //    }
+        //}
 
         [Authorize(Roles = "user,admin")]
         [HttpDelete("Delete/{ReviewId}")]

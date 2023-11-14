@@ -1,15 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Models;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace ViewModels.VendorViewModels
 {
-    public class VendorRegisterationViewModel : IUserRegisteration
+    public class VendorRegistrationViewModel : IUserRegisteration
     {
         public required string Summary { get; set; }
-        public required decimal Latitude { get; set; }
-        public required decimal Longitude { get; set; }
-        public required string Address { get; set; }
+        [AllowNull]
+        public decimal? Latitude { get; set; } = default;
+        [AllowNull]
+        public decimal? Longitude { get; set; } = default;
+        public string Street { get; set; } = string.Empty;
+        public required int CityId { get; set; }
+        public required int GovernorateId { get; set; }
+        public required string District { get; set; }
         public required string Name { get; set; }
         public required string NationalId { get; set; }
         public string PicUrl { get; set; } = string.Empty;

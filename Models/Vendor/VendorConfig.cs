@@ -33,6 +33,13 @@ namespace Models
               .Property(v => v.UserId)
               .IsRequired();
 
+            builder
+                .Property(v => v.CityId)
+                .IsRequired();
+
+            builder
+                .Property(v => v.GovernorateId)
+                .IsRequired();
 
             builder
                 .Property(v => v.Summary)
@@ -40,19 +47,22 @@ namespace Models
 
             builder
                 .Property(v => v.Latitude)
-                .IsRequired()
                 .HasColumnType("decimal")
                 .HasPrecision(18, 15);
 
             builder
                 .Property(v => v.Longitude)
-                .IsRequired()
                 .HasColumnType("decimal")
                 .HasPrecision(18, 15);
 
             builder
-                .Property(v => v.Address)
+                .Property(v => v.District)
+                .HasMaxLength(100)
                 .IsRequired();
+
+            builder
+                .Property(v => v.Street)
+                .HasMaxLength(100);
 
             builder
                 .Property(v => v.ExternalUrl)
@@ -63,6 +73,16 @@ namespace Models
                  .WithOne(f => f.Vendor)
                  .OnDelete(DeleteBehavior.NoAction)
                  .HasForeignKey(f => f.VendorId);
+
+            builder
+                .HasOne(v => v.City)
+                .WithMany(c => c.Vendors)
+                .HasForeignKey(v => v.CityId);
+
+            builder
+                .HasOne(v => v.Governorate)
+                .WithMany(g => g.Vendors)
+                .HasForeignKey(v => v.GovernorateId);
 
         }
     }

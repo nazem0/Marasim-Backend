@@ -15,5 +15,6 @@ namespace Models
         // Navigation property
         public virtual Governorate Governorate { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
+        public virtual ICollection<Vendor> Vendors { get; set; }
     }
 }

@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using ViewModels;
 using ViewModels.ReviewViewModels;
 
 namespace Repository
@@ -12,10 +12,18 @@ namespace Repository
         {
             EntitiesContext = _dBContext;
         }
+
+        public double GetAverageRate(int VendorId)
+        {
+            double Data = Get().Where(r => r.Service.VendorId == VendorId).Select(r => r.Rate).Average();
+            return Math.Round(Data);
+        }
+
         public EntityEntry<Review> Add(Review Entity)
         {
             return EntitiesContext.Add(Entity);
         }
+
         public IQueryable<Review> GetByServiceId(int ServiceId)
         {
             return Get().Where(r => r.ServiceId == ServiceId);
@@ -23,9 +31,7 @@ namespace Repository
 
         public IQueryable<Review> GetByVendorId(int VendorId)
         {
-            return Get()
-                .Where(r => r.Service.VendorId == VendorId);
-                
+            return Get().Where(r => r.Service.VendorId == VendorId);
         }
 
         public Review GetReviewById(int Id)
@@ -37,9 +43,26 @@ namespace Repository
         {
             return EntitiesContext.Update(Entity);
         }
+
         public bool HasReviews(int ReservationId)
         {
             return Get().Where(r => r.ReservationId == ReservationId).Any();
+        }
+
+        public PaginationViewModel<ReviewFullViewModel> GetPagedReviewsByVendorId(int VendorId, int PageSize, int PageIndex)
+        {
+            var data = base.Filter(r => r.Service.VendorId == VendorId, PageSize, PageIndex)
+                .Select(p => p.ToReviewFullViewModel());
+            int Count = Get().Where(r => r.Service.VendorId == VendorId).Count();
+            int Max = Convert.ToInt32(Math.Ceiling((double)Count / PageSize));
+            return new PaginationViewModel<ReviewFullViewModel>
+            {
+                Data = data.ToList(),
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+                Count = Count,
+                LastPage = Max
+            };
         }
     }
 }

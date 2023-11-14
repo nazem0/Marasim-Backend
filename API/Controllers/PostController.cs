@@ -43,12 +43,21 @@ namespace API.Controllers
         }
 
         [HttpGet("GetByVendorId/{VendorId}")]
-        public IActionResult GetByVendorId(int VendorId, int PageSize =2, int PageIndex =1)
+        public IActionResult GetByVendorId(int VendorId, int PageSize = 2, int PageIndex = 1)
         {
             var Data = PostManager.GetByVendorId(VendorId, PageSize, PageIndex);
-                
             return Ok(Data);
         }
+
+
+        [HttpGet("GetByPostsByFollow")]
+        public IActionResult GetByPostsByFollow(int PageSize = 2, int PageIndex = 1)
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier!)!;
+            var Data = PostManager.GetByPostsByFollow(UserId, PageSize, PageIndex);
+            return Ok(Data);
+        }
+
 
         [Authorize(Roles = "vendor")]
         [HttpPost("Add")]

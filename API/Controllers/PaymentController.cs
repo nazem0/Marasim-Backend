@@ -60,7 +60,17 @@ namespace Api.Controllers
         [HttpGet("Get")]
         public IActionResult Get()
         {
-            return new JsonResult(PaymentManager.Get());
+            return Ok(PaymentManager.Get());
+        }
+        [HttpGet("GetUnconfirmed")]
+        public IActionResult GetUnconfirmed()
+        {
+            return Ok(PaymentManager.GetUnconfirmed());
+        }
+        [HttpGet("GetConfirmed")]
+        public IActionResult GetConfirmed()
+        {
+            return Ok(PaymentManager.GetConfirmed());
         }
     }
 }

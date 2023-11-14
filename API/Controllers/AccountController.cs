@@ -53,7 +53,7 @@ namespace API.Controllers
             }
         }
         [HttpPost("RegisterAsVendor")]
-        public async Task<IActionResult> RegisterAsVendor([FromForm] VendorRegisterationViewModel viewModel)
+        public async Task<IActionResult> RegisterAsVendor([FromForm] VendorRegistrationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

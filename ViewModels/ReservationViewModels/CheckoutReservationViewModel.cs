@@ -12,8 +12,8 @@ namespace ViewModels.ReservationViewModels
     {
         public DateTime DateTime { get; set; }
         public required string Street { get; set; }
-        public required int CityId { get; set; }
-        public required int GovId { get; set; }
+        public required string City { get; set; }
+        public required string Gov { get; set; }
         public required string District { get; set; }
         public required float Price { get; set; }
         public required string ServiceName { get; set; }

@@ -47,7 +47,7 @@ namespace Repository
             }
             return result;
         }
-        public async Task<IdentityResult> RegisterAsVendor(VendorRegisterationViewModel Data)
+        public async Task<IdentityResult> RegisterAsVendor(VendorRegistrationViewModel Data)
         {
             var Result = await Register(Data);
 

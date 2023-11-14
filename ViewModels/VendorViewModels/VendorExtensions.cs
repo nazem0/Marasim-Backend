@@ -1,6 +1,8 @@
 ﻿using Models;
 using ViewModels.CategoryViewModels;
+using ViewModels.CityViewModels;
 using ViewModels.FollowViewModels;
+using ViewModels.GovernorateViewModels;
 using ViewModels.PostViewModels;
 using ViewModels.ServiceViewModels;
 
@@ -8,12 +10,15 @@ namespace ViewModels.VendorViewModels
 {
     public static class VendorExtensions
     {
-        public static Vendor ToVendor(this VendorRegisterationViewModel viewModel, User _User)
+        public static Vendor ToVendor(this VendorRegistrationViewModel viewModel, User _User)
         {
             return new Vendor
             {
                 User = _User,
-                Address = viewModel.Address,
+                GovernorateId = viewModel.GovernorateId,
+                CityId = viewModel.CityId,
+                Street = viewModel.Street,
+                District = viewModel.District,
                 Latitude = viewModel.Latitude,
                 Longitude = viewModel.Longitude,
                 Summary = viewModel.Summary,
@@ -26,7 +31,9 @@ namespace ViewModels.VendorViewModels
             return new VendorViewModel
             {
                 Id = Vendor.Id,
-                Address = Vendor.Address,
+                District = Vendor.District,
+                City = Vendor.City.ToCityViewModel(),
+                Governorate = Vendor.Governorate.ToGovernorateViewModel(),
                 Latitude = Vendor.Latitude,
                 Longitude = Vendor.Longitude,
                 Summary = Vendor.Summary,
@@ -46,7 +53,10 @@ namespace ViewModels.VendorViewModels
             return new VendorFullViewModel
             {
                 Id = Vendor.Id,
-                Address = Vendor.Address,
+                Governorate = Vendor.Governorate.ToGovernorateViewModel(),
+                City = Vendor.City.ToCityViewModel(),
+                District = Vendor.District,
+                Street = Vendor.Street,
                 Latitude = Vendor.Latitude,
                 Longitude = Vendor.Longitude,
                 Summary = Vendor.Summary,

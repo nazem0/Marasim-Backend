@@ -6,6 +6,7 @@ using Models;
 using Repository;
 using System.Security.Claims;
 using System.Text;
+using ViewModels.GenerationViewModels;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
@@ -49,10 +50,11 @@ namespace Marasim_Backend.Controllers
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetVendorMIdInfo")]
-        public IActionResult GetVendorMIdInfo()
+        [HttpGet("GetVendorsMidInfo")]
+        public IActionResult GetVendorsMidInfo()
         {
-            var Data = VendorManager.Get();
+            var Data = VendorManager.Get()
+                .Select(v=> v.ToVendorMidInfoViewModel());
             return new JsonResult(Data);
         }
 
@@ -96,6 +98,17 @@ namespace Marasim_Backend.Controllers
             VendorManager.Save();
             _ = await UserManager.UpdateAsync(User);
             return Ok();
+        }
+        [HttpPost("GenerateVendor"),Authorize]
+        public IActionResult GenerateVendor(GenerateVendorViewModel Data)
+        {
+            return Ok(VendorManager.GenerateVendor(Data));
+        }
+
+        [HttpPost("GeneratePackage")]
+        public IActionResult GeneratePackage(GeneratePackageViewModel Data)
+        {
+            return Ok(VendorManager.GeneratePackage(Data));
         }
 
     }
