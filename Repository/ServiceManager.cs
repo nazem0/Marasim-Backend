@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using OpenXmlPowerTools;
 
 namespace Repository
 {
@@ -26,9 +28,15 @@ namespace Repository
                 throw new Exception("Service Is Not Found");
             }
         }
+
         public IQueryable<Service> GetActive()
         {
             return Get().Where(s => s.IsDeleted == false);
+        }
+
+        public IQueryable<Service> GetActiveByVendorId(int VendorId)
+        {
+            return Get().Where(s => s.IsDeleted == false && s.VendorId == VendorId);
         }
 
         public EntityEntry<Service> Update(Service Entity)

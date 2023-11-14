@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using OpenXmlPowerTools;
 using Repository;
 using System.Security.Claims;
 using System.Text;
@@ -41,12 +42,13 @@ namespace Marasim_Backend.Controllers
             var x = ServiceManager.Get(Id);
             return new JsonResult(x);
         }
+
         [HttpGet("GetByVendorId/{Id}")]
         public IActionResult GetByVendorId(int Id)
         {
-            return Ok(ServiceManager.Get()
-                .Where(S => S.VendorId == Id && S.IsDeleted == false)
-                .Select(S => S.ToServiceViewModel(S.Vendor.UserId)));
+            var x = ServiceManager.GetActiveByVendorId(Id)
+                .Select(S => S.ToServiceViewModel(S.Vendor.UserId));
+            return new JsonResult(x);
         }
         [HttpPost("Add")]
         [Authorize(Roles = "vendor")]
