@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Models;
-
+using System.Diagnostics.CodeAnalysis;
 
 namespace ViewModels.VendorViewModels
 {
     public class VendorRegistrationViewModel : IUserRegisteration
     {
         public required string Summary { get; set; }
-        public decimal? Latitude { get; set; } = null;
-        public decimal? Longitude { get; set; } = null;
+        [AllowNull]
+        public decimal? Latitude { get; set; } = default;
+        [AllowNull]
+        public decimal? Longitude { get; set; } = default;
         public string Street { get; set; } = string.Empty;
         public required int CityId { get; set; }
         public required int GovernorateId { get; set; }
