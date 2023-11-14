@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using System.Globalization;
 using ViewModels.ReservationViewModels;
 using ViewModels.UserViewModels;
 
@@ -84,34 +85,55 @@ namespace Repository
                 .FirstOrDefault();
         }
 
-
-
-        public Dictionary<string, int> GetReservationStatsByMonthAndYear(int vendorId, int year)
+        public Dictionary<string, int> GetReservationTotalDoneOrders(int vendorId, int year)
         {
             var reservations = Get()
                 .Where(r => r.Service.VendorId == vendorId && r.Status == 'd' && r.DateTime.Year == year)
                 .ToList();
 
-            var stats = new Dictionary<string, int>();
+            var totalOrders = new Dictionary<string, int>();
+
+            foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
+            {
+                totalOrders.Add(month, 0);
+            }
+            foreach (var reservation in reservations)
+
+            {
+                var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
+                totalOrders[monthName]++;
+            }
+
+
+            return totalOrders;
+        }
+        public Dictionary<string, float> GetReservationTotalSales(int vendorId, int year)
+
+        {
+            var reservations = Get()
+                .Where(r => r.Service.VendorId == vendorId && r.Status == 'd' && r.DateTime.Year == year)
+                .ToList();
+
+            var totalSales = new Dictionary<string, float>();
+
+            foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
+            {
+                totalSales.Add(month, 0);
+            }
 
             foreach (var reservation in reservations)
             {
-                var monthYear = $"{reservation.DateTime.Month}-{reservation.DateTime.Year}";
-
-                if (stats.ContainsKey(monthYear))
-                {
-                    stats[monthYear]++;
-                }
-                else
-                {
-                    stats.Add(monthYear, 1);
-                }
+                var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
+                totalSales[monthName]++;
             }
 
-            return stats;
+            foreach (var reservation in reservations)
+            {
+                var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
+                totalSales[monthName] += reservation.Price;
+            }
+
+            return totalSales;
         }
-
     }
-
-
 }
