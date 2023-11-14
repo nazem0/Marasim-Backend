@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Models;
 using Repository;
+using System.Globalization;
 using System.Text;
 
 namespace API
@@ -14,6 +15,10 @@ namespace API
         public static void Main(string[] args)
         {
             var Builder = WebApplication.CreateBuilder(args);
+
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("ar-EG");
+            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ar-EG");
+
             Builder.Services.AddDbContext<EntitiesContext>(context =>
             {
                 context
