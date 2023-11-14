@@ -98,10 +98,10 @@ namespace Marasim_Backend.Controllers
             return Ok();
         }
         [HttpGet,Authorize]
-        public IActionResult GeneratePackage()
-        {
+        //public IActionResult GeneratePackage()
+        //{
 
-        }
+        //}
 
     }
 }
