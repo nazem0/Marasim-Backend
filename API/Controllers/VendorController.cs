@@ -50,10 +50,11 @@ namespace Marasim_Backend.Controllers
             return new JsonResult(Data);
         }
 
-        [HttpGet("GetVendorMidInfo")]
-        public IActionResult GetVendorMidInfo()
+        [HttpGet("GetVendorsMidInfo")]
+        public IActionResult GetVendorsMidInfo()
         {
-            var Data = VendorManager.Get();
+            var Data = VendorManager.Get()
+                .Select(v=> v.ToVendorMidInfoViewModel());
             return new JsonResult(Data);
         }
 
