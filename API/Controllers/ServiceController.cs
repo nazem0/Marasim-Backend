@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using OpenXmlPowerTools;
 using Repository;
 using System.Security.Claims;
 using System.Text;
@@ -41,6 +42,7 @@ namespace Marasim_Backend.Controllers
             var x = ServiceManager.Get(Id)?.ToServiceMinInfoViewModel();
             return Ok(x);
         }
+
         [HttpGet("GetByVendorId/{Id}")]
         public IActionResult GetByVendorId(int Id)
         {

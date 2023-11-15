@@ -36,6 +36,11 @@ namespace Repository
             return Get().Where(s => s.IsDeleted == false).Select(s => s.ToShowAllServicesViewModel());
         }
 
+        public IQueryable<Service> GetActiveByVendorId(int VendorId)
+        {
+            return Get().Where(s => s.IsDeleted == false && s.VendorId == VendorId);
+        }
+
         public EntityEntry<Service> Update(Service Entity)
         {
             return EntitiesContext.Update(Entity);
