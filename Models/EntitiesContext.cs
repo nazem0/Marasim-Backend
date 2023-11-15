@@ -1,8 +1,6 @@
-﻿using Castle.Components.DictionaryAdapter;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Models
 {
@@ -53,7 +51,7 @@ namespace Models
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "قاعة" },
                 new Category { Id = 2, Name = "قاعة اسلامي" },
-                new Category { Id = 3, Name = "نادي"},
+                new Category { Id = 3, Name = "نادي" },
                 new Category { Id = 4, Name = "مصور" },
                 new Category { Id = 5, Name = "مطعم" },
                 new Category { Id = 6, Name = "صالون تجميل" },

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Models;
-using OpenXmlPowerTools;
 using Repository;
 using System.Security.Claims;
 using System.Text;

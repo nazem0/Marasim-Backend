@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository;
 using System.Security.Claims;
-using System.Text;
 using ViewModels.GenerationViewModels;
-using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
 
 namespace Marasim_Backend.Controllers
@@ -38,7 +34,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult GetVendorById(int VendorId)
         {
             Vendor? Data = VendorManager.Get(VendorId);
-            if(Data == null)
+            if (Data == null)
                 return NotFound();
             var x = Data.ToVendorViewModel(Data.User);
             return Ok(x);

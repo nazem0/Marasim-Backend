@@ -1,6 +1,4 @@
-﻿using System;
-using Models;
-using ViewModels.CityViewModels;
+﻿using ViewModels.CityViewModels;
 using ViewModels.FollowViewModels;
 using ViewModels.GovernorateViewModels;
 using ViewModels.PostViewModels;

@@ -1,8 +1,7 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 using Repository;
+using System.Text;
 using ViewModels.PostViewModels;
 using ViewModels.PromoCodeViewModels;
 

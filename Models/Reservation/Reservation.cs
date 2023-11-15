@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
 namespace Models
 {
@@ -10,7 +8,7 @@ namespace Models
         public int ServiceId { get; set; }
         public float Price { get; set; }
         public char Status { get; set; }
-        public string Street { get; set; }= string.Empty;
+        public string Street { get; set; } = string.Empty;
         public int CityId { get; set; }
         public int GovernorateId { get; set; }
         public string District { get; set; }

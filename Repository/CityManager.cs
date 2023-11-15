@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Models;
+﻿using Models;
 using ViewModels.CityViewModels;
 namespace Repository
 {
@@ -16,11 +11,11 @@ namespace Repository
         }
         public new IEnumerable<CityViewModel> Get()
         {
-            return EntitiesContext.Cities.Select(c=>c.ToCityViewModel());
+            return EntitiesContext.Cities.Select(c => c.ToCityViewModel());
         }
         public IEnumerable<CityViewModel> GetByGovId(int GovId)
         {
-            return EntitiesContext.Cities.Where(c=>c.GovernorateId == GovId).Select(c=>c.ToCityViewModel());
+            return EntitiesContext.Cities.Where(c => c.GovernorateId == GovId).Select(c => c.ToCityViewModel());
         }
     }
 }

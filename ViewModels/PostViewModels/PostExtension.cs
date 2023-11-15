@@ -1,5 +1,4 @@
 ﻿using Models;
-using System.Runtime.InteropServices;
 using ViewModels.CommentViewModels;
 using ViewModels.ReactViewModels;
 
@@ -30,7 +29,7 @@ namespace ViewModels.PostViewModels
                 Comments = Post.Comments?.Select(c => c.ToViewModel(Post.Vendor.User)),
                 Reacts = Post.Reacts?.Select(r => r.ToViewModel(Post.Vendor.User)),
                 PostAttachments = Post.PostAttachments.Select(pa => pa.ToViewModel()),
-                VendorName =Post.Vendor.User.Name,
+                VendorName = Post.Vendor.User.Name,
                 VendorPicUrl = Post.Vendor.User.PicUrl,
                 VendorUserId = Post.Vendor.User.Id
             };

@@ -80,7 +80,7 @@ namespace Repository
             if (Services.Any())
             {
                 double averageRating = 0;
-                if (Services.Average(s=>s.Reservations.Select(r=>r.Review).Count()) > 0)
+                if (Services.Average(s => s.Reservations.Select(r => r.Review).Count()) > 0)
                 {
                     averageRating = vendor.Services
                        .SelectMany(s => s.Reviews)

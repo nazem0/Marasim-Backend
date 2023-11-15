@@ -1,5 +1,4 @@
-﻿using System;
-namespace ViewModels.FollowViewModels
+﻿namespace ViewModels.FollowViewModels
 {
     public class FollowingViewModel
     {

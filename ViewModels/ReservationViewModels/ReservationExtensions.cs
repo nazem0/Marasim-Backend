@@ -1,9 +1,4 @@
 ﻿using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ViewModels.ReviewViewModels;
 using ViewModels.ServiceViewModels;
 using ViewModels.UserViewModels;
@@ -67,7 +62,7 @@ namespace ViewModels.ReservationViewModels
                 Street = Data.Street,
                 District = Data.District,
                 User = Data.User.ToUserViewModel(),
-                Service =Data.Service.ToServiceMinInfoViewModel()
+                Service = Data.Service.ToServiceMinInfoViewModel()
             };
         }
         public static CheckoutReservationViewModel ToCheckoutReservationViewModel(this Reservation Data)
@@ -98,7 +93,7 @@ namespace ViewModels.ReservationViewModels
                 Street = Data.Street,
                 District = Data.District,
                 User = Data.User.ToUserMinInfoViewModel(),
-                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()  
+                Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
             };
         }
     }

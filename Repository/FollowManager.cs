@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Models;
-using ViewModels.FollowViewModels;
-using ViewModels.PostViewModels;
+﻿using Models;
 
 namespace Repository
 {

@@ -2,7 +2,6 @@
 using ViewModels.PromoCodeViewModels;
 using ViewModels.ReservationViewModels;
 using ViewModels.ServiceAttatchmentViewModels;
-using ViewModels.UserViewModels;
 
 namespace ViewModels.ServiceViewModels
 {
@@ -72,9 +71,9 @@ namespace ViewModels.ServiceViewModels
                 IsDeleted = Data.IsDeleted,
                 Price = Data.Price,
                 PromoCode = Data.PromoCode?.ToPromoCodeViewModel(),
-                Reservations = Data.Reservations.Select(r=>r.ToAdminReservationViewModel()),
+                Reservations = Data.Reservations.Select(r => r.ToAdminReservationViewModel()),
                 ReviewsCount = Data.Reviews.Count,
-                ServiceAttachments = Data.ServiceAttachments.Select(sa=>sa.ToViewModel()),
+                ServiceAttachments = Data.ServiceAttachments.Select(sa => sa.ToViewModel()),
                 Title = Data.Title,
                 VendorId = Data.VendorId,
             };

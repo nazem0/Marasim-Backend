@@ -1,11 +1,9 @@
-﻿using System;
-using Models;
-using ViewModels.ServiceAttatchmentViewModels;
+﻿using ViewModels.ServiceAttatchmentViewModels;
 
 namespace ViewModels.ServiceViewModels
 {
-	public class ServicePartialViewModel
-	{
+    public class ServicePartialViewModel
+    {
         public required int Id { get; set; }
         public required int VendorId { get; set; }
         public required string Title { get; set; }

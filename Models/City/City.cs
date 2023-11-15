@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Models
 {
-    public class City:BaseModel
+    public class City : BaseModel
     {
         public int GovernorateId { get; set; }
         public string NameAr { get; set; }

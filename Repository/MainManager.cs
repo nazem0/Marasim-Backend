@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using System.Linq.Expressions;
-using ViewModels;
-using ViewModels.PostViewModels;
 
 namespace Repository
 {
@@ -20,15 +18,15 @@ namespace Repository
         {
             return DbSet;
         }
-        public IEnumerable<T> Filter(Expression< Func<T, bool>> Predicate,int PageSize, int PageIndex)
+        public IEnumerable<T> Filter(Expression<Func<T, bool>> Predicate, int PageSize, int PageIndex)
         {
-            var data=  DbSet.AsQueryable();
+            var data = DbSet.AsQueryable();
 
-            if(Predicate != null)
+            if (Predicate != null)
                 data = data.Where(Predicate);
 
             int toBeSkiped = (PageIndex - 1) * PageSize;
-            var res= data.Skip(toBeSkiped).Take(PageSize);
+            var res = data.Skip(toBeSkiped).Take(PageSize);
             return res;
 
         }

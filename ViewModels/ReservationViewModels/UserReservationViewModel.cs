@@ -1,11 +1,4 @@
-﻿using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ViewModels.ReviewViewModels;
-using ViewModels.ServiceViewModels;
+﻿using ViewModels.ReviewViewModels;
 using ViewModels.VendorViewModels;
 
 namespace ViewModels.ReservationViewModels

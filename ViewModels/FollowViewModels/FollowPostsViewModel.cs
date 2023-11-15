@@ -1,6 +1,4 @@
-﻿using System;
-using Models;
-using ViewModels.PostViewModels;
+﻿using ViewModels.PostViewModels;
 using ViewModels.VendorViewModels;
 
 namespace ViewModels.FollowViewModels

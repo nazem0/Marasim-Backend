@@ -18,9 +18,9 @@ namespace Repository
         {
             return Get().Where(p => p.ServiceId == ServiceId).FirstOrDefault()!;
         }
-        public PromoCode? GetPromoCodeByCode(string Code,int ServiceId)
+        public PromoCode? GetPromoCodeByCode(string Code, int ServiceId)
         {
-            return Get().Where(pc => pc.Code == Code & pc.ServiceId==ServiceId).FirstOrDefault();
+            return Get().Where(pc => pc.Code == Code & pc.ServiceId == ServiceId).FirstOrDefault();
         }
 
     }

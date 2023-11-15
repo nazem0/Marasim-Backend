@@ -2,7 +2,6 @@
 using Models;
 using System.Globalization;
 using ViewModels.ReservationViewModels;
-using ViewModels.UserViewModels;
 
 namespace Repository
 {
@@ -35,7 +34,7 @@ namespace Repository
                 return EntitiesContext.Add(Reservation);
             }
         }
-        public EntityEntry<Reservation>? ChangeStatus(int ReservationId,char Status)
+        public EntityEntry<Reservation>? ChangeStatus(int ReservationId, char Status)
         {
             Reservation? Reservation = Get(ReservationId);
             if (Reservation == null) return null;
@@ -77,7 +76,7 @@ namespace Repository
                 .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
                 .Select(r => r.ToVendorReservationViewModel());
         }
-        public CheckoutReservationViewModel? CheckoutReservationById(string UserId,int ReservationId)
+        public CheckoutReservationViewModel? CheckoutReservationById(string UserId, int ReservationId)
         {
             return Get()
                 .Where(r => r.UserId == UserId && r.Id == ReservationId && r.Status == 'a')
