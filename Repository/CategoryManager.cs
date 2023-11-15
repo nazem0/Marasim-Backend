@@ -23,18 +23,19 @@ namespace Repository
         }
         public new IQueryable<CategoryViewModel> Get()
         {
-            return base.Get()
+            return
+                EntitesContext.Categories
                 .Select(C => C.ToCategoryViewModel());
         }
 
         public Category GetByVendorId(int VendorId)
         {
-            return base.Get().Where(c => c.Vendors.Any(v => v.Id == VendorId)).FirstOrDefault()!;
+            return EntitesContext.Categories.Where(c => c.Vendors.Any(v => v.Id == VendorId)).FirstOrDefault()!;
         }
 
         public IEnumerable<CategoryNameViewModel> GetNames()
         {
-            return base.Get().Select(c => c.ToCategoryNameViewModel());
+            return EntitesContext.Categories.Select(c => c.ToCategoryNameViewModel());
         }
     }
 }

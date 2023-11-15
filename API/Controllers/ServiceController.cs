@@ -25,28 +25,27 @@ namespace Marasim_Backend.Controllers
             VendorManager = _vendorManager;
             ServiceAttachmentManager = _ServiceAttachmentManager;
         }
-        [HttpGet("GetAll")]
-        public IActionResult GetAll()
-        {
-            return Ok(ServiceManager.Get());
-        }
-        [HttpGet("GetAllActive")]
-        public IActionResult GetAllActive()
-        {
-            return Ok(ServiceManager.GetActive());
-        }
+        //[HttpGet("GetAll")]
+        //public IActionResult GetAll()
+        //{
+        //    return Ok(ServiceManager.GetAll());
+        //}
+        //[HttpGet("GetAllActive")]
+        //public IActionResult GetAllActive()
+        //{
+        //    return Ok(ServiceManager.GetActive());
+        //}
         [HttpGet("GetById")]
         public IActionResult GetById(int Id)
         {
-            var x = ServiceManager.Get(Id);
-            return new JsonResult(x);
+            var x = ServiceManager.Get(Id)?.ToServiceMinInfoViewModel();
+            return Ok(x);
         }
         [HttpGet("GetByVendorId/{Id}")]
         public IActionResult GetByVendorId(int Id)
         {
-            return Ok(ServiceManager.Get()
-                .Where(S => S.VendorId == Id && S.IsDeleted == false)
-                .Select(S => S.ToServiceViewModel(S.Vendor.UserId)));
+            return Ok(ServiceManager.GetActive()
+                .Where(S => S.VendorId == Id));
         }
         [HttpPost("Add")]
         [Authorize(Roles = "vendor")]
@@ -65,8 +64,10 @@ namespace Marasim_Backend.Controllers
                 return BadRequest(str);
 
             }
-            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int LoggedInVendorId = VendorManager.GetVendorIdByUserId(UserId)!;
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            int? _loggedInVendorId = VendorManager.GetVendorIdByUserId(UserId);
+            if (_loggedInVendorId is null) return NotFound();
+            int LoggedInVendorId = (int)_loggedInVendorId!;
             Service? CreatedService =
                 ServiceManager.Add(Data.ToModel(LoggedInVendorId)).Entity;
             ServiceManager.Save();
@@ -93,7 +94,7 @@ namespace Marasim_Backend.Controllers
         [Authorize(Roles = "vendor")]
         public IActionResult Delete(int Id)
         {
-            int? ServiceVendorId = ServiceManager.Get(Id)!.FirstOrDefault()?.VendorId;
+            int? ServiceVendorId = ServiceManager.Get(Id)!.VendorId;
             int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (ServiceVendorId != null && ServiceVendorId == LoggedInVendorId)
@@ -113,14 +114,15 @@ namespace Marasim_Backend.Controllers
         public IActionResult Update([FromForm] UpdateServiceViewModel Data, int ServiceId)
         {
             string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int? ServiceVendorId = ServiceManager.Get(ServiceId)!.FirstOrDefault()?.VendorId;
+            int? ServiceVendorId = ServiceManager.Get(ServiceId)!.VendorId;
             int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (LoggedInUserId);
             if (ServiceVendorId == null) return BadRequest("Service Id Invalid");
             else if (ServiceVendorId != LoggedInVendorId) return Unauthorized();
             else
             {
-                Service Service = ServiceManager.Get(ServiceId).FirstOrDefault()!;
+                Service? Service = ServiceManager.Get(ServiceId);
+                if (Service == null) return BadRequest();
                 Service.Title = Data.Title ?? Service.Title;
                 Service.Description = Data.Description ?? Service.Description;
                 Service.Price = Data.Price ?? Service.Price;

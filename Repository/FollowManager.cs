@@ -64,11 +64,6 @@ namespace Repository
             }
         }
 
-        public Follow? GetFollowById(int Id)
-        {
-            return Get(Id).FirstOrDefault();
-        }
-
         // not tested
         //public IQueryable GetPostsByFollow(string UserId)
         //{

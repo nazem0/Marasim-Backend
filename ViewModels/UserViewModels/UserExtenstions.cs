@@ -4,9 +4,9 @@ namespace ViewModels.UserViewModels
 {
     public static class UserExtensions
     {
-        public static UserDetails ToUserViewModel(this User User)
+        public static UserViewModel ToUserViewModel(this User User)
         {
-            return new UserDetails
+            return new UserViewModel
             {
                 Id = User.Id,
                 Name = User.Name,

@@ -17,10 +17,6 @@ namespace Repository
         {
             return EntitiesContext.Add(Entity);
         }
-        public Post? GetPostById(int Id)
-        {
-            return Get(Id).FirstOrDefault();
-        }
 
         public PaginationViewModel<PostViewModel> GetByVendorId(int VendorId, int PageSize, int PageIndex)
         {
@@ -63,7 +59,7 @@ namespace Repository
 
         public void Delete(int PostId)
         {
-            Post? Post = Get(PostId).FirstOrDefault();
+            Post? Post = Get(PostId);
             if (Post != null)
             {
                 base.Delete(Post);

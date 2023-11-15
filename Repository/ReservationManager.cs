@@ -20,7 +20,7 @@ namespace Repository
         public EntityEntry<Reservation>? Add(AddReservationViewModel Data)
         {
             Reservation Reservation = Data.ToReservation();
-            Service? ReservedService = ServiceManager.Get(Data.ServiceId).FirstOrDefault();
+            Service? ReservedService = ServiceManager.Get(Data.ServiceId);
             if (ReservedService is null)
                 return null;
             Reservation.Price = ReservedService.Price;
@@ -37,14 +37,14 @@ namespace Repository
         }
         public EntityEntry<Reservation>? ChangeStatus(int ReservationId,char Status)
         {
-            Reservation? Reservation = Get(ReservationId).FirstOrDefault();
+            Reservation? Reservation = Get(ReservationId);
             if (Reservation == null) return null;
             Reservation.Status = Status;
             return EntitiesContext.Update(Reservation);
         }
         public EntityEntry<Reservation>? Confirm(int ReservationId)
         {
-            Reservation? Reservation = Get(ReservationId).FirstOrDefault();
+            Reservation? Reservation = Get(ReservationId);
             if (Reservation == null) return null;
             Reservation.Status = 'c';
             return EntitiesContext.Update(Reservation);

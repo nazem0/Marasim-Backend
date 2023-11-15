@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using ViewModels.ServiceViewModels;
 
 namespace Repository
 {
@@ -10,13 +11,17 @@ namespace Repository
         {
             EntitiesContext = _dBContext;
         }
+        public IEnumerable<ShowAllServicesViewModel> GetAll()
+        {
+            return Get().Select(s => s.ToShowAllServicesViewModel());
+        }
         public EntityEntry<Service> Add(Service entity)
         {
             return EntitiesContext.Add(entity);
         }
         public void Delete(int Id)
         {
-            Service? Service = Get(Id).FirstOrDefault();
+            Service? Service = Get(Id);
             if (Service != null)
             {
                 Service.IsDeleted = true;
@@ -26,9 +31,9 @@ namespace Repository
                 throw new Exception("Service Is Not Found");
             }
         }
-        public IQueryable<Service> GetActive()
+        public IEnumerable<ShowAllServicesViewModel> GetActive()
         {
-            return Get().Where(s => s.IsDeleted == false);
+            return Get().Where(s => s.IsDeleted == false).Select(s => s.ToShowAllServicesViewModel());
         }
 
         public EntityEntry<Service> Update(Service Entity)

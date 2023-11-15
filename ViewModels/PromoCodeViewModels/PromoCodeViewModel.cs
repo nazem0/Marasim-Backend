@@ -1,4 +1,4 @@
-﻿namespace ViewModels.PromoCodeViewModel
+﻿namespace ViewModels.PromoCodeViewModels
 {
     public class PromoCodeViewModel
     {

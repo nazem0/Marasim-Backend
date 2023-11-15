@@ -23,7 +23,7 @@ namespace Marasim_Backend.Controllers
         public IActionResult GetAll()
         {
             var Data = CategoryManager.Get();
-            return new JsonResult(Data);
+            return Ok(Data);
         }
 
         [HttpGet("GetNames")]
@@ -42,7 +42,7 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetById/{Id}")]
         public IActionResult GetById(int Id)
         {
-            var x = CategoryManager.Get(Id).FirstOrDefault();
+            var x = CategoryManager.Get(Id).ToCategoryViewModel();
             return Ok(x);
         }
 

@@ -22,7 +22,7 @@ namespace ViewModels.ReservationViewModels
         public required string City { get; set; }
         public required string Gov { get; set; }
         public required string District { get; set; }
-        public required UserDetails User { get; set; }
+        public required UserViewModel User { get; set; }
         public required ServiceMinInfoViewModel Service { get; set; }
     }
 }

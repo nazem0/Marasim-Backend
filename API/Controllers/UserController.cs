@@ -15,17 +15,18 @@ namespace Marasim_Backend.Controllers
         {
             UserManager = _UserManager;
         }
-        [HttpGet("Users")]
-        public IActionResult Index()
+        [HttpGet("Get")]
+        public IActionResult Get()
         {
-            var x = UserManager.Users;
-            return new JsonResult(x);
+            var x = UserManager.GetAll();
+            return Ok(x);
         }
-        [HttpGet("UserDetails/{UserId}")]
+        [HttpGet("GetById/{UserId}")]
         public async Task<IActionResult> UserDetails(string UserId)
         {
-            User? user = await UserManager.FindByIdAsync(UserId);
-            return new JsonResult(user!.ToUserViewModel());
+            User? User = await UserManager.FindByIdAsync(UserId);
+            if (User is null) return NotFound();
+            return Ok(User.ToUserViewModel());
         }
         [HttpPut("Update")]
 

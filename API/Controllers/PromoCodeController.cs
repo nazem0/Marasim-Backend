@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
 using ViewModels.PostViewModels;
-using ViewModels.PromoCodeViewModel;
+using ViewModels.PromoCodeViewModels;
 
 namespace API.Controllers
 {
@@ -68,19 +68,20 @@ namespace API.Controllers
         #endregion
 
 
-        [HttpGet("GetPromoCodes")]
-        public IActionResult GetPromoCodes()
-        {
-            var promoCodes = PromoCodeManager.Get().ToList();
-            return Ok(promoCodes);
-        }
+        //[HttpGet("GetPromoCodes")]
+        //ViewModelNeeded IN MANAGER
+        //public IActionResult GetPromoCodes()
+        //{
+        //    var PromoCodes = PromoCodeManager.Get().ToList();
+        //    return Ok(promoCodes);
+        //}
 
 
         [Authorize(Roles = "vendor")]
         [HttpDelete("Delete/{ServiceId}")]
         public IActionResult Delete(int ServiceId)
         {
-            var promoCode = PromoCodeManager.GetPromoCodeByServicId(ServiceId);
+            var promoCode = PromoCodeManager.GetPromoCodeByServiceId(ServiceId);
 
             if (promoCode != null)
             {

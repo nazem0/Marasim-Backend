@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ViewModels.PromoCodeViewModel
+namespace ViewModels.PromoCodeViewModels
 {
     public class UpdatePromoCodeViewModel
     {

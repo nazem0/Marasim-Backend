@@ -1,6 +1,6 @@
 ﻿namespace ViewModels.UserViewModels
 {
-    public class UserDetails
+    public class UserViewModel
     {
         public required string Id { get; set; }
         public required string Name { get; set; }

@@ -35,7 +35,7 @@ namespace Api.Controllers
         [HttpGet("Get/{Id}")]
         public IActionResult Get(int Id)
         {
-            Invitation? Invitation = InvitationManager.Get(Id).FirstOrDefault();
+            Invitation? Invitation = InvitationManager.Get(Id);
             if (Invitation is null)
                 return NotFound();
             else

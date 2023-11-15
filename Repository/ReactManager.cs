@@ -33,7 +33,7 @@ namespace Repository
 
         public void Delete(int ReactId)
         {
-            React? React = Get(ReactId).FirstOrDefault();
+            React? React = Get(ReactId);
             if (React != null)
             {
                 Delete(React);

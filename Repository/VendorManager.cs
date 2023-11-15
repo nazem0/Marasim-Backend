@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.GenerationViewModels;
 using ViewModels.VendorViewModels;
@@ -16,19 +17,27 @@ namespace Repository
         {
             return EntitiesContext.Add(Vendor);
         }
-        public Vendor GetVendorByUserId(string Id)
+        public Vendor? GetVendorByUserId(string Id)
         {
-            return Get().Where(v => v.UserId == Id).FirstOrDefault()!;
+            Vendor? Vendor = EntitiesContext.Vendors.Where(v => v.UserId == Id).FirstOrDefault();
+            if (Vendor is null) return null;
+            return Vendor;
+
         }
-        public int GetVendorIdByUserId(string Id)
+        public int? GetVendorIdByUserId(string Id)
         {
-            Vendor Vendor = Get().Where(v => v.UserId == Id).FirstOrDefault()!;
-            return Vendor.Id;
+            Vendor? Vendor = EntitiesContext.Vendors.Where(v => v.UserId == Id).FirstOrDefault();
+            return Vendor?.Id;
         }
 
-        public Vendor GetVendorById(int Id)
+        public Vendor? GetVendorById(int Id)
         {
-            return Get().Where(v => v.Id == Id).FirstOrDefault()!;
+            return EntitiesContext.Vendors.Where(v => v.Id == Id).FirstOrDefault();
+        }
+
+        public string? GetUserIdByVendorId(int Id)
+        {
+            return Get(Id)?.UserId;
         }
 
         public EntityEntry<Vendor> Update(Vendor Entity)
@@ -37,8 +46,7 @@ namespace Repository
         }
 
 
-        public VendorMidInfoViewModel? GenerateVendor
-            (GenerateVendorViewModel Data)
+        public async Task<VendorMidInfoViewModel?> GenerateVendorAsync(GenerateVendorViewModel Data)
         {
             IQueryable<Vendor> Vendors = EntitiesContext.Vendors.Where(v => v.CategoryId == Data.CategoryId);
 
@@ -48,25 +56,55 @@ namespace Repository
             if (Data.CityId is not null)
                 Vendors = Vendors.Where(v => v.CityId == Data.CityId);
 
+            var filteredVendors = await Vendors.ToListAsync(); // Materialize the query to avoid subqueries in the average calculations
+
             if (Data.Rate is not null)
-                Vendors = Vendors.Where(v => v.Services.
-                        Average(s => s.Reviews.Any() ?
-                        s.Reviews.Average(r => r.Rate) : 0) >= Data.Rate);
+                filteredVendors = filteredVendors
+                    .Where(v => v.Services.Average(s => s.Reviews.Any() ? s.Reviews.Average(r => r.Rate) : 0) >= Data.Rate)
+                    .ToList();
 
             if (Data.Price is not null)
-                Vendors = Vendors
-                        .Where(v => v.Services
-                        .Average(s => s.Price) <= Data.Price);
+                filteredVendors = filteredVendors
+                    .Where(v => v.Services.Average(s => s.Price) <= Data.Price)
+                    .ToList();
 
-            return Vendors.Select(v => v.ToVendorMidInfoViewModel()).FirstOrDefault();
+            return filteredVendors
+                .OrderBy(v => CalculateAverageRatingOrPrice(v))
+                .Select(v => v.ToVendorMidInfoViewModel())
+                .FirstOrDefault();
         }
 
-        public IEnumerable<VendorMidInfoViewModel> GeneratePackage(GeneratePackageViewModel Data)
+        private double CalculateAverageRatingOrPrice(Vendor vendor)
+        {
+            IEnumerable<Service>? Services = vendor.Services;
+            if (Services.Any())
+            {
+                double averageRating = 0;
+                if (Services.Average(s=>s.Reservations.Select(r=>r.Review).Count()) > 0)
+                {
+                    averageRating = vendor.Services
+                       .SelectMany(s => s.Reviews)
+                       .Average(r => r.Rate);
+                }
+
+                double averagePrice = vendor.Services
+                    .Average(s => s.Price);
+
+                return Math.Max(averageRating, averagePrice);
+            }
+            else
+            {
+                return 0; // You may want to handle this case differently based on your requirements
+            }
+        }
+
+
+        public async Task<IEnumerable<VendorMidInfoViewModel>> GeneratePackage(GeneratePackageViewModel Data)
         {
             List<VendorMidInfoViewModel> Package = new();
             foreach (int CategoryId in Data.Categories)
             {
-                VendorMidInfoViewModel? Vendor = GenerateVendor(new GenerateVendorViewModel
+                VendorMidInfoViewModel? Vendor = await GenerateVendorAsync(new GenerateVendorViewModel
                 {
                     CategoryId = CategoryId,
                     CityId = Data.CityId,
@@ -74,7 +112,7 @@ namespace Repository
                     Price = Data.Budget / Data.Categories.Length,
                     Rate = Data.Rate
                 });
-                if(Vendor is not null)
+                if (Vendor is not null)
                     Package.Add(Vendor);
             }
             return Package;

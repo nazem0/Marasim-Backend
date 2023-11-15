@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace ViewModels.PromoCodeViewModel
+namespace ViewModels.PromoCodeViewModels
 {
     public static class PromoCodeExtensions
     {
@@ -15,6 +15,17 @@ namespace ViewModels.PromoCodeViewModel
                 Count = Data.Count,
                 StartDate = DateTime.Now,
                 ExpirationDate = Data.ExpirationDate,
+            };
+        }
+        public static PromoCodeViewModel ToPromoCodeViewModel(this PromoCode Data)
+        {
+            return new PromoCodeViewModel
+            {
+                Code = Data.Code,
+                Count = Data.Count,
+                Discount = Data.Discount,
+                ExpirationDate = Data.ExpirationDate,
+                StartDate = DateTime.Now,
             };
         }
     }

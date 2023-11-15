@@ -38,7 +38,7 @@ namespace API.Controllers
         [HttpGet("GetPostById/{PostId}")]
         public IActionResult GetPostById(int PostId)
         {
-            var Data = PostManager.GetPostById(PostId);
+            var Data = PostManager.Get(PostId);
             return new JsonResult(Data);
         }
 
@@ -65,7 +65,10 @@ namespace API.Controllers
         {
             if (ModelState.IsValid)
             {
-                int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                if (_vendorId is null)
+                    return Unauthorized();
+                int VendorId = (int)_vendorId;
                 Post? NewPost = PostManager.Add(Data.ToModel(VendorId)).Entity;
                 PostManager.Save();
                 foreach (IFormFile item in Data.Pictures)
@@ -104,7 +107,7 @@ namespace API.Controllers
         [HttpDelete("Delete/{PostId}")]
         public IActionResult Delete(int PostId)
         {
-            int? PostVendorId = PostManager.Get(PostId)!.FirstOrDefault()?.VendorId;
+            int? PostVendorId = PostManager.Get(PostId)?.VendorId;
             int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
                 (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (PostVendorId != null && PostVendorId == LoggedInVendorId)
@@ -124,12 +127,12 @@ namespace API.Controllers
         public IActionResult Update(int PostId, [FromForm] EditPostViewModel OldPost)
         {
             string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int? PostVendorId = PostManager.Get(PostId)!.FirstOrDefault()?.VendorId;
+            int? PostVendorId = PostManager.Get(PostId)?.VendorId;
             int? LoggedInVendorId = VendorManager.GetVendorIdByUserId(LoggedInUserId);
-            Post? Post = PostManager.GetPostById(PostId);
+            Post? Post = PostManager.Get(PostId);
             if (!ModelState.IsValid || Post == null)
             {
-                return BadRequest("Post InvalId");
+                return BadRequest("Post Invalid");
             }
             else if (PostVendorId != LoggedInVendorId)
             {

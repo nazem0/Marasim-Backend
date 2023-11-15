@@ -16,7 +16,10 @@ namespace Repository
             DbContext = _dBContext;
             DbSet = DbContext.Set<T>();
         }
-        public IQueryable<T> Get() => DbSet;
+        public IQueryable<T> Get()
+        {
+            return DbSet;
+        }
         public IEnumerable<T> Filter(Expression< Func<T, bool>> Predicate,int PageSize, int PageIndex)
         {
             var data=  DbSet.AsQueryable();
@@ -30,7 +33,7 @@ namespace Repository
 
         }
         public int Count() => DbSet.Count();
-        public IQueryable<T> Get(int Id) => DbSet.Where(i => i.Id == Id);
+        public T? Get(int Id) => DbSet.Where(i => i.Id == Id).FirstOrDefault();
 
         public EntityEntry<T> Delete(T entity) => DbSet.Remove(entity);
         public void Save()

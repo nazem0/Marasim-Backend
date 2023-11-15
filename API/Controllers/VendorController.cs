@@ -27,44 +27,52 @@ namespace Marasim_Backend.Controllers
             UserManager = _UserManager;
         }
 
-        [HttpGet("GetAll")]
-        public IActionResult GetAll()
-        {
-            var Data = VendorManager.Get();
-            return new JsonResult(Data);
-        }
+        //[HttpGet("GetAll")]
+        //public IActionResult GetAll()
+        //{
+        //    var Data = VendorManager.Get();
+        //    return new JsonResult(Data);
+        //}
 
         [HttpGet("GetVendorById/{VendorId}")]
         public IActionResult GetVendorById(int VendorId)
         {
-            var Data = VendorManager.Get(VendorId)
-                .Select(v => v.ToVendorViewModel(v.User))
-                .FirstOrDefault();
-            return new JsonResult(Data);
+            Vendor? Data = VendorManager.Get(VendorId);
+            if(Data == null)
+                return NotFound();
+            var x = Data.ToVendorViewModel(Data.User);
+            return Ok(x);
         }
 
         [HttpGet("GetVendorByUserId/{UserId}")]
         public IActionResult GetVendorByUserId(string UserId)
         {
             var Data = VendorManager.GetVendorByUserId(UserId);
-            return new JsonResult(Data);
+            if (Data is null) return NotFound();
+            return Ok(Data.ToVendorFullViewModel(Data.User));
         }
 
         [HttpGet("GetVendorsMidInfo")]
         public IActionResult GetVendorsMidInfo()
         {
-            var Data = VendorManager.Get()
-                .Select(v=> v.ToVendorMidInfoViewModel());
-            return new JsonResult(Data);
+            var Data = VendorManager.Get().Select(v => v.ToVendorMidInfoViewModel());
+            return Ok(Data);
         }
 
         [HttpGet("GetVendorFullFull/{VendorId}")]
-        public IActionResult GetVendorFullFull(int VendorId)
+        public async Task<IActionResult> GetVendorFullFull(int VendorId)
         {
-            var Data = VendorManager.Get(VendorId)
-                .Select(v => v.ToVendorFullViewModel(v.User))
-                .FirstOrDefault();
-            return new JsonResult(Data);
+            string? VendorUserId = VendorManager.GetUserIdByVendorId(VendorId);
+            if (VendorUserId == null)
+                return NotFound();
+
+            User? VendorUser = await UserManager.FindByIdAsync(VendorUserId);
+            if (VendorUser == null)
+                return NotFound();
+
+            VendorFullViewModel? Data = VendorManager.Get(VendorId)?.ToVendorFullViewModel(VendorUser);
+            if (Data == null) return NotFound();
+            return Ok(Data);
         }
 
         [HttpPut("Update")]
@@ -99,16 +107,16 @@ namespace Marasim_Backend.Controllers
             _ = await UserManager.UpdateAsync(User);
             return Ok();
         }
-        [HttpPost("GenerateVendor"),Authorize]
+        [HttpPost("GenerateVendor"), Authorize]
         public IActionResult GenerateVendor(GenerateVendorViewModel Data)
         {
-            return Ok(VendorManager.GenerateVendor(Data));
+            return Ok(VendorManager.GenerateVendorAsync(Data));
         }
 
         [HttpPost("GeneratePackage")]
-        public IActionResult GeneratePackage(GeneratePackageViewModel Data)
+        public async Task<IActionResult> GeneratePackage(GeneratePackageViewModel Data)
         {
-            return Ok(VendorManager.GeneratePackage(Data));
+            return Ok(await VendorManager.GeneratePackage(Data));
         }
 
     }

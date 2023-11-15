@@ -54,7 +54,7 @@ namespace API.Controllers
         public IActionResult Delete(int CommentId)
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var Comment = CommentManager.Get(CommentId).FirstOrDefault();
+            var Comment = CommentManager.Get(CommentId);
             if (Comment is not null && Comment.UserId == UserId)
             {
                 CommentManager.Delete(Comment);

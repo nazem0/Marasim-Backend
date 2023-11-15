@@ -69,8 +69,9 @@ namespace Api.Controllers
                 }
                 return BadRequest(Errors);
             }
-            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (Data.VendorId != VendorId)
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId; if (Data.VendorId != VendorId)
                 return Unauthorized("This Reservation Doesn't Belong To You.");
 
             EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data.Id, 'a');
@@ -101,7 +102,9 @@ namespace Api.Controllers
                 }
                 return BadRequest(Errors);
             }
-            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
             if (Data.VendorId != VendorId)
                 return Unauthorized("This Reservation Doesn't Belong To You.");
 
@@ -135,14 +138,17 @@ namespace Api.Controllers
         [HttpGet("GetAllVendorReservations"), Authorize()]
         public IActionResult GetAllVendorReservations()
         {
-            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
             return Ok(ReservationManager.GetVendorReservations(VendorId));
         }
         [HttpGet("GetVendorReservationsByStatus/{Status}"), Authorize(Roles = "vendor")]
         public IActionResult GetVendorReservationsByStatus(char Status)
         {
-            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
             return Ok(ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status));
         }
         [HttpGet("CheckoutReservationById/{Id}"), Authorize()]
@@ -203,7 +209,9 @@ namespace Api.Controllers
         [HttpGet("GetTotalOrder"), Authorize(Roles = "vendor")]
         public IActionResult GetTotalOrder()
         {
-            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
 
             var stats = ReservationManager.GetReservationTotalDoneOrders(VendorId, DateTime.Now.Year);
 
@@ -213,8 +221,10 @@ namespace Api.Controllers
         [HttpGet("GetTotalSales"), Authorize(Roles = "vendor")]
         public IActionResult GetTotalSales()
         {
-            int VendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null)
+                return Unauthorized();
+            int VendorId = (int)_vendorId;
             var stats = ReservationManager.GetReservationTotalSales(VendorId,  DateTime.Now.Year);
 
             return Ok(stats);
