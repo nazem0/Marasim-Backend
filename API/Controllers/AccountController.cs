@@ -25,7 +25,7 @@ namespace API.Controllers
             VendorManager = vendorManager;
         }
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromForm] UserRegisterationViewModel viewModel)
+        public async Task<IActionResult> Register([FromForm] UserRegistrationViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
