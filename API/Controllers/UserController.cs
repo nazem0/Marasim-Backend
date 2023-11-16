@@ -50,7 +50,7 @@ namespace Marasim_Backend.Controllers
             User.PhoneNumber = Data.PhoneNumber ?? User.PhoneNumber;
             await UserManager.UpdateAsync(User);
 
-            return new JsonResult(User);
+            return Ok(User.ToUserViewModel());
         }
     }
 }
