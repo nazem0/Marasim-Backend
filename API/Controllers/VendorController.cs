@@ -48,6 +48,15 @@ namespace Marasim_Backend.Controllers
             return Ok(Data.ToVendorFullViewModel(Data.User));
         }
 
+        [HttpGet("GetIntOfVendors/{NumOfVen}")]
+        public IActionResult GetIntOfVendors(int NumOfVen)
+        {
+            if (NumOfVen / 1 != NumOfVen) return BadRequest();
+
+            var Data = VendorManager.GetIntOfVendors(NumOfVen);
+            return Ok(Data);
+        }
+
         [HttpGet("GetVendorsMidInfo")]
         public IActionResult GetVendorsMidInfo()
         {
