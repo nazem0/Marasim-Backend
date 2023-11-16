@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
 using System.Security.Claims;
@@ -21,36 +22,38 @@ namespace Marasim_Backend.Controllers
             var x = UserManager.GetAll();
             return Ok(x);
         }
-        [HttpGet("GetById/{UserId}")]
+        [HttpGet("UserDetails/{UserId}")]
         public async Task<IActionResult> UserDetails(string UserId)
         {
             User? User = await UserManager.FindByIdAsync(UserId);
             if (User is null) return NotFound();
             return Ok(User.ToUserViewModel());
         }
-        [HttpPut("Update")]
+        [HttpPut("Update"),Authorize]
 
-        public async Task<IActionResult> Update(UpdateProfileViewModel Data)
+        public async Task<IActionResult> Update([FromForm]UpdateProfileViewModel Data)
         {
             ClaimsPrincipal? UserClaims = HttpContext.User;
             var User = await UserManager.GetUserAsync(UserClaims);
 
-            if (User == null) return new JsonResult("User Not On Our Database");
-            if (Data.Picture == null) return new JsonResult("No Profile Picture Uploaded");
+            if (User == null) return Unauthorized("User Not On Our Database");
 
-            Helper.DeleteMediaAsync(User.Id, "ProfilePicture", User.PicUrl);
-            FileInfo fi = new(Data.Picture.FileName);
-            string FileName = DateTime.Now.Ticks + fi.Extension;
+            if (Data.Picture is not null)
+            {
+                Helper.DeleteMediaAsync(User.Id, "ProfilePicture", User.PicUrl);
+                FileInfo fi = new(Data.Picture.FileName);
+                string FileName = DateTime.Now.Ticks + fi.Extension;
+                User.Name = Data.Name ?? User.Name;
+                Helper.UploadMediaAsync(User.Id, "ProfilePicture", FileName, Data.Picture);
+                Data.PicURL = FileName;
+                User.PicUrl = Data.PicURL ?? User.PicUrl;
+            }
+
             User.Name = Data.Name ?? User.Name;
-            Helper.UploadMediaAsync(User.Id, "ProfilePicture", FileName, Data.Picture);
-            Data.PicURL = FileName;
-
-            User!.Name = Data.Name ?? User.Name;
-            User.PicUrl = Data.PicURL ?? User.PicUrl;
             User.PhoneNumber = Data.PhoneNumber ?? User.PhoneNumber;
             await UserManager.UpdateAsync(User);
 
-            return Ok(User.ToUserViewModel());
+            return Ok();
         }
     }
 }
