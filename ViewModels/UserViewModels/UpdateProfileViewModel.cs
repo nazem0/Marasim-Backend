@@ -5,14 +5,14 @@ namespace ViewModels.UserViewModels
 {
     public class UpdateProfileViewModel
     {
-        [Required(AllowEmptyStrings = true), StringLength(50, MinimumLength = 3)]
-        public string? Name { get; set; }
+        [StringLength(50, MinimumLength = 3)]
+        public string? Name { get; set; } = null;
 
-        [Required(AllowEmptyStrings = true), StringLength(14, MinimumLength = 14)]
-        public string? PicURL { get; set; } = string.Empty;
+        [StringLength(14, MinimumLength = 14)]
+        public string? PicURL { get; set; } = null;
         public IFormFile? Picture { get; set; }
 
-        [Required(AllowEmptyStrings = true), StringLength(15, MinimumLength = 11)]
-        public string? PhoneNumber { get; set; }
+        [StringLength(15)]
+        public string? PhoneNumber { get; set; } = null;
     }
 }
