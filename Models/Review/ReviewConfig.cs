@@ -38,7 +38,6 @@ namespace Models
 
             builder
                 .Property(r => r.Message)
-                .IsRequired()
                 .HasMaxLength(1000);
 
             builder
