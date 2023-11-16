@@ -25,5 +25,6 @@ namespace ViewModels.VendorViewModels
         public required string ConfirmPassword { get; set; }
         public required bool Gender { get; set; }
         public required int CategoryId { get; set; }
+        public string? ExternalUrl { get; set; }
     }
 }
