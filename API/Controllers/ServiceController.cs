@@ -44,8 +44,9 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetByVendorId/{Id}")]
         public IActionResult GetByVendorId(int Id)
         {
-            return Ok(ServiceManager.GetActive()
-                .Where(S => S.VendorId == Id));
+            string? UserId = VendorManager.GetUserIdByVendorId(Id);
+            if (UserId is null) return NotFound();
+            return Ok(ServiceManager.GetAllVendorServices(UserId));
         }
         [HttpPost("Add")]
         [Authorize(Roles = "vendor")]

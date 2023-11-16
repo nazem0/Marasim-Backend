@@ -1,4 +1,8 @@
 ﻿using Models;
+using ViewModels.PromoCodeViewModels;
+using ViewModels.ReservationViewModels;
+using ViewModels.ServiceAttatchmentViewModels;
+
 namespace ViewModels.ServiceViewModels
 {
     public class ServiceViewModel
@@ -11,9 +15,9 @@ namespace ViewModels.ServiceViewModels
         public float Price { get; set; }
         public int ReviewsCount { get; set; }
         public bool IsDeleted { get; set; }
-        public virtual required ICollection<ServiceAttachment> ServiceAttachments { set; get; }
-        public virtual required PromoCode PromoCode { set; get; }
-        public virtual required ICollection<Reservation> Reservations { set; get; }
+        public virtual required IEnumerable<ServiceAttatchmentViewModel> ServiceAttachments { set; get; }
+        public virtual PromoCodeViewModel? PromoCode { set; get; }
+        public virtual required IEnumerable<VendorReservationViewModel> Reservations { set; get; }
 
 
     }

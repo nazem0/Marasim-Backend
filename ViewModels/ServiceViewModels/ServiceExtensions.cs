@@ -22,16 +22,16 @@ namespace ViewModels.ServiceViewModels
             return new ServiceViewModel
             {
                 UserId = UserId,
-                ServiceAttachments = Data.ServiceAttachments,
+                ServiceAttachments = Data.ServiceAttachments.Select(sa=>sa.ToViewModel()),
                 Description = Data.Description,
-                PromoCode = Data.PromoCode,
+                PromoCode = Data.PromoCode?.ToPromoCodeViewModel(),
                 Title = Data.Title,
                 IsDeleted = Data.IsDeleted,
                 Price = Data.Price,
                 VendorId = Data.VendorId,
                 Id = Data.Id,
                 ReviewsCount = Data.Reviews.Count,
-                Reservations = Data.Reservations,
+                Reservations = Data.Reservations.Select(r=>r.ToVendorReservationViewModel()),
             };
         }
 
