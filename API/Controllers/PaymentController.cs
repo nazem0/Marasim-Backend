@@ -63,7 +63,7 @@ namespace Api.Controllers
         [HttpGet("Get")]
         public IActionResult Get()
         {
-            return Ok(PaymentManager.Get());
+            return Ok(PaymentManager.GetPayments());
         }
         [HttpGet("GetUnconfirmed")]
         public IActionResult GetUnconfirmed()
@@ -75,14 +75,14 @@ namespace Api.Controllers
         {
             return Ok(PaymentManager.GetConfirmed());
         }
-        [HttpGet("GetVendorsPayment/{VendorId}"),Authorize("vendor")]
-        public IActionResult GetVendorsPayment(int PageSize = 5, int PageIndex = 1)
+        [HttpGet("GetVendorsPayments/{PageIndex}"), Authorize(Roles = "vendor")]
+        public IActionResult GetVendorsPayments(int PageIndex = 1)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             int? _vendorId = VendorManager.GetVendorIdByUserId(UserId);
             if (_vendorId is null) return Unauthorized();
             int VendorId = (int)_vendorId;
-                return Ok(PaymentManager.GetVendorsPayment(VendorId, PageSize, PageIndex));
+            return Ok(PaymentManager.GetVendorsPayment(VendorId, PageIndex));
         }
     }
 }

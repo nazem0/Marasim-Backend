@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
-using ViewModels;
+using ViewModels.PaginationViewModels;
 using ViewModels.ReviewViewModels;
 
 namespace Repository
