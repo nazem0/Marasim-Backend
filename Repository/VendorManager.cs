@@ -45,6 +45,19 @@ namespace Repository
             return EntitiesContext.Update(Entity);
         }
 
+        public IQueryable<VendorMidInfoViewModel> GetIntOfVendors(int NumOfVen = 3)
+        {
+            if (NumOfVen > EntitiesContext.Vendors.Count())
+            {
+                NumOfVen = EntitiesContext.Vendors.Count();
+            };
+
+            var Data = EntitiesContext.Vendors.OrderByDescending(v => v.Id);
+
+            //.Where(v => v.Services.Average(s => s.Reviews.Any() ? s.Reviews.Average(r => r.Rate) : 0) >= 5);
+
+            return Data.Take(NumOfVen).Select(v => v.ToVendorMidInfoViewModel());
+        }
 
         public async Task<VendorMidInfoViewModel?> GenerateVendorAsync(GenerateVendorViewModel Data)
         {
