@@ -24,7 +24,8 @@ namespace API
                 context
                     .UseLazyLoadingProxies()
                     .UseSqlServer
-                    (Builder.Configuration.GetConnectionString("MyDB"));
+                    (Builder.Configuration.GetConnectionString("MyDB"),
+                    c=>c.EnableRetryOnFailure());
 
                 //context
                 //    .UseLazyLoadingProxies()
