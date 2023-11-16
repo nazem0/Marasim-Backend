@@ -87,21 +87,24 @@ namespace Repository
         public Dictionary<string, int> GetReservationTotalDoneOrders(int vendorId, int year)
         {
             var reservations = Get()
-                .Where(r => r.Service.VendorId == vendorId && r.Status == 'd' && r.DateTime.Year == year)
-                .ToList();
+                .Where(r => r.Service.VendorId == vendorId && r.Status == 'd' && r.DateTime.Year == year);
 
             var totalOrders = new Dictionary<string, int>();
-
-            foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
+            for (int i = 0; i < CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.Length; i++)
             {
-                totalOrders.Add(month, 0);
+                var month = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[i];
+                totalOrders.Add(month, reservations.Where(r => r.DateTime.Month == i).Count());
             }
-            foreach (var reservation in reservations)
+            //foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
+            //{
+            //    totalOrders.Add(month, 0);
+            //}
+            //foreach (var reservation in reservations)
 
-            {
-                var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
-                totalOrders[monthName]++;
-            }
+            //{
+            //    var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
+            //    totalOrders[monthName]++;
+            //}
 
 
             return totalOrders;
@@ -110,27 +113,24 @@ namespace Repository
 
         {
             var reservations = Get()
-                .Where(r => r.Service.VendorId == vendorId && r.Status == 'd' && r.DateTime.Year == year)
-                .ToList();
+                .Where(r => r.Service.VendorId == vendorId && r.Status == 'd' && r.DateTime.Year == year);
 
             var totalSales = new Dictionary<string, float>();
-
-            foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
+            for (int i = 0; i < CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.Length; i++)
             {
-                totalSales.Add(month, 0);
+                var month = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[i];
+                totalSales.Add(month, reservations.Where(r => r.DateTime.Month == i).Sum(r=>r.Price));
             }
+            //foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
+            //{
+            //    totalSales.Add(month, 0);
+            //}
 
-            foreach (var reservation in reservations)
-            {
-                var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
-                totalSales[monthName]++;
-            }
-
-            foreach (var reservation in reservations)
-            {
-                var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
-                totalSales[monthName] += reservation.Price;
-            }
+            //foreach (var reservation in reservations)
+            //{
+            //    var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
+            //    totalSales[monthName] += reservation.Price;
+            //}
 
             return totalSales;
         }

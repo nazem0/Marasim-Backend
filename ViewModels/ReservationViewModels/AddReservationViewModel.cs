@@ -18,7 +18,7 @@ namespace ViewModels.ReservationViewModels
         public required int GovId { get; set; }
         [Required, MaxLength(100, ErrorMessage = "لا يجب ان يتعدى اسم المنطقة المئة حرف")]
         public required string District { get; set; }
-        [Required, MaxLength(100, ErrorMessage = "لا يجب ان يتعدى اسم الشارع المئة حرف")]
+        [MaxLength(100, ErrorMessage = "لا يجب ان يتعدى اسم الشارع المئة حرف")]
         public string? Street { get; set; }
     }
 }
