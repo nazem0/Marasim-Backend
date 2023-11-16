@@ -35,5 +35,9 @@ namespace Repository
         {
             return EntitiesContext.Add(Data.ToPayment());
         }
+        public IEnumerable<PaymentViewModel> GetVendorsPayment(int VendorId,int PageSize,int PageIndex)
+        {
+            return Filter(p => p.Reservation.Service.VendorId == VendorId, PageSize, PageIndex).Select(p => p.ToPaymentViewModel());
+        }
     }
 }

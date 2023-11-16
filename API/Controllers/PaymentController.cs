@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
+using System.Security.Claims;
 using ViewModels.PaymentViewModel;
 
 namespace Api.Controllers
@@ -15,12 +17,16 @@ namespace Api.Controllers
     {
         private readonly PaymentManager PaymentManager;
         private readonly ReservationManager ReservationManager;
+        private readonly VendorManager VendorManager;
         public PaymentController(
-            PaymentManager _PaymentManager,
-            ReservationManager _ReservationManager)
+            PaymentManager _paymentManager,
+            ReservationManager _reservationManager,
+            VendorManager _vendorManager
+            )
         {
-            PaymentManager = _PaymentManager;
-            ReservationManager = _ReservationManager;
+            PaymentManager = _paymentManager;
+            ReservationManager = _reservationManager;
+            VendorManager = _vendorManager;
         }
 
         [HttpPost("Add"), Authorize()]
@@ -68,6 +74,15 @@ namespace Api.Controllers
         public IActionResult GetConfirmed()
         {
             return Ok(PaymentManager.GetConfirmed());
+        }
+        [HttpGet("GetVendorsPayment/{VendorId}"),Authorize("vendor")]
+        public IActionResult GetVendorsPayment(int PageSize = 5, int PageIndex = 1)
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            int? _vendorId = VendorManager.GetVendorIdByUserId(UserId);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
+                return Ok(PaymentManager.GetVendorsPayment(VendorId, PageSize, PageIndex));
         }
     }
 }
