@@ -3,7 +3,7 @@ using Models;
 
 namespace ViewModels.UserViewModels
 {
-    public class UserRegisterationViewModel : IUserRegisteration
+    public class UserRegistrationViewModel : IUserRegisteration
     {
         public required string Name { get; set; }
         public required string NationalId { get; set; }
@@ -13,7 +13,7 @@ namespace ViewModels.UserViewModels
         public required string PhoneNumber { get; set; }
         public required string Password { get; set; }
         public required string ConfirmPassword { get; set; }
-        public bool Gender { get; set; }
+        public required bool Gender { get; set; }
     }
 }
 
