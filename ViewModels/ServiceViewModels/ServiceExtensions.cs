@@ -17,11 +17,11 @@ namespace ViewModels.ServiceViewModels
                 VendorId = VendorId
             };
         }
-        public static ServiceViewModel ToServiceViewModel(this Service Data, string UserId)
+        public static ServiceViewModel ToServiceViewModel(this Service Data, string VendorUserId)
         {
             return new ServiceViewModel
             {
-                UserId = UserId,
+                UserId = VendorUserId,
                 ServiceAttachments = Data.ServiceAttachments.Select(sa=>sa.ToViewModel()),
                 Description = Data.Description,
                 PromoCode = Data.PromoCode?.ToPromoCodeViewModel(),

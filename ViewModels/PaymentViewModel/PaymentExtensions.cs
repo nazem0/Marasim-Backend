@@ -1,5 +1,6 @@
 ﻿using Models;
 using ViewModels.ReservationViewModels;
+using ViewModels.ServiceViewModels;
 using ViewModels.UserViewModels;
 
 namespace ViewModels.PaymentViewModel
@@ -30,7 +31,7 @@ namespace ViewModels.PaymentViewModel
             {
                 DateTime = Data.DateTime,
                 Price = Data.Reservation.Price,
-                ServiceId = Data.Reservation.ServiceId,
+                ServiceTitle = Data.Reservation.Service.Title,
                 User = Data.Reservation.User.ToUserMinInfoViewModel(),
             };
         }
