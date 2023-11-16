@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
-using ViewModels;
+using ViewModels.PaginationViewModels;
 using ViewModels.PostViewModels;
 namespace Repository
 {
@@ -18,7 +18,7 @@ namespace Repository
 
         public PaginationViewModel<PostViewModel> GetByVendorId(int VendorId, int PageSize, int PageIndex)
         {
-            var data = base.Filter(p => p.Vendor.Id == VendorId, PageSize, PageIndex)
+            var data = Filter(p => p.Vendor.Id == VendorId, PageSize, PageIndex)
                 .Select(p => p.ToViewModel());
             int Count = Get().Where(p => p.Vendor.Id == VendorId).Count();
             int Max = Convert.ToInt32(Math.Ceiling((double)Count / PageSize));
