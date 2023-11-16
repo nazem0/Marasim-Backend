@@ -15,8 +15,16 @@ namespace Repository
 
         public double GetAverageRate(int VendorId)
         {
-            double Data = Get().Where(r => r.Service.VendorId == VendorId).Select(r => r.Rate).Average();
-            return Math.Round(Data);
+            IQueryable<Review> Data = Get().Where(r => r.Service.VendorId == VendorId);
+            if (Data.Any())
+            {
+                Data.Select(r => r.Rate).Average();
+                return Math.Round(Data.Select(r => r.Rate).Average());
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public EntityEntry<Review> Add(Review Entity)
