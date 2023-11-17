@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using System.Linq.Expressions;
 using ViewModels.GenerationViewModels;
+using ViewModels.PaginationViewModels;
 using ViewModels.VendorViewModels;
 
 namespace Repository
@@ -129,6 +131,17 @@ namespace Repository
                     Package.Add(Vendor);
             }
             return Package;
+        }
+        public PaginationViewModel<VendorMinInfoViewModel> Filter(VendorFilterDTO Filters, int PageIndex, int PageSize = 5)
+        {
+            PaginationDTO<Vendor, VendorMinInfoViewModel> PaginationDTO = new()
+            {
+                Filter = Filters.ToFilter(),
+                Selector = v => v.ToVendorMinInfoViewModel(),
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+            return Get().ToPaginationViewModel(PaginationDTO);
         }
     }
 }

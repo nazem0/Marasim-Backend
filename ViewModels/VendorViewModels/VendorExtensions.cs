@@ -1,4 +1,5 @@
 ﻿using Models;
+using System.Linq.Expressions;
 using ViewModels.CategoryViewModels;
 using ViewModels.CityViewModels;
 using ViewModels.FollowViewModels;
@@ -96,6 +97,31 @@ namespace ViewModels.VendorViewModels
                 CategoryName = Data.Category.ToCategoryNameViewModel().Name,
                 Summary = Data.Summary
             };
+        }
+
+        public static List<Expression<Func<Vendor, bool>>>? ToFilter(this VendorFilterDTO Filter)
+        {
+            List<Expression<Func<Vendor, bool>>> Filters = new();
+
+            if (Filter.CategoryId is not null)
+                Filters.Add(v => v.CategoryId == Filter.CategoryId);
+
+            if (Filter.CityId is not null)
+                Filters.Add(v => v.CityId == Filter.CityId);
+
+            if (Filter.GovernorateId is not null)
+                Filters.Add(v => v.GovernorateId == Filter.GovernorateId);
+
+            if (Filter.Name is not null)
+                Filters.Add(v => v.User.Name.Contains(Filter.Name));
+
+            if (Filter.District is not null)
+                Filters.Add(v => v.District.Contains(Filter.District));
+
+            if (Filters.Count == 0)
+                return null; 
+            else
+                return Filters;
         }
     }
 }

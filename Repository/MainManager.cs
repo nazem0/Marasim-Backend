@@ -18,12 +18,12 @@ namespace Repository
         {
             return DbSet;
         }
-        public IEnumerable<T> Filter(Expression<Func<T, bool>> Predicate, int PageSize, int PageIndex)
+        public IEnumerable<T> Filter(Expression<Func<T, bool>> Filter, int PageSize, int PageIndex)
         {
             var data = DbSet.AsQueryable();
 
-            if (Predicate != null)
-                data = data.Where(Predicate);
+            if (Filter != null)
+                data = data.Where(Filter);
 
             int toBeSkiped = (PageIndex - 1) * PageSize;
             var res = data.Skip(toBeSkiped).Take(PageSize);
