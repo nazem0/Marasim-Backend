@@ -84,5 +84,13 @@ namespace Api.Controllers
             int VendorId = (int)_vendorId;
             return Ok(PaymentManager.GetVendorsPayment(VendorId, PageIndex, PageSize));
         }
+        [HttpGet("GetVendorBalance"),Authorize(Roles ="vendor")]
+        public IActionResult GetVendorBalance()
+        {
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
+            return Ok(PaymentManager.VendorBalance(VendorId));
+        }
     }
 }
