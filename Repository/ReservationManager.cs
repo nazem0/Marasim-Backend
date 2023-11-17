@@ -71,16 +71,14 @@ namespace Repository
 
 
         }
-        #region old without Pagination
 
-        //public IQueryable<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status)
-        //{
-        //    return Get()
-        //        .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
-        //        .Select(r => r.ToVendorReservationViewModel());
-        //}
-        #endregion
-        public PaginationViewModel<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status, int PageSize, int PageIndex)
+        public IQueryable<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status)
+        {
+            return Get()
+                .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
+                .Select(r => r.ToVendorReservationViewModel());
+        }
+        public PaginationViewModel<VendorReservationViewModel> GetVendorReservationsByPagination(int VendorId, char Status, int PageSize, int PageIndex)
         {
             var data = base.Filter(r => r.ServiceId == VendorId && r.Status == Status, PageSize, PageIndex)
                .Select(p => p.ToVendorReservationViewModel());

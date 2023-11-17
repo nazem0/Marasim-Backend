@@ -140,25 +140,24 @@ namespace Api.Controllers
             int VendorId = (int)_vendorId;
             return Ok(ReservationManager.GetVendorReservations(VendorId));
         }
-        #region get status without Pagination
-
-        //[HttpGet("GetVendorReservationsByStatus/{Status}"), Authorize(Roles = "vendor")]
-        //public IActionResult GetVendorReservationsByStatus(char Status)
-        //{
-        //    int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        //    if (_vendorId is null) return Unauthorized();
-        //    int VendorId = (int)_vendorId;
-        //    return Ok(ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status));
-        //}
-        #endregion
+        
 
         [HttpGet("GetVendorReservationsByStatus/{Status}"), Authorize(Roles = "vendor")]
-        public IActionResult GetVendorReservationsByStatus(char Status, int PageSize = 8, int PageIndex = 1)
+        public IActionResult GetVendorReservationsByStatus(char Status)
         {
             int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (_vendorId is null) return Unauthorized();
             int VendorId = (int)_vendorId;
-            var paginationResult = ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status, PageSize, PageIndex);
+            return Ok(ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status));
+        }
+
+        [HttpGet("GetVendorReservationsByPagination/{Status}"), Authorize(Roles = "vendor")]
+        public IActionResult GetVendorReservationsByPagination(char Status, int PageSize = 8, int PageIndex = 1)
+        {
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
+            var paginationResult = ReservationManager.GetVendorReservationsByPagination(VendorId, Status, PageSize, PageIndex);
 
             return Ok(paginationResult);
         }
