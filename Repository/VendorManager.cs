@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using System.Linq.Expressions;
 using ViewModels.GenerationViewModels;
+using ViewModels.PaginationViewModels;
 using ViewModels.VendorViewModels;
 
 namespace Repository
@@ -129,6 +131,36 @@ namespace Repository
                     Package.Add(Vendor);
             }
             return Package;
+        }
+        public PaginationViewModel<VendorMinInfoViewModel> Filter(VendorFilterDTO Filter, int PageIndex, int PageSize = 2)
+        {
+            #region Creating Filter List And It's Elements
+            List<Expression<Func<Vendor, bool>>> Filters = new();
+
+            if(Filter.CategoryId is not null)
+                Filters.Add(v=>v.CategoryId==Filter.CategoryId);
+
+            if(Filter.CityId is not null)
+                Filters.Add(v => v.CityId == Filter.CityId);
+            
+            if (Filter.GovernorateId is not null)
+                Filters.Add(v => v.GovernorateId == Filter.GovernorateId);
+
+            if (Filter.Name is not null)
+                Filters.Add(v => v.User.Name.Contains(Filter.Name));
+
+            if (Filter.District is not null)
+                Filters.Add(v => v.District.Contains(Filter.District));
+
+            #endregion
+            PaginationDTO<Vendor, VendorMinInfoViewModel> PaginationDTO = new()
+            {
+                Filter = Filters,
+                Selector = v => v.ToVendorMinInfoViewModel(),
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+            return Get().ToPaginationViewModel(PaginationDTO);
         }
     }
 }
