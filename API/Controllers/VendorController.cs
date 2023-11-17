@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
@@ -124,6 +125,16 @@ namespace Marasim_Backend.Controllers
             return Ok(await VendorManager.GeneratePackage(Data));
         }
 
+        [HttpGet("Filter/{PageIndex}")]
+        public IActionResult Filter(int PageIndex = 1, int PageSize = 5)
+        {
+            return Ok(VendorManager.Filter(new VendorFilterDTO
+            {
+                CategoryId = 2,
+                GovernorateId = 15,
+                Name = "191"
+            }, PageIndex, PageSize));
+        }
     }
 }
 
