@@ -30,7 +30,7 @@ namespace ViewModels.PaymentViewModel
             return new VendorPaymentViewModel
             {
                 DateTime = Data.DateTime,
-                Price = Data.Reservation.Price,
+                Price = (double)Data.Reservation.Price*0.3,
                 ServiceTitle = Data.Reservation.Service.Title,
                 User = Data.Reservation.User.ToUserMinInfoViewModel(),
             };
