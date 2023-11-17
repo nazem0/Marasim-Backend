@@ -126,14 +126,25 @@ namespace Marasim_Backend.Controllers
         }
 
         [HttpGet("Filter/{PageIndex}")]
-        public IActionResult Filter(int PageIndex = 1, int PageSize = 5)
+        public IActionResult Filter
+            (int PageIndex = 1,
+            int PageSize = 5,
+            int? CategoryId = null,
+            int? GovernorateId = null,
+            int? CityId = null,
+            string? Name = null,
+            string? District = null)
         {
             return Ok(VendorManager.Filter(new VendorFilterDTO
             {
-                CategoryId = 2,
-                GovernorateId = 15,
-                Name = "191"
-            }, PageIndex, PageSize));
+                CategoryId = CategoryId,
+                GovernorateId = GovernorateId,
+                CityId = CityId,
+                Name = Name,
+                District = District,
+            },
+            PageIndex,
+            PageSize));
         }
     }
 }
