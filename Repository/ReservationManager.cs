@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using System.Globalization;
+using ViewModels;
 using ViewModels.ReservationViewModels;
 
 namespace Repository
@@ -70,11 +71,31 @@ namespace Repository
 
 
         }
-        public IQueryable<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status)
+        #region old without Pagination
+
+        //public IQueryable<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status)
+        //{
+        //    return Get()
+        //        .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
+        //        .Select(r => r.ToVendorReservationViewModel());
+        //}
+        #endregion
+        public PaginationViewModel<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status, int PageSize, int PageIndex)
         {
-            return Get()
-                .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
-                .Select(r => r.ToVendorReservationViewModel());
+            var data = base.Filter(r => r.ServiceId == VendorId && r.Status == Status, PageSize, PageIndex)
+               .Select(p => p.ToVendorReservationViewModel());
+
+            int Count = Get().Where(r => r.ServiceId == VendorId).Count();
+            int Max = Convert.ToInt32(Math.Ceiling((double)Count / PageSize));
+            return new PaginationViewModel<VendorReservationViewModel>
+            {
+                Data = data.ToList(),
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+                Count = Count,
+                LastPage = Max
+            };
+
         }
         public CheckoutReservationViewModel? CheckoutReservationById(string UserId, int ReservationId)
         {
