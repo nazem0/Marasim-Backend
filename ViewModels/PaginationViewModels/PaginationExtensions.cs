@@ -11,6 +11,7 @@ namespace ViewModels.PaginationViewModels
     {
         public static PaginationViewModel<TOut> ToPaginationViewModel<T, TOut>(this IQueryable<T> Data, PaginationDTO<T, TOut> PaginationDTO)
         {
+            //Handle Your Own Filters, Whether it's one or more, AND or OR ..
             if (PaginationDTO.Filter is not null)
             {
                 foreach (var filter in PaginationDTO.Filter)
