@@ -9,10 +9,15 @@ namespace ViewModels.PaginationViewModels
 {
     public static class PaginationExtensions
     {
-        public static PaginationViewModel<TOut> ToPaginationViewModel<T,TOut>(this IQueryable<T> Data,PaginationDTO<T,TOut> PaginationDTO)
+        public static PaginationViewModel<TOut> ToPaginationViewModel<T, TOut>(this IQueryable<T> Data, PaginationDTO<T, TOut> PaginationDTO)
         {
             if (PaginationDTO.Filter is not null)
-                Data = Data.Where(PaginationDTO.Filter);
+            {
+                foreach (var filter in PaginationDTO.Filter)
+                {
+                    Data = Data.Where(filter);
+                }
+            }
             int Count = Data.Count();
             int ToBeSkipped = (PaginationDTO.PageIndex - 1) * PaginationDTO.PageSize;
             var Result = Data.Skip(ToBeSkipped).Take(PaginationDTO.PageSize);

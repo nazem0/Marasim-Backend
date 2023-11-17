@@ -9,7 +9,7 @@ namespace ViewModels.PaginationViewModels
 {
     public class PaginationDTO<T,TOut>
     {
-        public Expression<Func<T, bool>>? Filter;
+        public IList<Expression<Func<T, bool>>>? Filter;
         public int PageSize = 2;
         public required int PageIndex = 1;
         public required Expression<Func<T, TOut>> Selector;
