@@ -22,19 +22,18 @@ namespace Repository
         {
             Reservation Reservation = Data.ToReservation();
             Service? ReservedService = ServiceManager.Get(Data.ServiceId);
-            if (ReservedService is null)
-                return null;
+            if (ReservedService is null) return null;
+
             Reservation.Price = ReservedService.Price;
-            if (Data.PromoCode is null)
-                return EntitiesContext.Add(Reservation);
+            if (Data.PromoCode is null) return EntitiesContext.Add(Reservation);
+
             PromoCode? PromoCode = PromoCodeManager.GetPromoCodeByCode(Data.PromoCode, Data.ServiceId);
-            if (PromoCode == null)
-                return EntitiesContext.Add(Reservation);
-            else
-            {
+            if (PromoCode is null) return EntitiesContext.Add(Reservation);
+
+            if (PromoCode.Count != PromoCode.Limit) 
                 Reservation.Price -= PromoCode.Discount;
-                return EntitiesContext.Add(Reservation);
-            }
+            
+            return EntitiesContext.Add(Reservation);
         }
         public EntityEntry<Reservation>? ChangeStatus(int ReservationId, char Status)
         {
@@ -109,7 +108,7 @@ namespace Repository
             for (int i = 0; i < CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.Length; i++)
             {
                 var month = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[i];
-                totalOrders.Add(month, reservations.Where(r => r.DateTime.Month == i+1).Count());
+                totalOrders.Add(month, reservations.Where(r => r.DateTime.Month == i + 1).Count());
             }
             #region Old Code #Shallaly
             //foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
@@ -135,7 +134,7 @@ namespace Repository
             for (int i = 0; i < CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.Length; i++)
             {
                 var month = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[i];
-                totalSales.Add(month, reservations.Where(r => r.DateTime.Month == i+1).Sum(r => r.Price));
+                totalSales.Add(month, reservations.Where(r => r.DateTime.Month == i + 1).Sum(r => r.Price));
             }
             #region Old Code #Shallaly
             //foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
