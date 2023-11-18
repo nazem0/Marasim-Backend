@@ -154,9 +154,9 @@ namespace Repository
             }
             return Package;
         }
-        public PaginationViewModel<VendorMinInfoViewModel> Filter(VendorFilterDTO Filters, int PageIndex, int PageSize = 5)
+        public PaginationViewModel<VendorMidInfoViewModel> Filter(VendorFilterDTO Filters, int PageIndex, int PageSize = 5)
         {
-            PaginationDTO<VendorMinInfoViewModel> PaginationDTO = new()
+            PaginationDTO<VendorMidInfoViewModel> PaginationDTO = new()
             {
                 PageIndex = PageIndex,
                 PageSize = PageSize
@@ -167,7 +167,7 @@ namespace Repository
                 foreach (var Filter in FilterList)
                     Data = Data.Where(Filter);
 
-            return Data.Select(v => v.ToVendorMinInfoViewModel()).ToPaginationViewModel(PaginationDTO);
+            return Data.Select(v => v.ToVendorMidInfoViewModel()).ToPaginationViewModel(PaginationDTO);
         }
     }
 }
