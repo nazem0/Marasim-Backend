@@ -109,8 +109,9 @@ namespace Repository
             for (int i = 0; i < CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.Length; i++)
             {
                 var month = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[i];
-                totalOrders.Add(month, reservations.Where(r => r.DateTime.Month == i).Count());
+                totalOrders.Add(month, reservations.Where(r => r.DateTime.Month == i+1).Count());
             }
+            #region Old Code #Shallaly
             //foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
             //{
             //    totalOrders.Add(month, 0);
@@ -121,8 +122,7 @@ namespace Repository
             //    var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
             //    totalOrders[monthName]++;
             //}
-
-
+            #endregion
             return totalOrders;
         }
         public Dictionary<string, float> GetReservationTotalSales(int vendorId, int year)
@@ -135,8 +135,9 @@ namespace Repository
             for (int i = 0; i < CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.Length; i++)
             {
                 var month = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[i];
-                totalSales.Add(month, reservations.Where(r => r.DateTime.Month == i).Sum(r => r.Price));
+                totalSales.Add(month, reservations.Where(r => r.DateTime.Month == i+1).Sum(r => r.Price));
             }
+            #region Old Code #Shallaly
             //foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
             //{
             //    totalSales.Add(month, 0);
@@ -147,7 +148,7 @@ namespace Repository
             //    var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(reservation.DateTime.Month);
             //    totalSales[monthName] += reservation.Price;
             //}
-
+            #endregion
             return totalSales;
         }
     }
