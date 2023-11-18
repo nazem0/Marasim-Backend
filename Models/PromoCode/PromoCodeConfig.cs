@@ -30,7 +30,6 @@ namespace Models
 
             builder
                 .Property(pc => pc.StartDate)
-                .HasDefaultValue(DateTime.Now)
                 .IsRequired();
 
             builder

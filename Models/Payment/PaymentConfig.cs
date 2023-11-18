@@ -18,8 +18,7 @@ namespace Models
 
             builder
                 .Property(p => p.DateTime)
-                .IsRequired()
-                .HasDefaultValue(DateTime.Now);
+                .IsRequired();
 
             builder
                 .Property(p => p.InstaPay)
