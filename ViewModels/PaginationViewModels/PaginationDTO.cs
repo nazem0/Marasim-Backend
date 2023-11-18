@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace ViewModels.PaginationViewModels
 {
-    public class PaginationDTO<T,TOut>
+    public class PaginationDTO<T>
     {
-        public IList<Expression<Func<T, bool>>>? Filter;
         public int PageSize = 5;
         public required int PageIndex = 1;
-        public required Expression<Func<T, TOut>> Selector;
     }
 }

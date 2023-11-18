@@ -38,20 +38,18 @@ namespace Repository
         {
             return EntitiesContext.Add(Data.ToPayment());
         }
-        public PaginationViewModel<VendorPaymentViewModel> GetVendorsPayment(int VendorId,int PageIndex,int PageSize = 2)
+        public PaginationViewModel<VendorPaymentViewModel> GetVendorsPayment(int VendorId, int PageIndex, int PageSize = 2)
         {
-            List<Expression<Func<Payment, bool>>> Filters = new()
+            PaginationDTO<VendorPaymentViewModel> PaginationDTO = new()
             {
-                p => p.Reservation.Service.VendorId == VendorId
-            };
-            PaginationDTO<Payment, VendorPaymentViewModel> PaginationDTO = new()
-            {
-                Filter = Filters,
                 PageIndex = PageIndex,
-                Selector = s => s.ToVendorPaymentViewModel(),
                 PageSize = PageSize
             };
-            return Get().ToPaginationViewModel(PaginationDTO);
+            return Get()
+                .Where(p => p.Reservation.Service.VendorId == VendorId)
+                .OrderByDescending(p => p.DateTime)
+                .Select(p => p.ToVendorPaymentViewModel())
+                .ToPaginationViewModel(PaginationDTO);
         }
         public double VendorBalance(int VendorId)
         {

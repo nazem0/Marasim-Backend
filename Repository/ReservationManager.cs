@@ -2,6 +2,7 @@
 using Models;
 using System.Globalization;
 using ViewModels;
+using ViewModels.PaginationViewModels;
 using ViewModels.ReservationViewModels;
 
 namespace Repository
@@ -80,19 +81,15 @@ namespace Repository
         }
         public PaginationViewModel<VendorReservationViewModel> GetVendorReservationsByPagination(int VendorId, char Status, int PageSize, int PageIndex)
         {
-            var data = base.Filter(r => r.ServiceId == VendorId && r.Status == Status, PageSize, PageIndex)
-               .Select(p => p.ToVendorReservationViewModel());
-
-            int Count = Get().Where(r => r.ServiceId == VendorId).Count();
-            int Max = Convert.ToInt32(Math.Ceiling((double)Count / PageSize));
-            return new PaginationViewModel<VendorReservationViewModel>
+            PaginationDTO<VendorReservationViewModel> PaginationDTO = new()
             {
-                Data = data.ToList(),
                 PageIndex = PageIndex,
                 PageSize = PageSize,
-                Count = Count,
-                LastPage = Max
             };
+            return Get()
+                .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
+                .Select(r => r.ToVendorReservationViewModel())
+                .ToPaginationViewModel(PaginationDTO);
 
         }
         public CheckoutReservationViewModel? CheckoutReservationById(string UserId, int ReservationId)
@@ -138,7 +135,7 @@ namespace Repository
             for (int i = 0; i < CultureInfo.CurrentCulture.DateTimeFormat.MonthNames.Length; i++)
             {
                 var month = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[i];
-                totalSales.Add(month, reservations.Where(r => r.DateTime.Month == i).Sum(r=>r.Price));
+                totalSales.Add(month, reservations.Where(r => r.DateTime.Month == i).Sum(r => r.Price));
             }
             //foreach (var month in CultureInfo.CurrentCulture.DateTimeFormat.MonthNames)
             //{

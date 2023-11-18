@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using System.Linq;
 using System.Linq.Expressions;
 using ViewModels.GenerationViewModels;
 using ViewModels.PaginationViewModels;
@@ -134,14 +135,18 @@ namespace Repository
         }
         public PaginationViewModel<VendorMinInfoViewModel> Filter(VendorFilterDTO Filters, int PageIndex, int PageSize = 5)
         {
-            PaginationDTO<Vendor, VendorMinInfoViewModel> PaginationDTO = new()
+            PaginationDTO<VendorMinInfoViewModel> PaginationDTO = new()
             {
-                Filter = Filters.ToFilter(),
-                Selector = v => v.ToVendorMinInfoViewModel(),
                 PageIndex = PageIndex,
                 PageSize = PageSize
             };
-            return Get().ToPaginationViewModel(PaginationDTO);
+            List<Expression<Func<Vendor, bool>>>? FilterList = Filters.ToFilter();
+            var Data = Get();
+            if (FilterList is not null)
+                foreach (var Filter in FilterList)
+                    Data = Data.Where(Filter);
+
+            return Data.Select(v => v.ToVendorMinInfoViewModel()).ToPaginationViewModel(PaginationDTO);
         }
     }
 }
