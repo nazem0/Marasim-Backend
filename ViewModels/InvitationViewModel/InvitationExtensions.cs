@@ -11,7 +11,7 @@ namespace ViewModels.InvitationViewModel
                 UserId = UserId,
                 BrideName = Data.BrideName,
                 BridePicUrl = Data.BridePicUrl,
-                Date = Data.Date,
+                Date = Data.DateTime,
                 Location = Data.Location,
                 GroomName = Data.GroomName,
                 GroomPicUrl = Data.GroomPicUrl,

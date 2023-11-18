@@ -22,8 +22,7 @@ namespace ViewModels.InvitationViewModel
         public string? BridePicUrl { get; set; }
 
         [Required(ErrorMessage = "تاريخ الزفاف مطلوب")]
-        [DataType(DataType.Date, ErrorMessage = "يجب أن يكون تاريخ الزفاف تاريخًا صحيحًا")]
-        public required DateTime Date { get; set; }
+        public required DateTime DateTime { get; set; }
 
         [Required(ErrorMessage = "صورة الغلاف مطلوبة")]
         public required IFormFile Poster { get; set; }
