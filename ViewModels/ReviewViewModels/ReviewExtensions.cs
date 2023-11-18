@@ -3,7 +3,7 @@ using ViewModels.UserViewModels;
 
 namespace ViewModels.ReviewViewModels
 {
-    public static class ReviewExtentions
+    public static class ReviewExtensions
     {
         public static Review ToModel(this AddReviewViewModel AddReview, string UserId)
         {
@@ -14,7 +14,7 @@ namespace ViewModels.ReviewViewModels
                 ServiceId = AddReview.ServiceId,
                 Rate = AddReview.Rate,
                 Message = AddReview.Message,
-                DateTime = AddReview.DateTime
+                DateTime = DateTime.Now
             };
         }
 

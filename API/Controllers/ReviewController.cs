@@ -44,7 +44,7 @@ namespace API.Controllers
         [HttpGet("GetPagedReviewsByVendorId/{VendorId}")]
         public IActionResult GetPagedReviewsByVendorId(int VendorId, int PageSize = 3, int PageIndex = 1)
         {
-            var Data = ReviewManager.GetPagedReviewsByVendorId(VendorId, PageSize, PageIndex);
+            var Data = ReviewManager.GetPaginatedReviewsByVendorId(VendorId, PageSize, PageIndex);
             return Ok(Data);
         }
 
