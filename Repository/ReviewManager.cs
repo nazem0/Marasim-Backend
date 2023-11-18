@@ -57,7 +57,7 @@ namespace Repository
             return Get().Where(r => r.ReservationId == ReservationId).Any();
         }
 
-        public PaginationViewModel<ReviewFullViewModel> GetPagedReviewsByVendorId(int VendorId, int PageSize, int PageIndex)
+        public PaginationViewModel<ReviewFullViewModel> GetPaginatedReviewsByVendorId(int VendorId, int PageSize, int PageIndex)
         {
             var data = base.Filter(r => r.Service.VendorId == VendorId, PageSize, PageIndex)
                 .Select(p => p.ToReviewFullViewModel());
