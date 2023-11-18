@@ -13,6 +13,7 @@ namespace ViewModels.PaymentViewModel
             {
                 InstaPay = Data.InstaPay,
                 ReservationId = Data.ReservationId,
+                DateTime = DateTime.Now,
             };
         }
 

@@ -13,8 +13,6 @@ namespace ViewModels.ReviewViewModels
 
         [StringLength(1000)]
         public required string Message { get; set; }
-        [Required]
-        public required DateTime DateTime { get; set; } = DateTime.Now;
     }
 }
 
