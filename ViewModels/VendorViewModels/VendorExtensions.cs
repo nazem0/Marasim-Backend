@@ -94,8 +94,12 @@ namespace ViewModels.VendorViewModels
                 Name = Data.User.Name,
                 PicUrl = Data.User.PicUrl,
                 UserId = Data.UserId,
-                CategoryName = Data.Category.ToCategoryNameViewModel().Name,
-                Summary = Data.Summary
+                Category = Data.Category.ToCategoryNameViewModel().Name,
+                Summary = Data.Summary,
+                City = Data.City.NameAr,
+                Governorate = Data.Governorate.NameAr,
+                District = Data.District,
+                Street = Data.Street
             };
         }
 

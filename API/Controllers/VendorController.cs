@@ -39,7 +39,7 @@ namespace Marasim_Backend.Controllers
         {
             var Data = VendorManager.GetVendorByUserId(UserId);
             if (Data is null) return NotFound();
-            return Ok(Data.ToVendorFullViewModel(Data.User));
+            return Ok(Data.ToVendorMidInfoViewModel());
         }
 
         [HttpGet("GetIntOfVendors/{NumOfVen}")]

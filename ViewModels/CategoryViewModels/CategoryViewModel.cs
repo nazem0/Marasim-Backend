@@ -7,7 +7,7 @@ namespace ViewModels.CategoryViewModels
         public required int Id { get; set; }
         public required string Name { get; set; }
         public bool IsDeleted { get; set; }
-        public IEnumerable<VendorViewModel>? Vendors { set; get; }
+        public IEnumerable<VendorMidInfoViewModel>? Vendors { set; get; }
     }
 }
 
