@@ -44,7 +44,7 @@ namespace Api.Controllers
             if (Entry.State == EntityState.Added)
             {
                 ReservationManager.Save();
-                return Ok(Entry.Entity);
+                return Ok();
             }
             else
             {
