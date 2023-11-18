@@ -43,9 +43,30 @@ namespace Repository
             return Get(Id)?.UserId;
         }
 
-        public EntityEntry<Vendor> Update(Vendor Entity)
+        public int Update(UpdateVendorProfileViewModel Data,string UserId)
         {
-            return EntitiesContext.Update(Entity);
+            Vendor? Vendor = GetVendorByUserId(UserId);
+            if (Vendor is null)
+                return -1;
+            if (Data.Picture is not null)
+            {
+                Helper.DeleteMediaAsync(Vendor.UserId, "ProfilePicture", Vendor.User.PicUrl);
+                FileInfo fi = new(Data.Picture.FileName);
+                string FileName = DateTime.Now.Ticks + fi.Extension;
+                Vendor.User.Name = Data.Name ?? Vendor.User.Name;
+                Helper.UploadMediaAsync(Vendor.UserId, "ProfilePicture", FileName, Data.Picture);
+                Data.PicURL = FileName;
+            }
+
+            Vendor.User.Name = Data.Name ?? Vendor.User.Name;
+            Vendor.User.PicUrl = Data.PicURL ?? Vendor.User.PicUrl;
+            Vendor.User.PhoneNumber = Data.PhoneNumber ?? Vendor.User.PhoneNumber;
+            Vendor.Summary = Data.Summary ?? Vendor.Summary;
+            Vendor.CategoryId = Data.CategoryId ?? Vendor.CategoryId;
+            EntitiesContext.Update(Vendor);
+            Save();
+
+            return 1;
         }
 
         public IQueryable<VendorMidInfoViewModel> GetIntOfVendors(int NumOfVen = 3)
