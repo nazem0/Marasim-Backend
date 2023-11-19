@@ -154,7 +154,7 @@ namespace Repository
             }
             return Package;
         }
-        public PaginationViewModel<VendorMidInfoViewModel> Filter(VendorFilterDTO Filters, int PageIndex, int PageSize = 5)
+        public async Task<PaginationViewModel<VendorMidInfoViewModel>> Filter(VendorFilterDTO Filters, int PageIndex, int PageSize = 5)
         {
             PaginationDTO<VendorMidInfoViewModel> PaginationDTO = new()
             {
@@ -167,6 +167,10 @@ namespace Repository
                 foreach (var Filter in FilterList)
                     Data = Data.Where(Filter);
 
+            IEnumerable<Vendor> Result = await Data
+                .ToListAsync();
+
+            Result = Result.OrderBy(v => v.Services.Average(s => s.Reservations.Average(r => r.Review.Rate)));
             return Data.Select(v => v.ToVendorMidInfoViewModel()).ToPaginationViewModel(PaginationDTO);
         }
     }

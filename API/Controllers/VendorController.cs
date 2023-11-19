@@ -95,16 +95,16 @@ namespace Marasim_Backend.Controllers
         }
 
         [HttpGet("Filter/{PageIndex}")]
-        public IActionResult Filter
+        public async Task<IActionResult> FilterAsync
             (int PageIndex = 1,
-            int PageSize = 5,
+            int PageSize = 8,
             int? CategoryId = null,
             int? GovernorateId = null,
             int? CityId = null,
             string? Name = null,
             string? District = null)
         {
-            return Ok(VendorManager.Filter(new VendorFilterDTO
+            return Ok(await VendorManager.Filter(new VendorFilterDTO
             {
                 CategoryId = CategoryId,
                 GovernorateId = GovernorateId,
