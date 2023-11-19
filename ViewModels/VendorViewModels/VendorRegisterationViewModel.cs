@@ -11,12 +11,14 @@ namespace ViewModels.VendorViewModels
         public decimal? Latitude { get; set; } = default;
         [AllowNull]
         public decimal? Longitude { get; set; } = default;
+        [AllowNull]
         public string Street { get; set; } = string.Empty;
         public required int CityId { get; set; }
         public required int GovernorateId { get; set; }
         public required string District { get; set; }
         public required string Name { get; set; }
         public required string NationalId { get; set; }
+        [AllowNull]
         public string PicUrl { get; set; } = string.Empty;
         public required IFormFile Picture { get; set; }
         public required string Email { get; set; }
