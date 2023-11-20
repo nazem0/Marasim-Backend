@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -118,56 +119,6 @@ namespace Api.Controllers
             }
 
         }
-        [HttpGet("GetAllUserReservations"), Authorize()]
-        public IActionResult GetAllUserReservations()
-        {
-            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
-            return Ok(ReservationManager.GetUserReservations(UserId));
-        }
-
-        [HttpGet("GetUserReservationsByStatus/{Status}"), Authorize()]
-        public IActionResult GetUserReservationsByStatus(char Status)
-        {
-            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            return Ok(ReservationManager.GetUserReservationsByIdAndStatus(UserId, Status));
-        }
-        [HttpGet("GetAllVendorReservations"), Authorize()]
-        public IActionResult GetAllVendorReservations()
-        {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
-            return Ok(ReservationManager.GetVendorReservations(VendorId));
-        }
-        
-
-        [HttpGet("GetVendorReservationsByStatus/{Status}"), Authorize(Roles = "vendor")]
-        public IActionResult GetVendorReservationsByStatus(char Status)
-        {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
-            return Ok(ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status));
-        }
-
-        [HttpGet("GetVendorReservationsByPagination/{Status}"), Authorize(Roles = "vendor")]
-        public IActionResult GetVendorReservationsByPagination(char Status, int PageSize = 8, int PageIndex = 1)
-        {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
-            var paginationResult = ReservationManager.GetVendorReservationsByPagination(VendorId, Status, PageSize, PageIndex);
-
-            return Ok(paginationResult);
-        }
-
-        [HttpGet("CheckoutReservationById/{Id}"), Authorize()]
-        public IActionResult CheckoutReservationById(int Id)
-        {
-            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            return Ok(ReservationManager.CheckoutReservationById(UserId, Id));
-        }
         [HttpGet("Confirm/{Id}"), Authorize()]
         public IActionResult Confirm(int Id)
         {
@@ -182,7 +133,6 @@ namespace Api.Controllers
                 return Ok();
             }
         }
-
         [HttpPut("Done"), Authorize()]
         public IActionResult Done([FromBody] UserChangeReservationStatusViewModel Data)
         {
@@ -216,7 +166,61 @@ namespace Api.Controllers
 
         }
 
+        // User Reservations
+        [HttpGet("GetAllUserReservations"), Authorize()]
+        public IActionResult GetAllUserReservations(int PageSize = 5, int PageIndex = 1)
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var Data = ReservationManager.GetUserReservations(UserId, PageSize, PageIndex);
+            return Ok(Data);
+        }
+        [HttpGet("GetUserReservationsByStatus/{Status}"), Authorize()]
+        public IActionResult GetUserReservationsByStatus(char Status, int PageSize = 5, int PageIndex = 1)
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var Data = ReservationManager.GetUserReservationsByIdAndStatus(UserId, Status, PageSize, PageIndex);
+            return Ok(Data);
+        }
+        [HttpGet("GetAllVendorReservations"), Authorize()]
+        public IActionResult GetAllVendorReservations(int PageSize = 5, int PageIndex = 1)
+        {
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
+            var Data = ReservationManager.GetVendorReservations(VendorId, PageSize, PageIndex);
+            return Ok(Data);
+        }
 
+        // Vendor Reservations
+        [HttpGet("GetVendorReservationsByStatus/{Status}"), Authorize(Roles = "vendor")]
+        public IActionResult GetVendorReservationsByStatus(char Status, int PageSize = 5, int PageIndex = 1)
+        {
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
+            var Data = ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status, PageSize, PageIndex);
+            return Ok(Data);
+        }
+        [HttpGet("GetVendorReservationsByPagination/{Status}"), Authorize(Roles = "vendor")]
+        public IActionResult GetVendorReservationsByPagination(char Status, int PageSize = 8, int PageIndex = 1)
+        {
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
+            var paginationResult = ReservationManager.GetVendorReservationsByPagination(VendorId, Status, PageSize, PageIndex);
+
+            return Ok(paginationResult);
+        }
+
+        //Cheackout
+        [HttpGet("CheckoutReservationById/{Id}"), Authorize()]
+        public IActionResult CheckoutReservationById(int Id)
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            return Ok(ReservationManager.CheckoutReservationById(UserId, Id));
+        }
+
+        // Stats
         [HttpGet("GetTotalOrder"), Authorize(Roles = "vendor")]
         public IActionResult GetTotalOrder()
         {
@@ -228,7 +232,6 @@ namespace Api.Controllers
 
             return Ok(stats);
         }
-
         [HttpGet("GetTotalSales"), Authorize(Roles = "vendor")]
         public IActionResult GetTotalSales()
         {
@@ -240,9 +243,5 @@ namespace Api.Controllers
 
             return Ok(stats);
         }
-
-
-
-
     }
 }

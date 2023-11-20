@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using System.Net.NetworkInformation;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.PaginationViewModels;
 using ViewModels.PostViewModels;
+using ViewModels.VendorViewModels;
+
 namespace Repository
 {
     public class PostManager : MainManager<Post>
@@ -18,37 +22,29 @@ namespace Repository
 
         public PaginationViewModel<PostViewModel> GetByVendorId(int VendorId, int PageSize, int PageIndex)
         {
-            var data = Filter(p => p.Vendor.Id == VendorId, PageSize, PageIndex)
-                .Select(p => p.ToViewModel());
-            int Count = Get().Where(p => p.Vendor.Id == VendorId).Count();
-            int Max = Convert.ToInt32(Math.Ceiling((double)Count / PageSize));
-            return new PaginationViewModel<PostViewModel>
+            PaginationDTO<PostViewModel> PaginationDTO = new()
             {
-                Data = data.ToList(),
                 PageIndex = PageIndex,
-                PageSize = PageSize,
-                Count = Count,
-                LastPage = Max
+                PageSize = PageSize
             };
+            return Get()
+                .Where(p => p.Vendor.Id == VendorId)
+                .Select(r => r.ToViewModel())
+                .ToPaginationViewModel(PaginationDTO);
         }
 
         public PaginationViewModel<PostViewModel> GetByPostsByFollow(string UserId, int PageSize, int PageIndex)
         {
-            var Data = base.Filter(p => p.Vendor.Followers.Any(f => f.UserId == UserId), PageSize, PageIndex)
-                .Select(p => p.ToViewModel());
-            int Count = Get().Where(p => p.Vendor.Followers.Any(f => f.UserId == UserId)).Count();
-            int Max = Convert.ToInt32(Math.Ceiling((double)Count / PageSize));
-            return new PaginationViewModel<PostViewModel>
+            PaginationDTO<PostViewModel> PaginationDTO = new()
             {
-                Data = Data.ToList(),
                 PageIndex = PageIndex,
-                PageSize = PageSize,
-                Count = Count,
-                LastPage = Max
+                PageSize = PageSize
             };
+            return Get()
+                .Where(p => p.Vendor.Followers.Any(f => f.UserId == UserId))
+                .Select(r => r.ToViewModel())
+                .ToPaginationViewModel(PaginationDTO);
         }
-
-
 
         public EntityEntry<Post> Update(Post Entity)
         {

@@ -82,7 +82,8 @@ namespace ViewModels.VendorViewModels
                 Id = Data.Id,
                 Name = Data.User.Name,
                 PicUrl = Data.User.PicUrl,
-                UserId = Data.UserId
+                UserId = Data.UserId,
+                PhoneNumber = Data.User.PhoneNumber
             };
         }
 

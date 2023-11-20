@@ -1,4 +1,9 @@
-﻿using Models;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Models;
+using ViewModels.FollowViewModels;
+using ViewModels.PaginationViewModels;
+using ViewModels.PostViewModels;
 
 namespace Repository
 {
@@ -10,14 +15,30 @@ namespace Repository
             EntitiesContext = _dBContext;
         }
 
-        public IQueryable<Follow> GetFollowersVendor(int vendorId)
+        public PaginationViewModel<FollowViewModel> GetFollowersVendor(int VendorId, int PageSize, int PageIndex)
         {
-            return Get().Where(f => f.VendorId == vendorId);
+            PaginationDTO<FollowViewModel> PaginationDTO = new()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+            return Get()
+                .Where(f => f.VendorId == VendorId)
+                .Select(f => f.ToFollowerViewModel())
+                .ToPaginationViewModel(PaginationDTO);
         }
 
-        public IQueryable<Follow> GetFollowingForUser(string userId)
+        public PaginationViewModel<FollowingViewModel> GetFollowingForUser(string UserId, int PageSize, int PageIndex)
         {
-            return Get().Where(f => f.UserId == userId);
+            PaginationDTO<FollowingViewModel> PaginationDTO = new()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+            return Get()
+                .Where(f => f.UserId == UserId)
+                .Select(f => f.ToFollowingViewModel())
+                .ToPaginationViewModel(PaginationDTO);
         }
 
         public void Add(Follow Follow)
@@ -59,13 +80,5 @@ namespace Repository
                 return null!;
             }
         }
-
-        // not tested
-        //public IQueryable GetPostsByFollow(string UserId)
-        //{
-        //    return Get()
-        //        .Where(f => f.UserId == UserId)
-        //        .Select(f => f.ToFollowPostsViewModel());
-        //}
     }
 }

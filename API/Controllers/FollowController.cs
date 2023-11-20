@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
@@ -20,31 +21,19 @@ namespace Api.Controllers
         }
 
         [HttpGet("GetFollowersVendor/{VendorId}")]
-        public IActionResult GetFollowersForVendor(int VendorId)
+        public IActionResult GetFollowersForVendor(int VendorId, int PageSize = 2, int PageIndex = 1)
         {
-            var Users = FollowManager.GetFollowersVendor(VendorId)
-                .Select(f => f.ToFollowerViewModel())
-                .ToList();
-            return new JsonResult(Users);
+            var Users = FollowManager.GetFollowersVendor(VendorId, PageSize, PageIndex);
+            return Ok(Users);
         }
 
         [HttpGet("GetFollowingForUser")]
-        public IActionResult GetFollowingForUser()
+        public IActionResult GetFollowingForUser(int PageSize = 2, int PageIndex = 1)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier!)!;
-            var Vendors = FollowManager.GetFollowingForUser(UserId)
-                .Select(f => f.ToFollowingViewModel())
-                .ToList();
-            return new JsonResult(Vendors);
+            var Vendors = FollowManager.GetFollowingForUser(UserId, PageSize, PageIndex);
+            return Ok(Vendors);
         }
-
-        //[HttpGet("GetPostsByFollow")]
-        //public IActionResult GetPostsByFollow()
-        //{
-        //    string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier!)!;
-        //    var Data = FollowManager.GetPostsByFollow(UserId);
-        //    return new JsonResult(Data);
-        //}
 
         [HttpPost("Add")]
         [Authorize(Roles = "user")]

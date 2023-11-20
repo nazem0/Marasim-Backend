@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using System.Globalization;
 using ViewModels;
@@ -30,9 +32,9 @@ namespace Repository
             PromoCode? PromoCode = PromoCodeManager.GetPromoCodeByCode(Data.PromoCode, Data.ServiceId);
             if (PromoCode is null) return EntitiesContext.Add(Reservation);
 
-            if (PromoCode.Count != PromoCode.Limit) 
+            if (PromoCode.Count != PromoCode.Limit)
                 Reservation.Price -= PromoCode.Discount;
-            
+
             return EntitiesContext.Add(Reservation);
         }
         public EntityEntry<Reservation>? ChangeStatus(int ReservationId, char Status)
@@ -49,34 +51,58 @@ namespace Repository
             Reservation.Status = 'c';
             return EntitiesContext.Update(Reservation);
         }
-        public IQueryable<UserReservationViewModel> GetUserReservations(string UserId)
+
+        // User Reservations
+        public PaginationViewModel<UserReservationViewModel> GetUserReservations(string UserId, int PageSize, int PageIndex)
         {
+            PaginationDTO<UserReservationViewModel> PaginationDTO = new()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+            };
             return Get()
                 .Where(r => r.UserId == UserId)
-                .Select(r => r.ToUserReservationViewModel());
-
-
+                .Select(r => r.ToUserReservationViewModel())
+                .ToPaginationViewModel(PaginationDTO);
         }
-        public IQueryable<UserReservationViewModel> GetUserReservationsByIdAndStatus(string UserId, char Status)
+        public PaginationViewModel<UserReservationViewModel> GetUserReservationsByIdAndStatus(string UserId, char Status, int PageSize, int PageIndex)
         {
+            PaginationDTO<UserReservationViewModel> PaginationDTO = new()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+            };
             return Get()
                 .Where(r => r.UserId == UserId && r.Status == Status)
-                .Select(r => r.ToUserReservationViewModel());
+                .Select(r => r.ToUserReservationViewModel())
+                .ToPaginationViewModel(PaginationDTO);
         }
-        public IQueryable<VendorReservationViewModel> GetVendorReservations(int VendorId)
+
+        // Vendor Reservations
+        public PaginationViewModel<VendorReservationViewModel> GetVendorReservations(int VendorId, int PageSize, int PageIndex)
         {
+            PaginationDTO<VendorReservationViewModel> PaginationDTO = new()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+            };
             return Get()
                 .Where(r => r.Service.VendorId == VendorId)
-                .Select(r => r.ToVendorReservationViewModel());
-
-
+                .Select(r => r.ToVendorReservationViewModel())
+                .ToPaginationViewModel(PaginationDTO);
         }
-
-        public IQueryable<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status)
+        public PaginationViewModel<VendorReservationViewModel> GetVendorReservationsByIdAndStatus(int VendorId, char Status, int PageSize, int PageIndex)
         {
+            PaginationDTO<VendorReservationViewModel> PaginationDTO = new()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+            };
             return Get()
                 .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
-                .Select(r => r.ToVendorReservationViewModel());
+                .Select(r => r.ToVendorReservationViewModel())
+                .ToPaginationViewModel(PaginationDTO);
+
         }
         public PaginationViewModel<VendorReservationViewModel> GetVendorReservationsByPagination(int VendorId, char Status, int PageSize, int PageIndex)
         {
@@ -91,6 +117,8 @@ namespace Repository
                 .ToPaginationViewModel(PaginationDTO);
 
         }
+
+        // Cheackout
         public CheckoutReservationViewModel? CheckoutReservationById(string UserId, int ReservationId)
         {
             return Get()
@@ -99,6 +127,7 @@ namespace Repository
                 .FirstOrDefault();
         }
 
+        // Stats
         public Dictionary<string, int> GetReservationTotalDoneOrders(int vendorId, int year)
         {
             var reservations = Get()
