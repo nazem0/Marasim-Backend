@@ -103,7 +103,7 @@ namespace ViewModels.VendorViewModels
             };
         }
 
-        public static List<Expression<Func<Vendor, bool>>>? ToFilter(this VendorFilterDTO Filter)
+        public static List<Expression<Func<Vendor, bool>>>? ToFiltersList(this VendorFilterDTO Filter)
         {
             List<Expression<Func<Vendor, bool>>> Filters = new();
             //Needs revision..
@@ -122,8 +122,12 @@ namespace ViewModels.VendorViewModels
             if (Filter.District is not null)
                 Filters.Add(v => v.District.Contains(Filter.District));
 
+            if (Filter.Rate is not null)
+                Filters.Add(v => v.Services.Average(s => s.Reservations.Average(r => r.Review.Rate)) >= Filter.Rate);
+            
+
             if (Filters.Count == 0)
-                return null; 
+                return null;
             else
                 return Filters;
         }

@@ -101,7 +101,9 @@ namespace Marasim_Backend.Controllers
             int? GovernorateId = null,
             int? CityId = null,
             string? Name = null,
-            string? District = null)
+            string? District = null,
+            int? Rate = null
+            )
         {
             return Ok(await VendorManager.Filter(new VendorFilterDTO
             {
@@ -110,6 +112,7 @@ namespace Marasim_Backend.Controllers
                 CityId = CityId,
                 Name = Name,
                 District = District,
+                Rate = Rate
             },
             PageIndex,
             PageSize));

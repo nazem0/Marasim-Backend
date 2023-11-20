@@ -161,7 +161,7 @@ namespace Repository
                 PageIndex = PageIndex,
                 PageSize = PageSize
             };
-            List<Expression<Func<Vendor, bool>>>? FilterList = Filters.ToFilter();
+            List<Expression<Func<Vendor, bool>>>? FilterList = Filters.ToFiltersList();
             var Data = Get();
             if (FilterList is not null)
                 foreach (var Filter in FilterList)
