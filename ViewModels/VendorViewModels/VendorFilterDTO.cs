@@ -12,6 +12,6 @@ namespace ViewModels.VendorViewModels
         public int? CityId { get; set; }
         public int? GovernorateId { get; set; }
         public string? District { get; set; }
-        public int? CategoryId { get; set; }
+        public string? Categories { get; set; }
     }
 }

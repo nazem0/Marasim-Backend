@@ -106,9 +106,9 @@ namespace ViewModels.VendorViewModels
         public static List<Expression<Func<Vendor, bool>>>? ToFilter(this VendorFilterDTO Filter)
         {
             List<Expression<Func<Vendor, bool>>> Filters = new();
-
-            if (Filter.CategoryId is not null)
-                Filters.Add(v => v.CategoryId == Filter.CategoryId);
+            //Needs revision..
+            if (Filter.Categories is not null)
+                Filters.Add(v => Filter.Categories.Contains(v.CategoryId.ToString()));
 
             if (Filter.CityId is not null)
                 Filters.Add(v => v.CityId == Filter.CityId);

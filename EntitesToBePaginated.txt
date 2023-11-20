@@ -1,8 +1,10 @@
-posts
-vendors
+posts - done
+reviews - done ?
+wallet - done
+vendors - done back only
+
 comments
-payments
+admin payments
 reservations
 reacts
-reviews
 followers

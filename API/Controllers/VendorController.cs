@@ -30,8 +30,7 @@ namespace Marasim_Backend.Controllers
             Vendor? Data = VendorManager.Get(VendorId);
             if (Data == null)
                 return NotFound();
-            var x = Data.ToVendorViewModel(Data.User);
-            return Ok(x);
+            return Ok(Data.ToVendorViewModel(Data.User));
         }
 
         [HttpGet("GetVendorByUserId/{UserId}")]
@@ -98,7 +97,7 @@ namespace Marasim_Backend.Controllers
         public async Task<IActionResult> FilterAsync
             (int PageIndex = 1,
             int PageSize = 8,
-            int? CategoryId = null,
+            string? Categories = null,
             int? GovernorateId = null,
             int? CityId = null,
             string? Name = null,
@@ -106,7 +105,7 @@ namespace Marasim_Backend.Controllers
         {
             return Ok(await VendorManager.Filter(new VendorFilterDTO
             {
-                CategoryId = CategoryId,
+                Categories = Categories,
                 GovernorateId = GovernorateId,
                 CityId = CityId,
                 Name = Name,
