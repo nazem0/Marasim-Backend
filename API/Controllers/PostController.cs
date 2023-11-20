@@ -47,7 +47,6 @@ namespace API.Controllers
             return Ok(Data);
         }
 
-
         [HttpGet("GetByPostsByFollow")]
         public IActionResult GetByPostsByFollow(int PageSize = 2, int PageIndex = 1)
         {
@@ -55,7 +54,6 @@ namespace API.Controllers
             var Data = PostManager.GetByPostsByFollow(UserId, PageSize, PageIndex);
             return Ok(Data);
         }
-
 
         [Authorize(Roles = "vendor")]
         [HttpPost("Add")]
