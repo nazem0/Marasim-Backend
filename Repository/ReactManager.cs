@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 
 namespace Repository
@@ -29,6 +30,10 @@ namespace Repository
             {
                 return false;
             }
+        }
+        public int GetReactsCountByPostId(int PostId)
+        {
+            return Get().Where(r => r.PostId == PostId).Count();
         }
 
         public void Delete(int ReactId)
