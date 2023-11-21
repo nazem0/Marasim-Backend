@@ -14,15 +14,15 @@ namespace ViewModels.ReactViewModels
             };
         }
 
-        public static ReactViewModel ToViewModel(this React React, User User)
+        public static ReactViewModel ToViewModel(this React React)
         {
             return new ReactViewModel
             {
                 Id = React.Id,
                 PostId = React.PostId,
                 DateTime = React.DateTime,
-                UserName = User.Name,
-                UserPicUrl = User.PicUrl,
+                UserName = React.User.Name,
+                UserPicUrl = React.User.PicUrl,
                 UserId = React.UserId
             };
         }

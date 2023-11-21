@@ -14,7 +14,7 @@ namespace ViewModels.CommentViewModels
             };
         }
 
-        public static CommentViewModel ToViewModel(this Comment Comment, User User)
+        public static CommentViewModel ToViewModel(this Comment Comment)
         {
             return new CommentViewModel
             {
@@ -22,8 +22,8 @@ namespace ViewModels.CommentViewModels
                 PostId = Comment.PostId,
                 Text = Comment.Text,
                 DateTime = Comment.DateTime,
-                UserName = User.Name,
-                UserPicUrl = User.PicUrl,
+                UserName = Comment.User.Name,
+                UserPicUrl = Comment.User.PicUrl,
                 UserId = Comment.UserId
             };
         }
