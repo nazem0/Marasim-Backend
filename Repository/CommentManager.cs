@@ -23,7 +23,7 @@ namespace Repository
                 PageIndex = PageIndex,
                 PageSize = PageSize
             };
-            return Get().Where(c => c.PostId == PostId).Select(c => c.ToViewModel(c.User)).ToPaginationViewModel(PaginationDTO);
+            return Get().Where(c => c.PostId == PostId).Select(c => c.ToViewModel()).ToPaginationViewModel(PaginationDTO);
         }
         public int GetCommentsCount(int PostId)
         {

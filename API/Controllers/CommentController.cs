@@ -19,7 +19,7 @@ namespace API.Controllers
             CommentManager = _CommentManager;
         }
 
-        [HttpGet("GetCommentsByPostId/{PostId}")]
+        [HttpGet("GetCommentsByPostId/{PageIndex}")]
         public IActionResult GetCommentsByPostId(int PostId, int PageIndex = 1, int PageSize = 5)
         {
             PaginationViewModel<CommentViewModel> Data = CommentManager.GetByPostId(PostId,PageIndex,PageSize);

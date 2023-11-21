@@ -19,11 +19,10 @@ namespace API.Controllers
             ReactManager = _ReactManager;
         }
 
-        [HttpGet("GetReactsByPostId/{PostId}")]
-        public IActionResult GetReactsByPostId(int PostId)
+        [HttpGet("GetByPostId/{PageIndex}")]
+        public IActionResult GetByPostId(int PostId,int PageIndex=1,int PageSize=10)
         {
-            var Data = ReactManager.GetByPostId(PostId)
-                         .Select(r => r.ToViewModel(r.User));
+            var Data = ReactManager.GetByPostId(PostId,PageIndex,PageSize);
 
             return new JsonResult(Data);
         }
@@ -33,11 +32,11 @@ namespace API.Controllers
             return Ok(ReactManager.GetReactsCountByPostId(PostId));
         }
 
-        [HttpGet("GetIsLiked/{PostId}")]
+        [HttpGet("GetIsLiked/{PostId}"),Authorize]
         public IActionResult GetIsLiked(int PostId)
         {
-            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (ReactManager.GetByPostId(PostId).Any(r => r.UserId == UserId))
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            if (ReactManager.IsLiked(UserId,PostId))
             {
                 return Ok(true);
             }
@@ -89,8 +88,8 @@ namespace API.Controllers
         [HttpDelete("Delete/{PostId}")]
         public IActionResult Delete(int PostId)
         {
-            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var React = ReactManager.GetByPostId(PostId).Where(r => r.UserId == UserId).FirstOrDefault();
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            React? React = ReactManager.Get().Where(r => r.PostId== PostId && r.UserId == UserId).FirstOrDefault();
             if (React is not null && React.UserId == UserId)
             {
                 ReactManager.Delete(React);

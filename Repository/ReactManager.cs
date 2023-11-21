@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using ViewModels.PaginationViewModels;
+using ViewModels.ReactViewModels;
 
 namespace Repository
 {
@@ -15,9 +17,19 @@ namespace Repository
         {
             return EntitiesContext.Add(Entity);
         }
-        public IQueryable<React> GetByPostId(int PostId)
+        public PaginationViewModel<ReactViewModel> GetByPostId(int PostId, int PageIndex, int PageSize)
         {
-            return Get().Where(r => r.PostId == PostId);
+            PaginationDTO<ReactViewModel> PaginationDTO = new()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+
+            return
+                Get()
+                .Where(r => r.PostId == PostId)
+                .Select(r => r.ToViewModel())
+                .ToPaginationViewModel(PaginationDTO);
         }
 
         public bool IsLiked(string UserId, int PostId)
