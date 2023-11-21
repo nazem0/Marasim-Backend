@@ -5,6 +5,7 @@ using Repository;
 using System.Security.Claims;
 using System.Text;
 using ViewModels.CommentViewModels;
+using ViewModels.PaginationViewModels;
 
 namespace API.Controllers
 {
@@ -19,11 +20,15 @@ namespace API.Controllers
         }
 
         [HttpGet("GetCommentsByPostId/{PostId}")]
-        public IActionResult GetCommentsByPostId(int PostId)
+        public IActionResult GetCommentsByPostId(int PostId, int PageIndex = 1, int PageSize = 5)
         {
-            var Data = CommentManager.GetByPostId(PostId)
-                        .Select(c => c.ToViewModel(c.User));
-            return new JsonResult(Data);
+            PaginationViewModel<CommentViewModel> Data = CommentManager.GetByPostId(PostId,PageIndex,PageSize);
+            return Ok(Data);
+        }
+        [HttpGet("GetCommentsCountByPostId/{PostId}")]
+        public IActionResult GetCommentsCount(int PostId)
+        {
+            return Ok(CommentManager.GetCommentsCount(PostId));
         }
 
         [Authorize]

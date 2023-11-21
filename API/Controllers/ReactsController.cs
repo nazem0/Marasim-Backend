@@ -27,6 +27,11 @@ namespace API.Controllers
 
             return new JsonResult(Data);
         }
+        [HttpGet("GetReactsCountByPostId/{PostId}")]
+        public IActionResult GetReactsCountByPostId(int PostId)
+        {
+            return Ok(ReactManager.GetReactsCountByPostId(PostId));
+        }
 
         [HttpGet("GetIsLiked/{PostId}")]
         public IActionResult GetIsLiked(int PostId)

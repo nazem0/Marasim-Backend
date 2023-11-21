@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using ViewModels.CommentViewModels;
+using ViewModels.PaginationViewModels;
 
 namespace Repository
 {
@@ -14,9 +16,18 @@ namespace Repository
         {
             return EntitiesContext.Add(comment);
         }
-        public IQueryable<Comment> GetByPostId(int PostId)
+        public PaginationViewModel<CommentViewModel> GetByPostId(int PostId, int PageIndex, int PageSize)
         {
-            return Get().Where(c => c.PostId == PostId);
+            PaginationDTO<CommentViewModel> PaginationDTO = new()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+            return Get().Where(c => c.PostId == PostId).Select(c => c.ToViewModel(c.User)).ToPaginationViewModel(PaginationDTO);
+        }
+        public int GetCommentsCount(int PostId)
+        {
+            return Get().Where(c => c.PostId == PostId).Count();
         }
     }
 }
