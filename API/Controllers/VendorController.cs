@@ -24,6 +24,13 @@ namespace Marasim_Backend.Controllers
             UserManager = _UserManager;
         }
 
+        [HttpGet("GetAll")]
+        public IActionResult GetAll(int PageSize = 5, int PageIndex = 1)
+        {
+            var Data = VendorManager.GetAll(PageSize, PageIndex);
+            return Ok(Data);
+        }
+
         [HttpGet("GetVendorById/{VendorId}")]
         public IActionResult GetVendorById(int VendorId)
         {

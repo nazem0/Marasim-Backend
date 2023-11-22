@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using ViewModels.GenerationViewModels;
 using ViewModels.PaginationViewModels;
+using ViewModels.ReservationViewModels;
 using ViewModels.VendorViewModels;
 
 namespace Repository
@@ -20,6 +21,7 @@ namespace Repository
         {
             return EntitiesContext.Add(Vendor);
         }
+
         public Vendor? GetVendorByUserId(string Id)
         {
             Vendor? Vendor = EntitiesContext.Vendors.Where(v => v.UserId == Id).FirstOrDefault();
@@ -27,6 +29,20 @@ namespace Repository
             return Vendor;
 
         }
+
+        public PaginationViewModel<VendorMidInfoViewModel> GetAll(int PageSize, int PageIndex)
+        {
+            PaginationDTO<VendorMidInfoViewModel> PaginationDTO = new()
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+            };
+            return Get()
+                .OrderByDescending(v => v.Id)
+                .Select(v => v.ToVendorMidInfoViewModel())
+                .ToPaginationViewModel(PaginationDTO);
+        }
+
         public int? GetVendorIdByUserId(string Id)
         {
             Vendor? Vendor = EntitiesContext.Vendors.Where(v => v.UserId == Id).FirstOrDefault();
@@ -43,7 +59,7 @@ namespace Repository
             return Get(Id)?.UserId;
         }
 
-        public int Update(UpdateVendorProfileViewModel Data,string UserId)
+        public int Update(UpdateVendorProfileViewModel Data, string UserId)
         {
             Vendor? Vendor = GetVendorByUserId(UserId);
             if (Vendor is null)
