@@ -67,16 +67,11 @@ namespace API.Controllers
                 }
                 return new ObjectResult(Errors);
             }
-            IdentityResult result = await AccountManager.RegisterAsVendor(viewModel);
-            if (result.Succeeded) return Ok();
+            bool result = await AccountManager.RegisterAsVendor(viewModel);
+            if (result is true) return Ok();
             else
             {
-                List<IdentityError> Errors = new();
-                foreach (IdentityError item in result.Errors)
-                {
-                    Errors.Add(item);
-                }
-                return BadRequest(Errors);
+                return BadRequest();
             }
         }
         [HttpPost("Login")]

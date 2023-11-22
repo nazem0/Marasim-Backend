@@ -47,29 +47,29 @@ namespace Repository
             }
             return result;
         }
-        public async Task<IdentityResult> RegisterAsVendor(VendorRegistrationViewModel Data)
+        public async Task<bool> RegisterAsVendor(VendorRegistrationViewModel Data)
         {
-            var Result = await Register(Data);
+            FileInfo fi = new(Data.Picture.FileName);
+            string FileName = DateTime.Now.Ticks + fi.Extension;
+            Data.PicUrl = FileName;
+            var User = Data.ToUser();
 
-            if (!Result.Succeeded) return Result;
-            // Not null because if it's null it wouldn't reach this line :|
-            User CreatedUser = UserManager.FindByEmailAsync(Data.Email).Result!;
-            Result = await UserManager.AddToRoleAsync
-                (CreatedUser,
-                "vendor");
+            var result = await UserManager.CreateAsync(User, Data.Password);
+            if (!result.Succeeded) return false;
+
+            await UserManager.AddToRoleAsync(User, "vendor");
+            Helper.UploadMediaAsync(User.Id, "ProfilePicture", FileName, Data.Picture);
 
             EntityEntry VendorAddition = VendorManager.Add(Data.ToVendor((await UserManager.FindByEmailAsync(Data.Email))!));
             if (VendorAddition.State.ToString() != "Added")
             {
-                await UserManager.DeleteAsync(CreatedUser);
-                return IdentityResult.Failed(new IdentityError
-                {
-                });
+                await UserManager.DeleteAsync(User);
+                return false;
             }
             else
             {
                 VendorManager.Save();
-                return Result;
+                return true;
             }
 
 
@@ -91,7 +91,7 @@ namespace Repository
 
         public async Task<string> GenerateJSONWebToken(User User)
         {
-            // Not Null Because this function is called after sigining in using sign in manager
+            // Not Null Because this function is called after signing in using sign in manager
             var userRoles = await UserManager.GetRolesAsync(User);
             var roles = userRoles.Select(o => new Claim(ClaimTypes.Role, o));
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]!));
