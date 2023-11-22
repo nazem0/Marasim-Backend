@@ -73,9 +73,10 @@ namespace Repository
                     UserID,
                     MediaDirectoryName,
                     FileName);
-            }
 
-            File.Delete(FilePath);
+            }
+            if (File.Exists(FilePath))
+                File.Delete(FilePath);
         }
     }
 }
