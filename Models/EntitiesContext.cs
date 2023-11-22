@@ -59,12 +59,12 @@ namespace Models
                 new Category { Id = 7, Name = "كوافير للرجال" },
                 new Category { Id = 8, Name = "كوافير للسيدات" }
             );
-            // Added Ids to prevent deleteing them each migration. :)
+            // Added Ids to prevent deleting them each migration. :)
             modelBuilder.Entity<IdentityRole>().HasData(
                 new IdentityRole { Id = "12ff2abd-866c-457e-b725-8dad45ef4885", Name = "user", NormalizedName = "USER" },
                 new IdentityRole { Id = "3a590a5a-90de-4886-bc76-69dc9e138b44", Name = "vendor", NormalizedName = "VENDOR" },
                 new IdentityRole { Id = "8433688c-a3d9-442b-8e2b-31cc61ca02c2", Name = "admin", NormalizedName = "ADMIN" });
-
+            #region Governorates And Cities Seeding
             modelBuilder.Entity<Governorate>().HasData(
                 new Governorate { Id = 1, NameAr = "القاهرة", NameEn = "Cairo" },
                 new Governorate { Id = 2, NameAr = "الجيزة", NameEn = "Giza" },
@@ -492,6 +492,31 @@ namespace Models
                 new City { Id = 395, GovernorateId = 27, NameAr = "طهطا", NameEn = "Tahta" },
                 new City { Id = 396, GovernorateId = 27, NameAr = "الكوثر", NameEn = "Alkawthar" }
                 );
+            #endregion
+            var hasher = new PasswordHasher<IdentityUser>();
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = "86c55eee-8933-11ee-b9d1-0242ac120002",
+                    NationalId="30009042700853",
+                    UserName = "admin@marasim.com",
+                    Email = "admin@marasim.com",
+                    NormalizedEmail = "ADMIN@MARASIM.COM",
+                    NormalizedUserName = "ADMIN@MARASIM.COM",
+                    Gender = true,
+                    PhoneNumber = "01100233249",
+                    Name = "Admin",
+                    PasswordHash=hasher.HashPassword(null,"Asd@12345"),
+                    PicUrl = string.Empty
+                }
+                );
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+            new IdentityUserRole<string>
+            {
+                RoleId = "8433688c-a3d9-442b-8e2b-31cc61ca02c2",
+                UserId = "86c55eee-8933-11ee-b9d1-0242ac120002"
+            }
+        );
             #endregion
             base.OnModelCreating(modelBuilder);
         }
