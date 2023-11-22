@@ -104,19 +104,19 @@ namespace Repository
                 .ToPaginationViewModel(PaginationDTO);
 
         }
-        public PaginationViewModel<VendorReservationViewModel> GetVendorReservationsByPagination(int VendorId, char Status, int PageSize, int PageIndex)
-        {
-            PaginationDTO<VendorReservationViewModel> PaginationDTO = new()
-            {
-                PageIndex = PageIndex,
-                PageSize = PageSize,
-            };
-            return Get()
-                .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
-                .Select(r => r.ToVendorReservationViewModel())
-                .ToPaginationViewModel(PaginationDTO);
+        //public PaginationViewModel<VendorReservationViewModel> GetVendorReservationsByPagination(int VendorId, char Status, int PageSize, int PageIndex)
+        //{
+        //    PaginationDTO<VendorReservationViewModel> PaginationDTO = new()
+        //    {
+        //        PageIndex = PageIndex,
+        //        PageSize = PageSize,
+        //    };
+        //    return Get()
+        //        .Where(r => r.Service.VendorId == VendorId && r.Status == Status)
+        //        .Select(r => r.ToVendorReservationViewModel())
+        //        .ToPaginationViewModel(PaginationDTO);
 
-        }
+        //}
 
         // Cheackout
         public CheckoutReservationViewModel? CheckoutReservationById(string UserId, int ReservationId)

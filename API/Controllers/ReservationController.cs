@@ -174,7 +174,7 @@ namespace Api.Controllers
             var Data = ReservationManager.GetUserReservations(UserId, PageSize, PageIndex);
             return Ok(Data);
         }
-        [HttpGet("GetUserReservationsByStatus/{Status}"), Authorize()]
+        [HttpGet("GetUserReservationsByStatus/{PageIndex}"), Authorize()]
         public IActionResult GetUserReservationsByStatus(char Status, int PageSize = 5, int PageIndex = 1)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
@@ -192,7 +192,7 @@ namespace Api.Controllers
         }
 
         // Vendor Reservations
-        [HttpGet("GetVendorReservationsByStatus/{Status}"), Authorize(Roles = "vendor")]
+        [HttpGet("GetVendorReservationsByStatus/{PageIndex}"), Authorize(Roles = "vendor")]
         public IActionResult GetVendorReservationsByStatus(char Status, int PageSize = 5, int PageIndex = 1)
         {
             int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
@@ -201,16 +201,16 @@ namespace Api.Controllers
             var Data = ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status, PageSize, PageIndex);
             return Ok(Data);
         }
-        [HttpGet("GetVendorReservationsByPagination/{Status}"), Authorize(Roles = "vendor")]
-        public IActionResult GetVendorReservationsByPagination(char Status, int PageSize = 8, int PageIndex = 1)
-        {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
-            var paginationResult = ReservationManager.GetVendorReservationsByPagination(VendorId, Status, PageSize, PageIndex);
+        //[HttpGet("GetVendorReservationsByPagination/{Status}"), Authorize(Roles = "vendor")]
+        //public IActionResult GetVendorReservationsByPagination(char Status, int PageSize = 8, int PageIndex = 1)
+        //{
+        //    int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        //    if (_vendorId is null) return Unauthorized();
+        //    int VendorId = (int)_vendorId;
+        //    var paginationResult = ReservationManager.GetVendorReservationsByPagination(VendorId, Status, PageSize, PageIndex);
 
-            return Ok(paginationResult);
-        }
+        //    return Ok(paginationResult);
+        //}
 
         //Cheackout
         [HttpGet("CheckoutReservationById/{Id}"), Authorize()]
