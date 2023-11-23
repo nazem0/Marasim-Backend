@@ -23,8 +23,9 @@ namespace Repository
                 PageIndex = PageIndex,
                 PageSize = PageSize,
             };
-            var usersInRole = await GetUsersInRoleAsync("user");
-            return usersInRole.ToList().AsQueryable()
+            IList<User>? usersInRole = await GetUsersInRoleAsync("user");
+            return usersInRole.AsQueryable()
+                .OrderByDescending(u => u.RegistrationDate)
                 .Select(u => u.ToUserViewModel())
                 .ToPaginationViewModel(PaginationDTO);
         }
