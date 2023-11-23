@@ -28,6 +28,8 @@ namespace Api.Controllers
             VendorManager = _vendorManager;
         }
 
+
+
         [HttpPost("Add"), Authorize()]
         public IActionResult Add([FromForm] AddPaymentViewModel Data)
         {
@@ -58,6 +60,13 @@ namespace Api.Controllers
                 }
             }
         }
+
+        [HttpGet("Count")]
+        public IActionResult Count()
+        {
+            return Ok(PaymentManager.Count());
+        }
+
         //To Be Only For Admin Later
         [HttpGet("Get")]
         public IActionResult Get()
