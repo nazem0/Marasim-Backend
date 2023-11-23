@@ -100,7 +100,10 @@ namespace Repository
         public async Task<VendorMidInfoViewModel?> GenerateVendorAsync(GenerateVendorViewModel Data)
         {
             IQueryable<Vendor> Vendors = EntitiesContext.Vendors.Where(v => v.CategoryId == Data.CategoryId);
-            Vendors = Vendors.Where(v => v.GovernorateId == Data.GovernorateId && v.CityId == Data.CityId && v.Services.Any() && v.Services.Average(s => s.Price) <= Data.Price);
+            Vendors = Vendors.Where(v => v.GovernorateId == Data.GovernorateId &&
+                             (v.Services.Any() ? v.Services.Average(s => s.Price) : 0) <= Data.Price);
+            if (Data.CityId is not null)
+                Vendors = Vendors.Where(v => v.CityId == Data.CityId);
             var filteredVendors = await Vendors.ToListAsync(); // Materialize the query to avoid subqueries in the average calculations
             if (Data.Rate is not null)
                 filteredVendors = filteredVendors
@@ -135,9 +138,9 @@ namespace Repository
         }
 
 
-        public async Task<IEnumerable<VendorMidInfoViewModel>> GeneratePackage(GeneratePackageViewModel Data)
+        public async Task<IEnumerable<VendorMidInfoViewModel?>> GeneratePackage(GeneratePackageViewModel Data)
         {
-            List<VendorMidInfoViewModel> Package = new();
+            List<VendorMidInfoViewModel?> Package = new();
             foreach (CategoryPrice CategoryPrice in Data.CategoryPrice)
             {
                 VendorMidInfoViewModel? Vendor = await GenerateVendorAsync(new GenerateVendorViewModel
