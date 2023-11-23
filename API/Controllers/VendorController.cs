@@ -24,6 +24,12 @@ namespace Marasim_Backend.Controllers
             UserManager = _UserManager;
         }
 
+        [HttpGet("Count")]
+        public IActionResult Count()
+        {
+            return Ok(VendorManager.Count());
+        }
+
         [HttpGet("GetAll")]
         public IActionResult GetAll(int PageSize = 5, int PageIndex = 1)
         {

@@ -16,12 +16,20 @@ namespace Marasim_Backend.Controllers
         {
             UserManager = _UserManager;
         }
+
         [HttpGet("Get")]
         public async Task<IActionResult> Get(int PageSize = 5, int PageIndex = 1)
         {
             var Data = await UserManager.GetAll(PageSize, PageIndex);
             return Ok(Data);
         }
+
+        [HttpGet("Count")]
+        public async Task<IActionResult> Count()
+        {
+            return Ok(await UserManager.Count());
+        }
+
         [HttpGet("UserDetails/{UserId}")]
         public async Task<IActionResult> UserDetails(string UserId)
         {
@@ -29,8 +37,8 @@ namespace Marasim_Backend.Controllers
             if (User is null) return NotFound();
             return Ok(User.ToUserViewModel());
         }
-        [HttpPut("Update"), Authorize]
 
+        [HttpPut("Update"), Authorize]
         public async Task<IActionResult> Update([FromForm] UpdateProfileViewModel Data)
         {
             ClaimsPrincipal? UserClaims = HttpContext.User;

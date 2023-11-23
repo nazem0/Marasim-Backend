@@ -29,5 +29,12 @@ namespace Repository
                 .Select(u => u.ToUserViewModel())
                 .ToPaginationViewModel(PaginationDTO);
         }
+
+        public async Task<int> Count()
+        {
+            IList<User>? usersInRole = await GetUsersInRoleAsync("user");
+            return usersInRole.Count();
+        }
+
     }
 }
