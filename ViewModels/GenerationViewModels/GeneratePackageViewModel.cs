@@ -3,9 +3,15 @@
     public class GeneratePackageViewModel
     {
         public required float Budget { get; set; }
-        public required int[] Categories { get; set; }
-        public int? GovId { get; set; } = null;
-        public int? CityId { get; set; } = null;
+        public required CategoryPrice[] CategoryPrice { get; set; }
+        public int GovId { get; set; }
+        public int CityId { get; set; }
+        public string? District { get; set; } = null;
         public int? Rate { get; set; } = null;
+    }
+    public class CategoryPrice
+    {
+        public required int CategoryId { get; set; }
+        public required int Percentage { get; set; }
     }
 }

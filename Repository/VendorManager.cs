@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
-using System.Linq;
 using System.Linq.Expressions;
 using ViewModels.GenerationViewModels;
 using ViewModels.PaginationViewModels;
-using ViewModels.ReservationViewModels;
 using ViewModels.VendorViewModels;
 
 namespace Repository
@@ -102,24 +100,13 @@ namespace Repository
         public async Task<VendorMidInfoViewModel?> GenerateVendorAsync(GenerateVendorViewModel Data)
         {
             IQueryable<Vendor> Vendors = EntitiesContext.Vendors.Where(v => v.CategoryId == Data.CategoryId);
-
-            if (Data.GovernorateId is not null)
-                Vendors = Vendors.Where(v => v.GovernorateId == Data.GovernorateId);
-
-            if (Data.CityId is not null)
-                Vendors = Vendors.Where(v => v.CityId == Data.CityId);
-
+            Vendors = Vendors.Where(v => v.GovernorateId == Data.GovernorateId && v.CityId == Data.CityId && v.Services.Any() && v.Services.Average(s => s.Price) <= Data.Price);
             var filteredVendors = await Vendors.ToListAsync(); // Materialize the query to avoid subqueries in the average calculations
-
             if (Data.Rate is not null)
                 filteredVendors = filteredVendors
                     .Where(v => v.Services.Average(s => s.Reviews.Any() ? s.Reviews.Average(r => r.Rate) : 0) >= Data.Rate)
                     .ToList();
 
-            if (Data.Price is not null)
-                filteredVendors = filteredVendors
-                    .Where(v => v.Services.Average(s => s.Price) <= Data.Price)
-                    .ToList();
 
             return filteredVendors
                 .OrderBy(v => CalculateAverageRatingOrPrice(v))
@@ -130,15 +117,11 @@ namespace Repository
         private double CalculateAverageRatingOrPrice(Vendor vendor)
         {
             IEnumerable<Service>? Services = vendor.Services;
-            if (Services.Any())
+            if (Services.Any() && Services.Average(s => s.Reservations.Select(r => r.Review).Count()) > 0)
             {
-                double averageRating = 0;
-                if (Services.Average(s => s.Reservations.Select(r => r.Review).Count()) > 0)
-                {
-                    averageRating = vendor.Services
-                       .SelectMany(s => s.Reviews)
-                       .Average(r => r.Rate);
-                }
+                double averageRating = vendor.Services
+                   .SelectMany(s => s.Reviews)
+                   .Average(r => r.Rate);
 
                 double averagePrice = vendor.Services
                     .Average(s => s.Price);
@@ -155,18 +138,17 @@ namespace Repository
         public async Task<IEnumerable<VendorMidInfoViewModel>> GeneratePackage(GeneratePackageViewModel Data)
         {
             List<VendorMidInfoViewModel> Package = new();
-            foreach (int CategoryId in Data.Categories)
+            foreach (CategoryPrice CategoryPrice in Data.CategoryPrice)
             {
                 VendorMidInfoViewModel? Vendor = await GenerateVendorAsync(new GenerateVendorViewModel
                 {
-                    CategoryId = CategoryId,
+                    CategoryId = CategoryPrice.CategoryId,
                     CityId = Data.CityId,
                     GovernorateId = Data.GovId,
-                    Price = Data.Budget / Data.Categories.Length,
+                    Price = ((float)CategoryPrice.Percentage / 100) * Data.Budget,
                     Rate = Data.Rate
                 });
-                if (Vendor is not null)
-                    Package.Add(Vendor);
+                Package.Add(Vendor);
             }
             return Package;
         }
