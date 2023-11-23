@@ -38,8 +38,8 @@ namespace Repository
 
         public IEnumerable<ServiceViewModel> GetAllVendorServices(string UserId)
         {
-            
-            var Data =  Get().Where(s=>s.Vendor.UserId == UserId);
+
+            var Data = Get().Where(s => s.Vendor.UserId == UserId);
             return Data.Select(s => s.ToServiceViewModel(UserId));
         }
 

@@ -22,7 +22,7 @@ namespace ViewModels.ServiceViewModels
             return new ServiceViewModel
             {
                 UserId = VendorUserId,
-                ServiceAttachments = Data.ServiceAttachments.Select(sa=>sa.ToViewModel()),
+                ServiceAttachments = Data.ServiceAttachments.Select(sa => sa.ToViewModel()),
                 Description = Data.Description,
                 PromoCode = Data.PromoCode?.ToPromoCodeViewModel(),
                 Title = Data.Title,
@@ -31,7 +31,7 @@ namespace ViewModels.ServiceViewModels
                 VendorId = Data.VendorId,
                 Id = Data.Id,
                 ReviewsCount = Data.Reviews.Count,
-                Reservations = Data.Reservations.Select(r=>r.ToVendorReservationViewModel()),
+                Reservations = Data.Reservations.Select(r => r.ToVendorReservationViewModel()),
             };
         }
 

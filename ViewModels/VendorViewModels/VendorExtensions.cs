@@ -125,7 +125,7 @@ namespace ViewModels.VendorViewModels
 
             if (Filter.Rate is not null)
                 Filters.Add(v => v.Services.Average(s => s.Reservations.Average(r => r.Review.Rate)) >= Filter.Rate);
-            
+
 
             if (Filters.Count == 0)
                 return null;

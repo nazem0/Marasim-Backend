@@ -1,9 +1,6 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Models;
+﻿using Models;
 using ViewModels.FollowViewModels;
 using ViewModels.PaginationViewModels;
-using ViewModels.PostViewModels;
 
 namespace Repository
 {

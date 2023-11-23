@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Drawing.Charts;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -76,7 +75,7 @@ namespace Api.Controllers
             return Ok(PaymentManager.GetConfirmed());
         }
         [HttpGet("GetVendorsPayments/{PageIndex}"), Authorize(Roles = "vendor")]
-        public IActionResult GetVendorsPayments(int PageIndex = 1,int PageSize =3)
+        public IActionResult GetVendorsPayments(int PageIndex = 1, int PageSize = 3)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             int? _vendorId = VendorManager.GetVendorIdByUserId(UserId);
@@ -84,7 +83,7 @@ namespace Api.Controllers
             int VendorId = (int)_vendorId;
             return Ok(PaymentManager.GetVendorsPayment(VendorId, PageIndex, PageSize));
         }
-        [HttpGet("GetVendorBalance"),Authorize(Roles ="vendor")]
+        [HttpGet("GetVendorBalance"), Authorize(Roles = "vendor")]
         public IActionResult GetVendorBalance()
         {
             int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);

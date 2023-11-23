@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Models
 {
@@ -498,7 +497,7 @@ namespace Models
                 new User
                 {
                     Id = "86c55eee-8933-11ee-b9d1-0242ac120002",
-                    NationalId="30009042700853",
+                    NationalId = "30009042700853",
                     UserName = "admin@marasim.com",
                     Email = "admin@marasim.com",
                     NormalizedEmail = "ADMIN@MARASIM.COM",
@@ -506,7 +505,7 @@ namespace Models
                     Gender = true,
                     PhoneNumber = "01100233249",
                     Name = "Admin",
-                    PasswordHash=hasher.HashPassword(null,"Asd@12345"),
+                    PasswordHash = hasher.HashPassword(null, "Asd@12345"),
                     PicUrl = string.Empty
                 }
                 );

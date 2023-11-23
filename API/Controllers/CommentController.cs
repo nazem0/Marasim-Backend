@@ -22,7 +22,7 @@ namespace API.Controllers
         [HttpGet("GetCommentsByPostId/{PageIndex}")]
         public IActionResult GetCommentsByPostId(int PostId, int PageIndex = 1, int PageSize = 5)
         {
-            PaginationViewModel<CommentViewModel> Data = CommentManager.GetByPostId(PostId,PageIndex,PageSize);
+            PaginationViewModel<CommentViewModel> Data = CommentManager.GetByPostId(PostId, PageIndex, PageSize);
             return Ok(Data);
         }
         [HttpGet("GetCommentsCountByPostId/{PostId}")]

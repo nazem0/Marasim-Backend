@@ -1,5 +1,4 @@
-﻿using Models;
-using ViewModels.PromoCodeViewModels;
+﻿using ViewModels.PromoCodeViewModels;
 using ViewModels.ReservationViewModels;
 using ViewModels.ServiceAttatchmentViewModels;
 
