@@ -16,14 +16,15 @@ namespace Repository
         {
         }
 
-        public PaginationViewModel<UserViewModel> GetAll(int PageSize, int PageIndex)
+        public async Task<PaginationViewModel<UserViewModel>> GetAll(int PageSize, int PageIndex)
         {
             PaginationDTO<UserViewModel> PaginationDTO = new()
             {
                 PageIndex = PageIndex,
                 PageSize = PageSize,
             };
-            return Users
+            var usersInRole = await GetUsersInRoleAsync("user");
+            return usersInRole.ToList().AsQueryable()
                 .Select(u => u.ToUserViewModel())
                 .ToPaginationViewModel(PaginationDTO);
         }
