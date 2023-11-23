@@ -14,7 +14,8 @@ namespace ViewModels.UserViewModels
                 NationalId = User.NationalId,
                 Gender = User.Gender,
                 PhoneNumber = User.PhoneNumber!,
-                Email = User.Email!
+                Email = User.Email!,
+                RegistrationDate = User.RegistrationDate,
             };
         }
         public static UserMinInfoViewModel ToUserMinInfoViewModel(this User User)

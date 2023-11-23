@@ -40,6 +40,10 @@ namespace Models
             .IsRequired();
 
             builder
+            .Property(u => u.RegistrationDate)
+            .IsRequired();
+
+            builder
             .Property(u => u.NationalId)
             .HasMaxLength(20)
             .IsRequired();

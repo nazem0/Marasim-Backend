@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace Models
@@ -10,6 +11,7 @@ namespace Models
         public bool Gender { get; set; }
         public string NationalId { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime RegistrationDate {  get; set; }
         public virtual ICollection<Follow> Follows { set; get; }
         public virtual ICollection<Review> Reviews { set; get; }
         public virtual Vendor Vendor { get; set; }

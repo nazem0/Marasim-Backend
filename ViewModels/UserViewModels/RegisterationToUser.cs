@@ -2,7 +2,7 @@
 
 namespace ViewModels.UserViewModels
 {
-    public static class RegisterationToUser
+    public static class RegistrationToUser
     {
         public static User ToUser(this IUserRegisteration viewModel)
         {
@@ -14,7 +14,8 @@ namespace ViewModels.UserViewModels
                 UserName = viewModel.Email,
                 Email = viewModel.Email,
                 PhoneNumber = viewModel.PhoneNumber,
-                Gender = viewModel.Gender
+                Gender = viewModel.Gender,
+                RegistrationDate = DateTime.Now,
             };
         }
     }
