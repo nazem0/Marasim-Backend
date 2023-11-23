@@ -17,10 +17,10 @@ namespace Marasim_Backend.Controllers
             UserManager = _UserManager;
         }
         [HttpGet("Get")]
-        public IActionResult Get(int PageSize = 5, int PageIndex = 1)
+        public async Task<IActionResult> Get(int PageSize = 5, int PageIndex = 1)
         {
-            var x = UserManager.GetAll(PageSize, PageIndex);
-            return Ok(x);
+            var Data = await UserManager.GetAll(PageSize, PageIndex);
+            return Ok(Data);
         }
         [HttpGet("UserDetails/{UserId}")]
         public async Task<IActionResult> UserDetails(string UserId)
