@@ -115,7 +115,7 @@ namespace ViewModels.VendorViewModels
                 Governorate = Data.Governorate.NameAr,
                 Name = Data.User.Name,
                 PicUrl = Data.User.PicUrl,
-                Services = Data.Services.Select(s => s.ToServiceViewModel()),
+                Services = Data.Services.Select(s => s.ToServicePartialViewModel()),
                 Street = Data.Street,
                 Summary = Data.Summary,
                 UserId = Data.UserId

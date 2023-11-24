@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace ViewModels.ServiceAttatchmentViewModels
+namespace ViewModels.ServiceAttachmentViewModels
 {
     public static class ServiceAttatchmentExtensions
     {
@@ -9,9 +9,9 @@ namespace ViewModels.ServiceAttatchmentViewModels
         //    return new ServiceAttatchmentViewModel { AttachmentUrl = Model. };
         //}
 
-        public static ServiceAttatchmentViewModel ToViewModel(this ServiceAttachment ServiceAttachment)
+        public static ServiceAttachmentViewModel ToViewModel(this ServiceAttachment ServiceAttachment)
         {
-            return new ServiceAttatchmentViewModel
+            return new ServiceAttachmentViewModel
             {
                 Id = ServiceAttachment.Id,
                 ServiceId = ServiceAttachment.ServiceId,

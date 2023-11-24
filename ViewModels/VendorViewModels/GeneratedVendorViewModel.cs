@@ -20,6 +20,6 @@ namespace ViewModels.VendorViewModels
         public string? Governorate { get; set; } = null;
         public string? Street { get; set; } = null;
         public string? Category { get; set; } = null;
-        public IEnumerable<ServiceViewModel>? Services { get; set; }
+        public IEnumerable<ServicePartialViewModel>? Services { get; set; }
     }
 }
