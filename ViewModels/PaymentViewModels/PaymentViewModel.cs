@@ -1,6 +1,6 @@
 ﻿using ViewModels.ReservationViewModels;
 
-namespace ViewModels.PaymentViewModel
+namespace ViewModels.PaymentViewModels
 {
     public class PaymentViewModel
     {

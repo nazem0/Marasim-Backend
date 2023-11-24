@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ViewModels.PaymentViewModel
+namespace ViewModels.PaymentViewModels
 {
     public class AddPaymentViewModel
     {

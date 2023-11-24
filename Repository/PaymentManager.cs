@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.PaginationViewModels;
-using ViewModels.PaymentViewModel;
+using ViewModels.PaymentViewModels;
 
 namespace Repository
 {
