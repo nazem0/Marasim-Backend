@@ -12,6 +12,6 @@
     public class CategoryPrice
     {
         public required int CategoryId { get; set; }
-        public required int Percentage { get; set; }
+        public required int Price { get; set; }
     }
 }
