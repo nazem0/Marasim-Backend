@@ -24,6 +24,7 @@ namespace ViewModels.WithdrawalViewModels
             {
                 InstaPay = Data.InstaPay,
                 DateTime = Data.DateTime,
+                IsConfirmed = Data.IsConfirmed,
                 Payments = Data.Payments.Select(p => p.ToPaymentViewModel()),
                 Vendor = Data.Vendor.ToVendorMinInfoViewModel()
             };

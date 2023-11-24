@@ -9,8 +9,10 @@ namespace ViewModels.WithdrawalViewModels
     {
         public required string InstaPay { get; set; }
         public required DateTime DateTime { get; set; }
+        public required bool IsConfirmed { get; set; }
         public required IEnumerable<PaymentViewModel> Payments { get; set; }
         public required VendorMinInfoViewModel Vendor { get; set; }
+
     }
 }
 

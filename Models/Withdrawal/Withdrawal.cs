@@ -5,9 +5,10 @@ namespace Models
 {
     public class Withdrawal : BaseModel
     {
-        public int VendorId { get; set; }
-        public string InstaPay { get; set; }
-        public DateTime DateTime { get; set; }
+        public int VendorId;
+        public string InstaPay;
+        public DateTime DateTime;
+        public bool IsConfirmed;
         public virtual ICollection<Payment> Payments { set; get; }
         public virtual Vendor Vendor { get; set; }
     }

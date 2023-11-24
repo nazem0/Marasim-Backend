@@ -31,6 +31,11 @@ namespace Models
                 .IsRequired();
 
             builder
+               .Property(w => w.IsConfirmed)
+               .HasDefaultValue(false)
+               .IsRequired();
+
+            builder
                .Property(w => w.VendorId)
                .IsRequired();
 
