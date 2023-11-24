@@ -20,6 +20,11 @@ namespace Models
                 .IsRequired();
 
             builder
+               .Property(p => p.IsWithdrawn)
+               .HasDefaultValue(false)
+               .IsRequired();
+
+            builder
                 .Property(p => p.InstaPay)
                 .HasMaxLength(1000)
                 .IsRequired();
@@ -28,6 +33,12 @@ namespace Models
                 .HasOne(p => p.Reservation)
                 .WithOne(r => r.Payment)
                 .HasForeignKey<Payment>(p => p.ReservationId);
+
+            builder
+                .HasOne(p => p.Withdrawal)
+                .WithMany(w => w.Payments)
+                .HasForeignKey(p => p.WithdrawalId)
+                .IsRequired(false);
         }
     }
 }

@@ -2,7 +2,7 @@
 using ViewModels.ReservationViewModels;
 using ViewModels.UserViewModels;
 
-namespace ViewModels.PaymentViewModel
+namespace ViewModels.PaymentViewModels
 {
     public static class PaymentExtensions
     {

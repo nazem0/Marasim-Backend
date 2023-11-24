@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.PaginationViewModels;
-using ViewModels.PaymentViewModel;
+using ViewModels.PaymentViewModels;
 
 namespace Repository
 {
@@ -51,8 +51,14 @@ namespace Repository
         }
         public double VendorBalance(int VendorId)
         {
+            return Get().Where(v => v.Reservation.Service.VendorId == VendorId && v.IsWithdrawn == false).Sum(v => v.Reservation.Price * 0.3);
+        }
 
-            return Get().Where(v => v.Reservation.Service.VendorId == VendorId).Sum(v => v.Reservation.Price * 0.3);
+        public void IsWithdrawan(int PaymentId)
+        {
+            var Data = Get(PaymentId)!;
+            Data.IsWithdrawn = true;
+            EntitiesContext.Update(Data);
         }
     }
 }

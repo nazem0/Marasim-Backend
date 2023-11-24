@@ -1,6 +1,6 @@
 ﻿using ViewModels.UserViewModels;
 
-namespace ViewModels.PaymentViewModel
+namespace ViewModels.PaymentViewModels
 {
     public class VendorPaymentViewModel
     {

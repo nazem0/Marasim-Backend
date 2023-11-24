@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using Repository;
 using System.Security.Claims;
-using ViewModels.PaymentViewModel;
+using ViewModels.PaymentViewModels;
 
 namespace Api.Controllers
 {
