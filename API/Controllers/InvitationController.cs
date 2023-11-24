@@ -40,5 +40,16 @@ namespace Api.Controllers
             else
                 return Ok(Invitation.ToInvitationViewModel());
         }
+
+        [HttpGet("GetByUserId")]
+        public IActionResult GetByUserId()
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            Invitation? Invitation = InvitationManager.Get().Where(i => i.UserId == UserId).FirstOrDefault()!;
+            if (Invitation is null)
+                return Ok(0);
+            else
+                return Ok(Invitation.Id);
+        }
     }
 }
