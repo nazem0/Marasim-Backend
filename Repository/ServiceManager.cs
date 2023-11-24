@@ -40,7 +40,7 @@ namespace Repository
         {
 
             var Data = Get().Where(s => s.Vendor.UserId == UserId);
-            return Data.Select(s => s.ToServiceViewModel(UserId));
+            return Data.Select(s => s.ToServiceViewModel());
         }
 
         public EntityEntry<Service> Update(Service Entity)
