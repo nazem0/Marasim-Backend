@@ -30,7 +30,8 @@ namespace API
                 //context
                 //    .UseLazyLoadingProxies()
                 //    .UseSqlServer
-                //    (Builder.Configuration.GetConnectionString("MySamer"));
+                //    (Builder.Configuration.GetConnectionString("MySamer"),
+                //    c => c.EnableRetryOnFailure());
             });
 
             Builder.Services.AddIdentity<User, IdentityRole>(Options =>
@@ -90,6 +91,7 @@ namespace API
             Builder.Services.AddScoped<InvitationManager>();
             Builder.Services.AddScoped<ReservationManager>();
             Builder.Services.AddScoped<PaymentManager>();
+            Builder.Services.AddScoped<WithdrawalManager>();
             Builder.Services.AddScoped<ServiceAttachmentManager>();
             Builder.Services.AddScoped<ServiceManager>();
             Builder.Services.AddScoped<ReviewManager>();
@@ -118,7 +120,7 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "JWTToken_Auth_API",
+                    Title = "Marasim API",
                     Version = "v1"
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()

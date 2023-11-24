@@ -19,9 +19,9 @@ namespace Models
         public virtual ICollection<Follow> Followers { set; get; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Service> Services { get; set; }
+        public virtual ICollection<Withdrawal> Withdrawals { get; set; }
         public virtual User User { get; set; }
         public virtual City City { get; set; }
         public virtual Governorate Governorate { get; set; }
-
     }
 }
