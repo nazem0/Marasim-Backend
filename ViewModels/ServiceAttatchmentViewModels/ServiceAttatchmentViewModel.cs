@@ -1,8 +1,8 @@
 ﻿using Models;
 
-namespace ViewModels.ServiceAttatchmentViewModels
+namespace ViewModels.ServiceAttachmentViewModels
 {
-    public class ServiceAttatchmentViewModel : BaseModel
+    public class ServiceAttachmentViewModel : BaseModel
     {
         public required int ServiceId { get; set; }
         public required string AttachmentUrl { get; set; }
