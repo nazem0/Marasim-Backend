@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using System.Linq.Expressions;
+using ViewModels.CategoryViewModels;
 using ViewModels.GenerationViewModels;
 using ViewModels.PaginationViewModels;
 using ViewModels.VendorViewModels;
@@ -11,9 +12,11 @@ namespace Repository
     public class VendorManager : MainManager<Vendor>
     {
         private readonly EntitiesContext EntitiesContext;
-        public VendorManager(EntitiesContext _dBContext) : base(_dBContext)
+        private readonly CategoryManager CategoryManager;
+        public VendorManager(EntitiesContext _dBContext, CategoryManager _categoryManager) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
+            CategoryManager = _categoryManager;
         }
         public EntityEntry<Vendor> Add(Vendor Vendor)
         {
@@ -97,24 +100,33 @@ namespace Repository
             return Data.Take(NumOfVen).Select(v => v.ToVendorMidInfoViewModel());
         }
 
-        public async Task<VendorMidInfoViewModel?> GenerateVendorAsync(GenerateVendorViewModel Data)
+        public async Task<GeneratedVendorViewModel?> GenerateVendor(GenerateVendorViewModel Data)
         {
-            IQueryable<Vendor> Vendors = EntitiesContext.Vendors.Where(v => v.CategoryId == Data.CategoryId);
-            Vendors = Vendors.Where(v => v.GovernorateId == Data.GovernorateId &&
-                             (v.Services.Any() ? v.Services.Average(s => s.Price) : 0) <= Data.Price);
+            IQueryable<Vendor> Vendors =
+                EntitiesContext
+                .Vendors
+                .Where
+                (v => v.CategoryId == Data.CategoryId &&
+                v.GovernorateId == Data.GovernorateId &&
+                v.Services.Any() &&
+                v.Services.Average(s => s.Price ) <= Data.Price);
             if (Data.CityId is not null)
                 Vendors = Vendors.Where(v => v.CityId == Data.CityId);
-            var filteredVendors = await Vendors.ToListAsync(); // Materialize the query to avoid subqueries in the average calculations
-            if (Data.Rate is not null)
-                filteredVendors = filteredVendors
-                    .Where(v => v.Services.Average(s => s.Reviews.Any() ? s.Reviews.Average(r => r.Rate) : 0) >= Data.Rate)
-                    .ToList();
-
-
-            return filteredVendors
-                .OrderBy(v => CalculateAverageRatingOrPrice(v))
-                .Select(v => v.ToVendorMidInfoViewModel())
+            var VendorsList = await Vendors.ToListAsync();
+            var Vendor = VendorsList
+                .OrderByDescending(v => CalculateAverageRatingOrPrice(v))
+                .Select(v => v.ToGeneratedVendorViewModel())
                 .FirstOrDefault();
+
+            if (Vendor is null)
+            {
+                return new GeneratedVendorViewModel
+                {
+                    Category = CategoryManager.Get(Data.CategoryId)?.ToCategoryNameViewModel().Name,
+                };
+            }
+            else
+                return Vendor;
         }
 
         private double CalculateAverageRatingOrPrice(Vendor vendor)
@@ -138,12 +150,12 @@ namespace Repository
         }
 
 
-        public async Task<IEnumerable<VendorMidInfoViewModel?>> GeneratePackage(GeneratePackageViewModel Data)
+        public async Task<IEnumerable<GeneratedVendorViewModel?>> GeneratePackageAsync(GeneratePackageViewModel Data)
         {
-            List<VendorMidInfoViewModel?> Package = new();
+            List<GeneratedVendorViewModel?> Package = new();
             foreach (CategoryPrice CategoryPrice in Data.CategoryPrice)
             {
-                VendorMidInfoViewModel? Vendor = await GenerateVendorAsync(new GenerateVendorViewModel
+                GeneratedVendorViewModel? Vendor = await GenerateVendor(new GenerateVendorViewModel
                 {
                     CategoryId = CategoryPrice.CategoryId,
                     CityId = Data.CityId,
