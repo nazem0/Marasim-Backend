@@ -96,13 +96,13 @@ namespace Marasim_Backend.Controllers
         [HttpPost("GenerateVendor"), Authorize]
         public IActionResult GenerateVendor(GenerateVendorViewModel Data)
         {
-            return Ok(VendorManager.GenerateVendorAsync(Data));
+            return Ok(VendorManager.GenerateVendor(Data));
         }
 
         [HttpPost("GeneratePackage")]
-        public async Task<IActionResult> GeneratePackage(GeneratePackageViewModel Data)
+        public async Task<IActionResult> GeneratePackageAsync(GeneratePackageViewModel Data)
         {
-            return Ok(await VendorManager.GeneratePackage(Data));
+            return Ok(await VendorManager.GeneratePackageAsync(Data));
         }
 
         [HttpGet("Filter/{PageIndex}")]

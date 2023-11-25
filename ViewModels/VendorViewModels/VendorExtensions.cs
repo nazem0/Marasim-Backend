@@ -104,6 +104,23 @@ namespace ViewModels.VendorViewModels
             };
         }
 
+        public static GeneratedVendorViewModel ToGeneratedVendorViewModel(this Vendor Data)
+        {
+            return new GeneratedVendorViewModel
+            {
+                Id = Data.Id,
+                Category = Data.Category.ToCategoryNameViewModel().Name,
+                City = Data.City.NameAr,
+                District = Data.District,
+                Governorate = Data.Governorate.NameAr,
+                Name = Data.User.Name,
+                PicUrl = Data.User.PicUrl,
+                Services = Data.Services.Select(s => s.ToServicePartialViewModel()),
+                Street = Data.Street,
+                Summary = Data.Summary,
+                UserId = Data.UserId
+            };
+        }
         public static List<Expression<Func<Vendor, bool>>>? ToFiltersList(this VendorFilterDTO Filter)
         {
             List<Expression<Func<Vendor, bool>>> Filters = new();

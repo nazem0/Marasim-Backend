@@ -1,7 +1,7 @@
 ﻿using Models;
 using ViewModels.PromoCodeViewModels;
 using ViewModels.ReservationViewModels;
-using ViewModels.ServiceAttatchmentViewModels;
+using ViewModels.ServiceAttachmentViewModels;
 
 namespace ViewModels.ServiceViewModels
 {
@@ -17,11 +17,11 @@ namespace ViewModels.ServiceViewModels
                 VendorId = VendorId
             };
         }
-        public static ServiceViewModel ToServiceViewModel(this Service Data, string VendorUserId)
+        public static ServiceViewModel ToServiceViewModel(this Service Data)
         {
             return new ServiceViewModel
             {
-                UserId = VendorUserId,
+                UserId = Data.Vendor.UserId,
                 ServiceAttachments = Data.ServiceAttachments.Select(sa => sa.ToViewModel()),
                 Description = Data.Description,
                 PromoCode = Data.PromoCode?.ToPromoCodeViewModel(),
@@ -43,12 +43,12 @@ namespace ViewModels.ServiceViewModels
                 ServiceAttachments = Data.ServiceAttachments.Select(sa => sa.ToViewModel()),
                 Description = Data.Description,
                 Title = Data.Title,
-                //IsDeleted = Data.IsDeleted,
+                ReservationsCount = Data.Reservations.Count,
+                ReviewsCount = Data.Reviews.Count,
+                UserId = Data.Vendor.UserId,
                 Price = Data.Price,
                 VendorId = Data.VendorId,
                 Id = Data.Id,
-                //ReviewsCount = Data.Reviews.Count,
-                //ReservationsCount = Data.Reservations.Count,
             };
         }
 

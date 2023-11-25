@@ -34,10 +34,10 @@ namespace Marasim_Backend.Controllers
         //{
         //    return Ok(ServiceManager.GetActive());
         //}
-        [HttpGet("GetById")]
+        [HttpGet("GetById/{Id}")]
         public IActionResult GetById(int Id)
         {
-            var x = ServiceManager.Get(Id)?.ToServiceMinInfoViewModel();
+            var x = ServiceManager.Get(Id)?.ToServiceViewModel();
             return Ok(x);
         }
 

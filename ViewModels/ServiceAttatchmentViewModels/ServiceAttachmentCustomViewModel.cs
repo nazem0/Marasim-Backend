@@ -1,4 +1,4 @@
-﻿namespace ViewModels.ServiceAttatchmentViewModels
+﻿namespace ViewModels.ServiceAttachmentViewModels
 {
     public class ServiceAttachmentCustomViewModel
     {

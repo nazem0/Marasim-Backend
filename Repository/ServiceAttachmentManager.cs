@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
-using ViewModels.ServiceAttatchmentViewModels;
+using ViewModels.ServiceAttachmentViewModels;
 
 namespace Repository
 {
@@ -22,7 +22,7 @@ namespace Repository
                 .Select(sa => sa.ToCustomViewModel());
         }
 
-        public IQueryable<ServiceAttatchmentViewModel> GetAllActive()
+        public IQueryable<ServiceAttachmentViewModel> GetAllActive()
         {
             return Get().Where(sa => sa.Service.IsDeleted == false)
                 .Select(sa => sa.ToViewModel());
