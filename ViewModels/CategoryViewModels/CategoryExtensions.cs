@@ -17,5 +17,22 @@ namespace ViewModels.CategoryViewModels
         {
             return new CategoryNameViewModel { Id = Data.Id, Name = Data.Name };
         }
+        public static CategoriesWithMinMaxViewModel ToCategoriesWithMinMaxViewModel(this Category Data)
+        {
+            float Min = 0;
+            float Max = 0;
+            if (Data.Vendors.Where(v => v.Services.Count > 0).Any())
+            {
+                Min = Data.Vendors.SelectMany(v => v.Services).Min(s => s.Price);
+                Max = Data.Vendors.SelectMany(v => v.Services).Max(s => s.Price);
+            }
+            return new CategoriesWithMinMaxViewModel
+            {
+                Id = Data.Id,
+                Name = Data.Name,
+                Min = Min,
+                Max = Max
+            };
+        }
     }
 }

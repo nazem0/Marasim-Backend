@@ -32,6 +32,12 @@ namespace Marasim_Backend.Controllers
             return Ok(Categories);
         }
 
+        [HttpGet("GetCategoriesWithMinMax")]
+        public IActionResult GetCategoriesWithMinMax()
+        {
+            return Ok(CategoryManager.GetCategoriesWithMinMax());
+        }
+
         [HttpGet("Count")]
         public IActionResult Count()
         {

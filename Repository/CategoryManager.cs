@@ -33,7 +33,11 @@ namespace Repository
         }
         public IEnumerable<CategoryNameViewModel> GetNames()
         {
-            return EntitiesContext.Categories.Select(c => c.ToCategoryNameViewModel());
+            return base.Get().Select(c => c.ToCategoryNameViewModel());
+        }
+        public IEnumerable<CategoriesWithMinMaxViewModel> GetCategoriesWithMinMax()
+        {
+            return base.Get().Select(c => c.ToCategoriesWithMinMaxViewModel());
         }
     }
 }
