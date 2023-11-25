@@ -29,9 +29,8 @@ namespace Repository
 
         public Category GetByVendorId(int VendorId)
         {
-            return EntitiesContext.Categories.Where(c => c.Vendors.Any(v => v.Id == VendorId)).FirstOrDefault()!;
+            return base.Get().Where(c => c.Vendors.Any(v => v.Id == VendorId)).FirstOrDefault()!;
         }
-
         public IEnumerable<CategoryNameViewModel> GetNames()
         {
             return EntitiesContext.Categories.Select(c => c.ToCategoryNameViewModel());
