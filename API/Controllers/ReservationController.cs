@@ -191,7 +191,7 @@ namespace Api.Controllers
         }
 
         // Vendor Reservations
-        [HttpGet("GetVendorReservationsByStatus/{PageIndex}"), Authorize(Roles = "vendor")]
+        [HttpGet("GetVendorReservationsByStatus"), Authorize(Roles = "vendor")]
         public IActionResult GetVendorReservationsByStatus(char Status, int PageSize = 5, int PageIndex = 1)
         {
             int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
