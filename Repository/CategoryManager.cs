@@ -6,35 +6,35 @@ namespace Repository
 {
     public class CategoryManager : MainManager<Category>
     {
-        private readonly EntitiesContext EntitesContext;
+        private readonly EntitiesContext EntitiesContext;
         public CategoryManager(EntitiesContext _dBContext) : base(_dBContext)
         {
-            EntitesContext = _dBContext;
+            EntitiesContext = _dBContext;
         }
         public EntityEntry<Category>? Add(AddCategoryViewModel Data)
         {
-            if (EntitesContext.Set<Category>().Where(c => c.Name == Data.Name).Any())
+            if (EntitiesContext.Set<Category>().Where(c => c.Name == Data.Name).Any())
             {
                 return null;
             }
             else
-                return EntitesContext.Add(Data.ToCategory());
+                return EntitiesContext.Add(Data.ToCategory());
         }
         public new IQueryable<CategoryViewModel> Get()
         {
             return
-                EntitesContext.Categories
+                EntitiesContext.Categories
                 .Select(C => C.ToCategoryViewModel());
         }
 
         public Category GetByVendorId(int VendorId)
         {
-            return EntitesContext.Categories.Where(c => c.Vendors.Any(v => v.Id == VendorId)).FirstOrDefault()!;
+            return EntitiesContext.Categories.Where(c => c.Vendors.Any(v => v.Id == VendorId)).FirstOrDefault()!;
         }
 
         public IEnumerable<CategoryNameViewModel> GetNames()
         {
-            return EntitesContext.Categories.Select(c => c.ToCategoryNameViewModel());
+            return EntitiesContext.Categories.Select(c => c.ToCategoryNameViewModel());
         }
     }
 }
