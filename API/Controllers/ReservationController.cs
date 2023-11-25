@@ -173,7 +173,7 @@ namespace Api.Controllers
             var Data = ReservationManager.GetUserReservations(UserId, PageSize, PageIndex);
             return Ok(Data);
         }
-        [HttpGet("GetUserReservationsByStatus/{PageIndex}"), Authorize()]
+        [HttpGet("GetUserReservationsByStatus"), Authorize()]
         public IActionResult GetUserReservationsByStatus(char Status, int PageSize = 5, int PageIndex = 1)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
