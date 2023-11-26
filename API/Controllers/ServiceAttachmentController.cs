@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Repository;
+using System.Security.Claims;
+using ViewModels.ServiceAttachmentViewModels;
 
 namespace Marasim_Backend.Controllers
 {
@@ -8,9 +11,11 @@ namespace Marasim_Backend.Controllers
     public class ServiceAttachmentController : ControllerBase
     {
         private readonly ServiceAttachmentManager ServiceAttachmentManager;
-        public ServiceAttachmentController(ServiceAttachmentManager _ServiceAttachmentManager)
+        private readonly VendorManager VendorManager;
+        public ServiceAttachmentController(ServiceAttachmentManager _ServiceAttachmentManager, VendorManager _vendorManager)
         {
             ServiceAttachmentManager = _ServiceAttachmentManager;
+            VendorManager = _vendorManager;
         }
 
         [HttpGet("GetAllActive")]
@@ -23,8 +28,7 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetByServiceId/{ServiceId}")]
         public IActionResult GetByServiceId(int ServiceId)
         {
-            var Data = ServiceAttachmentManager.Get().Where(sa => sa.ServiceId == ServiceId);
-            return new JsonResult(Data);
+            return Ok(ServiceAttachmentManager.GetByServiceId(ServiceId));
         }
 
         [HttpGet("GetByVendorId/{VendorId}")]
@@ -39,6 +43,25 @@ namespace Marasim_Backend.Controllers
         {
             var Data = ServiceAttachmentManager.GetCustomAttachment();
             return new JsonResult(Data);
+        }
+        [HttpPost("Add"), Authorize(Roles = "vendor")]
+        public IActionResult Add([FromForm] AddServiceAttachmentDTO Data)
+        {
+            int VendorId = (int)VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!)!;
+            if (ServiceAttachmentManager.Add(Data,VendorId) is false)
+                return BadRequest();
+            else
+                return Ok();
+        }
+        [HttpDelete("Delete/{Id}"), Authorize(Roles = "vendor")]
+        public IActionResult Delete(int Id)
+        {
+            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            if (_vendorId is null) return Unauthorized();
+            int VendorId = (int)_vendorId;
+            bool result = ServiceAttachmentManager.Delete(Id, VendorId);
+            if(result is false) return BadRequest();
+            return Ok();
         }
     }
 }
