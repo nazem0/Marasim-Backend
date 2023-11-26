@@ -71,7 +71,6 @@ namespace Marasim_Backend.Controllers
             int LoggedInVendorId = (int)_loggedInVendorId!;
             Service? CreatedService =
                 ServiceManager.Add(Data.ToModel(LoggedInVendorId)).Entity;
-            ServiceManager.Save();
             foreach (IFormFile item in Data.Pictures)
             {
                 FileInfo fi = new(item.FileName);
@@ -79,7 +78,7 @@ namespace Marasim_Backend.Controllers
                 Helper.UploadMediaAsync
                     (User.FindFirstValue(ClaimTypes.NameIdentifier)!
                     , "ServiceAttachment", FileName, item, $"{CreatedService.Id}-{CreatedService.VendorId}");
-                ServiceAttachmentManager.Add(
+                CreatedService.ServiceAttachments.Add(
                     new ServiceAttachment
                     {
                         AttachmentUrl = FileName,
