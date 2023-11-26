@@ -2,7 +2,7 @@
 
 namespace ViewModels.ServiceAttachmentViewModels
 {
-    public static class ServiceAttatchmentExtensions
+    public static class ServiceAttachmentExtensions
     {
         //public static ICollection<ServiceAttatchmentViewModel> ToServiceAttatchmentViewModel(this ICollection<ServiceAttachment> Model)
         //{
@@ -23,6 +23,7 @@ namespace ViewModels.ServiceAttachmentViewModels
         {
             return new ServiceAttachmentCustomViewModel
             {
+                Id = ServiceAttachment.Id,
                 ServiceId = ServiceAttachment.ServiceId,
                 AttachmentUrl = ServiceAttachment.AttachmentUrl,
                 UserId = ServiceAttachment.Service.Vendor.UserId,
