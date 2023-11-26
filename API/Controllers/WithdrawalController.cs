@@ -30,7 +30,7 @@ namespace Api.Controllers
             VendorManager = _VendorManager;
         }
 
-        [HttpGet("Get")]
+        [HttpGet("Get/{PageIndex}")]
         public IActionResult Get(int PageSize = 2, int PageIndex = 1)
         {
             return Ok(WithdrawalManager.GetWithdrawals(PageSize, PageIndex));
