@@ -23,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PostViewModels\" />
-    <Folder Include="PostAttachmentsViewModel\" />
     <Folder Include="ReactViewModels\" />
     <Folder Include="WithdrawalViewModels\" />
   </ItemGroup>

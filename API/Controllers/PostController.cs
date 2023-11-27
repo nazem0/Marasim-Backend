@@ -4,6 +4,7 @@ using Models;
 using Repository;
 using System.Security.Claims;
 using System.Text;
+using ViewModels.PostAttachmentsViewModel;
 using ViewModels.PostViewModels;
 
 namespace API.Controllers
@@ -140,6 +141,40 @@ namespace API.Controllers
                 return Ok();
             }
 
+        }
+
+
+        //Attachment Actions
+        [HttpGet("GetAttachments/{PostId}")]
+        public IActionResult GetAttachments(int PostId)
+        {
+            IEnumerable<PostAttachmentViewModel>? PostAttachments = PostManager.GetAttachments(PostId);
+            if (PostAttachments is null) return NotFound();
+            return Ok(PostAttachments);
+        }
+
+        [HttpPost("AddAttachments")]
+        public IActionResult AddAttachments([FromForm]AddPostAttachmentsDTO Data)
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            int AdditionResult = PostManager.AddAttachments(Data, UserId);
+            if (AdditionResult == 401)
+                return Unauthorized();
+            if (AdditionResult == 404)
+                return NotFound();
+            else return Ok();
+        }
+
+        [HttpDelete("DeleteAttachment")]
+        public IActionResult DeleteAttachment(int AttachmentId)
+        {
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            int AdditionResult = PostManager.DeleteAttachment(AttachmentId,UserId);
+            if (AdditionResult == 401)
+                return Unauthorized();
+            if (AdditionResult == 404)
+                return NotFound();
+            else return Ok();
         }
     }
 }
