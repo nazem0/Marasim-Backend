@@ -30,7 +30,7 @@ namespace Api.Controllers
             VendorManager = _VendorManager;
         }
 
-        [HttpGet("Get/{PageIndex}")]
+        [HttpGet("Get/{PageIndex}"), Authorize(Roles = "admin")]
         public IActionResult Get(int PageSize = 2, int PageIndex = 1)
         {
             return Ok(WithdrawalManager.GetWithdrawals(PageSize, PageIndex));
@@ -59,6 +59,33 @@ namespace Api.Controllers
             {
                 bool added = await WithdrawalManager.AddAsync(Data, VendorId);
                 if (!added)
+                    return BadRequest();
+                else
+                {
+                    return Ok();
+                }
+            }
+        }
+
+        [HttpGet("Confirm/{WithdrawalId}"), Authorize(Roles = "admin")]
+        public IActionResult Confirm(int WithdrawalId)
+        {
+            if (!ModelState.IsValid)
+            {
+                List<ModelError> Errors = new();
+                foreach (var item in ModelState.Values)
+                {
+                    foreach (ModelError item1 in item.Errors)
+                    {
+                        Errors.Add(item1);
+                    }
+                }
+                return BadRequest(Errors);
+            }
+            else
+            {
+                bool updated = WithdrawalManager.ConfirmWithdrawal(WithdrawalId);
+                if (!updated)
                     return BadRequest();
                 else
                 {

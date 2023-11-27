@@ -45,5 +45,17 @@ namespace Repository
                 return true;
             }
         }
+        public bool ConfirmWithdrawal(int WithdrawalId)
+        {
+            Withdrawal withdrawal = Get(WithdrawalId)!;
+            withdrawal.IsConfirmed = true;
+            EntityEntry<Withdrawal> x = EntitiesContext.Update(withdrawal);
+            if (x.State != EntityState.Modified) return false;
+            else
+            {
+                Save();
+                return true;
+            }
+        }
     }
 }
