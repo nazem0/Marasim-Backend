@@ -13,7 +13,6 @@ namespace Marasim_Backend.Controllers
     public class ServiceController : ControllerBase
     {
         private readonly ServiceManager ServiceManager;
-        private readonly ServiceAttachmentManager ServiceAttachmentManager;
         private readonly VendorManager VendorManager;
         public ServiceController
             (ServiceManager _serviceManager,
@@ -22,7 +21,6 @@ namespace Marasim_Backend.Controllers
         {
             ServiceManager = _serviceManager;
             VendorManager = _vendorManager;
-            ServiceAttachmentManager = _ServiceAttachmentManager;
         }
         //[HttpGet("GetAll")]
         //public IActionResult GetAll()
@@ -86,7 +84,7 @@ namespace Marasim_Backend.Controllers
                     }
                     );
             }
-            ServiceAttachmentManager.Save();
+            ServiceManager.Save();
             return Ok();
         }
 
