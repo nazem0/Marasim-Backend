@@ -70,9 +70,12 @@ namespace Repository
 
         public bool Delete(int Id, int VendorId)
         {
+            
             ServiceAttachment? SA = Get(Id);
             if (SA is null) return false;
             if (SA.Service.VendorId != VendorId)
+                return false;
+            if(!(ServiceManager.Get(SA.ServiceId)?.ServiceAttachments.Count > 1))
                 return false;
             Delete(SA);
             Save();
