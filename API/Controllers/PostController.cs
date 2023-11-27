@@ -32,11 +32,13 @@ namespace API.Controllers
             return Ok(Data);
         }
 
-        [HttpGet("GetPostById/{PostId}")]
-        public IActionResult GetPostById(int PostId)
+        [HttpGet("GetById/{PostId}")]
+        public IActionResult GetById(int PostId)
         {
-            var Data = PostManager.Get(PostId);
-            return new JsonResult(Data);
+            PostViewModel? Post = PostManager.GetById(PostId);
+            if (Post is null)
+                return NotFound();
+            return Ok(Post);
         }
 
         [HttpGet("GetByVendorId/{VendorId}")]

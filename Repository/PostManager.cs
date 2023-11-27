@@ -15,6 +15,11 @@ namespace Repository
         {
             EntitiesContext = _dBContext;
         }
+
+        public PostViewModel? GetById(int Id)
+        {
+            return Get(Id)?.ToViewModel();
+        }
         public EntityEntry<Post> Add(Post Entity)
         {
             return EntitiesContext.Add(Entity);
