@@ -3,11 +3,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Models;
 using Repository;
-using ViewModels.PaymentViewModels;
 using ViewModels.WithdrawalViewModels;
 
 namespace Api.Controllers
