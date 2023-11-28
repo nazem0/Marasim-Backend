@@ -2,6 +2,7 @@
 {
     public class InvitationViewModel
     {
+        public required int Id { get; set; }
         public required string UserId { get; set; }
         public required string GroomName { get; set; }
         public required string GroomPicUrl { get; set; }

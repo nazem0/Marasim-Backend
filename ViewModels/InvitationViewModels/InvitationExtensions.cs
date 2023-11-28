@@ -22,6 +22,7 @@ namespace ViewModels.InvitationViewModel
         {
             return new InvitationViewModel
             {
+                Id = Data.Id,
                 UserId = Data.UserId,
                 BrideName = Data.BrideName,
                 BridePicUrl = Data.BridePicUrl,
