@@ -4,6 +4,7 @@ using Models;
 using Repository;
 using System.Security.Claims;
 using ViewModels.InvitationViewModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Api.Controllers
 {
@@ -16,7 +17,8 @@ namespace Api.Controllers
         {
             InvitationManager = _invitationManager;
         }
-        [HttpPost("Add"), Authorize()]
+
+        [HttpPost("Add"), Authorize(Roles = "user")]
         public IActionResult Add([FromForm] AddInvitationViewModel Data)
         {
             if (!ModelState.IsValid)
@@ -31,6 +33,23 @@ namespace Api.Controllers
                     return Ok();
             }
         }
+
+        [HttpGet("Delete/{Id}"), Authorize(Roles = "user")]
+        public IActionResult Delete(int Id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            else
+            {
+                string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+                bool Result = InvitationManager.Delete(Id, UserId);
+                if (!Result)
+                    return BadRequest();
+                else
+                    return Ok();
+            }
+        }
+
         [HttpGet("Get/{Id}")]
         public IActionResult Get(int Id)
         {
@@ -45,11 +64,11 @@ namespace Api.Controllers
         public IActionResult GetByUserId()
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            Invitation? Invitation = InvitationManager.Get().Where(i => i.UserId == UserId).FirstOrDefault()!;
-            if (Invitation is null)
+            IQueryable<Invitation>? Invitations = InvitationManager.Get().Where(i => i.UserId == UserId)!;
+            if (Invitations is null)
                 return Ok(0);
             else
-                return Ok(Invitation.Id);
+                return Ok(Invitations.Select(i => i.ToInvitationViewModel()));
         }
     }
 }

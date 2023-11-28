@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
 using ViewModels.InvitationViewModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Repository
 {
@@ -11,6 +12,23 @@ namespace Repository
         public InvitationManager(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
+        }
+
+        public bool Delete(int InvitationId, string UserId)
+        {
+            Invitation invitation = Get(InvitationId)!;
+            if(invitation is not null && invitation.UserId == UserId)
+            {
+                EntityEntry<Invitation> Entry = EntitiesContext.Remove(invitation);
+                if (Entry.State != EntityState.Deleted)
+                    return false;
+                else
+                {
+                    EntitiesContext.SaveChanges();
+                    return true;
+                }
+            }
+            else throw new Exception("Invitation not found");
         }
 
         public bool Add(AddInvitationViewModel Data, string UserId)
