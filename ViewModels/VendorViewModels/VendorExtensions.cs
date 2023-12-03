@@ -100,7 +100,8 @@ namespace ViewModels.VendorViewModels
                 City = Data.City.NameAr,
                 Governorate = Data.Governorate.NameAr,
                 District = Data.District,
-                Street = Data.Street
+                Street = Data.Street,
+                RegistrationDate = Data.User.RegistrationDate
             };
         }
 
