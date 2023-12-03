@@ -15,6 +15,11 @@ namespace Repository
             EntitiesContext = _dBContext;
             ServiceManager = _serviceManager;
         }
+        public void Add(ServiceAttachment entity)
+        {
+            EntitiesContext.Add(entity);
+            Save();
+        }
         public bool Add(AddServiceAttachmentDTO Data,int VendorId)
         {
             Service? Service = ServiceManager.Get(Data.ServiceId);

@@ -14,6 +14,7 @@ namespace API.Controllers
     public class PostController : ControllerBase
     {
         private readonly PostManager PostManager;
+        private readonly PostAttachmentManager PostAttachmentManager;
         private readonly VendorManager VendorManager;
         public PostController
             (PostManager _PostManager,
@@ -22,6 +23,7 @@ namespace API.Controllers
         {
             PostManager = _PostManager;
             VendorManager = _VendorManager;
+            PostAttachmentManager = _PostAttachmentManager;
         }
 
         [HttpGet("Get")]
@@ -67,6 +69,7 @@ namespace API.Controllers
                     return Unauthorized();
                 int VendorId = (int)_vendorId;
                 Post? NewPost = PostManager.Add(Data.ToModel(VendorId)).Entity;
+                PostManager.Save();
                 foreach (IFormFile item in Data.Pictures)
                 {
                     FileInfo fi = new(item.FileName);
@@ -74,7 +77,7 @@ namespace API.Controllers
                     Helper.UploadMediaAsync
                         (User.FindFirstValue(ClaimTypes.NameIdentifier)!
                         , "PostAttachment", FileName, item, $"{NewPost.Id}-{NewPost.VendorId}");
-                    NewPost.PostAttachments.Add(
+                    PostAttachmentManager.Add(
                         new PostAttachment
                         {
                             AttachmentUrl = FileName,

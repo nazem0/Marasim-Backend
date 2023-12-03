@@ -14,13 +14,15 @@ namespace Marasim_Backend.Controllers
     {
         private readonly ServiceManager ServiceManager;
         private readonly VendorManager VendorManager;
+        private readonly ServiceAttachmentManager ServiceAttachmentManager;
         public ServiceController
             (ServiceManager _serviceManager,
-            ServiceAttachmentManager _ServiceAttachmentManager,
+            ServiceAttachmentManager _serviceAttachmentManager,
             VendorManager _vendorManager)
         {
             ServiceManager = _serviceManager;
             VendorManager = _vendorManager;
+            ServiceAttachmentManager = _serviceAttachmentManager;
         }
         //[HttpGet("GetAll")]
         //public IActionResult GetAll()
@@ -69,6 +71,7 @@ namespace Marasim_Backend.Controllers
             int LoggedInVendorId = (int)_loggedInVendorId!;
             Service? CreatedService =
                 ServiceManager.Add(Data.ToModel(LoggedInVendorId)).Entity;
+            ServiceManager.Save();
             foreach (IFormFile item in Data.Pictures)
             {
                 FileInfo fi = new(item.FileName);
@@ -76,7 +79,7 @@ namespace Marasim_Backend.Controllers
                 Helper.UploadMediaAsync
                     (User.FindFirstValue(ClaimTypes.NameIdentifier)!
                     , "ServiceAttachment", FileName, item, $"{CreatedService.Id}-{CreatedService.VendorId}");
-                CreatedService.ServiceAttachments.Add(
+                ServiceAttachmentManager.Add(
                     new ServiceAttachment
                     {
                         AttachmentUrl = FileName,

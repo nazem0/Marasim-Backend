@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Projects\Marasim - Final Project\Back-End\Api\bin\Release\net7.0\publish\</_PublishTargetUrl>
+    <History>True|2023-12-01T20:37:43.3623569Z;True|2023-12-01T15:38:44.0296168+02:00;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="MyDB">
+      <Value>Server=sql.bsite.net\MSSQL2016%3b Database=marasim_SampleDB%3b User Id=marasim_SampleDB%3b Password=m%40N0110023249%3b TrustServerCertificate=True%3b MultipleActiveResultSets=True%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>
