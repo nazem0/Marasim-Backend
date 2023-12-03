@@ -92,6 +92,16 @@ namespace Api.Controllers
             int VendorId = (int)_vendorId;
             return Ok(PaymentManager.GetVendorsPayment(VendorId, PageIndex, PageSize));
         }
+
+        //stats for TotalMonthlyProfits
+        [HttpGet("GetOurTotalProfits")]
+        public IActionResult GetOurTotalProfits()
+        {
+            var monthlyTotals = PaymentManager.GetMonthlyPaymentTotal();
+            return Ok(monthlyTotals);
+        }
+
+
         [HttpGet("GetVendorBalance"), Authorize(Roles = "vendor")]
         public IActionResult GetVendorBalance()
         {

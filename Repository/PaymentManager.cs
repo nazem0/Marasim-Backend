@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Models;
+using System.Globalization;
 using ViewModels.PaginationViewModels;
 using ViewModels.PaymentViewModels;
 
@@ -59,6 +60,24 @@ namespace Repository
             var Data = Get(PaymentId)!;
             Data.IsWithdrawn = true;
             EntitiesContext.Update(Data);
+        }
+
+        public IDictionary<string, double> GetMonthlyPaymentTotal()
+        {
+            var monthlyTotals = new Dictionary<string, double>();
+
+            for (int month = 1; month <= 12; month++)
+            {
+                var totalForMonth = EntitiesContext.Payments
+                    .Where(p => p.DateTime.Month == month)
+                    .Sum(p => p.Reservation.Price * 0.3) * 0.5;
+
+                string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
+
+                monthlyTotals.Add(monthName, totalForMonth);
+            }
+
+            return monthlyTotals;
         }
     }
 }
