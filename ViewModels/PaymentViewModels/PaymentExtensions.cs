@@ -11,7 +11,7 @@ namespace ViewModels.PaymentViewModels
             return new Payment
             {
                 InstaPay = Data.InstaPay,
-                Amount = Data.Amount,
+                Amount = (float)(Data.Amount * 0.3),
                 ReservationId = Data.ReservationId,
                 DateTime = DateTime.Now,
             };
