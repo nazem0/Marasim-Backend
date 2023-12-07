@@ -75,7 +75,7 @@ namespace ViewModels.ReservationViewModels
                 District = Data.District,
                 ServiceName = Data.Service.Title,
                 DateTime = Data.DateTime,
-                Price = Data.Price,
+                Price = (float)Math.Ceiling(Data.Price * 0.3),
                 Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
             };
         }

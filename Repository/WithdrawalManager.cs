@@ -31,17 +31,14 @@ namespace Repository
 
         public async Task<bool> AddAsync(AddWithdrawlViewModel Data, int VendorId)
         {
-            ICollection<Payment> Payments = await PaymentManager
-                .Get()
-                .Where(p => p.Reservation.Service.VendorId == VendorId && p.IsWithdrawn == false)
-                .ToListAsync();
+            ICollection<Payment> Payments = await PaymentManager.Get().Where(p => p.Reservation.Service.VendorId == VendorId && p.IsWithdrawn == false).ToListAsync();
             EntityEntry<Withdrawal> x = EntitiesContext.Add(Data.ToWithdrawal(VendorId, Payments));
             if (x.State != EntityState.Added) return false;
             else
             {
                 foreach (var Payment in Payments)
                 {
-                    PaymentManager.IsWithdrawan(Payment.Id);
+                    PaymentManager.IsWithdrawn(Payment.Id);
                 }
                 Save();
                 return true;
