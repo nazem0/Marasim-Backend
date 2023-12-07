@@ -26,7 +26,7 @@ namespace ViewModels.WithdrawalViewModels
                 InstaPay = Data.InstaPay,
                 DateTime = Data.DateTime,
                 IsConfirmed = Data.IsConfirmed,
-                TotalWithdrawal = Data.Payments.Sum(p => p.Reservation.Price),
+                TotalWithdrawal = (float)Data.Payments.Sum(p => p.Amount),
                 Payments = Data.Payments.Select(p => p.ToPaymentViewModel()),
                 Vendor = Data.Vendor.ToVendorMinInfoViewModel()
             };

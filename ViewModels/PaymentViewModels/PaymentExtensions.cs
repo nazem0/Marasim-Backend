@@ -11,6 +11,7 @@ namespace ViewModels.PaymentViewModels
             return new Payment
             {
                 InstaPay = Data.InstaPay,
+                Amount = Data.Amount,
                 ReservationId = Data.ReservationId,
                 DateTime = DateTime.Now,
             };
@@ -21,6 +22,7 @@ namespace ViewModels.PaymentViewModels
             return new PaymentViewModel
             {
                 InstaPay = Data.InstaPay,
+                Amount = Data.Amount,
                 DateTime = Data.DateTime,
                 Reservation = Data.Reservation.ToAdminReservationViewModel()
             };
@@ -30,7 +32,7 @@ namespace ViewModels.PaymentViewModels
             return new VendorPaymentViewModel
             {
                 DateTime = Data.DateTime,
-                Price = (double)Data.Reservation.Price * 0.3,
+                Amount = Data.Amount,
                 ServiceTitle = Data.Reservation.Service.Title,
                 User = Data.Reservation.User.ToUserMinInfoViewModel(),
             };

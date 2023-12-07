@@ -25,6 +25,10 @@ namespace Models
                .IsRequired();
 
             builder
+                .Property(p => p.Amount)
+                .IsRequired();
+
+            builder
                 .Property(p => p.InstaPay)
                 .HasMaxLength(1000)
                 .IsRequired();

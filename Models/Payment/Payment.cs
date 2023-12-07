@@ -5,6 +5,7 @@ namespace Models
     public class Payment : BaseModel
     {
         public string InstaPay;
+        public float Amount;
         public DateTime DateTime;
         public int ReservationId;
         public bool IsWithdrawn;
