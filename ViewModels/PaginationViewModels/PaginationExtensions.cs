@@ -2,7 +2,7 @@
 {
     public static class PaginationExtensions
     {
-        public static PaginationViewModel<T> ToPaginationViewModel<T>(this IQueryable<T> Data, PaginationDTO<T> PaginationDTO)
+        public static PaginationViewModel<T> ToPaginationViewModel<T>(this IEnumerable<T> Data, PaginationDTO<T> PaginationDTO)
         {
             int Count = Data.Count();
             int ToBeSkipped = (PaginationDTO.PageIndex - 1) * PaginationDTO.PageSize;
