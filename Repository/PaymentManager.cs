@@ -62,15 +62,15 @@ namespace Repository
             EntitiesContext.Update(Data);
         }
 
-        public IDictionary<string, double> GetMonthlyPaymentTotal()
+        public IDictionary<string, double> GetMonthlyPaymentTotal(int Year)
         {
             var monthlyTotals = new Dictionary<string, double>();
 
             for (int month = 1; month <= 12; month++)
             {
                 var totalForMonth = EntitiesContext.Payments
-                    .Where(p => p.DateTime.Month == month)
-                    .Sum(p => p.Reservation.Price * 0.3) * 0.5;
+                    .Where(p => p.DateTime.Month == month && p.DateTime.Year == Year)
+                    .Sum(p => p.Amount) / 3;
 
                 string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
 

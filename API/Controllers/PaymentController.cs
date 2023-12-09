@@ -94,10 +94,10 @@ namespace Api.Controllers
         }
 
         //stats for TotalMonthlyProfits
-        [HttpGet("GetOurTotalProfits")]
-        public IActionResult GetOurTotalProfits()
+        [HttpGet("GetOurTotalProfits/{Year?}"), Authorize(Roles = "admin")]
+        public IActionResult GetOurTotalProfits(int Year)
         {
-            var monthlyTotals = PaymentManager.GetMonthlyPaymentTotal();
+            IDictionary<string, double> monthlyTotals = PaymentManager.GetMonthlyPaymentTotal(Year);
             return Ok(monthlyTotals);
         }
 
