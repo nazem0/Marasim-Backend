@@ -122,33 +122,5 @@ namespace ViewModels.VendorViewModels
                 UserId = Data.UserId
             };
         }
-        public static List<Expression<Func<Vendor, bool>>>? ToFiltersList(this VendorFilterDTO Filter)
-        {
-            List<Expression<Func<Vendor, bool>>> Filters = new();
-            //Needs revision..
-            if (Filter.Categories is not null)
-                Filters.Add(v => Filter.Categories.Contains(v.CategoryId.ToString()));
-
-            if (Filter.CityId is not null)
-                Filters.Add(v => v.CityId == Filter.CityId);
-
-            if (Filter.GovernorateId is not null)
-                Filters.Add(v => v.GovernorateId == Filter.GovernorateId);
-
-            if (Filter.Name is not null)
-                Filters.Add(v => v.User.Name.Contains(Filter.Name));
-
-            if (Filter.District is not null)
-                Filters.Add(v => v.District.Contains(Filter.District));
-
-            if (Filter.Rate is not null)
-                Filters.Add(v => v.Services.Average(s => s.Reservations.Average(r => r.Review.Rate)) >= Filter.Rate);
-
-
-            if (Filters.Count == 0)
-                return null;
-            else
-                return Filters;
-        }
     }
 }

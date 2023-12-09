@@ -109,7 +109,7 @@ namespace Repository
                 (v => v.CategoryId == Data.CategoryId &&
                 v.GovernorateId == Data.GovernorateId &&
                 v.Services.Any() &&
-                v.Services.Min(s => s.Price ) <= Data.Price);
+                v.Services.Min(s => s.Price) <= Data.Price);
             if (Data.CityId is not null)
                 Vendors = Vendors.Where(v => v.CityId == Data.CityId);
             var VendorsList = await Vendors.ToListAsync();
@@ -164,20 +164,33 @@ namespace Repository
             }
             return Package;
         }
-        public PaginationViewModel<VendorMidInfoViewModel> Filter(VendorFilterDTO Filters, int PageIndex, int PageSize = 5)
+        public async Task<PaginationViewModel<VendorMidInfoViewModel>> FilterAsync(VendorFilterDTO Filters, int PageIndex, int PageSize = 5)
         {
             PaginationDTO<VendorMidInfoViewModel> PaginationDTO = new()
             {
                 PageIndex = PageIndex,
                 PageSize = PageSize
             };
-            List<Expression<Func<Vendor, bool>>>? FilterList = Filters.ToFiltersList();
-            var Data = Get();
-            if (FilterList is not null)
-                foreach (var Filter in FilterList)
-                    Data = Data.Where(Filter);
-
+            var Data = await Get().Where(Filter(Filters)).ToListAsync();
             return Data.Select(v => v.ToVendorMidInfoViewModel()).ToPaginationViewModel(PaginationDTO);
+        }
+        private Expression<Func<Vendor, bool>> Filter(VendorFilterDTO Filter)
+        {
+            return v =>
+            (Filter.Name != null ? (Filter.Name.Contains(v.User.Name) || v.User.Name.Contains(Filter.Name)) : true)
+            &&
+            (Filter.Categories != null ? Filter.Categories.Contains(v.CategoryId.ToString()) : true)
+            &&
+            (Filter.CityId != null ? Filter.CityId == v.CityId : true)
+            &&
+            (Filter.GovernorateId != null ? Filter.GovernorateId == v.GovernorateId : true)
+            &&
+            (Filter.District != null ? (Filter.District.Contains(v.District) || v.District.Contains(Filter.District)) : true)
+            &&
+            ((Filter.Rate != null) ?
+                ((v.Services.Any() && v.Services.Any(s => s.Reviews.Any()) ? Math.Ceiling(v.Services.SelectMany(s => s.Reviews).Average(r => r.Rate)) >= Filter.Rate : false))
+            : true)
+            ;
         }
     }
 }
