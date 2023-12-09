@@ -4,10 +4,11 @@ namespace ViewModels.UserViewModels
 {
     public class ChangePasswordViewModel
     {
-        public required string Id { get; set; }
+        [Required]
         public required string OldPassword { get; set; }
+        [Required]
         public required string NewPassword { get; set; }
-        [Compare("NewPassword")]
+        [Required, Compare("NewPassword")]
         public required string ConfirmPassword { get; set; }
     }
 }

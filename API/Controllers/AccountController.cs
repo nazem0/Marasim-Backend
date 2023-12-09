@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Models;
 using Repository;
+using System.Security.Claims;
 using System.Text;
 using ViewModels.UserViewModels;
 using ViewModels.VendorViewModels;
@@ -129,6 +131,24 @@ namespace API.Controllers
         }
         [HttpGet("Logout")]
         public async Task Logout() => await AccountManager.Logout();
+        [HttpPut("ChangePassword"), Authorize]
+        public async Task<IActionResult> ChangePasswordAsync([FromForm] ChangePasswordViewModel data)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorList = ModelState.SelectMany(ms => ms.Value!.Errors.Select(e => new { Field = ms.Key, Error = e.ErrorMessage })).ToList();
+                return BadRequest(errorList);
+            }
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var result = await AccountManager.ChangePassword(userId, data);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors.Select(e => new
+                {
+                    Field = e.Code,
+                    Error = e.Description
+                }).ToList());
+            return Ok();
+        }
 
 
     }

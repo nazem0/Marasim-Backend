@@ -115,12 +115,12 @@ namespace Repository
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<IdentityResult> ChangePassword(ChangePasswordViewModel Data)
+        public async Task<IdentityResult> ChangePassword(string UserId, ChangePasswordViewModel Data)
         {
-            var user = await UserManager.FindByIdAsync(Data.Id);
-            if (user != null)
+            var User = await UserManager.FindByIdAsync(UserId);
+            if (User != null)
             {
-                return await UserManager.ChangePasswordAsync(user, Data.OldPassword, Data.NewPassword);
+                return await UserManager.ChangePasswordAsync(User, Data.OldPassword, Data.NewPassword);
             }
             return IdentityResult.Failed(new IdentityError()
             {
