@@ -12,6 +12,7 @@ namespace ViewModels.ServiceViewModels
         public required float Price { get; set; }
         public required int ReviewsCount { get; set; }
         public required int ReservationsCount { get; set; }
+        public required double AverageRate { get; set; }
         public required IEnumerable<ServiceAttachmentViewModel> ServiceAttachments { set; get; }
     }
 }

@@ -49,6 +49,7 @@ namespace ViewModels.ServiceViewModels
                 Price = Data.Price,
                 VendorId = Data.VendorId,
                 Id = Data.Id,
+                AverageRate = Data.Reservations.Any() ? Math.Ceiling(Data.Reservations.Average(r => r.ToRate())) : 0,
             };
         }
 

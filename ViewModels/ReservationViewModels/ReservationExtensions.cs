@@ -98,6 +98,9 @@ namespace ViewModels.ReservationViewModels
         }
         public static int ToRate(this Reservation Data)
         {
+            if (Data.Review == null)
+                return 0;
+
             return Data.Review.Rate;
         }
     }
