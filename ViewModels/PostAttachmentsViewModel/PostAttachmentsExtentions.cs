@@ -1,21 +1,10 @@
 ﻿using Models;
+using ViewModels.PostAttachmentsViewModel;
 
-namespace ViewModels.PostViewModels
+namespace ViewModels.PostAttachmentsViewModel
 {
     public static class PostAttachmentsExtentions
     {
-        //public static Post ToModel(this AddPostViewModel AddPost, int VendorID)
-        //{
-        //    return new Post
-        //    {
-        //        VendorID = VendorID,
-        //        Title = AddPost.Title,
-        //        ServiceID = AddPost.ServiceID,
-        //        Description = AddPost.Description,
-        //        DateTime = AddPost.DateTime
-        //    };
-        //}
-
         public static PostAttachmentViewModel ToViewModel(this PostAttachment PostAttachment)
         {
             return new PostAttachmentViewModel
@@ -23,6 +12,18 @@ namespace ViewModels.PostViewModels
                 Id = PostAttachment.Id,
                 PostId = PostAttachment.PostId,
                 AttachmentUrl = PostAttachment.AttachmentUrl
+            };
+        }
+
+        public static PostAttachmentCustomViewModel ToCustomModel(this PostAttachment PostAttachment)
+        {
+            return new PostAttachmentCustomViewModel
+            {
+                Id = PostAttachment.Id,
+                PostId = PostAttachment.PostId,
+                AttachmentUrl = PostAttachment.AttachmentUrl,
+                UserId = PostAttachment.Post.Vendor.UserId,
+                VendorId = PostAttachment.Post.VendorId
             };
         }
     }

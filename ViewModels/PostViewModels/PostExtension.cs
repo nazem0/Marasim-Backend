@@ -1,4 +1,5 @@
 ﻿using Models;
+using ViewModels.PostAttachmentsViewModel;
 
 namespace ViewModels.PostViewModels
 {

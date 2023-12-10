@@ -1,4 +1,6 @@
-﻿namespace ViewModels.PostViewModels
+﻿using ViewModels.PostAttachmentsViewModel;
+
+namespace ViewModels.PostViewModels
 {
     public class PostViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace ViewModels.PostViewModels
+namespace ViewModels.PostAttachmentsViewModel
 {
     public class PostAttachmentViewModel : BaseModel
     {
