@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\Projects\Marasim - Final Project\Back-End\Api\bin\Release\net7.0\publish\</_PublishTargetUrl>
-    <History>True|2023-12-10T12:44:04.2692676Z;True|2023-12-01T22:37:43.3623569+02:00;True|2023-12-01T15:38:44.0296168+02:00;</History>
+    <History>True|2023-12-10T23:26:29.9613094Z;True|2023-12-10T14:44:04.2692676+02:00;True|2023-12-01T22:37:43.3623569+02:00;True|2023-12-01T15:38:44.0296168+02:00;</History>
     <LastFailureDetails />
     <TimeStampOfAssociatedLegacyPublishXmlFile />
   </PropertyGroup>

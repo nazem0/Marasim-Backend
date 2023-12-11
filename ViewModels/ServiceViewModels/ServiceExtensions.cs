@@ -38,6 +38,16 @@ namespace ViewModels.ServiceViewModels
 
         public static ServicePartialViewModel ToServicePartialViewModel(this Service Data)
         {
+            double averageRate = 0;
+            ICollection<Review>? Reviews = Data.Reviews;
+            if (Reviews.Any())
+            {
+                averageRate = Math.Round(Reviews.Select(r => r.Rate).Average());
+            }
+            else
+            {
+                averageRate = 0;
+            }
             return new ServicePartialViewModel
             {
                 ServiceAttachments = Data.ServiceAttachments.Select(sa => sa.ToViewModel()),
@@ -49,7 +59,7 @@ namespace ViewModels.ServiceViewModels
                 Price = Data.Price,
                 VendorId = Data.VendorId,
                 Id = Data.Id,
-                AverageRate = Data.Reservations.Any() ? Math.Ceiling(Data.Reservations.Average(r => r.ToRate())) : 0,
+                AverageRate = averageRate,
             };
         }
 

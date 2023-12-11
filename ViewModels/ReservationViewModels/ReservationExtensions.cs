@@ -96,10 +96,10 @@ namespace ViewModels.ReservationViewModels
                 Vendor = Data.Service.Vendor.ToVendorMinInfoViewModel()
             };
         }
-        public static int ToRate(this Reservation Data)
+        public static int? ToRate(this Reservation Data)
         {
             if (Data.Review == null)
-                return 0;
+                return null;
 
             return Data.Review.Rate;
         }
