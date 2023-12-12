@@ -86,28 +86,27 @@ namespace API
 
             });
             // Add services to the container.
-            Builder.Services.AddScoped<UserManager>();
-            Builder.Services.AddScoped<CategoryManager>();
-            Builder.Services.AddScoped<InvitationManager>();
-            Builder.Services.AddScoped<ReservationManager>();
-            Builder.Services.AddScoped<PaymentManager>();
-            Builder.Services.AddScoped<WithdrawalManager>();
-            Builder.Services.AddScoped<ServiceAttachmentManager>();
-            Builder.Services.AddScoped<ServiceManager>();
-            Builder.Services.AddScoped<ReviewManager>();
-            Builder.Services.AddScoped<ReviewManager>();
-            Builder.Services.AddScoped<PostManager>();
-            Builder.Services.AddScoped<CommentManager>();
-            Builder.Services.AddScoped<ReactManager>();
-            Builder.Services.AddScoped<PostAttachmentManager>();
-            Builder.Services.AddScoped<CheckListManager>();
-            Builder.Services.AddScoped<FollowManager>();
-            Builder.Services.AddScoped<PromoCodeManager>();
-            Builder.Services.AddScoped<VendorManager>();
-            Builder.Services.AddScoped<ServiceAttachmentManager>();
+            Builder.Services.AddScoped<UserRepository>();
+            Builder.Services.AddScoped<CategoryRepository>();
+            Builder.Services.AddScoped<InvitationRepository>();
+            Builder.Services.AddScoped<ReservationRepository>();
+            Builder.Services.AddScoped<PaymentRepository>();
+            Builder.Services.AddScoped<WithdrawalRepository>();
+            Builder.Services.AddScoped<ServiceAttachmentRepository>();
+            Builder.Services.AddScoped<ServiceRepository>();
+            Builder.Services.AddScoped<ReviewRepository>();
+            Builder.Services.AddScoped<ReviewRepository>();
+            Builder.Services.AddScoped<PostRepository>();
+            Builder.Services.AddScoped<CommentRepository>();
+            Builder.Services.AddScoped<ReactRepository>();
+            Builder.Services.AddScoped<PostAttachmentRepository>();
+            Builder.Services.AddScoped<FollowRepository>();
+            Builder.Services.AddScoped<PromoCodeRepository>();
+            Builder.Services.AddScoped<VendorRepository>();
+            Builder.Services.AddScoped<ServiceAttachmentRepository>();
             Builder.Services.AddScoped<AccountRepository>();
-            Builder.Services.AddScoped<CityManager>();
-            Builder.Services.AddScoped<GovernorateManager>();
+            Builder.Services.AddScoped<CityRepository>();
+            Builder.Services.AddScoped<GovernorateRepository>();
             Builder.Services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
