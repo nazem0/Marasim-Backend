@@ -12,8 +12,8 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly CategoryManager CategoryManager;
-        public CategoryController(CategoryManager _CategoryManager)
+        private readonly CategoryRepository CategoryManager;
+        public CategoryController(CategoryRepository _CategoryManager)
         {
             CategoryManager = _CategoryManager;
         }
@@ -47,8 +47,10 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetById/{Id}")]
         public IActionResult GetById(int Id)
         {
-            var x = CategoryManager.Get(Id).ToCategoryViewModel();
-            return Ok(x);
+            Category? category = CategoryManager.Get(Id);
+            if (category is null)
+                return NotFound();
+            return Ok(category.ToCategoryViewModel());
         }
 
         [HttpGet("GetByVendorId/{Id}")]

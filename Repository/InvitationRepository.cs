@@ -6,10 +6,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Repository
 {
-    public class InvitationManager : MainManager<Invitation>
+    public class InvitationRepository : BaseRepository<Invitation>
     {
         private EntitiesContext EntitiesContext;
-        public InvitationManager(EntitiesContext _dBContext) : base(_dBContext)
+        public InvitationRepository(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
         }

@@ -7,12 +7,12 @@ using ViewModels.ServiceAttachmentViewModels;
 
 namespace Repository
 {
-    public class PostAttachmentManager : MainManager<PostAttachment>
+    public class PostAttachmentRepository : BaseRepository<PostAttachment>
     {
         private readonly EntitiesContext EntitiesContext;
-        private readonly PostManager PostManager;
+        private readonly PostRepository PostManager;
 
-        public PostAttachmentManager(PostManager _PostManager, EntitiesContext _dBContext) : base(_dBContext)
+        public PostAttachmentRepository(PostRepository _PostManager, EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
             PostManager = _PostManager;

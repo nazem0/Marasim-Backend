@@ -3,11 +3,11 @@ using ViewModels.GovernorateViewModels;
 
 namespace Repository
 {
-    public class GovernorateManager : MainManager<Governorate>
+    public class GovernorateRepository : BaseRepository<Governorate>
     {
         private readonly EntitiesContext EntitiesContext;
 
-        public GovernorateManager(EntitiesContext _dBContext) : base(_dBContext)
+        public GovernorateRepository(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
         }

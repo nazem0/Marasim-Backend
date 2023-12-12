@@ -11,9 +11,9 @@ namespace API.Controllers
     [ApiController]
     public class PromoCodeController : ControllerBase
     {
-        private readonly PromoCodeManager PromoCodeManager;
+        private readonly PromoCodeRepository PromoCodeManager;
 
-        public PromoCodeController(PromoCodeManager _PromoCodeManger)
+        public PromoCodeController(PromoCodeRepository _PromoCodeManger)
         {
             PromoCodeManager = _PromoCodeManger;
         }

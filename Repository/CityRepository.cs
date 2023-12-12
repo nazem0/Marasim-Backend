@@ -2,10 +2,10 @@
 using ViewModels.CityViewModels;
 namespace Repository
 {
-    public class CityManager : MainManager<City>
+    public class CityRepository : BaseRepository<City>
     {
         private readonly EntitiesContext EntitiesContext;
-        public CityManager(EntitiesContext _dBContext) : base(_dBContext)
+        public CityRepository(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
         }

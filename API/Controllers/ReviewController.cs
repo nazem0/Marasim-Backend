@@ -11,9 +11,9 @@ namespace API.Controllers
     [ApiController]
     public class ReviewController : ControllerBase
     {
-        private readonly ReviewManager ReviewManager;
+        private readonly ReviewRepository ReviewManager;
         public ReviewController
-            (ReviewManager _ReviewManager)
+            (ReviewRepository _ReviewManager)
         {
             ReviewManager = _ReviewManager;
         }

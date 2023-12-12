@@ -12,12 +12,12 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class VendorController : ControllerBase
     {
-        private readonly VendorManager VendorManager;
-        private readonly UserManager UserManager;
+        private readonly VendorRepository VendorManager;
+        private readonly UserRepository UserManager;
 
         public VendorController(
-            VendorManager _VendorManager,
-            UserManager _UserManager)
+            VendorRepository _VendorManager,
+            UserRepository _UserManager)
         {
             VendorManager = _VendorManager;
             UserManager = _UserManager;

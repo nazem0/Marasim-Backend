@@ -7,8 +7,8 @@ namespace Api.Controllers
     [ApiController]
     public class GovernorateController : ControllerBase
     {
-        private readonly GovernorateManager GovernorateManager;
-        public GovernorateController(GovernorateManager governorateManager)
+        private readonly GovernorateRepository GovernorateManager;
+        public GovernorateController(GovernorateRepository governorateManager)
         {
             this.GovernorateManager = governorateManager;
         }

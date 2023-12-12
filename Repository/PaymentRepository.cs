@@ -6,10 +6,10 @@ using ViewModels.PaymentViewModels;
 
 namespace Repository
 {
-    public class PaymentManager : MainManager<Payment>
+    public class PaymentRepository : BaseRepository<Payment>
     {
         private readonly EntitiesContext EntitiesContext;
-        public PaymentManager(EntitiesContext _dBContext, EntitiesContext entitiesContext) : base(_dBContext)
+        public PaymentRepository(EntitiesContext _dBContext, EntitiesContext entitiesContext) : base(_dBContext)
         {
             EntitiesContext = entitiesContext;
         }

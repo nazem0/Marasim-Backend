@@ -12,9 +12,9 @@ namespace API.Controllers
     [ApiController]
     public class ReactController : ControllerBase
     {
-        private readonly ReactManager ReactManager;
+        private readonly ReactRepository ReactManager;
         public ReactController
-            (ReactManager _ReactManager)
+            (ReactRepository _ReactManager)
         {
             ReactManager = _ReactManager;
         }

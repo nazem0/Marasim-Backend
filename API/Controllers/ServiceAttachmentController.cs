@@ -10,9 +10,9 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class ServiceAttachmentController : ControllerBase
     {
-        private readonly ServiceAttachmentManager ServiceAttachmentManager;
-        private readonly VendorManager VendorManager;
-        public ServiceAttachmentController(ServiceAttachmentManager _ServiceAttachmentManager, VendorManager _vendorManager)
+        private readonly ServiceAttachmentRepository ServiceAttachmentManager;
+        private readonly VendorRepository VendorManager;
+        public ServiceAttachmentController(ServiceAttachmentRepository _ServiceAttachmentManager, VendorRepository _vendorManager)
         {
             ServiceAttachmentManager = _ServiceAttachmentManager;
             VendorManager = _vendorManager;

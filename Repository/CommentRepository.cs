@@ -5,10 +5,10 @@ using ViewModels.PaginationViewModels;
 
 namespace Repository
 {
-    public class CommentManager : MainManager<Comment>
+    public class CommentRepository : BaseRepository<Comment>
     {
         private readonly EntitiesContext EntitiesContext;
-        public CommentManager(EntitiesContext _dBContext) : base(_dBContext)
+        public CommentRepository(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
         }

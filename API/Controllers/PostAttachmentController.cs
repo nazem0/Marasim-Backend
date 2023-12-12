@@ -10,9 +10,9 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class PostAttachmentController : ControllerBase
     {
-        private readonly PostAttachmentManager PostAttachmentManager;
-        private readonly VendorManager VendorManager;
-        public PostAttachmentController(PostAttachmentManager _PostAttachmentManager, VendorManager _vendorManager)
+        private readonly PostAttachmentRepository PostAttachmentManager;
+        private readonly VendorRepository VendorManager;
+        public PostAttachmentController(PostAttachmentRepository _PostAttachmentManager, VendorRepository _vendorManager)
         {
             PostAttachmentManager = _PostAttachmentManager;
             VendorManager = _vendorManager;

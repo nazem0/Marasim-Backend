@@ -9,10 +9,10 @@ using ViewModels.PostViewModels;
 
 namespace Repository
 {
-    public class PostManager : MainManager<Post>
+    public class PostRepository : BaseRepository<Post>
     {
         private readonly EntitiesContext EntitiesContext;
-        public PostManager(EntitiesContext _dBContext) : base(_dBContext)
+        public PostRepository(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
         }

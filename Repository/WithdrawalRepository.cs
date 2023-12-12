@@ -7,11 +7,11 @@ using ViewModels.WithdrawalViewModels;
 
 namespace Repository
 {
-    public class WithdrawalManager : MainManager<Withdrawal>
+    public class WithdrawalRepository : BaseRepository<Withdrawal>
     {
         private readonly EntitiesContext EntitiesContext;
-        private readonly PaymentManager PaymentManager;
-        public WithdrawalManager(EntitiesContext _dBContext, EntitiesContext entitiesContext, PaymentManager _PaymentManager) : base(_dBContext)
+        private readonly PaymentRepository PaymentManager;
+        public WithdrawalRepository(EntitiesContext _dBContext, EntitiesContext entitiesContext, PaymentRepository _PaymentManager) : base(_dBContext)
         {
             EntitiesContext = entitiesContext;
             PaymentManager = _PaymentManager;

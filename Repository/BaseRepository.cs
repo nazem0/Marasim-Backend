@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace Repository
 {
-    public class MainManager<T> where T : BaseModel
+    public class BaseRepository<T> where T : BaseModel
     {
         private readonly EntitiesContext DbContext;
         private readonly DbSet<T> DbSet;
-        public MainManager(EntitiesContext _dBContext)
+        public BaseRepository(EntitiesContext _dBContext)
         {
             DbContext = _dBContext;
             DbSet = DbContext.Set<T>();

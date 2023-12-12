@@ -4,10 +4,10 @@ using ViewModels.CategoryViewModels;
 
 namespace Repository
 {
-    public class CategoryManager : MainManager<Category>
+    public class CategoryRepository : BaseRepository<Category>
     {
         private readonly EntitiesContext EntitiesContext;
-        public CategoryManager(EntitiesContext _dBContext) : base(_dBContext)
+        public CategoryRepository(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
         }

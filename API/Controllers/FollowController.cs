@@ -12,9 +12,9 @@ namespace Api.Controllers
     [ApiController]
     public class FollowController : ControllerBase
     {
-        private readonly FollowManager FollowManager;
+        private readonly FollowRepository FollowManager;
         public FollowController(
-            FollowManager _FollowManager)
+            FollowRepository _FollowManager)
         {
             FollowManager = _FollowManager;
         }

@@ -5,10 +5,10 @@ using ViewModels.ReactViewModels;
 
 namespace Repository
 {
-    public class ReactManager : MainManager<React>
+    public class ReactRepository : BaseRepository<React>
     {
         private readonly EntitiesContext EntitiesContext;
-        public ReactManager(EntitiesContext _dBContext) : base(_dBContext)
+        public ReactRepository(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
         }

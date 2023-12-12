@@ -14,9 +14,9 @@ namespace Api.Controllers
     [ApiController]
     public class ReservationController : ControllerBase
     {
-        private readonly ReservationManager ReservationManager;
-        private readonly VendorManager VendorManager;
-        public ReservationController(ReservationManager reservationManager, VendorManager vendorManager)
+        private readonly ReservationRepository ReservationManager;
+        private readonly VendorRepository VendorManager;
+        public ReservationController(ReservationRepository reservationManager, VendorRepository vendorManager)
         {
             ReservationManager = reservationManager;
             VendorManager = vendorManager;

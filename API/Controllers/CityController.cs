@@ -7,8 +7,8 @@ namespace Api.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly CityManager CityManager;
-        public CityController(CityManager cityManager)
+        private readonly CityRepository CityManager;
+        public CityController(CityRepository cityManager)
         {
             this.CityManager = cityManager;
         }

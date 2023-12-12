@@ -13,8 +13,8 @@ namespace API.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
-        private readonly CommentManager CommentManager;
-        public CommentController(CommentManager _CommentManager)
+        private readonly CommentRepository CommentManager;
+        public CommentController(CommentRepository _CommentManager)
         {
             CommentManager = _CommentManager;
         }

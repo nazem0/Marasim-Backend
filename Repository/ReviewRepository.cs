@@ -5,10 +5,10 @@ using ViewModels.ReviewViewModels;
 
 namespace Repository
 {
-    public class ReviewManager : MainManager<Review>
+    public class ReviewRepository : BaseRepository<Review>
     {
         private readonly EntitiesContext EntitiesContext;
-        public ReviewManager(EntitiesContext _dBContext) : base(_dBContext)
+        public ReviewRepository(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
         }

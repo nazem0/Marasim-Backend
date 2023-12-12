@@ -6,12 +6,12 @@ using ViewModels.ReservationViewModels;
 
 namespace Repository
 {
-    public class ReservationManager : MainManager<Reservation>
+    public class ReservationRepository : BaseRepository<Reservation>
     {
         private readonly EntitiesContext EntitiesContext;
-        private readonly PromoCodeManager PromoCodeManager;
-        private readonly ServiceManager ServiceManager;
-        public ReservationManager(EntitiesContext _dBContext, PromoCodeManager promoCodeManager, ServiceManager serviceManager) : base(_dBContext)
+        private readonly PromoCodeRepository PromoCodeManager;
+        private readonly ServiceRepository ServiceManager;
+        public ReservationRepository(EntitiesContext _dBContext, PromoCodeRepository promoCodeManager, ServiceRepository serviceManager) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
             PromoCodeManager = promoCodeManager;

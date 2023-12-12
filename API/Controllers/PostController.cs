@@ -13,13 +13,13 @@ namespace API.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-        private readonly PostManager PostManager;
-        private readonly PostAttachmentManager PostAttachmentManager;
-        private readonly VendorManager VendorManager;
+        private readonly PostRepository PostManager;
+        private readonly PostAttachmentRepository PostAttachmentManager;
+        private readonly VendorRepository VendorManager;
         public PostController
-            (PostManager _PostManager,
-            PostAttachmentManager _PostAttachmentManager,
-            VendorManager _VendorManager)
+            (PostRepository _PostManager,
+            PostAttachmentRepository _PostAttachmentManager,
+            VendorRepository _VendorManager)
         {
             PostManager = _PostManager;
             VendorManager = _VendorManager;

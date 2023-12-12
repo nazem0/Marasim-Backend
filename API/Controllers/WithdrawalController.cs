@@ -12,13 +12,13 @@ namespace Api.Controllers
     [ApiController]
     public class WithdrawalController : ControllerBase
     {
-        private readonly WithdrawalManager WithdrawalManager;
-        private readonly PaymentManager PaymentManager;
-        private readonly VendorManager VendorManager;
+        private readonly WithdrawalRepository WithdrawalManager;
+        private readonly PaymentRepository PaymentManager;
+        private readonly VendorRepository VendorManager;
         public WithdrawalController(
-            WithdrawalManager _WithdrawalManager,
-            PaymentManager _PaymentManager,
-            VendorManager _VendorManager
+            WithdrawalRepository _WithdrawalManager,
+            PaymentRepository _PaymentManager,
+            VendorRepository _VendorManager
             )
         {
             WithdrawalManager = _WithdrawalManager;

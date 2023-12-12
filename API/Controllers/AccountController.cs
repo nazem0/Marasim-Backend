@@ -17,10 +17,10 @@ namespace API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountRepository AccountManager;
-        private readonly UserManager UserManager;
-        private readonly VendorManager VendorManager;
+        private readonly UserRepository UserManager;
+        private readonly VendorRepository VendorManager;
 
-        public AccountController(AccountRepository _accManger, UserManager _userManager, VendorManager vendorManager)
+        public AccountController(AccountRepository _accManger, UserRepository _userManager, VendorRepository vendorManager)
         {
             AccountManager = _accManger;
             UserManager = _userManager;

@@ -14,13 +14,13 @@ namespace Api.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly PaymentManager PaymentManager;
-        private readonly ReservationManager ReservationManager;
-        private readonly VendorManager VendorManager;
+        private readonly PaymentRepository PaymentManager;
+        private readonly ReservationRepository ReservationManager;
+        private readonly VendorRepository VendorManager;
         public PaymentController(
-            PaymentManager _paymentManager,
-            ReservationManager _reservationManager,
-            VendorManager _vendorManager
+            PaymentRepository _paymentManager,
+            ReservationRepository _reservationManager,
+            VendorRepository _vendorManager
             )
         {
             PaymentManager = _paymentManager;

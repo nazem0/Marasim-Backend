@@ -4,10 +4,10 @@ using ViewModels.ServiceViewModels;
 
 namespace Repository
 {
-    public class ServiceManager : MainManager<Service>
+    public class ServiceRepository : BaseRepository<Service>
     {
         private readonly EntitiesContext EntitiesContext;
-        public ServiceManager(EntitiesContext _dBContext) : base(_dBContext)
+        public ServiceRepository(EntitiesContext _dBContext) : base(_dBContext)
         {
             EntitiesContext = _dBContext;
         }

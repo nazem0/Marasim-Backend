@@ -12,8 +12,8 @@ namespace Api.Controllers
     [ApiController]
     public class InvitationController : ControllerBase
     {
-        private readonly InvitationManager InvitationManager;
-        public InvitationController(InvitationManager _invitationManager)
+        private readonly InvitationRepository InvitationManager;
+        public InvitationController(InvitationRepository _invitationManager)
         {
             InvitationManager = _invitationManager;
         }

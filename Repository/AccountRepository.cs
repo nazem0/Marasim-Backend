@@ -16,13 +16,13 @@ namespace Repository
         readonly UserManager<User> UserManager;
         readonly SignInManager<User> SignInManager;
         readonly IConfiguration Configuration;
-        readonly VendorManager VendorManager;
+        readonly VendorRepository VendorManager;
 
 
         public AccountRepository(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
-            VendorManager _vendorManager,
+            VendorRepository _vendorManager,
             IConfiguration _configuration
             )
         {
