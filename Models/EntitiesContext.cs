@@ -8,8 +8,6 @@ namespace Models
     {
         public EntitiesContext(DbContextOptions options) : base(options) { }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<CheckList> CheckLists { get; set; }
-        public DbSet<CheckListItem> CheckListItems { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Follow> Follows { get; set; }
         public DbSet<Post> Posts { get; set; }
@@ -29,8 +27,6 @@ namespace Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CategoryConfig());
-            modelBuilder.ApplyConfiguration(new CheckListConfig());
-            modelBuilder.ApplyConfiguration(new CheckListItemConfig());
             modelBuilder.ApplyConfiguration(new CommentConfig());
             modelBuilder.ApplyConfiguration(new FollowConfig());
             modelBuilder.ApplyConfiguration(new PostConfig());

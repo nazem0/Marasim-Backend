@@ -57,13 +57,6 @@ namespace Models
                .IsRequired();
 
             builder
-              .HasOne(u => u.CheckList)
-              .WithOne(cl => cl.User)
-              .HasForeignKey<CheckList>(cl => cl.UserId);
-
-
-
-            builder
                 .HasMany(u => u.Comments)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)
