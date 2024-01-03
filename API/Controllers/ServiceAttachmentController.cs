@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.ServiceAttachmentsDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository;
+using System.Net;
 using System.Security.Claims;
-using ViewModels.ServiceAttachmentViewModels;
 
 namespace Marasim_Backend.Controllers
 {
@@ -10,57 +11,54 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class ServiceAttachmentController : ControllerBase
     {
-        private readonly ServiceAttachmentRepository ServiceAttachmentManager;
-        private readonly VendorRepository VendorManager;
-        public ServiceAttachmentController(ServiceAttachmentRepository _ServiceAttachmentManager, VendorRepository _vendorManager)
+        private readonly IServiceAttachmentRepository _serviceAttachmentRepository;
+        private readonly IVendorRepository _vendorRepository;
+        public ServiceAttachmentController(IServiceAttachmentRepository serviceAttachmentRepository, IVendorRepository vendorRepository)
         {
-            ServiceAttachmentManager = _ServiceAttachmentManager;
-            VendorManager = _vendorManager;
+            _serviceAttachmentRepository = serviceAttachmentRepository;
+            _vendorRepository = vendorRepository;
         }
 
         [HttpGet("GetAllActive")]
         public IActionResult GetAllActive()
         {
-            var Data = ServiceAttachmentManager.GetAllActive();
+            var Data = _serviceAttachmentRepository.GetAllActive();
             return new JsonResult(Data);
         }
 
         [HttpGet("GetByServiceId/{ServiceId}")]
         public IActionResult GetByServiceId(int ServiceId)
         {
-            return Ok(ServiceAttachmentManager.GetByServiceId(ServiceId));
+            return Ok(_serviceAttachmentRepository.GetByServiceId(ServiceId));
         }
 
         [HttpGet("GetByVendorId/{VendorId}")]
         public IActionResult GetByVendorId(int VendorId)
         {
-            var Data = ServiceAttachmentManager.GetByVendorId(VendorId);
+            var Data = _serviceAttachmentRepository.GetByVendorId(VendorId);
             return new JsonResult(Data);
         }
 
         [HttpGet("GetAllCustom")]
         public IActionResult GetAllCustom()
         {
-            var Data = ServiceAttachmentManager.GetCustomAttachment();
+            var Data = _serviceAttachmentRepository.GetCustomAttachment();
             return new JsonResult(Data);
         }
         [HttpPost("Add"), Authorize(Roles = "vendor")]
-        public IActionResult Add([FromForm] AddServiceAttachmentDTO Data)
+        public IActionResult Add([FromForm] CreateServiceAttachmentDTO Data)
         {
-            int VendorId = (int)VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!)!;
-            if (ServiceAttachmentManager.Add(Data,VendorId) is false)
-                return BadRequest();
-            else
-                return Ok();
+            int VendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!)!;
+            var result = _serviceAttachmentRepository.Add(Data, VendorId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
         [HttpDelete("Delete/{Id}"), Authorize(Roles = "vendor")]
         public IActionResult Delete(int Id)
         {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
-            bool result = ServiceAttachmentManager.Delete(Id, VendorId);
-            if(result is false) return BadRequest();
+            int vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var result = _serviceAttachmentRepository.Delete(Id, vendorId);
+            if (result != HttpStatusCode.OK) return BadRequest();
             return Ok();
         }
     }

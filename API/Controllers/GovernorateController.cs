@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Repository;
+﻿using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
@@ -7,15 +7,15 @@ namespace Api.Controllers
     [ApiController]
     public class GovernorateController : ControllerBase
     {
-        private readonly GovernorateRepository GovernorateManager;
-        public GovernorateController(GovernorateRepository governorateManager)
+        private readonly IGovernorateRepository _governorateRepository;
+        public GovernorateController(IGovernorateRepository governorateRepository)
         {
-            this.GovernorateManager = governorateManager;
+            this._governorateRepository = governorateRepository;
         }
         [HttpGet("Get")]
         public IActionResult Get()
         {
-            return Ok(GovernorateManager.Get());
+            return Ok(_governorateRepository.Get());
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.FollowDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Repository;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
-using ViewModels.FollowViewModels;
 
 namespace Api.Controllers
 {
@@ -12,31 +12,31 @@ namespace Api.Controllers
     [ApiController]
     public class FollowController : ControllerBase
     {
-        private readonly FollowRepository FollowManager;
+        private readonly IFollowRepository _followRepository;
         public FollowController(
-            FollowRepository _FollowManager)
+            IFollowRepository followRepository)
         {
-            FollowManager = _FollowManager;
+            _followRepository = followRepository;
         }
 
         [HttpGet("GetFollowersVendor/{VendorId}")]
-        public IActionResult GetFollowersForVendor(int VendorId, int PageSize = 2, int PageIndex = 1)
+        public IActionResult GetFollowersForVendor(int VendorId, int PageIndex = 1, int PageSize = 2)
         {
-            var Users = FollowManager.GetFollowersVendor(VendorId, PageSize, PageIndex);
+            var Users = _followRepository.GetFollowersVendor(VendorId, PageIndex, PageSize);
             return Ok(Users);
         }
 
         [HttpGet("GetFollowingForUser")]
-        public IActionResult GetFollowingForUser(int PageSize = 2, int PageIndex = 1)
+        public IActionResult GetFollowingForUser(int PageIndex = 1, int PageSize = 2)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier!)!;
-            var Vendors = FollowManager.GetFollowingForUser(UserId, PageSize, PageIndex);
+            var Vendors = _followRepository.GetFollowingForUser(UserId, PageIndex, PageSize);
             return Ok(Vendors);
         }
 
         [HttpPost("Add")]
         [Authorize(Roles = "user")]
-        public IActionResult Add([FromForm] AddFollowViewModel Follow)
+        public IActionResult Add([FromForm] CreateFollowDTO Follow)
         {
             if (!ModelState.IsValid)
             {
@@ -50,9 +50,8 @@ namespace Api.Controllers
                 }
                 return BadRequest(str.ToString());
             }
-            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            FollowManager.Add(Follow.ToEntity(UserId!));
-            FollowManager.Save();
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            _followRepository.Follow(Follow, UserId);
             return Ok();
         }
 
@@ -60,34 +59,17 @@ namespace Api.Controllers
         [Authorize(Roles = "user")]
         public IActionResult Delete(int VendorId)
         {
-            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Follow Follow = FollowManager.GetFollow(UserId!, VendorId);
-            if (Follow != null)
-            {
-                FollowManager.Delete(Follow);
-                FollowManager.Save();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest("Not Followed");
-            }
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var result = _followRepository.Unfollow(UserId, VendorId);
+            if (result is not HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
 
-        [HttpGet("IsUserFollowingVendor/{VendorId}")]
+        [HttpGet("IsUserFollowingVendor/{VendorId}"), Authorize]
         public IActionResult IsUserFollowingVendor(int VendorId)
         {
-            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (UserId == null) { return BadRequest(); }
-            bool Bool = FollowManager.IsUserFollowingVendor(UserId!, VendorId);
-            if (Bool)
-            {
-                return Ok(true);
-            }
-            else
-            {
-                return Ok(false);
-            }
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            return Ok(_followRepository.CheckUserFollowingVendor(UserId!, VendorId));
         }
 
     }

@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.DTOs.CategoryDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Models;
-using Repository;
-using ViewModels.CategoryViewModels;
+using System.Net;
 
 namespace Marasim_Backend.Controllers
 {
@@ -12,56 +10,56 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly CategoryRepository CategoryManager;
-        public CategoryController(CategoryRepository _CategoryManager)
+        private readonly ICategoryRepository _categoryRepository;
+        public CategoryController(ICategoryRepository categoryRepository)
         {
-            CategoryManager = _CategoryManager;
+            _categoryRepository = categoryRepository;
         }
 
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var Data = CategoryManager.Get();
+            var Data = _categoryRepository.GetCategoryWithVendors();
             return Ok(Data);
         }
 
         [HttpGet("GetNames")]
         public IActionResult GetNames()
         {
-            IEnumerable<CategoryNameViewModel> Categories = CategoryManager.GetNames();
+            IEnumerable<CategoryDTO> Categories = _categoryRepository.Get();
             return Ok(Categories);
         }
 
         [HttpGet("GetCategoriesWithMinMax")]
         public IActionResult GetCategoriesWithMinMax()
         {
-            return Ok(CategoryManager.GetCategoriesWithMinMax());
+            return Ok(_categoryRepository.GetCategoryMaxMinPrice());
         }
 
         [HttpGet("Count")]
         public IActionResult Count()
         {
-            return Ok(CategoryManager.Count());
+            return Ok(_categoryRepository.Count());
         }
 
         [HttpGet("GetById/{Id}")]
         public IActionResult GetById(int Id)
         {
-            Category? category = CategoryManager.Get(Id);
+            var category = _categoryRepository.GetById(Id);
             if (category is null)
                 return NotFound();
-            return Ok(category.ToCategoryViewModel());
+            return Ok(category);
         }
 
         [HttpGet("GetByVendorId/{Id}")]
         public IActionResult GetByVendorId(int Id)
         {
-            var x = CategoryManager.GetByVendorId(Id);
-            return Ok(x);
+            var category = _categoryRepository.GetByVendorId(Id);
+            return Ok(category);
         }
 
         [HttpPost("Add")]
-        public IActionResult Add([FromForm] AddCategoryViewModel Data)
+        public IActionResult Add([FromForm] CreateCategoryDTO Data)
         {
             if (!ModelState.IsValid)
             {
@@ -77,18 +75,11 @@ namespace Marasim_Backend.Controllers
             }
             else
             {
-                EntityEntry<Category>? Entry = CategoryManager.Add(Data);
-
-                if (Entry is null)
-                    return BadRequest("This Category Already Exists");
-                else if (Entry.State != EntityState.Added)
-                    return BadRequest(Entry.State);
-                else
-                {
-                    CategoryManager.Save();
-                    return Ok();
-                }
+                var result = _categoryRepository.Add(Data);
+                if (result == HttpStatusCode.Conflict) return Conflict("This Category Already Exists");
+                return Ok();
             }
         }
     }
 }
+

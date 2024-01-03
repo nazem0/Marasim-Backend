@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.ReviewDTOs;
+using Application.ExtensionMethods;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository;
+using System.Net;
 using System.Security.Claims;
-using ViewModels.PostViewModels;
-using ViewModels.ReviewViewModels;
 
 namespace API.Controllers
 {
@@ -11,24 +12,16 @@ namespace API.Controllers
     [ApiController]
     public class ReviewController : ControllerBase
     {
-        private readonly ReviewRepository ReviewManager;
+        private readonly IReviewRepository _reviewRepository;
         public ReviewController
-            (ReviewRepository _ReviewManager)
+            (IReviewRepository reviewRepository)
         {
-            ReviewManager = _ReviewManager;
+            _reviewRepository = reviewRepository;
         }
-
-        [HttpGet("Get")]
-        public IActionResult Get()
-        {
-            var Data = ReviewManager.Get().ToList();
-            return new JsonResult(Data);
-        }
-
         [HttpGet("GetByServiceId/{ServiceId}")]
         public IActionResult GetByServiceId(int ServiceId)
         {
-            var Data = ReviewManager.GetByServiceId(ServiceId);
+            var Data = _reviewRepository.GetByServiceId(ServiceId);
             Data.Count();
             return new JsonResult(Data);
         }
@@ -36,34 +29,33 @@ namespace API.Controllers
         [HttpGet("GetByVendorId/{VendorId}")]
         public IActionResult GetByVendorId(int VendorId)
         {
-            var Data = ReviewManager.GetByVendorId(VendorId)
-                .Select(r => r.ToReviewFullViewModel());
+            var Data = _reviewRepository.GetByVendorId(VendorId)
+                .Select(r => r.ToReviewWithServiceDTO());
             return new JsonResult(Data);
         }
 
         [HttpGet("GetPagedReviewsByVendorId/{VendorId}")]
-        public IActionResult GetPagedReviewsByVendorId(int VendorId, int PageSize = 3, int PageIndex = 1)
+        public IActionResult GetPagedReviewsByVendorId(int VendorId, int PageIndex = 1, int PageSize = 3)
         {
-            var Data = ReviewManager.GetPaginatedReviewsByVendorId(VendorId, PageSize, PageIndex);
+            var Data = _reviewRepository.GetPaginatedReviewsByVendorId(VendorId, PageIndex, PageSize);
             return Ok(Data);
         }
 
         [HttpGet("GetAverageRate/{VendorId}")]
         public IActionResult GetAverageRate(int VendorId)
         {
-            var Data = ReviewManager.GetAverageRate(VendorId);
+            var Data = _reviewRepository.GetAverageRate(VendorId);
             return Ok(Data);
         }
 
         [Authorize(Roles = "user")]
         [HttpPost("Add")]
-        public IActionResult Add([FromForm] AddReviewViewModel Data)
+        public IActionResult Add([FromForm] CreateReviewDTO Data)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             if (ModelState.IsValid)
             {
-                ReviewManager.Add(Data.ToModel(UserId));
-                ReviewManager.Save();
+                _reviewRepository.Add(Data, UserId);
                 return Ok();
             }
             else
@@ -97,22 +89,14 @@ namespace API.Controllers
         public IActionResult Delete(int ReviewId)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var Data = ReviewManager.GetReviewById(ReviewId);
-            if (Data.UserId == UserId)
-            {
-                ReviewManager.Delete(Data);
-                ReviewManager.Save();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest("UserId not matched");
-            }
+            var result = _reviewRepository.Delete(ReviewId, UserId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
         [HttpGet("HasReviews/{Id}")]
         public IActionResult HasReviews(int Id)
         {
-            return Ok(ReviewManager.HasReviews(Id));
+            return Ok(_reviewRepository.HasReviews(Id));
         }
 
     }

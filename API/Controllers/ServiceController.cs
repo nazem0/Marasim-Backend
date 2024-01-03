@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.ServiceDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Repository;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
-using ViewModels.ServiceViewModels;
 
 namespace Marasim_Backend.Controllers
 {
@@ -12,17 +12,14 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class ServiceController : ControllerBase
     {
-        private readonly ServiceRepository ServiceManager;
-        private readonly VendorRepository VendorManager;
-        private readonly ServiceAttachmentRepository ServiceAttachmentManager;
+        private readonly IServiceRepository _serviceRepository;
+        private readonly IVendorRepository _vendorRepository;
         public ServiceController
-            (ServiceRepository _serviceManager,
-            ServiceAttachmentRepository _serviceAttachmentManager,
-            VendorRepository _vendorManager)
+            (IServiceRepository serviceRepository,
+            IVendorRepository vendorRepository)
         {
-            ServiceManager = _serviceManager;
-            VendorManager = _vendorManager;
-            ServiceAttachmentManager = _serviceAttachmentManager;
+            _serviceRepository = serviceRepository;
+            _vendorRepository = vendorRepository;
         }
         //[HttpGet("GetAll")]
         //public IActionResult GetAll()
@@ -37,20 +34,20 @@ namespace Marasim_Backend.Controllers
         [HttpGet("GetById/{Id}")]
         public IActionResult GetById(int Id)
         {
-            var x = ServiceManager.Get(Id)?.ToServiceViewModel();
-            return Ok(x);
+            var service = _serviceRepository.GetById(Id);
+            return Ok(service);
         }
 
         [HttpGet("GetByVendorId/{Id}")]
         public IActionResult GetByVendorId(int Id)
         {
-            string? UserId = VendorManager.GetUserIdByVendorId(Id);
+            string? UserId = _vendorRepository.GetUserIdByVendorId(Id);
             if (UserId is null) return NotFound();
-            return Ok(ServiceManager.GetAllVendorServices(UserId));
+            return Ok(_serviceRepository.GetAllVendorServices(UserId));
         }
         [HttpPost("Add")]
         [Authorize(Roles = "vendor")]
-        public IActionResult Add([FromForm] CreateServiceViewModel Data)
+        public IActionResult Add([FromForm] CreateServiceDTO Data)
         {
             if (!ModelState.IsValid)
             {
@@ -66,28 +63,8 @@ namespace Marasim_Backend.Controllers
 
             }
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int? _loggedInVendorId = VendorManager.GetVendorIdByUserId(UserId);
-            if (_loggedInVendorId is null) return NotFound();
-            int LoggedInVendorId = (int)_loggedInVendorId!;
-            Service? CreatedService =
-                ServiceManager.Add(Data.ToModel(LoggedInVendorId)).Entity;
-            ServiceManager.Save();
-            foreach (IFormFile item in Data.Pictures)
-            {
-                FileInfo fi = new(item.FileName);
-                string FileName = DateTime.Now.Ticks + fi.Extension;
-                Helper.UploadMediaAsync
-                    (User.FindFirstValue(ClaimTypes.NameIdentifier)!
-                    , "ServiceAttachment", FileName, item, $"{CreatedService.Id}-{CreatedService.VendorId}");
-                ServiceAttachmentManager.Add(
-                    new ServiceAttachment
-                    {
-                        AttachmentUrl = FileName,
-                        Service = CreatedService
-                    }
-                    );
-            }
-            ServiceManager.Save();
+            var result = _serviceRepository.Add(Data, UserId);
+            if (result != HttpStatusCode.OK) return BadRequest();
             return Ok();
         }
 
@@ -95,42 +72,22 @@ namespace Marasim_Backend.Controllers
         [Authorize(Roles = "vendor")]
         public IActionResult Delete(int Id)
         {
-            int? ServiceVendorId = ServiceManager.Get(Id)!.VendorId;
-            int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
+            int LoggedInVendorId = _vendorRepository.GetVendorIdByUserId
                 (User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (ServiceVendorId != null && ServiceVendorId == LoggedInVendorId)
-            {
-                ServiceManager.Delete(Id);
-                ServiceManager.Save();
-                return Ok();
-            }
-            else
-            {
-                return Unauthorized();
-            }
+            var result = _serviceRepository.Delete(Id, LoggedInVendorId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
 
         [HttpPut("Update/{ServiceId}")]
         [Authorize(Roles = "vendor,admin")]
-        public IActionResult Update([FromForm] UpdateServiceViewModel Data, int ServiceId)
+        public IActionResult Update([FromForm] UpdateServiceDTO updateServiceDTO)
         {
-            string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int? ServiceVendorId = ServiceManager.Get(ServiceId)!.VendorId;
-            int? LoggedInVendorId = VendorManager.GetVendorIdByUserId
-                (LoggedInUserId);
-            if (ServiceVendorId == null) return BadRequest("Service Id Invalid");
-            else if (ServiceVendorId != LoggedInVendorId) return Unauthorized();
-            else
-            {
-                Service? Service = ServiceManager.Get(ServiceId);
-                if (Service == null) return BadRequest();
-                Service.Title = Data.Title ?? Service.Title;
-                Service.Description = Data.Description ?? Service.Description;
-                Service.Price = Data.Price ?? Service.Price;
-                ServiceManager.Update(Service);
-                ServiceManager.Save();
-                return Ok();
-            }
+            string loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            int vendorId = _vendorRepository.GetVendorIdByUserId(loggedInUserId);
+            var result = _serviceRepository.Update(updateServiceDTO, vendorId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
 
     }

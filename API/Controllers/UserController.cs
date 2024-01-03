@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.CustomerDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Repository;
 using System.Security.Claims;
-using ViewModels.UserViewModels;
 
 namespace Marasim_Backend.Controllers
 {
@@ -11,57 +11,41 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserRepository UserManager;
-        public UserController(UserRepository _UserManager)
+        private readonly ICustomerRepository _customerRepository;
+        public UserController(ICustomerRepository customerRepository)
         {
-            UserManager = _UserManager;
+            _customerRepository = customerRepository;
         }
 
         [HttpGet("Get")]
-        public async Task<IActionResult> Get(int PageSize = 5, int PageIndex = 1)
+        public async Task<IActionResult> Get(int PageIndex = 1, int PageSize = 5)
         {
-            var Data = await UserManager.GetAll(PageSize, PageIndex);
+            var Data = await _customerRepository.GetAll(PageIndex, PageSize);
             return Ok(Data);
         }
 
         [HttpGet("Count")]
         public async Task<IActionResult> Count()
         {
-            return Ok(await UserManager.Count());
+            return Ok(await _customerRepository.Count());
         }
 
         [HttpGet("UserDetails/{UserId}")]
         public async Task<IActionResult> UserDetails(string UserId)
         {
-            User? User = await UserManager.FindByIdAsync(UserId);
+            var User = await _customerRepository.GetByIdAsync(UserId);
             if (User is null) return NotFound();
-            return Ok(User.ToUserViewModel());
+            return Ok(User);
         }
 
         [HttpPut("Update"), Authorize]
-        public async Task<IActionResult> Update([FromForm] UpdateProfileViewModel Data)
+        public async Task<IActionResult> Update([FromForm] UpdateCustomerDTO Data)
         {
-            ClaimsPrincipal? UserClaims = HttpContext.User;
-            var User = await UserManager.GetUserAsync(UserClaims);
-
-            if (User == null) return Unauthorized("User Not On Our Database");
-
-            if (Data.Picture is not null)
-            {
-                Helper.DeleteMediaAsync(User.Id, "ProfilePicture", User.PicUrl);
-                FileInfo fi = new(Data.Picture.FileName);
-                string FileName = DateTime.Now.Ticks + fi.Extension;
-                User.Name = Data.Name ?? User.Name;
-                Helper.UploadMediaAsync(User.Id, "ProfilePicture", FileName, Data.Picture);
-                Data.PicURL = FileName;
-                User.PicUrl = Data.PicURL ?? User.PicUrl;
-            }
-
-            User.Name = Data.Name ?? User.Name;
-            User.PhoneNumber = Data.PhoneNumber ?? User.PhoneNumber;
-            await UserManager.UpdateAsync(User);
-
-            return Ok();
+            string loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var result = await _customerRepository.UpdateAsync(Data, loggedInUserId);
+            if (!result.Succeeded) return BadRequest();
+            else if (result != IdentityResult.Success) return BadRequest(result.Errors.ToList());
+            else return Ok();
         }
     }
 }

@@ -1,10 +1,13 @@
+using Application.Interfaces;
+using Application.Interfaces.IRepositories;
+using Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Models;
-using Repository;
+using Persistence;
+using Persistence.Repositories;
 using System.Globalization;
 using System.Text;
 
@@ -14,17 +17,17 @@ namespace API
     {
         public static void Main(string[] args)
         {
-            var Builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args);
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("ar-EG");
             CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ar-EG");
 
-            Builder.Services.AddDbContext<EntitiesContext>(context =>
+            builder.Services.AddDbContext<EntitiesContext>(context =>
             {
                 context
                     .UseLazyLoadingProxies()
                     .UseSqlServer
-                    (Builder.Configuration.GetConnectionString("MyDB"),
+                    (builder.Configuration.GetConnectionString("MyDB"),
                     c => c.EnableRetryOnFailure());
 
                 //context
@@ -34,7 +37,7 @@ namespace API
                 //    c => c.EnableRetryOnFailure());
             });
 
-            Builder.Services.AddIdentity<User, IdentityRole>(Options =>
+            builder.Services.AddIdentity<User, IdentityRole>(Options =>
             {
                 Options.Lockout.MaxFailedAccessAttempts = 2;
                 Options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
@@ -46,7 +49,7 @@ namespace API
             })
                 .AddEntityFrameworkStores<EntitiesContext>()
                 .AddDefaultTokenProviders();
-            Builder.Services.AddAuthentication(Option =>
+            builder.Services.AddAuthentication(Option =>
             {
                 Option.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
                 Option.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -60,13 +63,13 @@ namespace API
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Builder.Configuration["Jwt:Key"]!)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
 
                 };
 
             });
 
-            Builder.Services.AddCors(option =>
+            builder.Services.AddCors(option =>
             {
                 option.AddDefaultPolicy(i =>
                 i.AllowAnyOrigin()
@@ -74,48 +77,47 @@ namespace API
                 .AllowAnyMethod());
             });
 
-            Builder.Services.Configure<IdentityOptions>(Options =>
+            builder.Services.Configure<IdentityOptions>(Options =>
             {
                 Options.Password.RequireNonAlphanumeric = false;
                 Options.Password.RequireUppercase = false;
 
             });
-            Builder.Services.ConfigureApplicationCookie(Options =>
+            builder.Services.ConfigureApplicationCookie(Options =>
             {
                 Options.LoginPath = "/Api/Account/Login";
 
             });
             // Add services to the container.
-            Builder.Services.AddScoped<UserRepository>();
-            Builder.Services.AddScoped<CategoryRepository>();
-            Builder.Services.AddScoped<InvitationRepository>();
-            Builder.Services.AddScoped<ReservationRepository>();
-            Builder.Services.AddScoped<PaymentRepository>();
-            Builder.Services.AddScoped<WithdrawalRepository>();
-            Builder.Services.AddScoped<ServiceAttachmentRepository>();
-            Builder.Services.AddScoped<ServiceRepository>();
-            Builder.Services.AddScoped<ReviewRepository>();
-            Builder.Services.AddScoped<ReviewRepository>();
-            Builder.Services.AddScoped<PostRepository>();
-            Builder.Services.AddScoped<CommentRepository>();
-            Builder.Services.AddScoped<ReactRepository>();
-            Builder.Services.AddScoped<PostAttachmentRepository>();
-            Builder.Services.AddScoped<FollowRepository>();
-            Builder.Services.AddScoped<PromoCodeRepository>();
-            Builder.Services.AddScoped<VendorRepository>();
-            Builder.Services.AddScoped<ServiceAttachmentRepository>();
-            Builder.Services.AddScoped<AccountRepository>();
-            Builder.Services.AddScoped<CityRepository>();
-            Builder.Services.AddScoped<GovernorateRepository>();
-            Builder.Services.AddControllers()
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICityRepository, CityRepository>();
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IFollowRepository, FollowRepository>();
+            builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
+            builder.Services.AddScoped<IInvitationRepository, InvitationRepository>();
+            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+            builder.Services.AddScoped<IPostAttachmentRepository, PostAttachmentRepository>();
+            builder.Services.AddScoped<IPostRepository, PostRepository>();
+            builder.Services.AddScoped<IPromoCodeRepository, PromoCodeRepository>();
+            builder.Services.AddScoped<IReactRepository, ReactRepository>();
+            builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<IServiceAttachmentRepository, ServiceAttachmentRepository>();
+            builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+            builder.Services.AddScoped<IVendorRepository, VendorRepository>();
+            builder.Services.AddScoped<IWithdrawalRepository, WithdrawalRepository>();
+            builder.Services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            Builder.Services.AddEndpointsApiExplorer();
-            Builder.Services.AddSwaggerGen(c =>
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
@@ -145,25 +147,25 @@ namespace API
                 });
             });
 
-            var App = Builder.Build();
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (App.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment())
             {
-                App.UseSwagger();
-                App.UseSwaggerUI();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
-            App.UseHttpsRedirection();
-            App.UseCors();
-            App.UseStaticFiles();
-            App.UseAuthentication();
-            App.UseAuthorization();
-            App.MapControllerRoute("Default", "api/{Controller}/{Action=Index}/{id?}");
+            app.UseHttpsRedirection();
+            app.UseCors();
+            app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.MapControllerRoute("Default", "api/{Controller}/{Action=Index}/{id?}");
 
             //app.MapControllers();
 
-            App.Run();
+            app.Run();
 
         }
     }

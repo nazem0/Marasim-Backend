@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.ReservationDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Models;
-using Repository;
+using System.Net;
 using System.Security.Claims;
-using ViewModels.ReservationViewModels;
 
 namespace Api.Controllers
 {
@@ -14,15 +12,15 @@ namespace Api.Controllers
     [ApiController]
     public class ReservationController : ControllerBase
     {
-        private readonly ReservationRepository ReservationManager;
-        private readonly VendorRepository VendorManager;
-        public ReservationController(ReservationRepository reservationManager, VendorRepository vendorManager)
+        private readonly IReservationRepository _reservationRepository;
+        private readonly IVendorRepository _vendorRepository;
+        public ReservationController(IReservationRepository reservationManager, IVendorRepository vendorManager)
         {
-            ReservationManager = reservationManager;
-            VendorManager = vendorManager;
+            _reservationRepository = reservationManager;
+            _vendorRepository = vendorManager;
         }
         [HttpPost("Add"), Authorize()]
-        public IActionResult Add([FromForm] AddReservationViewModel Data)
+        public IActionResult Add([FromForm] CreateReservationDTO Data)
         {
             if (!ModelState.IsValid)
             {
@@ -36,23 +34,12 @@ namespace Api.Controllers
                 }
                 return BadRequest(Errors);
             }
-            EntityEntry<Reservation>? Entry = ReservationManager.Add(Data);
-            if (Entry is null)
-            {
-                return BadRequest("Service Doesn't Exist");
-            }
-            if (Entry.State == EntityState.Added)
-            {
-                ReservationManager.Save();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest(Entry.State);
-            }
+            var result = _reservationRepository.Add(Data);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
         [HttpPut("Accept"), Authorize(Roles = "vendor")]
-        public IActionResult Accept([FromBody] ChangeReservationStatusViewModel Data)
+        public IActionResult Accept([FromBody] ChangeReservationStatusDTO Data)
         {
             if (!ModelState.IsValid)
             {
@@ -66,26 +53,15 @@ namespace Api.Controllers
                 }
                 return BadRequest(Errors);
             }
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId; if (Data.VendorId != VendorId)
-                return Unauthorized("This Reservation Doesn't Belong To You.");
+            int vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data.Id, 'a');
-            if (Entry is null)
-                return BadRequest("Reservation Doesn't Exist");
-
-            if (Entry.State != EntityState.Modified)
-                return BadRequest(Entry.State);
-            else
-            {
-                ReservationManager.Save();
-                return Ok();
-            }
+            var result = _reservationRepository.ChangeStatusByVendor(Data.Id, 'a', vendorId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
 
         }
         [HttpPut("Reject"), Authorize(Roles = "vendor")]
-        public IActionResult Reject([FromBody] ChangeReservationStatusViewModel Data)
+        public IActionResult Reject([FromBody] ChangeReservationStatusDTO Data)
         {
             if (!ModelState.IsValid)
             {
@@ -99,41 +75,22 @@ namespace Api.Controllers
                 }
                 return BadRequest(Errors);
             }
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
-            if (Data.VendorId != VendorId)
-                return Unauthorized("This Reservation Doesn't Belong To You.");
+            int vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data.Id, 'r');
-            if (Entry is null)
-                return BadRequest("Reservation Doesn't Exist");
-
-            if (Entry.State != EntityState.Modified)
-                return BadRequest(Entry.State);
-            else
-            {
-                ReservationManager.Save();
-                return Ok();
-            }
+            var result = _reservationRepository.ChangeStatusByVendor(Data.Id, 'r', vendorId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
 
         }
         [HttpGet("Confirm/{Id}"), Authorize()]
         public IActionResult Confirm(int Id)
         {
-            EntityEntry<Reservation>? Entry = ReservationManager.Confirm(Id);
-            if (Entry is null)
-                return BadRequest("Reservation Doesn't Exist");
-            if (Entry.State != EntityState.Modified)
-                return BadRequest(Entry.State);
-            else
-            {
-                ReservationManager.Save();
-                return Ok();
-            }
+            var result = _reservationRepository.Confirm(Id);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
         [HttpPut("Done"), Authorize()]
-        public IActionResult Done([FromBody] UserChangeReservationStatusViewModel Data)
+        public IActionResult Done([FromBody] CustomerChangeReservationStatusDTO Data)
         {
             if (!ModelState.IsValid)
             {
@@ -148,56 +105,43 @@ namespace Api.Controllers
                 return BadRequest(Errors);
             }
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            if (Data.UserId != UserId)
-                return Unauthorized("This Reservation Doesn't Belong To You.");
 
-            EntityEntry<Reservation>? Entry = ReservationManager.ChangeStatus(Data.Id, 'd');
-            if (Entry is null)
-                return BadRequest("Reservation Doesn't Exist");
-
-            if (Entry.State != EntityState.Modified)
-                return BadRequest(Entry.State);
-            else
-            {
-                ReservationManager.Save();
-                return Ok();
-            }
+            var result = _reservationRepository.ChangeStatusByCustomer(Data.Id, 'd', UserId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
 
         }
 
         // User Reservations
         [HttpGet("GetAllUserReservations"), Authorize()]
-        public IActionResult GetAllUserReservations(int PageSize = 5, int PageIndex = 1)
+        public IActionResult GetAllUserReservations(int PageIndex = 1, int PageSize = 5)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var Data = ReservationManager.GetUserReservations(UserId, PageSize, PageIndex);
+            var Data = _reservationRepository.GetUserReservations(UserId, PageIndex, PageSize);
             return Ok(Data);
         }
         [HttpGet("GetUserReservationsByStatus"), Authorize()]
-        public IActionResult GetUserReservationsByStatus(char Status, int PageSize = 5, int PageIndex = 1)
+        public IActionResult GetUserReservationsByStatus(char Status, int PageIndex = 1, int PageSize = 5)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var Data = ReservationManager.GetUserReservationsByIdAndStatus(UserId, Status, PageSize, PageIndex);
+            var Data = _reservationRepository.GetUserReservationsByIdAndStatus(UserId, Status, PageIndex, PageSize);
             return Ok(Data);
         }
         [HttpGet("GetAllVendorReservations"), Authorize()]
-        public IActionResult GetAllVendorReservations(int PageSize = 5, int PageIndex = 1)
+        public IActionResult GetAllVendorReservations(int PageIndex = 1, int PageSize = 5)
         {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
-            var Data = ReservationManager.GetVendorReservations(VendorId, PageSize, PageIndex);
+            int vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var Data = _reservationRepository.GetVendorReservations(vendorId, PageIndex, PageSize);
             return Ok(Data);
         }
 
         // Vendor Reservations
         [HttpGet("GetVendorReservationsByStatus"), Authorize(Roles = "vendor")]
-        public IActionResult GetVendorReservationsByStatus(char Status, int PageSize = 5, int PageIndex = 1)
+        public IActionResult GetVendorReservationsByStatus(char Status, int PageIndex = 1, int PageSize = 5)
         {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
-            var Data = ReservationManager.GetVendorReservationsByIdAndStatus(VendorId, Status, PageSize, PageIndex);
+            int vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            var Data = _reservationRepository.GetVendorReservationsByIdAndStatus(vendorId, Status, PageIndex, PageSize);
             return Ok(Data);
         }
         //[HttpGet("GetVendorReservationsByPagination/{Status}"), Authorize(Roles = "vendor")]
@@ -211,34 +155,31 @@ namespace Api.Controllers
         //    return Ok(paginationResult);
         //}
 
-        //Cheackout
+        //Checkout
         [HttpGet("CheckoutReservationById/{Id}"), Authorize()]
         public IActionResult CheckoutReservationById(int Id)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            return Ok(ReservationManager.CheckoutReservationById(UserId, Id));
+            return Ok(_reservationRepository.CheckoutReservationById(UserId, Id));
         }
 
         // Stats
         [HttpGet("GetTotalOrder"), Authorize(Roles = "vendor")]
         public IActionResult GetTotalOrder()
         {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
+            int vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-            var stats = ReservationManager.GetReservationTotalDoneOrders(VendorId, DateTime.Now.Year);
+
+            var stats = _reservationRepository.GetReservationTotalDoneOrders(vendorId, DateTime.Now.Year);
 
             return Ok(stats);
         }
         [HttpGet("GetTotalSales"), Authorize(Roles = "vendor")]
         public IActionResult GetTotalSales()
         {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null)
-                return Unauthorized();
-            int VendorId = (int)_vendorId;
-            var stats = ReservationManager.GetReservationTotalSales(VendorId, DateTime.Now.Year);
+            int vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            var stats = _reservationRepository.GetReservationTotalSales(vendorId, DateTime.Now.Year);
 
             return Ok(stats);
         }

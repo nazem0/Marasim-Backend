@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.PromoCodeDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository;
+using System.Net;
 using System.Text;
-using ViewModels.PostViewModels;
-using ViewModels.PromoCodeViewModels;
 
 namespace API.Controllers
 {
@@ -11,16 +11,16 @@ namespace API.Controllers
     [ApiController]
     public class PromoCodeController : ControllerBase
     {
-        private readonly PromoCodeRepository PromoCodeManager;
+        private readonly IPromoCodeRepository _promoCodeRepository;
 
-        public PromoCodeController(PromoCodeRepository _PromoCodeManger)
+        public PromoCodeController(IPromoCodeRepository promoCodeRepository)
         {
-            PromoCodeManager = _PromoCodeManger;
+            _promoCodeRepository = promoCodeRepository;
         }
 
         [Authorize(Roles = "vendor")]
         [HttpPost("Add")]
-        public IActionResult Add([FromForm] CreatePromoCodeViewModel Data)
+        public IActionResult Add([FromForm] CreatePromoCodeDTO Data)
         {
             if (!ModelState.IsValid)
             {
@@ -34,64 +34,18 @@ namespace API.Controllers
                 }
                 return BadRequest(str);
             }
-            PromoCodeManager.Add(Data.ToModel());
-            PromoCodeManager.Save();
+            var result = _promoCodeRepository.Add(Data);
+            if (result != HttpStatusCode.OK) return BadRequest();
             return Ok();
         }
-
-
-        #region Update
-        //[Authorize(Roles = "vendor")]
-        //public IActionResult Update( [FromForm] UpdatePromoCodeViewModel updatedPromoCode)
-        //{
-        //    PromoCode? promoCode = PromoCodeManager.Get(updatedPromoCode.Id).FirstOrDefault();
-
-        //    if (promoCode != null)
-        //    {
-        //        promoCode.Code = updatedPromoCode.Code;
-        //        promoCode.Discount = updatedPromoCode.Discount;
-        //        promoCode.Limit = updatedPromoCode.Limit;
-        //        promoCode.Count = updatedPromoCode.Count;
-        //        promoCode.ExpirationDate = updatedPromoCode.ExpirationDate;
-
-        //        PromoCodeManager.Update(promoCode);
-        //        PromoCodeManager.Save();
-
-        //        return Ok("PromoCode updated successfully");
-        //    }
-        //    else
-        //    {
-        //        return NotFound("PromoCode not found");
-        //    }
-        //}
-        #endregion
-
-
-        //[HttpGet("GetPromoCodes")]
-        //ViewModelNeeded IN MANAGER
-        //public IActionResult GetPromoCodes()
-        //{
-        //    var PromoCodes = PromoCodeManager.Get().ToList();
-        //    return Ok(promoCodes);
-        //}
-
 
         [Authorize(Roles = "vendor")]
         [HttpDelete("Delete/{ServiceId}")]
         public IActionResult Delete(int ServiceId)
         {
-            var promoCode = PromoCodeManager.GetPromoCodeByServiceId(ServiceId);
-
-            if (promoCode != null)
-            {
-                PromoCodeManager.Delete(promoCode);
-                PromoCodeManager.Save();
-                return Ok();
-            }
-            else
-            {
-                return NotFound("PromoCode not found");
-            }
+            var result = _promoCodeRepository.DeleteByServiceId(ServiceId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
 
 

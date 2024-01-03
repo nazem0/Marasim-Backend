@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.AccountDTOs;
+using Application.Interfaces.IRepositories;
+using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Models;
-using Repository;
 using System.Security.Claims;
 using System.Text;
-using ViewModels.UserViewModels;
-using ViewModels.VendorViewModels;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace API.Controllers
@@ -16,18 +15,17 @@ namespace API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly AccountRepository AccountManager;
-        private readonly UserRepository UserManager;
-        private readonly VendorRepository VendorManager;
-
-        public AccountController(AccountRepository _accManger, UserRepository _userManager, VendorRepository vendorManager)
+        private readonly IAccountRepository _accountRepository;
+        private readonly IVendorRepository _vendorRepository;
+        private readonly UserManager<User> _userManager;
+        public AccountController(IAccountRepository accountRepository, IVendorRepository vendorRepository, UserManager<User> userManager)
         {
-            AccountManager = _accManger;
-            UserManager = _userManager;
-            VendorManager = vendorManager;
+            _accountRepository = accountRepository;
+            _vendorRepository = vendorRepository;
+            _userManager = userManager;
         }
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromForm] UserRegistrationViewModel viewModel)
+        public async Task<IActionResult> Register([FromForm] CustomerRegisterDTO customerRegisterDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -42,7 +40,7 @@ namespace API.Controllers
                 return new ObjectResult(str);
             }
 
-            IdentityResult result = await AccountManager.Register(viewModel);
+            IdentityResult result = await _accountRepository.Register(customerRegisterDTO);
             if (result.Succeeded) return Ok();
             else
             {
@@ -55,7 +53,7 @@ namespace API.Controllers
             }
         }
         [HttpPost("RegisterAsVendor")]
-        public async Task<IActionResult> RegisterAsVendor([FromForm] VendorRegistrationViewModel viewModel)
+        public async Task<IActionResult> RegisterAsVendor([FromForm] VendorRegisterDTO vendorRegisterDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -69,7 +67,7 @@ namespace API.Controllers
                 }
                 return new ObjectResult(Errors);
             }
-            bool result = await AccountManager.RegisterAsVendor(viewModel);
+            bool result = await _accountRepository.RegisterAsVendor(vendorRegisterDTO);
             if (result is true) return Ok();
             else
             {
@@ -77,7 +75,7 @@ namespace API.Controllers
             }
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromForm] LoginViewModel viewModel)
+        public async Task<IActionResult> Login([FromForm] LoginDTO loginDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -93,14 +91,14 @@ namespace API.Controllers
                 return new ObjectResult(str);
 
             }
-            SignInResult SignInResult = await AccountManager.Login(viewModel);
+            SignInResult SignInResult = await _accountRepository.Login(loginDTO);
             if (SignInResult.IsLockedOut) return new ObjectResult("Your Account is Under Review");
             else if (SignInResult.Succeeded)
             {
-                User? User = await UserManager.FindByEmailAsync(viewModel.Email);
-                string tokenString = await AccountManager.GenerateJSONWebToken(User!);
+                var User = await _userManager.FindByEmailAsync(loginDTO.Email);
+                string tokenString = await _accountRepository.GenerateJSONWebToken(User!);
                 IList<string> roles = await
-                    UserManager.GetRolesAsync(User!);
+                    _userManager.GetRolesAsync(User!);
                 if (roles.Contains("vendor"))
                 {
                     return Ok(new
@@ -110,7 +108,7 @@ namespace API.Controllers
                         profilePicture = User!.PicUrl,
                         name = User!.Name,
                         id = User!.Id,
-                        vendorId = VendorManager.GetVendorIdByUserId(User.Id)
+                        vendorId = _vendorRepository.GetVendorIdByUserId(User.Id)
                     });
                 }
                 else
@@ -127,12 +125,11 @@ namespace API.Controllers
             }
             else return new ObjectResult("User name or Password is Wrong");
 
-
         }
-        [HttpGet("Logout")]
-        public async Task Logout() => await AccountManager.Logout();
+        [HttpGet("Logout"), Authorize]
+        public async Task Logout() => await _accountRepository.Logout();
         [HttpPut("ChangePassword"), Authorize]
-        public async Task<IActionResult> ChangePasswordAsync([FromForm] ChangePasswordViewModel data)
+        public async Task<IActionResult> ChangePasswordAsync([FromForm] ChangePasswordDTO changePasswordDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -140,7 +137,7 @@ namespace API.Controllers
                 return BadRequest(errorList);
             }
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var result = await AccountManager.ChangePassword(userId, data);
+            var result = await _accountRepository.ChangePassword(userId, changePasswordDTO);
             if (!result.Succeeded)
                 return BadRequest(result.Errors.Select(e => new
                 {

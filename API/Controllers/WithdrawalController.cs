@@ -1,10 +1,10 @@
-﻿using System;
-using System.Security.Claims;
+﻿using Application.DTOs.WithdrawalDTOs;
+using Application.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Repository;
-using ViewModels.WithdrawalViewModels;
+using System.Net;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
@@ -12,32 +12,28 @@ namespace Api.Controllers
     [ApiController]
     public class WithdrawalController : ControllerBase
     {
-        private readonly WithdrawalRepository WithdrawalManager;
-        private readonly PaymentRepository PaymentManager;
-        private readonly VendorRepository VendorManager;
+        private readonly IWithdrawalRepository _withdrawalRepository;
+        private readonly IVendorRepository _vendorRepository;
         public WithdrawalController(
-            WithdrawalRepository _WithdrawalManager,
-            PaymentRepository _PaymentManager,
-            VendorRepository _VendorManager
+            IWithdrawalRepository _WithdrawalManager,
+            IPaymentRepository _PaymentManager,
+            IVendorRepository _VendorManager
             )
         {
-            WithdrawalManager = _WithdrawalManager;
-            PaymentManager = _PaymentManager;
-            VendorManager = _VendorManager;
+            _withdrawalRepository = _WithdrawalManager;
+            _vendorRepository = _VendorManager;
         }
 
         [HttpGet("Get/{PageIndex}"), Authorize(Roles = "admin")]
-        public IActionResult Get(int PageSize = 2, int PageIndex = 1)
+        public IActionResult Get(int PageIndex = 1, int PageSize = 2)
         {
-            return Ok(WithdrawalManager.GetWithdrawals(PageSize, PageIndex));
+            return Ok(_withdrawalRepository.GetWithdrawals(PageIndex, PageSize));
         }
 
         [HttpPost("Add"), Authorize(Roles = "vendor")]
-        public async Task<IActionResult> Add([FromForm] AddWithdrawlViewModel Data)
+        public async Task<IActionResult> Add([FromForm] CreateWithdrawalDTO Data)
         {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
+            int vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
             if (!ModelState.IsValid)
             {
@@ -51,16 +47,11 @@ namespace Api.Controllers
                 }
                 return BadRequest(Errors);
             }
-            else
-            {
-                bool added = await WithdrawalManager.AddAsync(Data, VendorId);
-                if (!added)
-                    return BadRequest();
-                else
-                {
-                    return Ok();
-                }
-            }
+
+            HttpStatusCode result = await _withdrawalRepository.AddAsync(Data, vendorId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
+
         }
 
         [HttpGet("Confirm/{WithdrawalId}"), Authorize(Roles = "admin")]
@@ -78,16 +69,11 @@ namespace Api.Controllers
                 }
                 return BadRequest(Errors);
             }
-            else
-            {
-                bool updated = WithdrawalManager.ConfirmWithdrawal(WithdrawalId);
-                if (!updated)
-                    return BadRequest();
-                else
-                {
-                    return Ok();
-                }
-            }
+
+            HttpStatusCode result = _withdrawalRepository.ConfirmWithdrawal(WithdrawalId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
+
         }
     }
 }

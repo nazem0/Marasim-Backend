@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.PostAttachmentDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository;
+using System.Net;
 using System.Security.Claims;
-using ViewModels.PostAttachmentsViewModel;
 
 namespace Marasim_Backend.Controllers
 {
@@ -10,38 +11,32 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class PostAttachmentController : ControllerBase
     {
-        private readonly PostAttachmentRepository PostAttachmentManager;
-        private readonly VendorRepository VendorManager;
-        public PostAttachmentController(PostAttachmentRepository _PostAttachmentManager, VendorRepository _vendorManager)
+        private readonly IPostAttachmentRepository _postAttachmentRepository;
+        private readonly IVendorRepository _vendorRepository;
+        public PostAttachmentController(IPostAttachmentRepository postAttachmentRepository, IVendorRepository vendorRepository)
         {
-            PostAttachmentManager = _PostAttachmentManager;
-            VendorManager = _vendorManager;
+            _postAttachmentRepository = postAttachmentRepository;
+            _vendorRepository = vendorRepository;
         }
 
         [HttpGet("GetByPostId/{PostId}")]
         public IActionResult GetByPostId(int PostId)
         {
-            return Ok(PostAttachmentManager.GetByPostId(PostId));
+            return Ok(_postAttachmentRepository.GetByPostId(PostId));
         }
 
         [HttpPost("Add"), Authorize(Roles = "vendor")]
-        public IActionResult Add([FromForm] AddPostAttachmentsDTO Data)
+        public IActionResult Add([FromForm] CreatePostAttachmentDTO Data)
         {
-            int VendorId = (int)VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!)!;
-            if (PostAttachmentManager.Add(Data, VendorId) is false)
-                return BadRequest();
-            else
-                return Ok();
+            int VendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            return _postAttachmentRepository.Add(Data, VendorId) is HttpStatusCode.OK ? Ok() : BadRequest();
         }
         [HttpDelete("Delete/{Id}"), Authorize(Roles = "vendor")]
         public IActionResult Delete(int Id)
         {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            if (_vendorId is null) return Unauthorized();
-            int VendorId = (int)_vendorId;
-            bool result = PostAttachmentManager.Delete(Id, VendorId);
-            if (result is false) return BadRequest();
-            return Ok();
+            int vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var result = _postAttachmentRepository.Delete(Id, vendorId);
+            return result is HttpStatusCode.OK ? Ok() : BadRequest();
         }
     }
 }

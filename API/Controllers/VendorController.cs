@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.VendorDTOs;
+using Application.DTOs.VendorGenerationDTOs;
+using Application.Interfaces.IRepositories;
+using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Repository;
 using System.Security.Claims;
-using ViewModels.GenerationViewModels;
-using ViewModels.VendorViewModels;
 
 namespace Marasim_Backend.Controllers
 {
@@ -12,45 +13,44 @@ namespace Marasim_Backend.Controllers
     [ApiController]
     public class VendorController : ControllerBase
     {
-        private readonly VendorRepository VendorManager;
-        private readonly UserRepository UserManager;
+        private readonly IVendorRepository _vendorRepository;
+        private readonly UserManager<User> _userManager;
 
         public VendorController(
-            VendorRepository _VendorManager,
-            UserRepository _UserManager)
+            IVendorRepository vendorRepository,
+            UserManager<User> userManager)
         {
-            VendorManager = _VendorManager;
-            UserManager = _UserManager;
+            _vendorRepository = vendorRepository;
+            _userManager = userManager;
         }
 
         [HttpGet("Count")]
         public IActionResult Count()
         {
-            return Ok(VendorManager.Count());
+            return Ok(_vendorRepository.Count());
         }
 
         [HttpGet("GetAll")]
-        public IActionResult GetAll(int PageSize = 5, int PageIndex = 1)
+        public IActionResult GetAll(int PageIndex = 1, int PageSize = 5)
         {
-            var Data = VendorManager.GetAll(PageSize, PageIndex);
+            var Data = _vendorRepository.GetAll(PageIndex, PageSize);
             return Ok(Data);
         }
 
         [HttpGet("GetVendorById/{VendorId}")]
         public IActionResult GetVendorById(int VendorId)
         {
-            Vendor? Data = VendorManager.Get(VendorId);
-            if (Data == null)
-                return NotFound();
-            return Ok(Data.ToVendorViewModel(Data.User));
+            var vendor = _vendorRepository.GetVendorById(VendorId);
+            if (vendor is null) return NotFound();
+            else return Ok(vendor);
         }
 
         [HttpGet("GetVendorByUserId/{UserId}")]
         public IActionResult GetVendorByUserId(string UserId)
         {
-            var Data = VendorManager.GetVendorByUserId(UserId);
-            if (Data is null) return NotFound();
-            return Ok(Data.ToVendorMidInfoViewModel());
+            var vendor = _vendorRepository.GetVendorMidInfoByUserId(UserId);
+            if (vendor is null) return NotFound();
+            else return Ok(vendor);
         }
 
         [HttpGet("GetIntOfVendors/{NumOfVen}")]
@@ -58,51 +58,42 @@ namespace Marasim_Backend.Controllers
         {
             if (NumOfVen / 1 != NumOfVen) return BadRequest();
 
-            var Data = VendorManager.GetIntOfVendors(NumOfVen);
+            var Data = _vendorRepository.GetIntOfVendors(NumOfVen);
             return Ok(Data);
         }
 
         [HttpGet("GetVendorsMidInfo")]
-        public IActionResult GetVendorsMidInfo()
+        public async Task<IActionResult> GetVendorsMidInfoAsync()
         {
-            var Data = VendorManager.Get().Select(v => v.ToVendorMidInfoViewModel());
-            return Ok(Data);
+            var vendors = await _vendorRepository.GetVendorsMidInfoAsync();
+            return Ok(vendors);
         }
 
-        [HttpGet("GetVendorFullFull/{VendorId}")]
-        public async Task<IActionResult> GetVendorFullFull(int VendorId)
+        [HttpGet("GetVendorFullInfo/{VendorId}")]
+        public IActionResult GetVendorFullInfo(int VendorId)
         {
-            string? VendorUserId = VendorManager.GetUserIdByVendorId(VendorId);
-            if (VendorUserId == null)
-                return NotFound();
-
-            User? VendorUser = await UserManager.FindByIdAsync(VendorUserId);
-            if (VendorUser == null)
-                return NotFound();
-
-            VendorFullViewModel? Data = VendorManager.Get(VendorId)?.ToVendorFullViewModel(VendorUser);
-            if (Data == null) return NotFound();
-            return Ok(Data);
+            var vendor = _vendorRepository.GetVendorFullInfoByUserId(VendorId);
+            return Ok(vendor);
         }
 
         [HttpPut("Update")]
         [Authorize(Roles = "vendor")]
-        public IActionResult Update([FromForm] UpdateVendorProfileViewModel Data)
+        public IActionResult Update([FromForm] UpdateVendorDTO Data)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            VendorManager.Update(Data, UserId);
+            _vendorRepository.Update(Data, UserId);
             return Ok();
         }
         [HttpPost("GenerateVendor"), Authorize]
-        public IActionResult GenerateVendor(GenerateVendorViewModel Data)
+        public IActionResult GenerateVendor(GenerateVendorDTO Data)
         {
-            return Ok(VendorManager.GenerateVendor(Data));
+            return Ok(_vendorRepository.GenerateVendor(Data));
         }
 
         [HttpPost("GeneratePackage")]
-        public async Task<IActionResult> GeneratePackageAsync(GeneratePackageViewModel Data)
+        public async Task<IActionResult> GeneratePackageAsync(GeneratePackageDTO Data)
         {
-            return Ok(await VendorManager.GeneratePackageAsync(Data));
+            return Ok(await _vendorRepository.GeneratePackageAsync(Data));
         }
 
         [HttpGet("Filter/{PageIndex}")]
@@ -117,7 +108,7 @@ namespace Marasim_Backend.Controllers
             int? Rate = null
             )
         {
-            var Vendors = await VendorManager.FilterAsync(new VendorFilterDTO
+            var Vendors = await _vendorRepository.FilterAsync(new VendorFilterCriteria
             {
                 Categories = Categories,
                 GovernorateId = GovernorateId,

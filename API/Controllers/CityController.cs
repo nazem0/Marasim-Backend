@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Repository;
+﻿using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
@@ -7,20 +7,20 @@ namespace Api.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly CityRepository CityManager;
-        public CityController(CityRepository cityManager)
+        private readonly ICityRepository _cityRepository;
+        public CityController(ICityRepository cityRepository)
         {
-            this.CityManager = cityManager;
+            this._cityRepository = cityRepository;
         }
         [HttpGet("Get")]
         public IActionResult Get()
         {
-            return Ok(CityManager.Get());
+            return Ok(_cityRepository.Get());
         }
         [HttpGet("GetByGovId/{GovId}")]
         public IActionResult Get(int GovId)
         {
-            return Ok(CityManager.GetByGovId(GovId));
+            return Ok(_cityRepository.GetByGovId(GovId));
         }
     }
 }

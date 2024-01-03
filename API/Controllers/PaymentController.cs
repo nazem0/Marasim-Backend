@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.PaymentDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Models;
-using Repository;
+using System.Net;
 using System.Security.Claims;
-using ViewModels.PaymentViewModels;
 
 namespace Api.Controllers
 {
@@ -14,24 +12,24 @@ namespace Api.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly PaymentRepository PaymentManager;
-        private readonly ReservationRepository ReservationManager;
-        private readonly VendorRepository VendorManager;
+        private readonly IPaymentRepository _paymentRepository;
+        private readonly IReservationRepository _reservationRepository;
+        private readonly IVendorRepository _vendorRepository;
         public PaymentController(
-            PaymentRepository _paymentManager,
-            ReservationRepository _reservationManager,
-            VendorRepository _vendorManager
+            IPaymentRepository paymentRepository,
+            IReservationRepository reservationRepository,
+            IVendorRepository vendorRepository
             )
         {
-            PaymentManager = _paymentManager;
-            ReservationManager = _reservationManager;
-            VendorManager = _vendorManager;
+            _paymentRepository = paymentRepository;
+            _reservationRepository = reservationRepository;
+            _vendorRepository = vendorRepository;
         }
 
 
 
         [HttpPost("Add"), Authorize()]
-        public IActionResult Add([FromForm] AddPaymentViewModel Data)
+        public IActionResult Add([FromForm] CreatePaymentDTO Data)
         {
             if (!ModelState.IsValid)
             {
@@ -47,57 +45,49 @@ namespace Api.Controllers
             }
             else
             {
-                EntityEntry<Payment> Entry = PaymentManager.Add(Data);
-                if (Entry.State != EntityState.Added)
-                    return BadRequest(Entry.State);
-                else
-                {
-                    ReservationManager.ChangeStatus(Data.ReservationId, 'f');
-
-                    PaymentManager.Save();
-                    ReservationManager.Save();
-                    return Ok();
-                }
+                HttpStatusCode result = _paymentRepository.Add(Data);
+                if (result != HttpStatusCode.OK) return BadRequest();
+                return Ok();
             }
         }
 
         [HttpGet("Count")]
         public IActionResult Count()
         {
-            return Ok(PaymentManager.Count());
+            return Ok(_paymentRepository.Count());
         }
 
         //To Be Only For Admin Later
         [HttpGet("Get")]
         public IActionResult Get()
         {
-            return Ok(PaymentManager.GetPayments());
+            return Ok(_paymentRepository.GetPayments());
         }
         [HttpGet("GetUnconfirmed")]
         public IActionResult GetUnconfirmed()
         {
-            return Ok(PaymentManager.GetUnconfirmed());
+            return Ok(_paymentRepository.GetUnconfirmed());
         }
         [HttpGet("GetConfirmed")]
         public IActionResult GetConfirmed()
         {
-            return Ok(PaymentManager.GetConfirmed());
+            return Ok(_paymentRepository.GetConfirmed());
         }
         [HttpGet("GetVendorsPayments/{PageIndex}"), Authorize(Roles = "vendor")]
         public IActionResult GetVendorsPayments(int PageIndex = 1, int PageSize = 3)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            int? _vendorId = VendorManager.GetVendorIdByUserId(UserId);
+            int? _vendorId = _vendorRepository.GetVendorIdByUserId(UserId);
             if (_vendorId is null) return Unauthorized();
             int VendorId = (int)_vendorId;
-            return Ok(PaymentManager.GetVendorsPayment(VendorId, PageIndex, PageSize));
+            return Ok(_paymentRepository.GetVendorsPayment(VendorId, PageIndex, PageSize));
         }
 
         //stats for TotalMonthlyProfits
         [HttpGet("GetOurTotalProfits/{Year?}"), Authorize(Roles = "admin")]
         public IActionResult GetOurTotalProfits(int Year)
         {
-            IDictionary<string, double> monthlyTotals = PaymentManager.GetMonthlyPaymentTotal(Year);
+            IDictionary<string, double> monthlyTotals = _paymentRepository.GetMonthlyPaymentTotal(Year);
             return Ok(monthlyTotals);
         }
 
@@ -105,10 +95,10 @@ namespace Api.Controllers
         [HttpGet("GetVendorBalance"), Authorize(Roles = "vendor")]
         public IActionResult GetVendorBalance()
         {
-            int? _vendorId = VendorManager.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            int? _vendorId = _vendorRepository.GetVendorIdByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             if (_vendorId is null) return Unauthorized();
             int VendorId = (int)_vendorId;
-            return Ok(PaymentManager.VendorBalance(VendorId));
+            return Ok(_paymentRepository.VendorBalance(VendorId));
         }
     }
 }

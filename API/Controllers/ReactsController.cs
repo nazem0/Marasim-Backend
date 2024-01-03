@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.ReactDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Repository;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
-using ViewModels.ReactViewModels;
 
 namespace API.Controllers
 {
@@ -12,31 +12,31 @@ namespace API.Controllers
     [ApiController]
     public class ReactController : ControllerBase
     {
-        private readonly ReactRepository ReactManager;
+        private readonly IReactRepository _reactRepository;
         public ReactController
-            (ReactRepository _ReactManager)
+            (IReactRepository __reactRepository)
         {
-            ReactManager = _ReactManager;
+            _reactRepository = __reactRepository;
         }
 
         [HttpGet("GetByPostId/{PageIndex}")]
         public IActionResult GetByPostId(int PostId, int PageIndex = 1, int PageSize = 10)
         {
-            var Data = ReactManager.GetByPostId(PostId, PageIndex, PageSize);
+            var Data = _reactRepository.GetByPostId(PostId, PageIndex, PageSize);
 
             return new JsonResult(Data);
         }
         [HttpGet("GetReactsCountByPostId/{PostId}")]
         public IActionResult GetReactsCountByPostId(int PostId)
         {
-            return Ok(ReactManager.GetReactsCountByPostId(PostId));
+            return Ok(_reactRepository.GetReactsCountByPostId(PostId));
         }
 
         [HttpGet("GetIsLiked/{PostId}"), Authorize]
         public IActionResult GetIsLiked(int PostId)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            if (ReactManager.IsLiked(UserId, PostId))
+            if (_reactRepository.IsLiked(UserId, PostId))
             {
                 return Ok(true);
             }
@@ -48,7 +48,7 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPost("Add")]
-        public IActionResult Add([FromForm] AddReactViewModel AddReact)
+        public IActionResult Add([FromForm] CreateReactDTO createReactDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -62,26 +62,10 @@ namespace API.Controllers
                 }
                 return BadRequest(str);
             }
-            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (!ReactManager.IsLiked(UserId!, AddReact.PostId))
-            {
-                ReactManager.Add(AddReact.ToModel(UserId!));
-                ReactManager.Save();
-                return Ok();
-            }
-            else
-            {
-                var str = new StringBuilder();
-                foreach (var item in ModelState.Values)
-                {
-                    foreach (var item1 in item.Errors)
-                    {
-                        str.Append(item1.ErrorMessage);
-                    }
-                }
-                return BadRequest(str);
-            }
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var result = _reactRepository.Add(createReactDTO, UserId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
 
         [Authorize]
@@ -89,25 +73,9 @@ namespace API.Controllers
         public IActionResult Delete(int PostId)
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            React? React = ReactManager.Get().Where(r => r.PostId == PostId && r.UserId == UserId).FirstOrDefault();
-            if (React is not null && React.UserId == UserId)
-            {
-                ReactManager.Delete(React);
-                ReactManager.Save();
-                return Ok();
-            }
-            else
-            {
-                var str = new StringBuilder();
-                foreach (var item in ModelState.Values)
-                {
-                    foreach (var item1 in item.Errors)
-                    {
-                        str.Append(item1.ErrorMessage);
-                    }
-                }
-                return BadRequest(str);
-            }
+            var result = _reactRepository.DeleteByPostId(PostId, UserId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
     }
 }

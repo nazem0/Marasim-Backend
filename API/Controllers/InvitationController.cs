@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.InvitationDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Repository;
+using System.Net;
 using System.Security.Claims;
-using ViewModels.InvitationViewModel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Api.Controllers
 {
@@ -12,26 +11,23 @@ namespace Api.Controllers
     [ApiController]
     public class InvitationController : ControllerBase
     {
-        private readonly InvitationRepository InvitationManager;
-        public InvitationController(InvitationRepository _invitationManager)
+        private readonly IInvitationRepository _invitationRepository;
+        public InvitationController(IInvitationRepository invitationRepository)
         {
-            InvitationManager = _invitationManager;
+            _invitationRepository = invitationRepository;
         }
 
         [HttpPost("Add"), Authorize(Roles = "user")]
-        public IActionResult Add([FromForm] AddInvitationViewModel Data)
+        public IActionResult Add([FromForm] CreateInvitationDTO Data)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            else
-            {
-                string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-                bool Result = InvitationManager.Add(Data, UserId);
-                if (!Result)
-                    return BadRequest();
-                else
-                    return Ok();
-            }
+
+            string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            HttpStatusCode result = _invitationRepository.Add(Data, UserId);
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
+
         }
 
         [HttpGet("Delete/{Id}"), Authorize(Roles = "user")]
@@ -42,33 +38,28 @@ namespace Api.Controllers
             else
             {
                 string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-                bool Result = InvitationManager.Delete(Id, UserId);
-                if (!Result)
-                    return BadRequest();
-                else
-                    return Ok();
+                HttpStatusCode result = _invitationRepository.Delete(Id, UserId);
+                if (result != HttpStatusCode.OK) return BadRequest();
+                return Ok();
             }
         }
 
         [HttpGet("Get/{Id}")]
         public IActionResult Get(int Id)
         {
-            Invitation? Invitation = InvitationManager.Get(Id);
+            var Invitation = _invitationRepository.GetById(Id);
             if (Invitation is null)
                 return NotFound();
             else
-                return Ok(Invitation.ToInvitationViewModel());
+                return Ok(Invitation);
         }
 
         [HttpGet("GetByUserId")]
         public IActionResult GetByUserId()
         {
             string UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            IQueryable<Invitation>? Invitations = InvitationManager.Get().Where(i => i.UserId == UserId)!;
-            if (Invitations is null)
-                return Ok(0);
-            else
-                return Ok(Invitations.Select(i => i.ToInvitationViewModel()));
+            var invitations = _invitationRepository.GetByUserId(UserId);
+            return Ok(invitations);
         }
     }
 }

@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.CommentDTOs;
+using Application.Interfaces.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Repository;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
-using ViewModels.CommentViewModels;
-using ViewModels.PaginationViewModels;
 
 namespace API.Controllers
 {
@@ -13,27 +12,27 @@ namespace API.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
-        private readonly CommentRepository CommentManager;
-        public CommentController(CommentRepository _CommentManager)
+        private readonly ICommentRepository _commentRepository;
+        public CommentController(ICommentRepository commentRepository)
         {
-            CommentManager = _CommentManager;
+            _commentRepository = commentRepository;
         }
 
         [HttpGet("GetCommentsByPostId/{PageIndex}")]
         public IActionResult GetCommentsByPostId(int PostId, int PageIndex = 1, int PageSize = 5)
         {
-            PaginationViewModel<CommentViewModel> Data = CommentManager.GetByPostId(PostId, PageIndex, PageSize);
+            var Data = _commentRepository.Get(PostId, PageIndex, PageSize);
             return Ok(Data);
         }
         [HttpGet("GetCommentsCountByPostId/{PostId}")]
         public IActionResult GetCommentsCount(int PostId)
         {
-            return Ok(CommentManager.GetCommentsCount(PostId));
+            return Ok(_commentRepository.GetCommentsCount(PostId));
         }
 
         [Authorize]
         [HttpPost("Add")]
-        public IActionResult Add([FromForm] AddCommentViewModel Data)
+        public IActionResult Add([FromForm] CreateCommentDTO Data)
         {
             if (!ModelState.IsValid)
             {
@@ -47,9 +46,10 @@ namespace API.Controllers
                 }
                 return BadRequest(str);
             }
-            string LoggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            CommentManager.Add(Data.ToComment(LoggedInUserId));
-            CommentManager.Save();
+            string loggedInUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            HttpStatusCode result = _commentRepository.Add(Data, loggedInUser);
+            if (result == HttpStatusCode.Conflict) return Conflict();
+            if (result != HttpStatusCode.OK) return StatusCode((int)result, "Internal Server Error");
             return Ok();
         }
 
@@ -57,26 +57,12 @@ namespace API.Controllers
         [HttpDelete("Delete/{CommentId}")]
         public IActionResult Delete(int CommentId)
         {
-            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var Comment = CommentManager.Get(CommentId);
-            if (Comment is not null && Comment.UserId == UserId)
-            {
-                CommentManager.Delete(Comment);
-                CommentManager.Save();
-                return Ok();
-            }
-            else
-            {
-                var str = new StringBuilder();
-                foreach (var item in ModelState.Values)
-                {
-                    foreach (var item1 in item.Errors)
-                    {
-                        str.Append(item1.ErrorMessage);
-                    }
-                }
-                return BadRequest(str);
-            }
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var result = _commentRepository.Delete(CommentId, UserId);
+            if (result == HttpStatusCode.NotFound) return NotFound();
+            if (result == HttpStatusCode.Forbidden) return Forbid();
+            if (result != HttpStatusCode.OK) return BadRequest();
+            return Ok();
         }
 
     }
