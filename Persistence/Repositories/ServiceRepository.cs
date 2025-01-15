@@ -1,4 +1,4 @@
-﻿using Application.DTOs.ServiceAttachmentsDTOs;
+﻿using Application.DTOs.ServiceAttachmentDTOs;
 using Application.DTOs.ServiceDTOs;
 using Application.ExtensionMethods;
 using Application.Interfaces;
