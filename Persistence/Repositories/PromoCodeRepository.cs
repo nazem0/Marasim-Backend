@@ -12,7 +12,7 @@ namespace Persistence.Repositories
     {
         private readonly DbSet<PromoCode> _promoCodes;
         private readonly IUnitOfWork _unitOfWork;
-        public PromoCodeRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public PromoCodeRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _promoCodes = entitiesContext.PromoCodes;
             _unitOfWork = unitOfWork;

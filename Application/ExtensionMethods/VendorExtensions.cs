@@ -1,7 +1,7 @@
 ﻿using Application.DTOs.AccountDTOs;
 using Application.DTOs.VendorDTOs;
+using Application.DTOs.VendorGenerationDTOs;
 using Domain.Entities;
-using ViewModels.VendorViewModels;
 
 namespace Application.ExtensionMethods
 {

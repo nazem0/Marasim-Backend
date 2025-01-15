@@ -13,7 +13,7 @@ namespace Persistence.Repositories
     {
         private readonly DbSet<React> _reacts;
         private readonly IUnitOfWork _unitOfWork;
-        public ReactRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public ReactRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _reacts = entitiesContext.Reacts;
             _unitOfWork = unitOfWork;

@@ -21,6 +21,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{3229BE32-0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{A1DC8E77-FA81-443F-AD06-7C4CC17F3892}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnusedControllers", "UnusedControllers", "{9E24F311-ED50-4C6A-860F-19A0F5E7B984}"
+	ProjectSection(SolutionItems) = preProject
+		Api\Controllers\CommentController.cs = Api\Controllers\CommentController.cs
+		Api\Controllers\FollowController.cs = Api\Controllers\FollowController.cs
+		Api\Controllers\InvitationController.cs = Api\Controllers\InvitationController.cs
+		Api\Controllers\PostAttachmentController.cs = Api\Controllers\PostAttachmentController.cs
+		Api\Controllers\PostController.cs = Api\Controllers\PostController.cs
+		Api\Controllers\ReactsController.cs = Api\Controllers\ReactsController.cs
+		Api\Controllers\ReservationController.cs = Api\Controllers\ReservationController.cs
+		Api\Controllers\VendorController.cs = Api\Controllers\VendorController.cs
+		Api\Controllers\WithdrawalController.cs = Api\Controllers\WithdrawalController.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +67,7 @@ Global
 		{3CD4BA34-5B7B-4520-99E9-8F7442469921} = {BA643BB8-5C96-4B21-AC13-E7FFA52ED26E}
 		{97537EEF-B3B8-45F6-B3C8-F074603CE10A} = {36DF6CE8-11C3-4019-8DE4-3AB086588C17}
 		{A1DC8E77-FA81-443F-AD06-7C4CC17F3892} = {7E8727E5-37F8-491B-A9A1-80FF41E13F26}
+		{9E24F311-ED50-4C6A-860F-19A0F5E7B984} = {7D9D11D3-92AB-4BFD-8601-F7462383AEEA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5CB62CC6-0307-4BEA-8BB3-5550CFC9A0D4}

@@ -1,11 +1,11 @@
-﻿using Application.DTOs.ServiceAttachmentsDTOs;
+﻿using Application.DTOs.ServiceAttachmentDTOs;
 using Application.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
 
-namespace Marasim_Backend.Controllers
+namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

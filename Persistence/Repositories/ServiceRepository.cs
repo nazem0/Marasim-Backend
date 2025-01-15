@@ -15,7 +15,7 @@ namespace Persistence.Repositories
         private readonly DbSet<Vendor> _vendors;
         private readonly IServiceAttachmentRepository _serviceAttachmentRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public ServiceRepository(EntitiesContext entitiesContext, IServiceAttachmentRepository serviceAttachmentRepository, IUnitOfWork unitOfWork)
+        public ServiceRepository(AppDbContext entitiesContext, IServiceAttachmentRepository serviceAttachmentRepository, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _vendors = entitiesContext.Vendors;

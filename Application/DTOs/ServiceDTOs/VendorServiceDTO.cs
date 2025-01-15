@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.PromoCodeDTOs;
-using Application.DTOs.ServiceAttachmentsDTOs;
+using Application.DTOs.ServiceAttachmentDTOs;
 
 namespace Application.DTOs.ServiceDTOs
 {

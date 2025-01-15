@@ -1,4 +1,4 @@
-﻿using Application.DTOs.ServiceAttachmentsDTOs;
+﻿using Application.DTOs.ServiceAttachmentDTOs;
 using Application.ExtensionMethods;
 using Application.Interfaces;
 using Application.Interfaces.IRepositories;
@@ -14,7 +14,7 @@ namespace Persistence.Repositories
         private readonly DbSet<ServiceAttachment> _serviceAttachments;
         private readonly DbSet<Service> _services;
         private readonly IUnitOfWork _unitOfWork;
-        public ServiceAttachmentRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public ServiceAttachmentRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _services = entitiesContext.Services;

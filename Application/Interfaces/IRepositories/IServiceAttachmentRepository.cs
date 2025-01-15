@@ -1,4 +1,4 @@
-﻿using Application.DTOs.ServiceAttachmentsDTOs;
+﻿using Application.DTOs.ServiceAttachmentDTOs;
 using System.Net;
 
 namespace Application.Interfaces.IRepositories

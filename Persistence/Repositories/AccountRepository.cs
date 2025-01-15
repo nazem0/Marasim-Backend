@@ -17,13 +17,13 @@ namespace Persistence.Repositories
         readonly SignInManager<User> _signInManager;
         readonly IConfiguration _configuration;
         readonly IUnitOfWork _unitOfWork;
-        readonly EntitiesContext _entitiesContext;
+        readonly AppDbContext _entitiesContext;
         readonly UserManager<User> _userManager;
         public AccountRepository
             (SignInManager<User> signInManager,
             IConfiguration configuration,
             IUnitOfWork unitOfWork,
-            EntitiesContext entitiesContext,
+            AppDbContext entitiesContext,
             UserManager<User> userManager)
         {
             _signInManager = signInManager;

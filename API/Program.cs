@@ -19,36 +19,30 @@ namespace API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("ar-EG");
-            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ar-EG");
-
-            builder.Services.AddDbContext<EntitiesContext>(context =>
+            builder.Services.AddDbContext<AppDbContext>(context =>
             {
                 context
                     .UseLazyLoadingProxies()
                     .UseSqlServer
                     (builder.Configuration.GetConnectionString("MyDB"),
                     c => c.EnableRetryOnFailure());
-
-                //context
-                //    .UseLazyLoadingProxies()
-                //    .UseSqlServer
-                //    (Builder.Configuration.GetConnectionString("MySamer"),
-                //    c => c.EnableRetryOnFailure());
             });
 
-            builder.Services.AddIdentity<User, IdentityRole>(Options =>
+            builder.Services.AddIdentity<User, IdentityRole>
+            (Options =>
             {
-                Options.Lockout.MaxFailedAccessAttempts = 2;
+                Options.Lockout.MaxFailedAccessAttempts = 10;
                 Options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                 Options.User.RequireUniqueEmail = true;
                 Options.SignIn.RequireConfirmedPhoneNumber = false;
                 Options.SignIn.RequireConfirmedEmail = false;
                 Options.SignIn.RequireConfirmedAccount = false;
-                Options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
+                Options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
             })
-                .AddEntityFrameworkStores<EntitiesContext>()
-                .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders()
+            .AddApiEndpoints();
+
             builder.Services.AddAuthentication(Option =>
             {
                 Option.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -64,12 +58,11 @@ namespace API
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = false,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
-
                 };
-
             });
 
-            builder.Services.AddCors(option =>
+            builder.Services.AddCors
+            (option =>
             {
                 option.AddDefaultPolicy(i =>
                 i.AllowAnyOrigin()
@@ -110,18 +103,18 @@ namespace API
             builder.Services.AddScoped<IVendorRepository, VendorRepository>();
             builder.Services.AddScoped<IWithdrawalRepository, WithdrawalRepository>();
             builder.Services.AddControllers()
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.ReferenceLoopHandling =
-                    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                });
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling =
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Marasim API",
+                    Title = "E_Commerce API",
                     Version = "v1"
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -131,7 +124,7 @@ namespace API
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer eYXXXXXXXX\"",
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement {
                 {
@@ -158,6 +151,7 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseCors();
+            app.MapIdentityApi<User>();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();

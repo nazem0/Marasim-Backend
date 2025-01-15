@@ -6,7 +6,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 
-namespace Marasim_Backend.Controllers
+namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

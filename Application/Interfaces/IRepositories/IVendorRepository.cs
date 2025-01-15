@@ -2,7 +2,6 @@
 using Application.DTOs.VendorDTOs;
 using Application.DTOs.VendorGenerationDTOs;
 using System.Net;
-using ViewModels.VendorViewModels;
 
 namespace Application.Interfaces.IRepositories
 {

@@ -6,9 +6,9 @@ using Persistence.EntitiesConfigs;
 
 namespace Persistence
 {
-    public class EntitiesContext : IdentityDbContext<User>
+    public class AppDbContext : IdentityDbContext<User>
     {
-        public EntitiesContext(DbContextOptions options) : base(options) { }
+        public AppDbContext(DbContextOptions options) : base(options) { }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Follow> Follows { get; set; }

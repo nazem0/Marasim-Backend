@@ -16,7 +16,7 @@ namespace Persistence.Repositories
         private readonly DbSet<Reservation> _reservations;
         private readonly DbSet<Service> _services;
         private readonly IUnitOfWork _unitOfWork;
-        public ReservationRepository(EntitiesContext entitiesContext, IPromoCodeRepository promoCodeManager, IUnitOfWork unitOfWork)
+        public ReservationRepository(AppDbContext entitiesContext, IPromoCodeRepository promoCodeManager, IUnitOfWork unitOfWork)
         {
             _reservations = entitiesContext.Reservations;
             _promoCodeRepository = promoCodeManager;

@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.ServiceAttachmentsDTOs
+﻿namespace Application.DTOs.ServiceAttachmentDTOs
 {
     public class IndependentServiceAttachmentDTO
     {

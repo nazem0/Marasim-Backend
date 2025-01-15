@@ -6,8 +6,8 @@ namespace Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly EntitiesContext _entitiesContext;
-        public UnitOfWork(EntitiesContext entitiesContext)
+        private readonly AppDbContext _entitiesContext;
+        public UnitOfWork(AppDbContext entitiesContext)
         {
             _entitiesContext = entitiesContext;
         }

@@ -15,7 +15,7 @@ namespace Persistence.Repositories
         private readonly DbSet<Payment> _payments;
         private readonly DbSet<Reservation> _reservations;
         private readonly IUnitOfWork _unitOfWork;
-        public PaymentRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public PaymentRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _payments = entitiesContext.Payments;
             _reservations = entitiesContext.Reservations;

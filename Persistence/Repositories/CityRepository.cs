@@ -9,7 +9,7 @@ namespace Persistence.Repositories
     public class CityRepository : ICityRepository
     {
         private readonly DbSet<City> _cities;
-        public CityRepository(EntitiesContext entitiesContext)
+        public CityRepository(AppDbContext entitiesContext)
         {
             _cities = entitiesContext.Cities;
         }

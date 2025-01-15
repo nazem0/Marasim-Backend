@@ -8,7 +8,6 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Net;
-using ViewModels.VendorViewModels;
 
 namespace Persistence.Repositories
 {
@@ -17,7 +16,7 @@ namespace Persistence.Repositories
         private readonly DbSet<Vendor> _vendors;
         private readonly DbSet<Category> _categories;
         private readonly IUnitOfWork _unitOfWork;
-        public VendorRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public VendorRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _vendors = entitiesContext.Vendors;
             _categories = entitiesContext.Categories;

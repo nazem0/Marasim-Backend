@@ -16,7 +16,7 @@ namespace Persistence.Repositories
         private readonly IPostAttachmentRepository _postAttachmentRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IVendorRepository _vendorRepository;
-        public PostRepository(EntitiesContext entitiesContext, IPostAttachmentRepository postAttachmentRepository, IUnitOfWork unitOfWork, IVendorRepository vendorRepository)
+        public PostRepository(AppDbContext entitiesContext, IPostAttachmentRepository postAttachmentRepository, IUnitOfWork unitOfWork, IVendorRepository vendorRepository)
         {
             _posts = entitiesContext.Posts;
             _unitOfWork = unitOfWork;

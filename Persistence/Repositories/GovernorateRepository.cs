@@ -10,7 +10,7 @@ namespace Persistence.Repositories
     {
         private readonly DbSet<Governorate> _governorates;
 
-        public GovernorateRepository(EntitiesContext entitiesContext)
+        public GovernorateRepository(AppDbContext entitiesContext)
         {
             _governorates = entitiesContext.Governorates;
         }

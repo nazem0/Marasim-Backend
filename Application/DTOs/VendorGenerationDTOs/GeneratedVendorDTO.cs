@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.ServiceDTOs;
 
-namespace ViewModels.VendorViewModels
+namespace Application.DTOs.VendorGenerationDTOs
 {
     public class GeneratedVendorDTO
     {

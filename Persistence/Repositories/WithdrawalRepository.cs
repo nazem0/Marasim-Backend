@@ -11,11 +11,11 @@ namespace Persistence.Repositories
 {
     public class WithdrawalRepository : IWithdrawalRepository
     {
-        private readonly EntitiesContext _entitiesContext;
+        private readonly AppDbContext _entitiesContext;
         private readonly DbSet<Withdrawal> _withdrawals;
         private readonly DbSet<Payment> _payments;
         private readonly IUnitOfWork _unitOfWork;
-        public WithdrawalRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public WithdrawalRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _entitiesContext = entitiesContext;
             _withdrawals = entitiesContext.Withdrawals;

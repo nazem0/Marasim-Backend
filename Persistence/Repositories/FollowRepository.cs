@@ -14,7 +14,7 @@ namespace Persistence.Repositories
         private readonly DbSet<Follow> _follows;
         private readonly IUnitOfWork _unitOfWork;
 
-        public FollowRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public FollowRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _follows = entitiesContext.Follows;
             _unitOfWork = unitOfWork;

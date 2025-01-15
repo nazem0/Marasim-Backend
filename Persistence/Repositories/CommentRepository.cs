@@ -14,7 +14,7 @@ namespace Persistence.Repositories
         private readonly DbSet<Comment> _comments;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CommentRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public CommentRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _comments = entitiesContext.Comments;
             _unitOfWork = unitOfWork;

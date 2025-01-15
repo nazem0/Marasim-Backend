@@ -13,7 +13,7 @@ namespace Persistence.Repositories
     {
         private readonly DbSet<Review> _reviews;
         private readonly IUnitOfWork _unitOfWork;
-        public ReviewRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public ReviewRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _reviews = entitiesContext.Reviews;
             _unitOfWork = unitOfWork;

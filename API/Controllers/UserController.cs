@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Marasim_Backend.Controllers
+namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

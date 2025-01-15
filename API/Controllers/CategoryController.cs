@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net;
 
-namespace Marasim_Backend.Controllers
+namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

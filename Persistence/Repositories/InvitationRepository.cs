@@ -12,7 +12,7 @@ namespace Persistence.Repositories
     {
         private readonly DbSet<Invitation> _invitations;
         private readonly IUnitOfWork _unitOfWork;
-        public InvitationRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public InvitationRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _invitations = entitiesContext.Invitations;
             _unitOfWork = unitOfWork;

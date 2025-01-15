@@ -12,7 +12,7 @@ namespace Persistence.Repositories
     {
         private readonly DbSet<Category> _categories;
         private readonly IUnitOfWork _unitOfWork;
-        public CategoryRepository(EntitiesContext entitiesContext, IUnitOfWork unitOfWork)
+        public CategoryRepository(AppDbContext entitiesContext, IUnitOfWork unitOfWork)
         {
             _categories = entitiesContext.Categories;
             _unitOfWork = unitOfWork;
